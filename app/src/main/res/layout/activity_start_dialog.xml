@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center" >
+
+        <RelativeLayout
+            android:id="@+id/zxc"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:scaleType="fitXY"
+            android:background="#FFFFFF"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+             >
+            <LinearLayout
+                android:id="@+id/cou"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                >
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="优惠卷"
+                    android:textColor="#ff0000"
+                    android:textSize="20dp"
+                    android:layout_margin="20dp"
+                    />
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:text="点击优惠卷即可使用,优惠卷的使用与获取方式请去我的优惠卷界面查询详情"
+                    android:textColor="@color/gray"
+                    android:textSize="13dp" />
+            </LinearLayout>
+            <ListView
+                android:id="@+id/coupon"
+                android:layout_below="@id/cou"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                >
+            </ListView>
+        </RelativeLayout>
+       <LinearLayout
+           android:id="@+id/close"
+           android:layout_width="300dp"
+           android:layout_height="30dp"
+           android:layout_below="@id/zxc"
+           android:layout_marginTop="10dp"
+           android:layout_alignLeft="@+id/zxc"
+           android:layout_alignStart="@+id/zxc"
+           android:gravity="center"
+           >
+           <Button
+               android:id="@+id/btn_close"
+               android:layout_width="30dp"
+               android:layout_height="30dp"
+               android:background="@drawable/close"
+               android:gravity="center"
+               android:layout_alignParentTop="true" />
+       </LinearLayout>
+       <LinearLayout
+               android:layout_width="300dp"
+               android:layout_height="30dp"
+               android:layout_below="@id/close"
+               android:layout_marginTop="10dp"
+               android:layout_alignLeft="@+id/zxc"
+               android:layout_alignStart="@+id/zxc"
+               android:gravity="center">
+           <TextView
+               android:layout_width="300dp"
+               android:layout_height="30dp"
+               android:text="关闭此界面，默认不使用优惠卷"
+               android:textColor="@color/lightWhite"
+               android:layout_below="@id/btn_close"
+               android:gravity="center" />
+        </LinearLayout>
+
+
+</RelativeLayout>

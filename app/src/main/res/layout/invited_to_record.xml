@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+    <include
+        layout="@layout/title"/>
+    <TextView
+        android:id="@+id/invite_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="#e7e9ed"
+        android:textSize="15sp"
+        android:text="您已邀请8人加入百信学车"
+        />
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+       android:gravity="center_vertical"
+       android:background="@color/white"
+        >
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
+           android:id="@+id/friend_account_txt"
+           android:text="好友账号"
+           android:textSize="15dp"
+           android:textColor="@color/gray"
+           android:gravity="center"
+           />
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
+           android:id="@+id/friend_status_txt"
+           android:text="未报名"
+           android:textSize="15dp"
+           android:textColor="@color/gray"
+           android:gravity="center"
+           />
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
+           android:id="@+id/money_txt"
+           android:textColor="@color/gray"
+           android:gravity="center"
+           android:textSize="15dp"
+           android:text="提现金额"/>
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"           android:layout_weight="1"
+           android:id="@+id/tixian_txt"
+           android:textColor="@color/gray"
+           android:gravity="center"
+           android:textSize="15dp"
+           android:text="提现状态"/>
+   </LinearLayout>
+
+    <View android:layout_width="match_parent"
+          android:layout_height="0.1dp"
+          android:background="@color/background"/>
+    <ListView android:id="@+id/listView"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"/>
+
+</LinearLayout>

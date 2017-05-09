@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_coupon"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <include
+        layout="@layout/title"/>
+
+    <RadioGroup style="@style/RadioButton"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/no_used"
+            style="@style/RadioButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:background="@drawable/bg_selector"
+            android:textColor="@color/redTheme"
+            android:drawablePadding="3dp"
+            android:gravity="center"
+            android:text="未使用"/>
+
+        <RadioButton
+            android:id="@+id/re_used"
+            style="@style/RadioButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:textColor="@color/right_bg"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:drawablePadding="3dp"
+            android:gravity="center"
+            android:text="使用记录"/>
+        <RadioButton
+            android:id="@+id/expired"
+            style="@style/RadioButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:textColor="@color/right_bg"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:drawablePadding="3dp"
+            android:gravity="center"
+            android:text="已过期"
+            />
+    </RadioGroup>
+
+    <View
+    android:layout_width="fill_parent"
+    android:layout_height="1dp"
+    android:background="@color/background"/>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    />
+    <ImageView
+        android:id="@+id/kulian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:src="@drawable/kulian"
+        android:visibility="gone"
+    />
+    <TextView
+        android:id="@+id/prompt"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="13dp"
+        android:textColor="@color/gray"
+        android:visibility="gone"
+        />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vPager"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="1.0"
+        android:background="@color/white"
+        android:flipInterval="30"
+        android:persistentDrawingCache="animation" />
+</LinearLayout>

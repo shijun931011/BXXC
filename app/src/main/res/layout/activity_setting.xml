@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background"
+    >
+    <include android:id="@+id/title"
+        layout="@layout/title"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/person_info"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp"
+            android:text="账号与安全"/>
+        <TextView
+            android:id="@+id/account_security"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="15dp"
+            android:drawableRight="@drawable/right_arrow"
+            android:gravity="right"
+            android:paddingBottom="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ruanjianxinxi"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp"
+            android:text="版本信息"/>
+        <TextView
+            android:id="@+id/softInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="15dp"
+            android:drawableRight="@drawable/right_arrow"
+            android:gravity="right"
+            android:paddingBottom="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp"
+            android:text="1.0.1"/>
+    </LinearLayout>
+
+    <View android:layout_width="match_parent"
+    android:layout_height="0.1dp"
+    android:layout_marginLeft="50dp"
+    android:background="@color/background"/>
+    <LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:orientation="horizontal">
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:drawableLeft="@drawable/clean"
+    android:drawablePadding="10dp"
+    android:gravity="center_vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="15dp"
+    android:paddingTop="10dp"
+    android:text="缓存大小"/>
+    <TextView
+    android:id="@+id/cleanUp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:drawablePadding="15dp"
+    android:drawableRight="@drawable/right_arrow"
+    android:gravity="right"
+    android:paddingBottom="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="15dp"
+    android:text="0kb"/>
+    </LinearLayout>
+    <View android:layout_width="match_parent"
+    android:layout_height="0.1dp"
+    android:background="@color/background"/>
+    <!-- 退出登录 -->
+    <Button
+        android:id="@+id/exit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        android:text="退出登录"
+        android:textSize="20sp"
+        />
+</LinearLayout>
