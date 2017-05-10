@@ -2,20 +2,109 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+
               android:orientation="vertical">
     <include
         layout="@layout/title"/>
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal">
+       <ImageView
+           android:layout_width="84dp"
+           android:layout_height="45dp"
+           android:src="@drawable/balance_image"
+           android:layout_marginTop="10dp"
+       />
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="余额："
+           android:textSize="20dp"
+           android:layout_gravity="center_vertical"
+       />
+   </LinearLayout>
 
-    <View android:layout_width="match_parent"
-          android:layout_height="0.1dp"
-          android:layout_marginTop="5dp"
-          android:background="@color/background"/>
+    <TextView
+        android:id="@+id/balance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="￥ 0"
+        android:textColor="@color/red"
+        android:textSize="25dp"
+        android:gravity="center"
+    />
+    <Button
+        android:id="@+id/balance_explain"
+        android:layout_width="68dp"
+        android:layout_height="29dp"
+        android:textColor="@color/gray"
+        android:text="余额说明"
+        android:background="@drawable/btn_shape"
+        android:textSize="10sp"
+        android:layout_gravity="center"
+
+    />
+
+    <Button
+        android:id="@+id/recharge"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="充   值"
+        android:textSize="20dp"
+        android:layout_marginTop="10dp"
+        android:background="#9652fc"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+    />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/background"/>
+    <LinearLayout
+        android:id="@+id/re_hour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:src="@drawable/re_hour_image"
+            android:layout_marginLeft="8dp"
+        />
+        <TextView
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="5dp"
+            android:text="剩余学时"
+            android:layout_marginLeft="10dp"
+        />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="15dp"
+            android:drawableRight="@drawable/right_arrow"
+            android:gravity="right"
+            android:paddingBottom="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/background"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
         android:id="@+id/myOrder"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="match_parent"
@@ -23,6 +112,7 @@
             android:layout_weight="1"
             android:drawablePadding="10dp"
             android:gravity="center_vertical"
+            android:drawableLeft="@drawable/my_order_image"
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="15dp"
@@ -39,15 +129,16 @@
             android:paddingRight="15dp"
             android:paddingTop="15dp"/>
     </LinearLayout>
-    <View android:layout_width="match_parent"
-          android:layout_height="0.1dp"
-          android:layout_marginLeft="10dp"
-          android:background="@color/background"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/background"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:id="@+id/bindingAlipay"
+        android:id="@+id/pay_detail"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="match_parent"
@@ -55,11 +146,12 @@
             android:layout_weight="1"
             android:drawablePadding="10dp"
             android:gravity="center_vertical"
+            android:drawableLeft="@drawable/pay_mingxi_img"
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="15dp"
             android:paddingTop="10dp"
-            android:text="我的支付宝账户"/>
+            android:text="支付明细"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,7 +159,6 @@
             android:drawablePadding="15dp"
             android:drawableRight="@drawable/right_arrow"
             android:gravity="right"
-            android:hint="未绑定"
             android:paddingBottom="15dp"
             android:paddingRight="15dp"
             android:paddingTop="15dp"/>
@@ -76,13 +167,45 @@
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
         android:layout_marginLeft="10dp"
+        android:background="@color/background"/>
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="#FFFFFF"-->
+        <!--android:id="@+id/bindingAlipay"-->
+        <!--android:orientation="horizontal">-->
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:drawablePadding="10dp"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:paddingBottom="10dp"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:paddingRight="15dp"-->
+            <!--android:paddingTop="10dp"-->
+            <!--android:text="我的支付宝账户"/>-->
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:drawablePadding="15dp"-->
+            <!--android:drawableRight="@drawable/right_arrow"-->
+            <!--android:gravity="right"-->
+            <!--android:hint="未绑定"-->
+            <!--android:paddingBottom="15dp"-->
+            <!--android:paddingRight="15dp"-->
+            <!--android:paddingTop="15dp"/>-->
+    <!--</LinearLayout>-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
         android:background="@color/background"
     />
     <LinearLayout
         android:id="@+id/mycoupod"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
         android:orientation="horizontal">
         <TextView
             android:layout_width="match_parent"
@@ -90,6 +213,7 @@
             android:layout_weight="1"
             android:text="@string/mycoupon"
             android:drawablePadding="10dp"
+            android:drawableLeft="@drawable/my_coupon_image"
             android:gravity="center_vertical"
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"

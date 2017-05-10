@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/person_info"
+            android:drawableLeft="@drawable/personal_info"
             android:drawablePadding="10dp"
             android:gravity="center_vertical"
             android:paddingBottom="10dp"

@@ -57,20 +57,22 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="#FFFFFF"
-                    android:drawableLeft="@drawable/person_info"
-                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/personal_info"
+                    android:drawablePadding="12dp"
                     android:gravity="center_vertical"
                     android:paddingBottom="14dp"
                     android:paddingLeft="35dp"
                     android:paddingTop="14dp"
                     android:text="个人信息"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                />
 
-                <View android:layout_width="0.1dp"
-                      android:layout_height="match_parent"
-                      android:layout_marginBottom="10dp"
-                      android:layout_marginTop="10dp"
-                      android:background="@color/loginbackground"/>
+                <View
+                    android:layout_width="0.1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/loginbackground"/>
 
                 <TextView
                     android:id="@+id/myOrder"
@@ -78,13 +80,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="#FFFFFF"
-                    android:drawableLeft="@drawable/myorder"
-                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/my_wallet_img"
+                    android:drawablePadding="12dp"
                     android:gravity="center_vertical"
                     android:paddingBottom="14dp"
                     android:paddingLeft="35dp"
                     android:paddingTop="14dp"
-                    android:text="我的账户"
+                    android:text="我的钱包"
                     android:textSize="20sp"/>
             </LinearLayout>
             <View android:layout_width="match_parent"

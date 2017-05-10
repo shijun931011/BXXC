@@ -38,13 +38,8 @@ import com.jgkj.bxxc.activity.MyCoachActivity;
 import com.jgkj.bxxc.activity.PersonalInfoActivity;
 import com.jgkj.bxxc.activity.SettingActivity;
 import com.jgkj.bxxc.activity.Setting_AccountActivity;
-import com.jgkj.bxxc.activity.SimQuestionActivity;
 import com.jgkj.bxxc.bean.UserInfo;
-import com.jgkj.bxxc.bean.Version;
-import com.jgkj.bxxc.tools.GetVersion;
-import com.jgkj.bxxc.tools.GlideCacheUtil;
 import com.jgkj.bxxc.tools.RefreshLayout;
-import com.jgkj.bxxc.tools.UpdateManger;
 import com.lidroid.xutils.http.client.multipart.MultipartEntity;
 import com.lidroid.xutils.http.client.multipart.content.FileBody;
 import com.lidroid.xutils.http.client.multipart.content.StringBody;
@@ -77,12 +72,7 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
     private View inflate, sureView;
     private TextView dialog_textView, dialog_sure, dialog_cancel;
     //退出登录
-//    private Button exit;
     private TextView myCoach;
-//    private TextView sim_Question;
-//    private TextView aboutBX;
-
-
     private TextView learnPro;
     private TextView Setting;
     //头像处理
@@ -93,8 +83,6 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
     private Button she_cancel;
     private View dialogView;
     private TextView userNick;
-//    private TextView cleanUp;
-
     // 拍照
     private final static int CAMERA_REQUEST_CODE = 1001;
     // 相册选图
@@ -116,11 +104,9 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
     private String refreashUrl = "http://www.baixinxueche.com/index.php/Home/Apialltoken/refresh";
     private String refreashOldUrl = "http://www.baixinxueche.com/index.php/Home/Api/refresh";
     private String uploadImageUrl = "http://www.baixinxueche.com/index.php/Home/Apiinfotoken/get_file";
-
     private long random,random1=0;
     private TextView learnRecord;
     private TextView myactivity;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -139,8 +125,6 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
         learnRecord.setOnClickListener(this);
         choose_headImage = (ImageView) view.findViewById(R.id.choose_headImage);
         userNick = (TextView) view.findViewById(R.id.userNick);
-//        exit = (Button) view.findViewById(R.id.exit);
-//        exit.setOnClickListener(this);
         myactivity = (TextView) view.findViewById(R.id.myactivity);
         myactivity.setOnClickListener(this);
         learnPro = (TextView) view.findViewById(R.id.learnPro);
@@ -186,12 +170,10 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
         //客服热线
         customer = (TextView) view.findViewById(R.id.customer);
         customer.setOnClickListener(this);
-
         //我的教练
         myCoach = (TextView) view.findViewById(R.id.myCoach);
         myCoach.setOnClickListener(this);
     }
-
     /**
      * 获取数据并填充
      */
@@ -219,7 +201,6 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
         }
         choose_headImage.setOnClickListener(this);
     }
-
     //调用摄像头dialog
     public void showDialog() {
         headDialog = new Dialog(getActivity(), R.style.ActionSheetDialogStyle);
@@ -245,7 +226,6 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
         dialogWindow.setAttributes(lp);
         headDialog.show();// 显示对话框
     }
-
     // 回调函数，处理头像设置
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -270,13 +250,11 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
             }
         }
     }
-
     /**
      * 上传头像
      * @param http_url 地址
      * @param filepath 本地图片路径
      */
-
     public void uploadImage(final String http_url, final String filepath) {
         new Thread(new Runnable() {
             @Override
@@ -286,18 +264,13 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
                     if (!file.exists()) {
                         Log.i("TAG", "文件不存在");
                     }
-
                     HttpClient client = new DefaultHttpClient();
-
                     HttpPost post = new HttpPost(http_url);
-
                     FileBody fileBody = new FileBody(file, "image/jpg");
                     MultipartEntity entity = new MultipartEntity();
-
                     entity.addPart("uploadedfile", fileBody);//uploadedfile是图片上传的键值名
                     entity.addPart("uid", new StringBody(result.getUid() + "", Charset.forName("UTF-8")));//设置要传入的参数，key_app是键值名,此外传参时候需要指定编码格式
                     entity.addPart("token", new StringBody(token, Charset.forName("UTF-8")));//设置要传入的参数，key_app是键值名,此外传参时候需要指定编码格式
-
                     post.setEntity(entity);
 
                     HttpResponse response = client.execute(post);
@@ -314,7 +287,6 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
         }).start();
 
     }
-
     /**
      * 图像裁剪
      * @param uri
@@ -333,7 +305,6 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
         intent.putExtra("scale", true);
         startActivityForResult(intent, CROP_REQUEST_CODE);
     }
-
     /**
      * 设置拍照图片保存路径
      * @return
@@ -355,46 +326,6 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
             e.printStackTrace();
             return null;
         }
-    }
-
-    /**
-     * 缓存清理dialog
-     */
-    private void createSureDialog() {
-        sureDialog = new Dialog(getActivity(), R.style.ActionSheetDialogStyle);
-        // 填充对话框的布局
-        sureView = LayoutInflater.from(getActivity()).inflate(
-                R.layout.sure_cancel_dialog, null);
-        // 初始化控件
-        dialog_textView = (TextView) sureView.findViewById(R.id.dialog_textView);
-        dialog_textView.setText("确定清理缓存吗？");
-        dialog_sure = (TextView) sureView.findViewById(R.id.dialog_sure);
-        dialog_cancel = (TextView) sureView.findViewById(R.id.dialog_cancel);
-        dialog_sure.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
-                String str = GlideCacheUtil.getInstance().getCacheSize(getActivity());
-//                cleanUp.setText(str);
-                sureDialog.dismiss();
-            }
-        });
-        dialog_cancel.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sureDialog.dismiss();
-            }
-        });
-        // 将布局设置给Dialog
-        sureDialog.setContentView(sureView);
-        // 获取当前Activity所在的窗体
-        Window dialogWindow = sureDialog.getWindow();
-        // 设置dialog宽度
-        dialogWindow.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-        // 设置Dialog从窗体中间弹出
-        dialogWindow.setGravity(Gravity.CENTER);
-        sureDialog.show();
     }
 
     @Override
@@ -458,11 +389,6 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
                     startActivity(intent);
                 }
                 break;
-//            case R.id.softInfo:
-//                checkSoftInfo();
-//                break;
-
-
             case R.id.learnPro:
                 if (!isLogined) {
                     intent.setClass(getActivity(),LoginActivity.class);
@@ -537,7 +463,6 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
 
         }
     }
-
     /**
      * 下拉刷新控件
      */
@@ -565,7 +490,6 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
             }
         }
     }
-
     /**
      * 获取焦点时刷新界面
      */
@@ -574,7 +498,6 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
         isLogin();
         super.onResume();
     }
-
     /**
      * 刷新个人信息
      * @param uid 用户uid

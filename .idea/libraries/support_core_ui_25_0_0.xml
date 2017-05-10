@@ -1,12 +1,16 @@
 <component name="libraryTable">
   <library name="support-core-ui-25.0.0">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.android/build-cache/cedb38e5b0a6b859a605f2bdc6a8675cdf06eed7/output/annotations.zip!/" />
+    </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$USER_HOME$/.android/build-cache/f55de6616b33931467adc6470ef7783c9f258c14/output/jars/libs/internal_impl-25.0.0.jar!/" />
-      <root url="jar://$USER_HOME$/.android/build-cache/f55de6616b33931467adc6470ef7783c9f258c14/output/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.android/build-cache/f55de6616b33931467adc6470ef7783c9f258c14/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/cedb38e5b0a6b859a605f2bdc6a8675cdf06eed7/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/cedb38e5b0a6b859a605f2bdc6a8675cdf06eed7/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/cedb38e5b0a6b859a605f2bdc6a8675cdf06eed7/output/jars/libs/internal_impl-25.0.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
+      <root url="jar://D:/AndroidStudio/sdk/extras/android/m2repository/com/android/support/support-core-ui/25.0.0/support-core-ui-25.0.0-sources.jar!/" />
       <root url="jar://E:/Android/SDK/extras/android/m2repository/com/android/support/support-core-ui/25.0.0/support-core-ui-25.0.0-sources.jar!/" />
     </SOURCES>
   </library>
