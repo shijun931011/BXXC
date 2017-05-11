@@ -12,55 +12,129 @@
         android:id="@+id/ext_class"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:orientation="horizontal"
         android:layout_marginTop="5dp"
         android:background="@color/white"
-        >
-        <TextView
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
+
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:text="至尊班"
-            android:textSize="20dp"
-            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="20dp"
-            />
+            android:src="@drawable/zhizun" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginLeft="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:layout_marginTop="20dp"
+                android:text="至尊版"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="20dp"
+                android:text="· 时效高 · 拿证快"
+                android:textColor="@color/gray" />
+        </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/vip_class"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:orientation="horizontal"
         android:layout_marginTop="5dp"
         android:background="@color/white"
-        >
-        <TextView
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
+
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:text="VIP班"
-            android:textSize="20dp"
-            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="20dp"
-            />
+            android:src="@drawable/vip" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginLeft="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:layout_marginTop="20dp"
+                android:text="VIP班"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="20dp"
+                android:text="· 代办暂住证 · 异地考生"
+                android:textColor="@color/gray" />
+        </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/pri_class"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:orientation="horizontal"
         android:layout_marginTop="5dp"
         android:background="@color/white"
-        >
-        <TextView
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
+
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:text="私教班"
-            android:textSize="20dp"
-            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="20dp"
-            />
+            android:src="@drawable/sijiaoban" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginLeft="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:layout_marginTop="20dp"
+                android:text="私教班"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="20dp"
+                android:text="· 金牌教练 · 优质服务"
+                android:textColor="@color/gray" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

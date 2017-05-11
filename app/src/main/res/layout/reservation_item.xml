@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:minHeight="120dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="5dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_subjectName"
+            android:layout_marginLeft="45dp"
+            android:text="科目二训练(1对1)"
+            android:textSize="16sp"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:text="￥ 400.00"
+            android:textSize="16sp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_width="wrap_content"
+            android:textColor="#FF8000"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/apply_time_image"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:text="08;00-10;00"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:textColor="#FF8000"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_time_number"
+            android:layout_marginLeft="30dp"
+            android:text="2课时"
+            android:layout_width="wrap_content"
+            android:textColor="#FF8000"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="5dp"
+        >
+
+        <LinearLayout
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/addre_image"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:text="莲花路与塘口路交口向西200米"
+            android:layout_alignParentLeft="true"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="@color/right_bg"
+            android:layout_marginBottom="5dp"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_marginRight="10dp">
+
+            <Button
+                android:id="@+id/btn_reservation"
+                android:text="可预约"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="5dp"
+                android:layout_width="70dp"
+                android:background="@drawable/btn_style"
+                android:textColor="#3bbaff"
+                android:layout_height="30dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

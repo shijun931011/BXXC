@@ -345,6 +345,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                         signup_Coach.setTag(s);
                         Gson gson = new Gson();
                         CoachInfo coachInfo = gson.fromJson(s, CoachInfo.class);
+                        Log.i("百信学车","预约教练信息" + s);
                         if (coachInfo.getCode() == 200) {
                             List<CoachInfo.Result> list = coachInfo.getResult();
                             CoachInfo.Result result = list.get(0);
@@ -519,8 +520,14 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                 break;
             case R.id.signup_Coach:
                 if (signup_Coach.getText().toString().equals("立即报名")) {
-                    Intent intent2 = new Intent();
+                    /*Intent intent2 = new Intent();
                     intent2.setClass(ReservationActivity.this, PayInfoActivity.class);
+                    intent2.putExtra("uid",uid);
+                    intent2.putExtra("token",token);
+                    intent2.putExtra("coachInfo", signup_Coach.getTag().toString());
+                    startActivity(intent2);*/
+                    Intent intent2 = new Intent();
+                    intent2.setClass(ReservationActivity.this, ReservationDetailActivity.class);
                     intent2.putExtra("uid",uid);
                     intent2.putExtra("token",token);
                     intent2.putExtra("coachInfo", signup_Coach.getTag().toString());
