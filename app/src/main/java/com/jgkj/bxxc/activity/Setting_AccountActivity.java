@@ -82,10 +82,10 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
                 intent.setClass(this, RehourActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.pay_detail:
-                intent.setClass(this, PaydetailActivity.class);
-                startActivity(intent);
-                break;
+//            case R.id.pay_detail:
+//                intent.setClass(this, PaydetailActivity.class);
+//                startActivity(intent);
+//                break;
 
         }
     }
