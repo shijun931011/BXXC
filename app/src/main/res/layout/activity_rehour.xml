@@ -1,14 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_rehour"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.jgkj.bxxc.activity.RehourActivity">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
 
-</RelativeLayout>
+    <include layout="@layout/title"/>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    />
+    <TextView
+        android:id="@+id/immediate_bug"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/immediate_bug"
+        android:textSize="15dp"
+        android:textColor="@color/color_bule"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="20dp"
+
+    />
+    <ImageView
+        android:id="@+id/kulian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/kulian"
+        android:layout_marginTop="60dp"
+        android:visibility="gone"
+    />
+    <TextView
+        android:id="@+id/prompt"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:textSize="13dp"
+        android:textColor="@color/gray"
+        android:visibility="gone"
+    />
+
+    <TextView
+        android:id="@+id/extra_hours"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/extra_hours_package"
+        android:gravity="center"
+        android:textColor="@color/gray"
+        android:layout_marginTop="280dp"
+    />
+</LinearLayout>

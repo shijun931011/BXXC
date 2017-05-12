@@ -80,6 +80,8 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
                 break;
             case R.id.re_hour:
                 intent.setClass(this, RehourActivity.class);
+                intent.putExtra("uid", uid);
+                intent.putExtra("token", token);
                 startActivity(intent);
                 break;
             case R.id.pay_detail:

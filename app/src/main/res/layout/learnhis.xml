@@ -22,7 +22,7 @@
             android:clickable="true"
             android:drawablePadding="3dp"
             android:gravity="center"
-            android:text="已学时"
+            android:text="已学车"
             android:textColor="@color/redTheme"/>
         <RadioButton
             android:id="@+id/radio_btn02"
