@@ -62,7 +62,13 @@ public class RefundAdapter extends BaseAdapter {
         viewHolder.refund_name.setText(result.getRefundName());
         viewHolder.refund_time.setText(result.getRefundTime());
         viewHolder.refund_money.setText(result.getRefundMoney());
-        viewHolder.refund_state.setText(result.getRefundState());
+//        viewHolder.refund_state.setText(result.getRefundState());
+        if (result.getRefundState().equals("1")){
+            viewHolder.refund_state.setText("处理中");
+        }else {
+            viewHolder.refund_state.setText("退款成功");
+        }
+
         return view;
     }
 
