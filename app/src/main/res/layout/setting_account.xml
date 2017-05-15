@@ -26,7 +26,7 @@
    </LinearLayout>
 
     <TextView
-        android:id="@+id/balance"
+        android:id="@+id/balance_money"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="￥ 0"

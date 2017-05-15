@@ -37,14 +37,12 @@ public class BuKaoActivity extends Activity implements View.OnClickListener {
     private ImageView img, weixin_isCheck, aipay_isCheck;
     private LinearLayout weixin_layout, aipay_layout, fuwutiaokuan;
     private RelativeLayout layout;
-
     private ShowRePay showRePay;
     //服务条款
     private ImageView isCheck;
     private boolean aipayflag = false, weixinFlag = false, serFlag = false;
     private int uid;
     private Button payInfo;
-
     private String payUrl = "http://www.baixinxueche.com/index.php/Home/Aliappretext/retestPay";
     private String orderUrl = "http://www.baixinxueche.com/index.php/Home/Apiupdata/retest";
 

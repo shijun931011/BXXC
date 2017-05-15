@@ -22,7 +22,6 @@ public class RefundAdapter extends BaseAdapter {
     private Refund.Result result;
     private List<Refund.Result> list;
 
-
     public RefundAdapter(Context context,List<Refund.Result> list) {
         this.context = context;
         this.list=list;
