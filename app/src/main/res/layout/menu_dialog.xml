@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/linearlayout_shape"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/route1"
+        android:layout_width="match_parent"
+        android:layout_height="155dp"
+        android:background="@drawable/package_image">
+
+        <ImageView
+            android:id="@+id/im_canael"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/canael_image"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+    <ListView
+        android:layout_marginTop="15dp"
+        android:id="@+id/listView"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_width="match_parent"
+        android:divider="@null"
+        android:scrollbars="none"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn_buy_menu"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/btn_selector"
+        android:gravity="center"
+        android:text="确  定"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:textColor="#ffffff" />
+
+    <TextView
+        android:id="@+id/tv_buy_class_hours"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:text="套餐不够？立即购买"
+        android:textColor="#FF8000"
+        android:gravity="center"
+        />
+
+</LinearLayout>

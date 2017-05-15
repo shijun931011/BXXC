@@ -79,6 +79,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:hardwareAccelerated="false"
         android:screenOrientation="portrait"
         android:theme="@android:style/Theme.Light.NoTitleBar">
         <activity
@@ -494,6 +495,11 @@
         <!-- 预约详细页面-->
         <activity
             android:name=".activity.ReservationDetailActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 购买学时套餐页面-->
+        <activity
+            android:name=".activity.BuyClassHoursActivity"
             android:screenOrientation="portrait" />
 
     </application>

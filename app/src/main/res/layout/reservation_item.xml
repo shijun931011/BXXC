@@ -117,7 +117,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="5dp"
                 android:layout_width="70dp"
-                android:background="@drawable/btn_style"
+                android:background="@drawable/btn_style_blue"
                 android:textColor="#3bbaff"
                 android:layout_height="30dp" />
 

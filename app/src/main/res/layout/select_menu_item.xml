@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="40dp"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/CustomCheckboxTheme2"/>
+
+    <TextView
+        android:id="@+id/tv_mune"
+        android:layout_marginLeft="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A套餐"
+        android:textColor="#777777"
+        android:textSize="14sp">
+    </TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        >
+
+        <TextView
+            android:id="@+id/tv_buy"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="暂未购买"
+            android:textColor="#777777"
+            android:layout_marginRight="10dp"
+            android:textSize="14sp">
+        </TextView>
+
+    </LinearLayout>
+
+</LinearLayout>
+
+    <View
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="40dp"
+        android:layout_width="match_parent"
+        android:background="#777777"
+        android:layout_height="0.5dp">
+    </View>
+</LinearLayout>
