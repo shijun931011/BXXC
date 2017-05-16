@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.jgkj.bxxc.R;
-import com.jgkj.bxxc.bean.Coupon;
 import com.jgkj.bxxc.bean.Invite;
 
 import java.util.List;
@@ -71,7 +70,6 @@ public class InvitedToRecordAdapter extends BaseAdapter {
     class ViewHolder{
         public TextView friend_account,friend_status,money;
         public Button Withdrawals;     //提现
-
     }
 
 }

@@ -42,7 +42,6 @@ public class LearnHisActivity extends Activity implements View.OnClickListener,
     private LearnHisAdapter adapter;
     private RefreshLayout swipehis;
     private TextView title;
-
     private Dialog sureDialog;
     private ProgressDialog dialog;
     private View sureView;
@@ -50,14 +49,12 @@ public class LearnHisActivity extends Activity implements View.OnClickListener,
     private String str;
     private String sureBtn, cancelBtn;
     private String token;
-
     private RadioButton radio_btn01, radio_btn02;
     private Button back_btn, baoming;
     private List<LearnHisAction.Result> list = new ArrayList();
     private String learnUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/commentShowApplyTest";
     private String notComeUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/commentNotTo";
     private String applyTest = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/applySubjectTestAgain";
-
     private int page = 1;
     private TextView tips;
     private String state;
@@ -212,10 +209,8 @@ public class LearnHisActivity extends Activity implements View.OnClickListener,
         dialog_textView.setText("确定申请考试吗？");
         dialog_sure = (TextView) sureView.findViewById(R.id.dialog_sure);
         dialog_cancel = (TextView) sureView.findViewById(R.id.dialog_cancel);
-
         dialog_sure.setText("确定");
         dialog_cancel.setText("取消");
-
         dialog_sure.setOnClickListener(this);
         dialog_cancel.setOnClickListener(this);
         // 将布局设置给Dialog

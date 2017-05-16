@@ -72,7 +72,6 @@
     </style>
     <!-- 调用摄像头弹框dialog -->
     <style name="ActionSheetDialogStyle" parent="@android:style/Theme.Dialog">
-
         <!-- 背景透明 -->
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>

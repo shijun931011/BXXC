@@ -60,5 +60,6 @@
               android:gravity="center"
               android:text="暂无数据！"
               android:textSize="17sp"
-              android:visibility="gone"/>
+              android:visibility="gone"
+              />
 </LinearLayout>

@@ -48,6 +48,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private String loginOldUrl = "http://www.baixinxueche.com/index.php/Home/Api/LoginPost";
 
     private String loginUrl = "http://www.baixinxueche.com/index.php/Home/Apialltoken/LoginPost";
+    private String loginNewUrl="http://www.baixinxueche.com/index.php/Home/Apialltoken/LoginPostPaypwd";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +75,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private void okhttps(final String name, final String pwd) {
         OkHttpUtils
                 .post()
-                .url(loginUrl)
+                .url(loginNewUrl)
                 .addParams("phone", name)
                 .addParams("password", pwd)
                 .build()
@@ -87,7 +88,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.i("百信学车","登录信息结果" + s);
+                        Log.d("shijun","1111"+s);
                         dialog.dismiss();
                         Gson gson = new Gson();
                         UserInfo userInfo = gson.fromJson(s, UserInfo.class);
