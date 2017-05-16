@@ -33,4 +33,8 @@
     <color name="themeColor">#37363C</color>
     <color name="green">#009049</color>
     <color name="titleBlue">#4876FF</color><!--天兰色 -->
+
+    <color name="btn_blue">#3bbaff</color>
+    <color name="btn_orange">#FF8000</color>
+    <color name="btn_gray">#777777</color>
 </resources>

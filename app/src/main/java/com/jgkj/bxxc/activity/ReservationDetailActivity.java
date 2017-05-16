@@ -1,10 +1,14 @@
 package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -19,6 +23,8 @@ import com.jgkj.bxxc.bean.CoachInfo;
 import com.jgkj.bxxc.bean.entity.ReservationDetailEntity.ReservationDetailEntity;
 import com.jgkj.bxxc.bean.entity.ReservationDetailEntity.Stusubject;
 import com.jgkj.bxxc.bean.entity.ReservationDetailEntity.Subject;
+import com.jgkj.bxxc.tools.BuyClassHoDialog;
+import com.jgkj.bxxc.tools.RemainBaseDialog;
 import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -32,6 +38,7 @@ import java.util.List;
 
 import okhttp3.Call;
 
+
 /**
  * Created by tongshoujun on 2017/5/10.
  */
@@ -40,9 +47,12 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
 
     private int uid;
     private String token;
+    private String cid;
     private String coachInfo = null;
     //标题
     private TextView title;
+    private Button button_backward;
+    private ImageView remind;
     //教练图片
     private ImageView im_coachPic;
     //教练姓名
@@ -99,6 +109,12 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
     //地址
     private String address;
 
+    //广播接收更新数据
+    protected BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            upData(cid,uid,token, Urls.ptcourse);
+        }
+    };
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +123,12 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
         //标题
         title = (TextView) findViewById(R.id.text_title);
         title.setText(getDate());
+        button_backward = (Button) findViewById(R.id.button_backward);
+        remind = (ImageView) findViewById(R.id.remind);
+        button_backward.setVisibility(View.VISIBLE);
+        button_backward.setOnClickListener(this);
+        remind.setOnClickListener(this);
+        remind.setVisibility(View.VISIBLE);
 
         im_coachPic = (ImageView)findViewById(R.id.im_coachPic);
         tv_coachName = (TextView)findViewById(R.id.tv_coachName);
@@ -140,7 +162,8 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
         Glide.with(this).load(result.getFile()).placeholder(R.drawable.head1).error(R.drawable.head1).into(im_coachPic);
 
         //请求信息
-        getData(Integer.toString(result.getCid()),uid,token, Urls.PTCOURSE);
+        cid = Integer.toString(result.getCid());
+        getData(cid,uid,token, Urls.ptcourse);
 
         tv1_week = (TextView)findViewById(R.id.tv1_week);
         tv2_week = (TextView)findViewById(R.id.tv2_week);
@@ -222,7 +245,7 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                 tv_bg_07.setBackgroundResource(R.color.white);
 
                 subjectListResult = subjectList(tv1_number.getText().toString());
-                adapter = new ReservationDetailAdapter(getBaseContext(),subjectListResult,price,address);
+                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv1_number.getText().toString(),uid,token,cid);
                 listView.setAdapter(adapter);
                 break;
             case R.id.linearLayout2:
@@ -235,7 +258,7 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                 tv_bg_07.setBackgroundResource(R.color.white);
 
                 subjectListResult = subjectList(tv2_number.getText().toString());
-                adapter = new ReservationDetailAdapter(getBaseContext(),subjectListResult,price,address);
+                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv2_number.getText().toString(),uid,token,cid);
                 listView.setAdapter(adapter);
                 break;
             case R.id.linearLayout3:
@@ -248,7 +271,7 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                 tv_bg_07.setBackgroundResource(R.color.white);
 
                 subjectListResult = subjectList(tv3_number.getText().toString());
-                adapter = new ReservationDetailAdapter(getBaseContext(),subjectListResult,price,address);
+                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv3_number.getText().toString(),uid,token,cid);
                 listView.setAdapter(adapter);
                 break;
             case R.id.linearLayout4:
@@ -261,7 +284,7 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                 tv_bg_07.setBackgroundResource(R.color.white);
 
                 subjectListResult = subjectList(tv4_number.getText().toString());
-                adapter = new ReservationDetailAdapter(getBaseContext(),subjectListResult,price,address);
+                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv4_number.getText().toString(),uid,token,cid);
                 listView.setAdapter(adapter);
                 break;
             case R.id.linearLayout5:
@@ -274,7 +297,7 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                 tv_bg_07.setBackgroundResource(R.color.white);
 
                 subjectListResult = subjectList(tv5_number.getText().toString());
-                adapter = new ReservationDetailAdapter(getBaseContext(),subjectListResult,price,address);
+                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv5_number.getText().toString(),uid,token,cid);
                 listView.setAdapter(adapter);
                 break;
             case R.id.linearLayout6:
@@ -287,8 +310,9 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                 tv_bg_07.setBackgroundResource(R.color.white);
 
                 subjectListResult = subjectList(tv6_number.getText().toString());
-                adapter = new ReservationDetailAdapter(getBaseContext(),subjectListResult,price,address);
+                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv6_number.getText().toString(),uid,token,cid);
                 listView.setAdapter(adapter);
+                break;
             case R.id.linearLayout7:
                 tv_bg_01.setBackgroundResource(R.color.white);
                 tv_bg_02.setBackgroundResource(R.color.white);
@@ -299,8 +323,14 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                 tv_bg_07.setBackgroundResource(R.color.list_text_select_color);
 
                 subjectListResult = subjectList(tv7_number.getText().toString());
-                adapter = new ReservationDetailAdapter(getBaseContext(),subjectListResult,price,address);
+                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv7_number.getText().toString(),uid,token,cid);
                 listView.setAdapter(adapter);
+                break;
+            case R.id.remind:
+                new RemainBaseDialog(ReservationDetailActivity.this,"提示").call();
+                break;
+            case R.id.button_backward:
+                finish();
                 break;
             default:
                 break;
@@ -358,14 +388,14 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
      * @param coachId 教练信息
      * @param url     请求地址
      */
-    private void getData(String coachId, int uid, String token, String url) {
-        Log.i("百信学车","预约教练详细信息参数" + "cid=" + coachId + "   uid=" + uid + "   token=" + token + "   url=" + url);
+    private void getData(String coachId, int uid_, String token_, String url) {
+        Log.i("百信学车","预约教练详细信息参数" + "cid=" + coachId + "   uid=" + uid_ + "   token=" + token_ + "   url=" + url);
         OkHttpUtils
                 .post()
                 .url(url)
                 .addParams("cid", coachId)
-                .addParams("uid", Integer.toString(uid))
-                .addParams("token", token)
+                .addParams("uid", Integer.toString(uid_))
+                .addParams("token", token_)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -383,10 +413,44 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                             stusubjectList = reservationDetailEntity.getResult().getStusubject();
                             subjectList = reservationDetailEntity.getResult().getSubject();
                             subjectListResult = subjectList(tv1_number.getText().toString());
-                            adapter = new ReservationDetailAdapter(getBaseContext(),subjectListResult,price,address);
+                            adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv1_number.getText().toString(),uid,token,cid);
                             listView.setAdapter(adapter);
-                        } else {
-                            Toast.makeText(ReservationDetailActivity.this, "没有更多的！", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 根据cid(教练id)获取教练信息
+     * @param coachId 教练信息
+     * @param url     请求地址
+     */
+    private void upData(String coachId, int uid_, String token_, String url) {
+        Log.i("百信学车","预约教练详细信息参数" + "cid=" + coachId + "   uid=" + uid_ + "   token=" + token_ + "   url=" + url);
+        OkHttpUtils
+                .post()
+                .url(url)
+                .addParams("cid", coachId)
+                .addParams("uid", Integer.toString(uid_))
+                .addParams("token", token_)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int i) {
+                        Toast.makeText(ReservationDetailActivity.this, "加载失败", Toast.LENGTH_LONG).show();
+                    }
+                    @Override
+                    public void onResponse(String s, int i) {
+                        Gson gson = new Gson();
+                        ReservationDetailEntity reservationDetailEntity = gson.fromJson(s, ReservationDetailEntity.class);
+                        Log.i("百信学车","预约教练详细信息结果" + s);
+                        if (reservationDetailEntity.getCode() == 200) {
+                            price = reservationDetailEntity.getResult().getPrice();
+                            address = reservationDetailEntity.getResult().getFaddress();
+                            stusubjectList = reservationDetailEntity.getResult().getStusubject();
+                            subjectList = reservationDetailEntity.getResult().getSubject();
+                            subjectListResult = subjectList(tv1_number.getText().toString());
+                            //adapter.notifyDataSetChanged();
                         }
                     }
                 });
@@ -408,5 +472,15 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
         int length = str.length();
         return str.substring(length-3,length-1);
     }
+
+    public void onResume() {
+        super.onResume();
+        // 在当前的activity中注册广播
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("updataApp");
+        registerReceiver(this.broadcastReceiver, filter);
+
+    }
+
 
 }

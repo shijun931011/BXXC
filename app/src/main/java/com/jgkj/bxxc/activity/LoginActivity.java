@@ -43,8 +43,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private TextView morenew;
     private TextView callback;
     private ProgressDialog dialog;
+
     private static final String TAG = "JPush";
     private String loginOldUrl = "http://www.baixinxueche.com/index.php/Home/Api/LoginPost";
+
     private String loginUrl = "http://www.baixinxueche.com/index.php/Home/Apialltoken/LoginPost";
     private String loginNewUrl="http://www.baixinxueche.com/index.php/Home/Apialltoken/LoginPostPaypwd";
 
