@@ -18,10 +18,6 @@ import java.util.Iterator;
 import java.util.List;
 
 
-/**
- * Created by shijun on 2017/4/17.
- */
-
 public class MenuAdapter extends BaseAdapter {
     private Context context;
     private List<MenuEntitys> list;
@@ -83,7 +79,6 @@ public class MenuAdapter extends BaseAdapter {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     flag = true;
-                    check(position);
                     package_id = list.get(position).getPackage_id();
                 }else{
                     flag = false;
@@ -97,17 +92,6 @@ public class MenuAdapter extends BaseAdapter {
         public TextView tv_mune;
         public TextView tv_buy;
         public CheckBox checkBox;
-    }
-
-    public void check(int position){
-        Iterator iter = map.keySet().iterator();
-        while (iter.hasNext()) {
-            String key = (String)iter.next();
-            CheckBox check = (CheckBox)map.get(key);
-            if(position != Integer.parseInt(key)){
-                check.setChecked(true);
-            }
-        }
     }
 
 }
