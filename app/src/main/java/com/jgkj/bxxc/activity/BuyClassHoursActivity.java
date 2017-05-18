@@ -2,6 +2,7 @@ package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +16,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.adapter.PackageAdapter;
-import com.jgkj.bxxc.bean.entity.BuyClassHoursEntity.BuyClassHoureEntity;
+import com.jgkj.bxxc.bean.entity.BaseEntity.BaseEntity;
 import com.jgkj.bxxc.bean.entity.PackageEntity.PackageEntity;
 import com.jgkj.bxxc.bean.entity.PackageEntity.PackageResult;
 import com.jgkj.bxxc.tools.Md5;
@@ -75,7 +76,8 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
         remind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new RemainBaseDialog(BuyClassHoursActivity.this,"提示").call();
+                new RemainBaseDialog(BuyClassHoursActivity.this,"这里展示的是百信学车为您提供的的学时套餐，优惠，方便。 学时套餐用于预约私教班教练练车时候，" +
+                        "且以两个学时为起步，购买后的套餐，如有多余是可以申请退款的。").call();
             }
         });
 
@@ -156,7 +158,7 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
                     public void onResponse(String s, int i) {
                         Log.i("百信学车","购买学时套餐结果" + s);
                         Gson gson = new Gson();
-                        BuyClassHoureEntity buyClassHoureEntity = gson.fromJson(s, BuyClassHoureEntity.class);
+                        BaseEntity buyClassHoureEntity = gson.fromJson(s, BaseEntity.class);
                         if (buyClassHoureEntity.getCode() == 200) {
                             Toast.makeText(BuyClassHoursActivity.this, "学时购买成功", Toast.LENGTH_LONG).show();
                             myInputPwdUtil.hide();
@@ -175,6 +177,18 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         pacckageId = list.get(position).getPackageid();
-        myInputPwdUtil.show();
+        SharedPreferences sharedPreferences= getSharedPreferences("paypwd", Activity.MODE_PRIVATE);
+        // 使用getString方法获得value，注意第2个参数是value的默认值
+        String paypwd = sharedPreferences.getString("paypwd", "");
+        //判断是否设置支付密码
+        if(paypwd != null && !"".equals(paypwd)){
+            myInputPwdUtil.show();
+        }else{
+            //设置支付密码
+            Intent intent = new Intent();
+            intent.setClass(BuyClassHoursActivity.this,SetPayPasswordActivity.class);
+            startActivity(intent);
+        }
+
     }
 }

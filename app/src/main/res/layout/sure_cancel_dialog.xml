@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:background="@color/white"
+              android:background="@drawable/linearlayout_shape_background"
               android:layout_margin="30dp"
               android:orientation="vertical">
 
@@ -69,7 +69,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/lightWhite"
+        android:background="@drawable/linearlayout_shape_background"
         android:orientation="vertical" >
 
         <TextView
@@ -90,7 +90,7 @@
                 android:textSize="16sp"
                 android:layout_width="fill_parent"
                 android:layout_height="109dp"
-                android:gravity="left|center"
+                android:gravity="center"
                 android:lineSpacingMultiplier="1.5"
                 android:minHeight="120dp"
                 android:paddingBottom="15dp"
@@ -113,10 +113,10 @@
                  android:id="@+id/dialog_cancel"
                  android:layout_width="149dp"
                  android:layout_height="wrap_content"
-                 android:background="@color/white"
                  android:gravity="center_horizontal"
                  android:padding="20dp"
                  android:text="取消"
+                android:textColor="#3bbaff"
                  android:textSize="17sp"/>
             <View
                  android:layout_width="0.1dp"
@@ -133,6 +133,7 @@
                  android:gravity="center_horizontal"
                  android:padding="20dp"
                  android:text="确定"
+                android:textColor="#3bbaff"
                  android:textSize="17sp"/>
 
 

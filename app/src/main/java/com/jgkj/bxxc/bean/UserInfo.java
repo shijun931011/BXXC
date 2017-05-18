@@ -30,6 +30,16 @@ public class UserInfo {
         private String introduce;
         private String token;
         private String name;
+        private String paypwd;
+
+        public String getPaypwd() {
+            return paypwd;
+        }
+
+        public void setPaypwd(String paypwd) {
+            this.paypwd = paypwd;
+        }
+
         private int uid;
 
 

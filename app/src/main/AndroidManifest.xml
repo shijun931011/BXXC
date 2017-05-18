@@ -513,9 +513,29 @@
             android:name=".activity.BuyClassHoursActivity"
             android:screenOrientation="portrait" />
 
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.BugPageageActivity">
-        </activity>
+        <!-- 私教预约页面 -->
+        <activity
+            android:name=".activity.ReservationForPrivateActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 账户安全页面 -->
+        <activity
+            android:name=".activity.AccountSecurityActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 设置支付密码页面 -->
+        <activity
+            android:name=".activity.SetPayPasswordActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 修改支付密码页面 -->
+        <activity
+            android:name=".activity.ModifyPayPasswordActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".activity.BugPageageActivity"></activity>
+
+
     </application>
 
 </manifest>

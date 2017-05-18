@@ -30,6 +30,7 @@ import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,7 +115,9 @@ public class ReservationDetailAdapter extends BaseAdapter {
 
         viewHolder.tv_timeslot.setText(list.get(position).getTimeslot());
         viewHolder.tv_time_number.setText(list.get(position).getClasshour() + "课时");
-        viewHolder.tv_price.setText("￥ " + price);
+
+        DecimalFormat df = new DecimalFormat("#.00");
+        viewHolder.tv_price.setText("￥ " + df.format(Float.parseFloat(price)*list.get(position).getClasshour()));
         viewHolder.tv_address.setText(address);
 
         if(list.get(position).getCount() == 0){
@@ -128,9 +131,15 @@ public class ReservationDetailAdapter extends BaseAdapter {
                     viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_orange));
                     viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_oragen);
                 }else{
-                    viewHolder.btn_reservation.setText("可预约");
-                    viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_blue));
-                    viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_blue);
+                    if(!viewHolder.btn_reservation.getText().toString().equals("取消预约")){
+                        viewHolder.btn_reservation.setText("可预约");
+                        viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_blue));
+                        viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_blue);
+                    }else{
+                        viewHolder.btn_reservation.setText("取消预约");
+                        viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_orange));
+                        viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_oragen);
+                    }
                 }
             }
         }
@@ -141,9 +150,15 @@ public class ReservationDetailAdapter extends BaseAdapter {
                     viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_orange));
                     viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_oragen);
                 }else{
-                    viewHolder.btn_reservation.setText("可预约");
-                    viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_blue));
-                    viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_blue);
+                    if(!viewHolder.btn_reservation.getText().toString().equals("取消预约")){
+                        viewHolder.btn_reservation.setText("可预约");
+                        viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_blue));
+                        viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_blue);
+                    }else{
+                        viewHolder.btn_reservation.setText("取消预约");
+                        viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_orange));
+                        viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_oragen);
+                    }
                 }
             }else{
                 viewHolder.btn_reservation.setText("已满员");
@@ -216,6 +231,8 @@ public class ReservationDetailAdapter extends BaseAdapter {
             public void onClick(View v) {
                 if(MenuAdapter.flag){
                     getDataForReservation(uid,cid,token,time_slot,timeone,MenuAdapter.package_id,Urls.stuAppointmentpackage,btn,position);
+                    MenuAdapter.package_id = null;
+                    MenuAdapter.flag = false;
                     dlg.cancel();
                 }else{
                     Toast.makeText(context, "请选择一种套餐", Toast.LENGTH_LONG).show();
@@ -325,5 +342,7 @@ public class ReservationDetailAdapter extends BaseAdapter {
         intent.setAction("updataApp");
         context.sendBroadcast(intent);
     }
+
+
 
 }

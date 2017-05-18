@@ -51,7 +51,6 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
 
     }
 
-
     private void getData() {
         Intent intent = getIntent();
         uid = intent.getIntExtra("uid",-1);

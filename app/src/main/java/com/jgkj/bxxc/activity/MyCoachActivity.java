@@ -112,11 +112,13 @@ public class MyCoachActivity extends Activity implements View.OnClickListener {
             } else {
                 textView.setVisibility(View.VISIBLE);
                 textView.setText("暂无教练信息");
+                dialog.dismiss();
             }
         }else{
             textView.setVisibility(View.VISIBLE);
             textView.setText("暂无教练信息");
             Toast.makeText(MyCoachActivity.this,"暂无教练信息", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
         }
     }
 
@@ -183,6 +185,7 @@ public class MyCoachActivity extends Activity implements View.OnClickListener {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int i) {
+                        dialog.dismiss();
                         Toast.makeText(MyCoachActivity.this, "请检查网络", Toast.LENGTH_LONG).show();
                     }
                     @Override
@@ -192,6 +195,7 @@ public class MyCoachActivity extends Activity implements View.OnClickListener {
                         if (text_title.getTag() != null) {
                             setListView();
                         }
+                        dialog.dismiss();
                     }
                 });
     }

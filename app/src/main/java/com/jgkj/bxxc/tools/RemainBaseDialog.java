@@ -41,10 +41,7 @@ public class RemainBaseDialog implements View.OnClickListener{
         // 初始化控件
         dialog_textView = (TextView) inflate.findViewById(R.id.dialog_textView);
         dialog_sure = (TextView) inflate.findViewById(R.id.dialog_sure);
-        dialog_cancel = (TextView) inflate.findViewById(R.id.dialog_cancel);
         dialog_sure.setOnClickListener(this);
-        dialog_cancel.setOnClickListener(this);
-
         dialog_textView.setText(content);
 
         // 将布局设置给Dialog
@@ -65,10 +62,6 @@ public class RemainBaseDialog implements View.OnClickListener{
             case R.id.dialog_sure:
                 dialog.hide();
                 break;
-            case R.id.dialog_cancel:
-                dialog.hide();
-                break;
-
         }
     }
 

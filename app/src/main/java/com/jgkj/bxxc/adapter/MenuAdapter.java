@@ -8,8 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jgkj.bxxc.R;
+import com.jgkj.bxxc.activity.ReservationDetailActivity;
 import com.jgkj.bxxc.bean.entity.MenuEntity.MenuEntitys;
 
 import java.util.ArrayList;
@@ -26,9 +28,7 @@ public class MenuAdapter extends BaseAdapter {
     public static boolean flag = false;
     //套餐类型
     public static String package_id;
-
-    List<CheckBox> checklist = new ArrayList<>();
-    HashMap<String,CheckBox> map = new HashMap<>();
+    private int locationPosition = -1;
 
     public MenuAdapter(Context context, List<MenuEntitys> list){
         this.context = context;
@@ -70,19 +70,32 @@ public class MenuAdapter extends BaseAdapter {
             viewHolder.tv_buy.setText("剩余" + list.get(position).getSurplus_class() + "个课时");
         }else{
             viewHolder.tv_buy.setText("暂未购买");
+            //viewHolder.checkBox.setChecked(false);
             //viewHolder.checkBox.setClickable(false);
         }
 
-        map.put(position + "",viewHolder.checkBox);
-        viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        if(locationPosition == position){
+            viewHolder.checkBox.setChecked(true);
+        }else{
+            viewHolder.checkBox.setChecked(false);
+        }
+
+        viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    flag = true;
-                    package_id = list.get(position).getPackage_id();
-                }else{
-                    flag = false;
-                }
+            public void onClick(View v) {
+                    if(viewHolder.checkBox.isChecked()){
+                        flag = true;
+                        package_id = list.get(position).getPackage_id();
+                        if(!list.get(position).getSurplus_money().equals("0")){
+                            locationPosition = position;
+                        }else{
+                            flag = false;
+                        }
+                    }else{
+                        locationPosition = -1;
+                        flag = false;
+                    }
+                    notifyDataSetChanged();
             }
         });
         return convertView;

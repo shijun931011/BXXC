@@ -1,10 +1,10 @@
-package com.jgkj.bxxc.bean.entity.BuyClassHoursEntity;
+package com.jgkj.bxxc.bean.entity.BaseEntity;
 
 /**
  * Created by tongshoujun on 2017/5/15.
  */
 
-public class BuyClassHoureEntity {
+public class BaseEntity {
 
     private int code;
 

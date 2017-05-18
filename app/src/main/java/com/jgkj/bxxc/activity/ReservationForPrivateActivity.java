@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -33,7 +32,6 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
-import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -43,11 +41,6 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.geocode.GeoCodeResult;
-import com.baidu.mapapi.search.geocode.GeoCoder;
-import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
@@ -79,7 +72,7 @@ import okhttp3.Call;
  * 教练个人简介和显示部分学员评价，
  * 可以进行，对教练的收藏和分享
  */
-public class  ReservationActivity extends Activity implements OnClickListener, SwipeRefreshLayout.OnRefreshListener,
+public class ReservationForPrivateActivity extends Activity implements OnClickListener, SwipeRefreshLayout.OnRefreshListener,
         RefreshLayout.OnLoadListener {
 
     private CoachFullDetailAdapter adapter;
@@ -177,7 +170,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         // 注意该方法要再setContentView方法之前实现
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.reservation);
-        headView = getLayoutInflater().inflate(R.layout.coach_head, null);
+        headView = getLayoutInflater().inflate(R.layout.coach_head_private, null);
         init();
         initMap();
         getData(coachId, coachUrl);
@@ -202,7 +195,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         // 开启定位图层
         mBaiduMap.setMyLocationEnabled(true);
         // 定位初始化
-        mLocClient = new LocationClient(ReservationActivity.this);
+        mLocClient = new LocationClient(ReservationForPrivateActivity.this);
         mLocClient.registerLocationListener(myListener);
         myOrientationListener = new MyOrientationListener(getApplicationContext());
         myOrientationListener.setOnOrientationListener(new MyOrientationListener.OnOrientationListener() {
@@ -283,7 +276,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
             double latitude = Double.parseDouble(listSch.get(index).getLatitude());
             double longitude = Double.parseDouble(listSch.get(index).getLongitude());
             if (latLng.latitude == latitude && latLng.longitude == longitude) {
-                Button button = new Button(ReservationActivity.this
+                Button button = new Button(ReservationForPrivateActivity.this
                         .getApplicationContext());
                 button.setBackgroundResource(R.drawable.qipao);
                 button.setTextColor(getResources().getColor(R.color.black));
@@ -339,7 +332,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int i) {
-                        Toast.makeText(ReservationActivity.this, "加载失败", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ReservationForPrivateActivity.this, "加载失败", Toast.LENGTH_LONG).show();
                     }
                     @Override
                     public void onResponse(String s, int i) {
@@ -352,21 +345,18 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                             CoachInfo.Result result = list.get(0);
                             coach_name.setText("教练员："+ result.getCoachname());
                             DecimalFormat df = new DecimalFormat("#.00");
-                            marketPrise.setText("￥" + df.format(result.getMarket_price()));
                             price.setText("￥" + df.format(result.getPrice()));
-                            currentStu.setHint("当前学员数" + result.getStunum() + "人");
-                            tongguo.setHint("通过率：" + result.getTguo() + "%");
+                            //currentStu.setHint("当前学员数" + result.getStunum() + "人");
+                            //tongguo.setHint("通过率：" + result.getTguo() + "%");
                             String path = result.getFile();
                             if (!path.endsWith(".jpg") && !path.endsWith(".jpeg") && !path.endsWith(".png") &&
                                     !path.endsWith(".GIF") && !path.endsWith(".PNG") && !path.endsWith(".JPG") && !path.endsWith(".gif")) {
                                 coach_head.setImageResource(R.drawable.coach_pic);
                             } else {
-                                Glide.with(ReservationActivity.this).load(result.getFile()).placeholder(R.drawable.coach_pic).error(R.drawable.coach_pic).into(coach_head);
+                                Glide.with(ReservationForPrivateActivity.this).load(result.getFile()).placeholder(R.drawable.coach_pic).error(R.drawable.coach_pic).into(coach_head);
                             }
-                            totalStu.setHint("累计学员数" + result.getCount_stu() + "人");
-                            chexing.setHint("车型：" + result.getChexing());
-                            myclass.setHint("班型：" + result.getClass_type());
-                            place.setText(result.getFaddress());
+                            totalStu.setText("累计学员数" + result.getCount_stu() + "人");
+                            place.setText("校区：" + result.getFaddress());
                             coach_head.setTag(result.getFile());
                             share.setTag(result.getCid());
                             int credit = result.getCredit();
@@ -377,21 +367,21 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                             xinyong.removeAllViews();
                             fuwu.removeAllViews();
                             for (int k = 0; k < credit; k++) {
-                                ImageView image = new ImageView(ReservationActivity.this);
+                                ImageView image = new ImageView(ReservationForPrivateActivity.this);
                                 image.setBackgroundResource(R.drawable.xin_1);
                                 LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
                                 image.setLayoutParams(wrapParams);
                                 xinyong.addView(image);
                             }
                             for (int k = 0; k < teachnum; k++) {
-                                ImageView image = new ImageView(ReservationActivity.this);
+                                ImageView image = new ImageView(ReservationForPrivateActivity.this);
                                 image.setBackgroundResource(R.drawable.star1);
                                 LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
                                 image.setLayoutParams(wrapParams);
                                 zhiliang.addView(image);
                             }
                             for (int k = 0; k < waitnum; k++) {
-                                ImageView image = new ImageView(ReservationActivity.this);
+                                ImageView image = new ImageView(ReservationForPrivateActivity.this);
                                 image.setBackgroundResource(R.drawable.star1);
                                 LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
                                 image.setLayoutParams(wrapParams);
@@ -406,7 +396,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                             stu.setDefault_file(result.getDefault_file());
                             listStu.add(stu);
                             // 实例化listView显示学员的评价
-                            CoachFullDetailAdapter adapter = new CoachFullDetailAdapter(ReservationActivity.this, listStu);
+                            CoachFullDetailAdapter adapter = new CoachFullDetailAdapter(ReservationForPrivateActivity.this, listStu);
                             listView.setAdapter(adapter);
                         } else {
                             //Toast.makeText(ReservationActivity.this, "没有更多的！", Toast.LENGTH_SHORT).show();
@@ -438,34 +428,28 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         if (isChange == 0) {
             signup_Coach.setText("更改教练");
         } else {
-            signup_Coach.setText("立即报名");
+            signup_Coach.setText("立即预约");
         }
-        chexing = (TextView) headView.findViewById(R.id.chexing);
-        myclass = (TextView) headView.findViewById(R.id.myclass);
         coach_head = (ImageView) headView.findViewById(R.id.coach_head);
-        place = (TextView) findViewById(R.id.place);
+        place = (TextView) headView.findViewById(R.id.place);
         coach_name = (TextView) headView.findViewById(R.id.coach_name);
-        marketPrise = (TextView) headView.findViewById(R.id.marketPrise);
-        marketPrise.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         price = (TextView) headView.findViewById(R.id.price);
-        currentStu = (TextView) headView.findViewById(R.id.currentStu);
-        tongguo = (TextView) headView.findViewById(R.id.tongguo);
         totalStu = (TextView) headView.findViewById(R.id.totalStu);
         haopinglv = (TextView) headView.findViewById(R.id.haopinglv);
 
         share = (ImageView) headView.findViewById(R.id.share);
         share.setOnClickListener(this);
         //费用说明
-        costsThat = (TextView) headView.findViewById(R.id.costsThat);
-        costsThat.setOnClickListener(this);
+        //costsThat = (TextView) headView.findViewById(R.id.costsThat);
+        //costsThat.setOnClickListener(this);
         // 实例化控件
         text_title = (TextView) findViewById(R.id.text_title);
         text_title.setText("个人简介");
         back = (Button) findViewById(R.id.button_backward);
         back.setOnClickListener(this);
         back.setVisibility(View.VISIBLE);
-        fourPromise = (LinearLayout) headView.findViewById(R.id.fourPromiselinearLayout);
-        fourPromise.setOnClickListener(this);
+        //fourPromise = (LinearLayout) headView.findViewById(R.id.fourPromiselinearLayout);
+        //fourPromise.setOnClickListener(this);
         // 实例化listView显示学员的评价
         listView = (ListView) findViewById(R.id.student_evaluate_listView);
         listView.setFocusable(false);
@@ -493,7 +477,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                              @Override
                              public void onError(Call call, Exception e, int i) {
                                  progressDialog.dismiss();
-                                 Toast.makeText(ReservationActivity.this, "网络状态不佳，请稍后再试。", Toast.LENGTH_LONG).show();
+                                 Toast.makeText(ReservationForPrivateActivity.this, "网络状态不佳，请稍后再试。", Toast.LENGTH_LONG).show();
                              }
 
                              @Override
@@ -501,9 +485,9 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                                  progressDialog.dismiss();
                                  Gson gson = new Gson();
                                  Result result = gson.fromJson(s, Result.class);
-                                 Toast.makeText(ReservationActivity.this, result.getReason(), Toast.LENGTH_LONG).show();
+                                 Toast.makeText(ReservationForPrivateActivity.this, result.getReason(), Toast.LENGTH_LONG).show();
                                  if (result.getCode() == 200) {
-                                     Toast.makeText(ReservationActivity.this, result.getReason(), Toast.LENGTH_SHORT).show();
+                                     Toast.makeText(ReservationForPrivateActivity.this, result.getReason(), Toast.LENGTH_SHORT).show();
                                      finish();
                                  }
                              }
@@ -521,13 +505,24 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                 new CallDialog(this,"055165555744").call();
                 break;
             case R.id.signup_Coach:
-                if (signup_Coach.getText().toString().equals("立即报名")) {
-                    Intent intent2 = new Intent();
-                    intent2.setClass(ReservationActivity.this, PayInfoActivity.class);
-                    intent2.putExtra("uid",uid);
-                    intent2.putExtra("token",token);
-                    intent2.putExtra("coachInfo", signup_Coach.getTag().toString());
-                    startActivity(intent2);
+                if (signup_Coach.getText().toString().equals("立即预约")) {
+                    SharedPreferences sp = getSharedPreferences("USER", Activity.MODE_PRIVATE);
+                    String str = sp.getString("userInfo", null);
+                    Gson gson = new Gson();
+                    userInfo = gson.fromJson(str, UserInfo.class);
+                    if (userInfo == null) {
+                        Intent intent2 = new Intent();
+                        intent2.setClass(ReservationForPrivateActivity.this, LoginActivity.class);
+                        startActivity(intent2);
+                        finish();
+                    } else {
+                        Intent intent2 = new Intent();
+                        intent2.setClass(ReservationForPrivateActivity.this, ReservationDetailActivity.class);
+                        intent2.putExtra("uid",uid);
+                        intent2.putExtra("token",token);
+                        intent2.putExtra("coachInfo", signup_Coach.getTag().toString());
+                        startActivity(intent2);
+                    }
                 } else if (signup_Coach.getText().toString().equals("更改教练")) {
                     SharedPreferences sp = getSharedPreferences("USER", Activity.MODE_PRIVATE);
                     String str = sp.getString("userInfo", null);
@@ -535,11 +530,11 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                     userInfo = gson.fromJson(str, UserInfo.class);
                     if (userInfo == null) {
                         Intent intent2 = new Intent();
-                        intent2.setClass(ReservationActivity.this, LoginActivity.class);
+                        intent2.setClass(ReservationForPrivateActivity.this, LoginActivity.class);
                         startActivity(intent2);
                         finish();
                     } else {
-                        progressDialog = ProgressDialog.show(ReservationActivity.this, null, "修改中...");
+                        progressDialog = ProgressDialog.show(ReservationForPrivateActivity.this, null, "修改中...");
                         changeCoach(userInfo.getResult().getUid() + "");
                     }
                 }
@@ -558,7 +553,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                  *       请在各大平台上注册并完善debug和正式版本的信息填写，然后更换此项目的appkey
                  *
                  */
-                image = new UMImage(ReservationActivity.this, coach_head.getTag().toString());
+                image = new UMImage(ReservationForPrivateActivity.this, coach_head.getTag().toString());
 
                 new ShareAction(this).setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
                         .withText("科技改变生活，百信引领学车！百信学车在这里向您分享我们这里最优秀的教练"+coach_name.getText().toString())
@@ -567,12 +562,6 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                         .withTargetUrl(url + share.getTag().toString())
                         .setCallback(shareListener)
                         .open();
-                break;
-            case R.id.costsThat:
-                createDialog(0);
-                break;
-            case R.id.fourPromiselinearLayout:
-                createDialog(1);
                 break;
         }
     }
@@ -583,11 +572,11 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
      * @param i 表示是展示4个承诺还是服务费用
      */
     private void createDialog(int i) {
-        dialog = new Dialog(ReservationActivity.this, R.style.ActionSheetDialogStyle);
+        dialog = new Dialog(ReservationForPrivateActivity.this, R.style.ActionSheetDialogStyle);
         if (i == 0) {
-            dialogView = LayoutInflater.from(ReservationActivity.this).inflate(R.layout.coststhat, null);
+            dialogView = LayoutInflater.from(ReservationForPrivateActivity.this).inflate(R.layout.coststhat, null);
         } else if (i == 1) {
-            dialogView = LayoutInflater.from(ReservationActivity.this).inflate(R.layout.fourpromise, null);
+            dialogView = LayoutInflater.from(ReservationForPrivateActivity.this).inflate(R.layout.fourpromise, null);
         }
         Button btn = (Button) dialogView.findViewById(R.id.dialog_sure);
         btn.setOnClickListener(new OnClickListener() {
@@ -619,17 +608,17 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
     private UMShareListener shareListener = new UMShareListener() {
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(ReservationActivity.this, platform + " 分享成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ReservationForPrivateActivity.this, platform + " 分享成功", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(ReservationActivity.this, platform + " 分享失败", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ReservationForPrivateActivity.this, platform + " 分享失败", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            Toast.makeText(ReservationActivity.this, platform + " 分享取消", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ReservationForPrivateActivity.this, platform + " 分享取消", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -654,7 +643,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int i) {
-                        Toast.makeText(ReservationActivity.this, "加载失败", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ReservationForPrivateActivity.this, "加载失败", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -683,10 +672,10 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
             }
             listView.setFocusable(false);
             // 实例化listView显示学员的评价
-            CoachFullDetailAdapter adapter = new CoachFullDetailAdapter(ReservationActivity.this, listStu);
+            CoachFullDetailAdapter adapter = new CoachFullDetailAdapter(ReservationForPrivateActivity.this, listStu);
             listView.setAdapter(adapter);
         } else {
-            Toast.makeText(ReservationActivity.this, coachInfo.getReason(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(ReservationForPrivateActivity.this, coachInfo.getReason(), Toast.LENGTH_SHORT).show();
         }
     }
 

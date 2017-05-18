@@ -22,6 +22,7 @@ import com.jgkj.bxxc.bean.SchoolPlaceTotal;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.tools.RefreshLayout;
 import com.jgkj.bxxc.tools.SelectPopupWindow;
+import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -286,7 +287,7 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         TextView coachId = (TextView) view.findViewById(R.id.coachId);
         Intent intent = new Intent();
-        intent.setClass(this, ReservationActivity.class);
+        intent.setClass(this, ReservationForPrivateActivity.class);
         intent.putExtra("coachId", coachId.getText().toString().trim());
         intent.putExtra("uid", uid);
         intent.putExtra("token", token);

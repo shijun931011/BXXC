@@ -46,7 +46,7 @@ public class BuyClassHoDialog implements View.OnClickListener{
         dialog = new Dialog(context, R.style.ActionSheetDialogStyle);
         // 填充对话框的布局
         inflate = LayoutInflater.from(context).inflate(
-                R.layout.sure_cancel_dialog2, null);
+                R.layout.sure_cancel_dialog, null);
         // 初始化控件
         dialog_textView = (TextView) inflate.findViewById(R.id.dialog_textView);
         dialog_sure = (TextView) inflate.findViewById(R.id.dialog_sure);

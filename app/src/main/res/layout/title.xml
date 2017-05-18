@@ -85,7 +85,7 @@
         android:gravity="center"
         android:padding="12dp"
         android:paddingLeft="5dp"
-        android:src="@drawable/gongsijieshao"
+        android:src="@drawable/question_image"
         android:visibility="gone"
         />
 </RelativeLayout>

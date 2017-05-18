@@ -3,6 +3,7 @@ package com.jgkj.bxxc.tools;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.util.Log;
 import android.view.Gravity;
@@ -127,7 +128,6 @@ public class RemindDialog implements View.OnClickListener{
                         if (cancelResult.getCode() == 400){
                             Toast.makeText(context, cancelResult.getReason() + "！", Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
     }
@@ -138,4 +138,5 @@ public class RemindDialog implements View.OnClickListener{
         intent.setAction("updataApp");
         context.sendBroadcast(intent);
     }
+
 }

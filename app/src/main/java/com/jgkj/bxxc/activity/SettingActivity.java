@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,9 @@ public class SettingActivity extends Activity implements View.OnClickListener {
     private UserInfo userInfo;
     private UserInfo.Result result;
 
+    //账户安全
+    private LinearLayout linearLayout_account_security;
+
     //版本更新接口
     private String versionUrl = "http://www.baixinxueche.com/index.php/Home/Apitoken/versionandroid";
 
@@ -62,10 +66,13 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         back.setOnClickListener(this);
         title = (TextView) findViewById(R.id.text_title);
         title.setText("设置");
+
+        linearLayout_account_security = (LinearLayout)findViewById(R.id.linearLayout_account_security);
         //版本更新
         softInfo = (TextView) findViewById(R.id.softInfo);
         softInfo.setText(GetVersion.getVersion(this));
         softInfo.setOnClickListener(this);
+        linearLayout_account_security.setOnClickListener(this);
         //缓存大小
         cleanUp = (TextView) findViewById(R.id.cleanUp);
         cleanUp.setOnClickListener(this);
@@ -153,6 +160,18 @@ public class SettingActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()){
+            case R.id.linearLayout_account_security:
+                //验证是否登录
+                sp = getApplication().getSharedPreferences("USER", Activity.MODE_PRIVATE);
+                int isFirstRun = sp.getInt("isfirst",0);
+                if (isFirstRun == 0) {
+                    intent.setClass(SettingActivity.this,LoginActivity.class);
+                    startActivity(intent);
+                }else{
+                    intent.setClass(this,AccountSecurityActivity.class);
+                    startActivity(intent);
+                }
+                break;
             case R.id.button_backward:
                 finish();
                 break;

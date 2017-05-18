@@ -9,6 +9,7 @@
         layout="@layout/title"/>
 
     <LinearLayout
+        android:id="@+id/linearLayout_account_security"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"

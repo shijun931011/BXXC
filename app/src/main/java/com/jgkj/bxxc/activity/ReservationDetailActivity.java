@@ -1,6 +1,7 @@
 package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -63,7 +64,9 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
     //质量
     private int teachnum;
     private ListView listView;
+    private TextView noSmsData;
     private ReservationDetailAdapter adapter;
+    private ProgressDialog progressDialog;
 
     private TextView tv1_week;
     private TextView tv2_week;
@@ -120,6 +123,9 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation_detail);
 
+        //显示ProgressDialog
+        progressDialog = ProgressDialog.show(ReservationDetailActivity.this, "加载中...", "请等待...", true, false);
+
         //标题
         title = (TextView) findViewById(R.id.text_title);
         title.setText(getDate());
@@ -135,6 +141,8 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
         tv_total_stu = (TextView)findViewById(R.id.tv_total_stu);
         zhiliang = (LinearLayout)findViewById(R.id.zhiliang);
         listView = (ListView)findViewById(R.id.listView);
+        noSmsData = (TextView)findViewById(R.id.noSmsData);
+        listView.setEmptyView(noSmsData);
 
         Intent intent = getIntent();
         uid = intent.getIntExtra("uid",uid);
@@ -327,7 +335,8 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                 listView.setAdapter(adapter);
                 break;
             case R.id.remind:
-                new RemainBaseDialog(ReservationDetailActivity.this,"提示").call();
+                new RemainBaseDialog(ReservationDetailActivity.this,"每次预约以两个学时起，您可以根据实际需求，选购学时套餐，预约您的心意教练，" +
+                        "体验高品质的驾培服务。您需要注意：如果约车已经下单，但有突发事件不能如时赴约，请在约定时间两小时前申请取消，否则将视为您的约车行为已经实施，不能退款。").call();
                 break;
             case R.id.button_backward:
                 finish();
@@ -401,9 +410,13 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                     @Override
                     public void onError(Call call, Exception e, int i) {
                         Toast.makeText(ReservationDetailActivity.this, "加载失败", Toast.LENGTH_LONG).show();
+                        //关闭ProgressDialog
+                        progressDialog.dismiss();
                     }
                     @Override
                     public void onResponse(String s, int i) {
+                        //关闭ProgressDialog
+                        progressDialog.dismiss();
                         Gson gson = new Gson();
                         ReservationDetailEntity reservationDetailEntity = gson.fromJson(s, ReservationDetailEntity.class);
                         Log.i("百信学车","预约教练详细信息结果" + s);
@@ -479,7 +492,6 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
         IntentFilter filter = new IntentFilter();
         filter.addAction("updataApp");
         registerReceiver(this.broadcastReceiver, filter);
-
     }
 
 
