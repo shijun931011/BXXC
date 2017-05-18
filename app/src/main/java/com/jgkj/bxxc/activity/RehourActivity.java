@@ -142,9 +142,8 @@ public class RehourActivity extends Activity implements View.OnClickListener{
     private View.OnClickListener clickListener=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Toast.makeText(RehourActivity.this, "点击成功....",Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(RehourActivity.this,BugClassActivity.class);
-//            startActivity(intent);
+            Intent intent = new Intent(RehourActivity.this,BuyClassHoursActivity.class);
+            startActivity(intent);
         }
     };
 
@@ -186,7 +185,7 @@ public class RehourActivity extends Activity implements View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.immediate_bug:
-                intent.setClass(this, BugPageageActivity.class);
+                intent.setClass(this,  BuyClassHoursActivity.class);
                 startActivity(intent);
                 break;
             case R.id.extra_hours:

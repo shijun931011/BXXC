@@ -389,7 +389,7 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
 
         <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
@@ -398,10 +398,10 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTER"/>
-                <action android:name="cn.jpush.android.intent.REPORT"/>
-                <action android:name="cn.jpush.android.intent.PushService"/>
-                <action android:name="cn.jpush.android.intent.PUSH_TIME"/>
+                <action android:name="cn.jpush.android.intent.REGISTER" />
+                <action android:name="cn.jpush.android.intent.REPORT" />
+                <action android:name="cn.jpush.android.intent.PushService" />
+                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
             </intent-filter>
         </service>
 
@@ -481,34 +481,35 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ClassicActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ClassTypeActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.PrivateClassActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activity.PrivateClassActivity"/>
-        <activity android:name=".activity.ExtClassActivity"/>
-        <activity android:name=".activity.VipClassActivity"/>
-        <activity android:name=".activity.PrivateActivity"/>
-        <activity android:name=".activity.SettingActivity"/>
-        <activity android:name=".activity.RehourActivity">
-        </activity>
-        <activity android:name=".activity.PaydetailActivity">
-        </activity>
-        <activity android:name=".activity.RefundActivity">
-        </activity>
-        android:screenOrientation="portrait" />
-        <activity android:name=".activity.PrivateClassActivity"/>
-        <activity android:name=".activity.ExtClassActivity"/>
-        <activity android:name=".activity.VipClassActivity"/>
-        <activity android:name=".activity.PrivateActivity"/>
-        <activity android:name=".activity.SettingActivity"/>
+        <activity android:name=".activity.ExtClassActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.VipClassActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.PrivateActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.SettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.RehourActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.PaydetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.RefundActivity"
+            android:screenOrientation="portrait"/>
+
+
 
         <!-- 预约详细页面 -->
         <activity
             android:name=".activity.ReservationDetailActivity"
             android:screenOrientation="portrait" />
 
-        <!-- 购买学时套餐页面-->
+        <!-- 购买学时套餐页面 -->
         <activity
             android:name=".activity.BuyClassHoursActivity"
             android:screenOrientation="portrait" />
@@ -533,9 +534,7 @@
             android:name=".activity.ModifyPayPasswordActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.BugPageageActivity"></activity>
-
-
+        <activity android:name=".activity.RechargeActivity"></activity>
     </application>
 
 </manifest>

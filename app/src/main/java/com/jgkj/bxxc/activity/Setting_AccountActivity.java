@@ -150,7 +150,13 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
                             }
                         });
                 dialog.create().show();
-
+                break;
+            case R.id.recharge:
+                intent.setClass(this,RechargeActivity.class);
+                intent.putExtra("uid", uid);
+                intent.putExtra("token", token);
+                startActivity(intent);
+                break;
         }
     }
 }
