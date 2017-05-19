@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.jgkj.bxxc.activity.BalanceRefundActivity">
+
+    <include layout="@layout/title"/>
+
+    <ListView
+        android:id="@+id/list_refund"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:id="@+id/txt_null"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="抱歉， 暂无数据！"
+        android:textColor="@color/gray"
+        android:textSize="17sp"
+        android:visibility="gone"
+        />
+
+</LinearLayout>

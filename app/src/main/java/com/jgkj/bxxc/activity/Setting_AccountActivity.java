@@ -1,11 +1,16 @@
 package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,13 +35,18 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
     private Button back_forward;
     private TextView title;
 //    private LinearLayout bindingAlipay;
-    private LinearLayout myOrder;      //订单
+//    private LinearLayout myOrder;      //订单
     private LinearLayout myCoupod;     //优惠劵
     private LinearLayout rehour;       //剩余学时
     private LinearLayout paydetail;    //支付明细
     private TextView balance_money;    //余额
     private TextView balance_explain;   //余额说明
+    private TextView balance_deal;      //余额用不完怎么办
+    private TextView refund_record;      //退款记录
     private Button btn_recharge;        //充值
+    private Dialog balance_diolog;
+    private View balance_view;
+    private TextView dialog_textView, dialog_sure, dialog_cancel,dialog_prompt;
     private int uid;
     private String token;
     private String balanceUrl="http://www.baixinxueche.com/index.php/Home/Apitokenpt/balance";
@@ -90,20 +100,24 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
         back_forward.setOnClickListener(this);
         title.setText("我的钱包");
 //        bindingAlipay = (LinearLayout) findViewById(bindingAlipay);
-        myOrder = (LinearLayout) findViewById(R.id.myOrder);
+//        myOrder = (LinearLayout) findViewById(R.id.myOrder);
         myCoupod = (LinearLayout) findViewById(R.id.mycoupod);
         rehour = (LinearLayout) findViewById(R.id.re_hour);
         paydetail = (LinearLayout) findViewById(R.id.pay_detail);
         balance_money = (TextView) findViewById(R.id.balance_money);
         balance_explain = (TextView) findViewById(R.id.balance_explain);
+        balance_deal = (TextView) findViewById(R.id.balance_deal);
+        refund_record = (TextView) findViewById(R.id.refund_record);
         btn_recharge = (Button) findViewById(R.id.recharge);
 //        bindingAlipay.setOnClickListener(this);
-        myOrder.setOnClickListener(this);
+//        myOrder.setOnClickListener(this);
         myCoupod.setOnClickListener(this);
         rehour.setOnClickListener(this);
         paydetail.setOnClickListener(this);
         balance_explain.setOnClickListener(this);
         btn_recharge.setOnClickListener(this);
+        balance_deal.setOnClickListener(this);
+        refund_record.setOnClickListener(this);
     }
 
     @Override
@@ -113,12 +127,12 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
             case R.id.button_backward:
                 finish();
                 break;
-            case R.id.myOrder:
-                intent.setClass(Setting_AccountActivity.this, MyOrderActivity.class);
-                intent.putExtra("uid", uid);
-                intent.putExtra("token", token);
-                startActivity(intent);
-                break;
+//            case R.id.myOrder:
+//                intent.setClass(Setting_AccountActivity.this, MyOrderActivity.class);
+//                intent.putExtra("uid", uid);
+//                intent.putExtra("token", token);
+//                startActivity(intent);
+//                break;
             case R.id.mycoupod:
                 intent.setClass(Setting_AccountActivity.this,CouponActivity.class);
                 intent.putExtra("uid", uid);
@@ -157,6 +171,48 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
                 intent.putExtra("token", token);
                 startActivity(intent);
                 break;
+            case R.id.balance_deal:
+                balance_diolog = new Dialog(Setting_AccountActivity.this, R.style.ActionSheetDialogStyle);
+                //填充对话框的布局
+                balance_view = LayoutInflater.from(Setting_AccountActivity.this).inflate(R.layout.sure_cancel_dialog, null);
+                dialog_textView = (TextView) balance_view.findViewById(R.id.dialog_textView);
+                dialog_textView.setText("用不完的余额，可以在这里申请退款，百信学车竭诚为您服务！");
+                dialog_prompt = (TextView) balance_view.findViewById(R.id.diolog_prompt);
+                dialog_sure = (TextView) balance_view.findViewById(R.id.dialog_sure);
+                dialog_sure.setText("我要退款");
+                dialog_cancel = (TextView) balance_view.findViewById(R.id.dialog_cancel);
+                dialog_cancel.setText("点错了");
+                dialog_sure.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+                dialog_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        balance_diolog.dismiss();
+                    }
+                });
+                // 将布局设置给Dialog
+                balance_diolog.setContentView(balance_view);
+                // 获取当前Activity所在的窗体
+                Window dialogWindow = balance_diolog.getWindow();
+                // 设置dialog宽度
+                dialogWindow.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+                // 设置Dialog从窗体中间弹出
+                dialogWindow.setGravity(Gravity.CENTER);
+                balance_diolog.show();
+                break;
+           case R.id.refund_record:
+            intent.setClass(this,BalanceRefundActivity.class);
+            intent.putExtra("uid", uid);
+            intent.putExtra("token", token);
+            startActivity(intent);
+            break;
+
+
+
         }
     }
 }

@@ -33,6 +33,7 @@ import okhttp3.Call;
 public class RechargeActivity extends Activity implements View.OnClickListener{
 
     private TextView title;
+    private TextView recharge_protocol;     //充值协议
     private Button back;
     private int uid;
     private int moneyid;
@@ -67,6 +68,8 @@ public class RechargeActivity extends Activity implements View.OnClickListener{
 
     private void InitView(){
         title = (TextView) findViewById(R.id.text_title);
+        recharge_protocol = (TextView) findViewById(R.id.recharge_protocol_txt);
+        recharge_protocol.setOnClickListener(this);
         back = (Button) findViewById(R.id.button_backward);
         recyclerView = (RecyclerView) findViewById(R.id.recylerview);
         recyclerView.setHasFixedSize(true);
@@ -257,7 +260,13 @@ public class RechargeActivity extends Activity implements View.OnClickListener{
 
                     }
                 }
-
+                break;
+            case R.id.recharge_protocol_txt:
+                Intent intent = new Intent();
+                intent.setClass(RechargeActivity.this,WebViewActivity.class);
+                intent.putExtra("url","http://www.baixinxueche.com/webshow/chongzhi/recharge.html");
+                intent.putExtra("title","充值协议");
+                startActivity(intent);
                 break;
 
         }

@@ -485,24 +485,30 @@
         <activity
             android:name=".activity.ClassTypeActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.PrivateClassActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ExtClassActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.VipClassActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.PrivateActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.SettingActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.RehourActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.PaydetailActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.RefundActivity"
-            android:screenOrientation="portrait"/>
-
-
+        <activity
+            android:name=".activity.PrivateClassActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ExtClassActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.VipClassActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PrivateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RehourActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PaydetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RefundActivity"
+            android:screenOrientation="portrait" />
 
         <!-- 预约详细页面 -->
         <activity
@@ -533,8 +539,10 @@
         <activity
             android:name=".activity.ModifyPayPasswordActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".activity.RechargeActivity"></activity>
+        <activity android:name=".activity.RechargeActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.BalanceRefundActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

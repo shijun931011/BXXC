@@ -158,16 +158,34 @@
         android:layout_below="@id/payMethod2"
         />
 
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:hint="@string/recharge_protocol"
-        android:textSize="12sp"
-        android:layout_marginBottom="60dp"
         android:id="@+id/textView9"
+        android:layout_marginBottom="60dp"
         android:layout_alignParentBottom="true"
-        />
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="@string/recharge_protocol"
+            android:layout_marginStart="20dp"
+            android:textSize="12sp"
+            />
+        <TextView
+            android:id="@+id/recharge_protocol_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/recharge_protocol_txt"
+            android:textSize="12sp"
+            android:textColor="@color/btn_orange"
+            />
+    </LinearLayout>
+
+
     <Button
         android:id="@+id/btn_recharge"
         android:layout_width="match_parent"
