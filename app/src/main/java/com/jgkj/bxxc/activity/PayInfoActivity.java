@@ -53,7 +53,7 @@ import okhttp3.Call;
  */
 public class PayInfoActivity extends Activity implements View.OnClickListener, TextWatcher {
     private Button payInfo;
-    private Button back_forward;
+    private Button back_backward;
     private TextView textTitle;
     private Button call_help;
     private TextView text_bar;
@@ -349,9 +349,9 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
         tiaokuan.setOnClickListener(this);
         payInfo.setOnClickListener(this);
         //标题栏
-        back_forward = (Button) findViewById(R.id.button_backward);
-        back_forward.setVisibility(View.VISIBLE);
-        back_forward.setOnClickListener(this);
+        back_backward = (Button) findViewById(R.id.button_backward);
+        back_backward.setVisibility(View.VISIBLE);
+        back_backward.setOnClickListener(this);
         textTitle = (TextView) findViewById(R.id.text_title);
         textTitle.setText("订单信息");
         //教练信息

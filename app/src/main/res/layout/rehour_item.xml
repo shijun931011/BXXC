@@ -1,27 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center_vertical"
-              android:background="@color/white"
-              android:padding="16dp">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="16dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:id="@+id/taocan_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="A套餐"
+            android:textColor="@color/gray"
+            android:textSize="15dp"
+            />
+        <TextView
+            android:id="@+id/bug"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="暂未购买"
+            android:textSize="15dp"
+            android:textColor="@color/gray"/>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/taocan_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="A套餐"
-        android:textColor="@color/gray"
-        android:textSize="15dp"
-    />
-    <TextView
-        android:id="@+id/bug"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="暂未购买"
-        android:textSize="15dp"
-        android:textColor="@color/gray"/>
+
+
+
+
 
 </LinearLayout>

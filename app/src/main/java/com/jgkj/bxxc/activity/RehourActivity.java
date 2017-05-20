@@ -1,6 +1,7 @@
 package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,8 +24,12 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
+import com.jgkj.bxxc.adapter.MenuAdapter;
 import com.jgkj.bxxc.adapter.RehourAdapter;
 import com.jgkj.bxxc.bean.Rehour;
+import com.jgkj.bxxc.bean.entity.MenuEntity.MenuEntitys;
+import com.jgkj.bxxc.bean.entity.MenuEntity.MenuResults;
+import com.jgkj.bxxc.tools.BuyClassHoDialog;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -40,6 +45,7 @@ public class RehourActivity extends Activity implements View.OnClickListener{
     private Button btn_backward, btn_tuikuan;
     private TextView title;
     private ListView list_hour;           //剩余学时
+    ListView listView_hours;
     private int uid;
     private String token;
     private TextView prompt;   //提示文字
@@ -100,7 +106,7 @@ public class RehourActivity extends Activity implements View.OnClickListener{
         Log.d("shijun", uid + "::::" + token);
     }
 
-    private void getRehour(String uid, String token){
+    private void getRehour(String uid,String token){
         OkHttpUtils
                 .post()
                 .url(RehourUrl)
@@ -122,7 +128,7 @@ public class RehourActivity extends Activity implements View.OnClickListener{
                             List<Rehour.Result> results = rehour.getResult();
                             list.addAll(results);
                         }
-                        RehourAdapter adapter = new RehourAdapter(RehourActivity.this, list);
+                        RehourAdapter adapter = new RehourAdapter(RehourActivity.this,list);
                         list_hour.setAdapter(adapter);
                         if (rehour.getCode() == 400){
                             img_cry.setVisibility(View.VISIBLE);
@@ -171,6 +177,61 @@ public class RehourActivity extends Activity implements View.OnClickListener{
         }
     }
 
+    public void showCustomServiceAlert() {
+        final AlertDialog dialog = new AlertDialog.Builder(this).create();
+        dialog.show();
+        Window window = dialog.getWindow();
+        window.setContentView(R.layout.menu_dialog);
+        Button btn_refund_menu = (Button) window.findViewById(R.id.btn_buy_menu);
+        btn_refund_menu.setText("确定退款此套餐");
+        ImageView im_canael = (ImageView) window.findViewById(R.id.im_canael);
+        TextView tv_refund_class_hours = (TextView) window.findViewById(R.id.tv_buy_class_hours);
+        tv_refund_class_hours.setText("提交退款后，相对应的套餐学时将清零，退款金额" +
+                "我们将会在2-5个工作日内退还到您所绑定的银行卡上");
+        listView_hours = (ListView) window.findViewById(R.id.listView);
+        btn_refund_menu.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+            }
+        });
+
+        im_canael.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        getHoursDatas(uid+"",token);
+    }
+
+    private void getHoursDatas(String uid, String token) {
+        OkHttpUtils
+                .post()
+                .url(RehourUrl)
+                .addParams("uid", uid)
+                .addParams("token", token)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int i) {
+                        Toast.makeText(RehourActivity.this, "请检查网络", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onResponse(String s, int i) {
+                        Log.d("shijun", "hhhh" + s);
+                        Gson gson = new Gson();
+                        MenuResults menuResult = gson.fromJson(s, MenuResults.class);
+                        List<MenuEntitys> result = menuResult.getResult();
+                        Log.i("百信学车", "套餐详细信息结果" + s);
+                        if (menuResult.getCode() == 200) {
+                            MenuAdapter adapter = new MenuAdapter(RehourActivity.this, result);
+                            listView_hours.setAdapter(adapter);
+                        }
+                    }
+                });
+    }
+
     @Override
     public void onClick(View view) {
         Intent intent = new Intent();
@@ -202,7 +263,7 @@ public class RehourActivity extends Activity implements View.OnClickListener{
                 dialog_sure.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        showCustomServiceAlert();
                     }
                 });
                 dialog_cancel.setOnClickListener(new View.OnClickListener() {
