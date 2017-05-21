@@ -1,13 +1,11 @@
 package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
@@ -18,40 +16,35 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.CoachInfo;
-import com.jgkj.bxxc.bean.Coupon;
 import com.jgkj.bxxc.bean.MyPayResult;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.tools.PayResult;
+import com.jgkj.bxxc.tools.RemainBaseDialog;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
-
-import java.util.List;
 
 import okhttp3.Call;
 
 public class PrivateActivity extends Activity implements View.OnClickListener,TextWatcher {
     private Button payInfo;
     private Button back_backward;
+    private Button btn_fordward;
     private TextView title;
-
     //服务条款
     private ImageView isCheck;
     private TextView tiaokuan;
+
     private boolean aipayflag = false, weixinFlag = false, aserFlg = false;
     private ImageView weixin_isCheck, aipay_isCheck;
     private LinearLayout fuwutiaokuan;
-    //支付宝
-    private Button imme_rightNow;
     //我的信息
     private String phone, idCard, name;
     private TextView phoneNo;
@@ -64,29 +57,29 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
     private UserInfo userInfo;
     private UserInfo.Result useResult;
     private TextView coach_Price;
-    private String payUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/payInviter";
-
+    private String PripayUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/payInviter";
+    private String privateUrl = "http://www.baixinxueche.com/index.php/Home/Aliapppay/sijiaomoney";
     private int uid;
     private String token;
+    private int pack=1;
     private SharedPreferences sp;
     private CoachInfo.Result result;
     private String coach;
+    class PriBaokao{
+        private int money;
+
+        public int getMoney() {
+            return money;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private);
         InitView();
-        getIntentData();
-        Intent intent = getIntent();
-        sp = getApplication().getSharedPreferences("USER",
-                Activity.MODE_PRIVATE);
-        String str = sp.getString("userInfo", null);
-        Log.d("11111", "init: " + str);
-        Gson gson = new Gson();
-        userInfo = gson.fromJson(str, UserInfo.class);
-        useResult = userInfo.getResult();
-        uid = useResult.getUid();
-        token = intent.getStringExtra("token");
+        getData();
+        getPriData(uid+"", token);
     }
 
     private void InitView(){
@@ -95,7 +88,11 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
         back_backward.setVisibility(View.VISIBLE);
         back_backward.setOnClickListener(this);
         title = (TextView) findViewById(R.id.text_title);
-        title.setText("订单信息");
+        title.setText("私教班报名");
+        btn_fordward = (Button) findViewById(R.id.button_forward);
+        btn_fordward.setVisibility(View.VISIBLE);
+        btn_fordward.setText("报名须知");
+
         //我的信息
         username = (EditText) findViewById(R.id.signUpName);
         userId = (EditText) findViewById(R.id.idCard);
@@ -109,7 +106,6 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
         username.addTextChangedListener(this);
         userId.addTextChangedListener(this);
         coach_Price = (TextView) findViewById(R.id.coach_Price);
-
         //服务条款
         fuwutiaokuan = (LinearLayout) findViewById(R.id.fuwutiaokuan);
         isCheck = (ImageView) findViewById(R.id.isCheck);
@@ -117,32 +113,54 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
         tiaokuan = (TextView) findViewById(R.id.tiaokuan);
         tiaokuan.setOnClickListener(this);
         payInfo.setOnClickListener(this);
-
     }
 
-
-    private void getIntentData() {
+    private void getData(){
         Intent intent = getIntent();
-        coach = intent.getStringExtra("coachInfo");
-        Gson gson = new Gson();
-        CoachInfo coachInfo = gson.fromJson(coach, CoachInfo.class);
-        List<CoachInfo.Result> list = coachInfo.getResult();
-        result = list.get(0);
-        SharedPreferences sp = getSharedPreferences("USER", Activity.MODE_PRIVATE);
+        sp = getApplication().getSharedPreferences("USER", Activity.MODE_PRIVATE);
         String str = sp.getString("userInfo", null);
+        Gson gson = new Gson();
+        userInfo = gson.fromJson(str, UserInfo.class);
+        useResult = userInfo.getResult();
+        SharedPreferences sp1 = getApplication().getSharedPreferences("token",Activity.MODE_PRIVATE);
+        token = sp1.getString("token", null);
+
         if(str==null||sp==null){
             Intent login = new Intent(PrivateActivity.this, LoginActivity.class);
             login.putExtra("message","payInfo");
             startActivity(login);
             finish();
         }else{
-            Gson gson1 = new Gson();
-            userInfo = gson1.fromJson(str, UserInfo.class);
-            useResult = userInfo.getResult();
-            coach_Price.setText("总金额：￥"+result.getPrice());
             phoneNo.setText(useResult.getPhone()+"");
         }
     }
+
+    private void getPriData(String uid, String token){
+        OkHttpUtils
+                .post()
+                .url(privateUrl)
+                .addParams("uid", uid)
+                .addParams("uid", token)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int i) {
+                        Toast.makeText(PrivateActivity.this, "加载失败", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onResponse(String s, int i) {
+                        Log.d("shijun", "HHHH:" + s);
+                        Gson gson = new Gson();
+                        PriBaokao coachInfo = gson.fromJson(s, PriBaokao.class);
+                        coach_Price.setText("总金额：￥" +  coachInfo.getMoney());
+                    }
+                });
+    }
+
+
+
+
 
     /**报名信息*/
     private boolean check() {
@@ -166,20 +184,19 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
     /**
      * 支付宝支付
      * @param uid 用户id
-     * @param cid 教练id
      * @param name 用户姓名
      * @param phone 用户手机号
      * @param idcard 用户身份证号
      */
-    private void sendaiPay(String uid, String cid, String name, String phone, String idcard) {
+    private void sendaiPay(String uid, String name, String phone, String idcard,int pack) {
         OkHttpUtils
                 .post()
-                .url(payUrl)
+                .url(PripayUrl)
                 .addParams("uid", uid)
-                .addParams("cid", cid)
                 .addParams("name", name)
                 .addParams("phone", phone)
                 .addParams("idcard", idcard)
+                .addParams("pt","1")
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -268,16 +285,21 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
                         Toast.makeText(PrivateActivity.this, "请选择支付方式",Toast.LENGTH_SHORT).show();
                     }else{
                         sendaiPay(useResult.getUid()+"",
-                                result.getCid()+"",
                                 username.getText().toString().trim(),
                                 phoneNo.getText().toString().trim(),
-                                userId.getText().toString().trim());
+                                userId.getText().toString().trim(),
+                                pack);
+
                     }
 
                 }
                 break;
             case R.id.button_backward:
                 finish();
+              break;
+            case R.id.button_forward:
+                new RemainBaseDialog(PrivateActivity.this,"报名费仅为当地车管事所收取的各科目考试费用和平台为您提供服务的基本服务费，不包括" +
+                        "科目二、科目三的练车费用，车辆接送费，挂科补考费，体检费用，学时卡费。该条例的最终解释权归平台所有").call();
                 break;
             case R.id.isCheck:
                 check();
@@ -285,8 +307,8 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
             case R.id.tiaokuan:
                 Intent intent = new Intent();
                 intent.setClass(PrivateActivity.this,WebViewActivity.class);
-                intent.putExtra("url","http://www.baixinxueche.com/clause.html");
-                intent.putExtra("title","服务条款");
+                intent.putExtra("url","http://www.baixinxueche.com/webshow/chongzhi/sijiaoPayAgreement.html ");
+                intent.putExtra("title","百信学车服务条款");
                 startActivity(intent);
                 break;
             case R.id.aipay_layout:

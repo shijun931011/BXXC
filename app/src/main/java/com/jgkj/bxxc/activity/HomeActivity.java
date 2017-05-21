@@ -38,17 +38,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.jgkj.bxxc.R;
+import com.jgkj.bxxc.bean.CoachDetailAction;
+import com.jgkj.bxxc.bean.SchoolAction;
 import com.jgkj.bxxc.bean.UserInfo;
+import com.jgkj.bxxc.bean.Version;
 import com.jgkj.bxxc.fragment.CoachFragment;
 import com.jgkj.bxxc.fragment.IndexFragment;
 import com.jgkj.bxxc.fragment.My_Setting_Fragment;
-import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.fragment.StudyFragment;
-import com.jgkj.bxxc.bean.CoachDetailAction;
-import com.jgkj.bxxc.bean.SchoolAction;
-import com.jgkj.bxxc.bean.Version;
+import com.jgkj.bxxc.tools.CallDialog;
 import com.jgkj.bxxc.tools.GetVersion;
 import com.jgkj.bxxc.tools.JPushDataUitl;
+import com.jgkj.bxxc.tools.RemainBaseDialog;
 import com.jgkj.bxxc.tools.SelectPopupWindow;
 import com.jgkj.bxxc.tools.UpdateManger;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -64,7 +66,8 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
     private FragmentTransaction transaction;
     private RadioButton radioButton1, radioButton2, radioButton3, radioButton4;
     private Fragment mCurrentFragment, per, index, my_set, coach, map, study;
-    private TextView text_title;
+    private TextView text_title,place;
+    private ImageView kefu;
     private ScrollView scroll_bar;
     private FrameLayout frame, car_frameLayout;
     private static String[] school = {"越达驾校(新周谷堆校区)", "越达驾校(包河区第一校区)",
@@ -175,6 +178,12 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         Drawable rbImg4 = getResources().getDrawable(R.drawable.selector_me_bottom);
         rbImg4.setBounds(0, 0, 40, 40);
 
+        //地区
+        place = (TextView) findViewById(R.id.txt_place);
+        place.setOnClickListener(this);
+       //客服电话
+        kefu = (ImageView) findViewById(R.id.remind);
+        kefu.setOnClickListener(this);
         //搜索按钮
         search = (ImageView) findViewById(R.id.search);
         search.setOnClickListener(this);
@@ -213,6 +222,11 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         fromActivity = intent.getStringExtra("FromActivity");
         if (fromActivity.equals("WelcomeActivity") || fromActivity.equals("LoginActivity")) {
             transaction.add(R.id.index_fragment_layout, indexFragment);
+            kefu.setImageResource(R.drawable.kefu_phone);
+            place.setText("合肥");
+            place.setVisibility(View.VISIBLE);
+            kefu.setVisibility(View.VISIBLE);
+
         } else if (fromActivity.equals("SimpleCoachActivity") || fromActivity.equals("IndexFragment")) {
             text_title.setText("报考");
             search.setVisibility(View.VISIBLE);
@@ -345,11 +359,15 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
             // 底部导航栏监听
             case R.id.radio_button_01:
                 search.setVisibility(View.GONE);
+                place.setVisibility(View.VISIBLE);
+                kefu.setVisibility(View.VISIBLE);
                 index = new IndexFragment();
                 if (mCurrentFragment != index) {
                     scroll_bar.setVisibility(View.VISIBLE);
                     car_frameLayout.setVisibility(View.GONE);
                     text_title.setText("百信学车");
+                    place.setText("合肥");
+                    kefu.setImageResource(R.drawable.kefu_phone);
                     transaction.replace(R.id.index_fragment_layout, index)
                             .addToBackStack(null).commit();
                     mCurrentFragment = index;
@@ -357,6 +375,8 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                 break;
             case R.id.radio_button_02:
                 search.setVisibility(View.VISIBLE);
+                kefu.setVisibility(View.GONE);
+                place.setVisibility(View.GONE);
                 coach = new CoachFragment();
                 if (mCurrentFragment != coach) {
                     scroll_bar.setVisibility(View.GONE);
@@ -370,6 +390,8 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                 break;
             case R.id.radio_button_03:
                 search.setVisibility(View.GONE);
+                kefu.setVisibility(View.GONE);
+                place.setVisibility(View.GONE);
                 study = new StudyFragment();
                 if (mCurrentFragment != study) {
                     scroll_bar.setVisibility(View.GONE);
@@ -382,6 +404,8 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                 break;
             case R.id.radio_button_04:
                 search.setVisibility(View.GONE);
+                kefu.setVisibility(View.GONE);
+                place.setVisibility(View.GONE);
                 my_set = new My_Setting_Fragment();
                 if (mCurrentFragment != my_set) {
                     scroll_bar.setVisibility(View.GONE);
@@ -401,6 +425,13 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                 break;
             case R.id.search:
                 creatDialog();
+                break;
+
+            case R.id.remind:
+                new CallDialog(HomeActivity.this,"0551-65555744").call();
+                break;
+            case R.id.txt_place:
+                new RemainBaseDialog(HomeActivity.this, "目前仅支持合肥地区").call();
                 break;
         }
     }

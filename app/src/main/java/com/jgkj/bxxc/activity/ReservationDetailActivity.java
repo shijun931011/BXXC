@@ -24,7 +24,6 @@ import com.jgkj.bxxc.bean.CoachInfo;
 import com.jgkj.bxxc.bean.entity.ReservationDetailEntity.ReservationDetailEntity;
 import com.jgkj.bxxc.bean.entity.ReservationDetailEntity.Stusubject;
 import com.jgkj.bxxc.bean.entity.ReservationDetailEntity.Subject;
-import com.jgkj.bxxc.tools.BuyClassHoDialog;
 import com.jgkj.bxxc.tools.RemainBaseDialog;
 import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -40,6 +39,7 @@ import java.util.List;
 import okhttp3.Call;
 
 
+
 /**
  * Created by tongshoujun on 2017/5/10.
  */
@@ -53,7 +53,7 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
     //标题
     private TextView title;
     private Button button_backward;
-    private ImageView remind;
+    private Button remind;
     //教练图片
     private ImageView im_coachPic;
     //教练姓名
@@ -130,11 +130,12 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
         title = (TextView) findViewById(R.id.text_title);
         title.setText(getDate());
         button_backward = (Button) findViewById(R.id.button_backward);
-        remind = (ImageView) findViewById(R.id.remind);
+        remind = (Button) findViewById(R.id.button_forward);
         button_backward.setVisibility(View.VISIBLE);
         button_backward.setOnClickListener(this);
         remind.setOnClickListener(this);
         remind.setVisibility(View.VISIBLE);
+        remind.setText("预约须知");
 
         im_coachPic = (ImageView)findViewById(R.id.im_coachPic);
         tv_coachName = (TextView)findViewById(R.id.tv_coachName);
@@ -334,7 +335,7 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                 adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv7_number.getText().toString(),uid,token,cid);
                 listView.setAdapter(adapter);
                 break;
-            case R.id.remind:
+            case R.id.button_forward:
                 new RemainBaseDialog(ReservationDetailActivity.this,"每次预约以两个学时起，您可以根据实际需求，选购学时套餐，预约您的心意教练，" +
                         "体验高品质的驾培服务。您需要注意：如果约车已经下单，但有突发事件不能如时赴约，请在约定时间两小时前申请取消，否则将视为您的约车行为已经实施，不能退款。").call();
                 break;

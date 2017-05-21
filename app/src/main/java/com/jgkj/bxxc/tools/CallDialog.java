@@ -18,7 +18,6 @@ import com.jgkj.bxxc.R;
  * Created by fangzhou on 2017/1/14.
  * 拨号dialog
  */
-
 public class CallDialog implements View.OnClickListener{
     private Context context;
     private String content;
@@ -34,17 +33,14 @@ public class CallDialog implements View.OnClickListener{
     public void call(){
         dialog = new Dialog(context, R.style.ActionSheetDialogStyle);
         // 填充对话框的布局
-        inflate = LayoutInflater.from(context).inflate(
-                R.layout.sure_cancel_dialog, null);
+        inflate = LayoutInflater.from(context).inflate(R.layout.sure_cancel_dialog, null);
         // 初始化控件
         dialog_textView = (TextView) inflate.findViewById(R.id.dialog_textView);
         dialog_sure = (TextView) inflate.findViewById(R.id.dialog_sure);
         dialog_cancel = (TextView) inflate.findViewById(R.id.dialog_cancel);
         dialog_sure.setOnClickListener(this);
         dialog_cancel.setOnClickListener(this);
-
         dialog_textView.setText("tel:"+content);
-
         // 将布局设置给Dialog
         dialog.setContentView(inflate);
         // 获取当前Activity所在的窗体
@@ -61,7 +57,7 @@ public class CallDialog implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.dialog_sure:
-                Intent call_intent = new Intent(Intent.ACTION_DIAL, Uri.parse(dialog_textView.getText().toString()));
+                Intent call_intent = new Intent(Intent.ACTION_DIAL, Uri.parse(dialog_textView.getText().toString().trim()));
                 context.startActivity(call_intent);
                 dialog.hide();
                 break;

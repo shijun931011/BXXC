@@ -2,35 +2,59 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/white"
+>
     <include
         android:id="@+id/title"
         layout="@layout/title"/>
-    <TextView
-        android:id="@+id/orderInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/gray"
-        android:padding="5dp"
-        android:text="订单详情"
-        android:textSize="10dp"
-        android:textColor="@color/background"
-        android:layout_below="@+id/title" />
+
     <LinearLayout
         android:id="@+id/orderDetail"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_below="@+id/orderInfo"
-        android:background="@color/lightgray"
+        android:layout_below="@+id/title"
         android:gravity="center_vertical"
+        android:background="@drawable/num_text"
         android:orientation="horizontal"
+        android:layout_marginTop="5dp"
         >
+        <ImageView
+            android:layout_width="87dp"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/privateclass_image"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical"
+        >
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="@string/person_percar"
+                      android:layout_marginTop="12dp"
+                      android:textSize="18sp"
+            />
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="@string/priclass_fuwu"
+                      android:layout_marginTop="10dp"
+                      android:textColor="@color/gray"
+                      android:textSize="15sp"
+            />
+
+        </LinearLayout>
+
     </LinearLayout>
+
     <TextView
         android:id="@+id/messageDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/orderDetail"
+        android:background="@color/white"
         android:padding="5dp"
         />
     <LinearLayout
@@ -125,16 +149,17 @@
         android:layout_height="wrap_content"
         android:text="支付方式"
         android:textSize="10dp"
+        android:background="@color/white"
         android:layout_below="@id/layout3"
         android:padding="5dp"
-        android:background="@color/background"
+
         />
     <LinearLayout
         android:id="@+id/payMethod1"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_below="@id/zhifu_style"
-        android:background="@color/white"
+        android:background="@drawable/num_text"
         android:orientation="horizontal"
         android:paddingLeft="12dp">
         <ImageView
@@ -178,21 +203,21 @@
     <LinearLayout
         android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.1dp"
         android:layout_below="@+id/payMethod1"
-        android:background="@color/white">
+        android:background="@color/white" >
         <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="60dp"
-            android:background="@color/background"/>
+            android:layout_height="0.1dp"
+            android:layout_marginLeft="20dp"
+            android:background="@color/white"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/payMethod2"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_below="@+id/line"
-        android:background="@color/white"
+        android:background="@drawable/num_text"
         android:orientation="horizontal"
         android:paddingLeft="12dp">
         <ImageView
@@ -233,14 +258,13 @@
        </LinearLayout>
     </LinearLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/payMethod2"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="65dp"
         android:orientation="vertical"
-        android:background="@color/white"
+        android:background="@drawable/num_text"
         >
         <LinearLayout
             android:id="@+id/fuwutiaokuan"
@@ -301,7 +325,6 @@
                 android:id="@+id/yiyouhui"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:background="@color/white"
                 android:gravity="center"
                 android:text="已优惠:￥0"
                 android:textColor="@color/gray"

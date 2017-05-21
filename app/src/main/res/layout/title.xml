@@ -29,6 +29,20 @@
         android:paddingLeft="10dp"
         android:singleLine="true"
         android:visibility="invisible"/>
+    <TextView
+        android:id="@+id/txt_place"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:text="合肥"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:paddingLeft="8dp"
+        android:singleLine="true"
+        android:visibility="gone"
+        />
     <Button
         android:id="@+id/place"
         android:layout_width="80dp"

@@ -20,12 +20,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.google.gson.internal.Primitives;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.activity.BXCenterActivity;
 import com.jgkj.bxxc.activity.CarPickUpActivity;
@@ -36,26 +35,24 @@ import com.jgkj.bxxc.activity.HeadlinesActivity;
 import com.jgkj.bxxc.activity.HomeActivity;
 import com.jgkj.bxxc.activity.InviteFriendsActivity;
 import com.jgkj.bxxc.activity.LoginActivity;
-import com.jgkj.bxxc.activity.PersonalInfoActivity;
 import com.jgkj.bxxc.activity.PlaceChooseActivity;
 import com.jgkj.bxxc.activity.PrivateActivity;
 import com.jgkj.bxxc.activity.QuesAnsActivity;
-import com.jgkj.bxxc.activity.ReservationActivity;
 import com.jgkj.bxxc.activity.WebViewActivity;
 import com.jgkj.bxxc.adapter.MyAdapter;
 import com.jgkj.bxxc.bean.HeadlinesAction;
 import com.jgkj.bxxc.bean.Picture;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.tools.AutoTextView;
-import com.jgkj.bxxc.tools.CallDialog;
 import com.jgkj.bxxc.tools.SecondToDate;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import okhttp3.Call;
 
 /**
@@ -84,7 +81,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
     //毫秒数转化为天数
     private SecondToDate std;
     private TextView lookMore;
-    private ImageView imageView, search;
+    private ImageView imageView, KefuPhone;
     private RelativeLayout select_coach, select_place,select_class;//教练、 场地、 班型
     private LinearLayout yQfirend,classic_coach,private_coach;
     private AutoTextView headlines;
@@ -117,7 +114,9 @@ public class IndexFragment extends Fragment implements OnClickListener {
         view = inflater.inflate(R.layout.index_fragment2, container, false);
         view.scrollBy(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-        view1 = inflater.inflate(R.layout.title, container, false);
+
+
+
         init();
         getImage();
         scrollView();
@@ -145,12 +144,11 @@ public class IndexFragment extends Fragment implements OnClickListener {
         select_coach = (RelativeLayout) view.findViewById(R.id.select_coach);
         select_place = (RelativeLayout) view.findViewById(R.id.select_place);
         select_class = (RelativeLayout) view.findViewById(R.id.select_class);
-        search = (ImageView) view1.findViewById(R.id.search);
+
         headlines.setText("科技改变生活，百信引领学车!");
         // 实例化控件
         linearlayout = (LinearLayout) view.findViewById(R.id.linearlayout);
-        // 标题栏
-        text_title = (TextView) view1.findViewById(R.id.text_title);
+
         coach = new CoachFragment();
         fragmentManager = getFragmentManager();
         viewpager = (ViewPager) view.findViewById(R.id.viewPage);
@@ -429,7 +427,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
                 intent.setClass(getActivity(),BXCenterActivity.class);
                 startActivity(intent);
                 break;
-//            case R.id.customerPhone:
+//            case R.id.search:
 //                new CallDialog(getActivity(),"055165555744").call();
 //                break;
             case R.id.yQfirend:            //邀请好友

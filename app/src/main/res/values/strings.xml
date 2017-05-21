@@ -52,6 +52,8 @@
     <string name="go_recharge">去充值</string>
     <string name="balance_deal">余额用不完怎么办？</string>
     <string name="refund_record">退款记录</string>
+    <string name="person_percar">一人一车</string>
+    <string name="priclass_fuwu">·金牌教官  ·优质服务</string>
 
     <string name="pay">
         <u>前去付款</u>
