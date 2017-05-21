@@ -22,6 +22,9 @@ import java.util.List;
 
 import okhttp3.Call;
 
+/**
+ * 支付明细
+ */
 public class PaydetailActivity extends Activity implements View.OnClickListener{
     private TextView title;
     private Button btn_back;
