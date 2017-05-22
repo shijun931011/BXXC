@@ -96,7 +96,10 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
 
             @Override
             public void forgetPwd() {
-                Toast.makeText(BuyClassHoursActivity.this, "忘记密码", Toast.LENGTH_SHORT).show();
+                //设置支付密码
+                Intent intent = new Intent();
+                intent.setClass(BuyClassHoursActivity.this,ForgetPayPasswordActivity.class);
+                startActivity(intent);
             }
 
             @Override

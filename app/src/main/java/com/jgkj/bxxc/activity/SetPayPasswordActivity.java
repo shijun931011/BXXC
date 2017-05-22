@@ -1,6 +1,7 @@
 package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -36,11 +37,15 @@ public class SetPayPasswordActivity extends Activity{
     //标题
     private TextView title;
     private Button button_backward;
+    private String forgetPayFlag = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_pay_password);
+
+        Intent intent = getIntent();
+        forgetPayFlag = intent.getStringExtra("forgetPayFlag");
 
         //标题
         title = (TextView) findViewById(R.id.text_title);
@@ -96,7 +101,12 @@ public class SetPayPasswordActivity extends Activity{
                         SharedPreferences sp1 = getSharedPreferences("token", Activity.MODE_PRIVATE);
                         String token = sp1.getString("token", null);
 
-                        getData(userInfo.getResult().getUid(),token, Md5.md5(password), Urls.setPayPwd);
+                        //判断是设置密码还是忘记密码
+                        if(forgetPayFlag == null || "".equals(forgetPayFlag)){
+                            getData(userInfo.getResult().getUid(),token, Md5.md5(password), Urls.setPayPwd);
+                        }else{
+                            getData(userInfo.getResult().getUid(),token, Md5.md5(password), Urls.forgetSavePayPassword);
+                        }
                     }
                     flag = false;
                 }

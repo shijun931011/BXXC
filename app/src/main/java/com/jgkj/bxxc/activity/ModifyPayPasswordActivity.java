@@ -38,6 +38,7 @@ public class ModifyPayPasswordActivity extends Activity{
     //标题
     private TextView title;
     private Button button_backward;
+    private String oldPayPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +89,8 @@ public class ModifyPayPasswordActivity extends Activity{
             public void afterTextChanged(Editable s) {
                 //密码6位时执行
                 if(again_paypswd_pet.getText().toString().length() == 6 && first_flag == false){
+                    oldPayPassword = again_paypswd_pet.getText().toString();
                     getModifyPayData(userInfo.getResult().getUid(),token, Md5.md5(again_paypswd_pet.getText().toString()), Urls.verPayPwd);
-                    tv_remain.setText("请设置输入支付密码");
                 }else{
                     if(again_paypswd_pet.getText().toString().length() == 6 && flag == false){
                         password = again_paypswd_pet.getText().toString();
@@ -103,7 +104,7 @@ public class ModifyPayPasswordActivity extends Activity{
                             again_paypswd_pet.setText("");
                             tv_remain.setText("两次密码不一致，请从新设置");
                         }else{
-                            getData(userInfo.getResult().getUid(),token, Md5.md5(password), Urls.setPayPwd);
+                            getData(userInfo.getResult().getUid(),token,Md5.md5(password), Urls.setPayPwd);
                         }
                         flag = false;
                     }
@@ -113,9 +114,9 @@ public class ModifyPayPasswordActivity extends Activity{
         });
     }
 
-    //设置支付密码
+    //修改支付密码
     private void getData(int uid,String token,String paypwd,String url) {
-        Log.i("百信学车","设置支付密码参数" + "uid=" + uid + "   token=" + token + "   paypwd=" + paypwd + "   url=" + url);
+        Log.i("百信学车","修改支付密码参数" + "uid=" + uid + "   token=" + token + "   paypwd=" + paypwd +"   url=" + url);
         OkHttpUtils
                 .post()
                 .url(url)
@@ -130,11 +131,11 @@ public class ModifyPayPasswordActivity extends Activity{
                     }
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.i("百信学车","设置支付密码结果" + s);
+                        Log.i("百信学车","修改支付密码结果" + s);
                         Gson gson = new Gson();
                         BaseEntity baseEntity = gson.fromJson(s, BaseEntity.class);
                         if (baseEntity.getCode() == 200) {
-                            Toast.makeText(ModifyPayPasswordActivity.this, "支付密码设置成功", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ModifyPayPasswordActivity.this, "支付密码修改成功", Toast.LENGTH_LONG).show();
                             /**
                              * 本地存储paypw(支付密码值)值
                              */
@@ -151,6 +152,7 @@ public class ModifyPayPasswordActivity extends Activity{
                 });
     }
 
+    //确认支付密码
     private void getModifyPayData(int uid,String token,String paypwd,String url) {
         Log.i("百信学车","确认支付密码参数" + "uid=" + uid + "   token=" + token + "   paypwd=" + paypwd + "   url=" + url);
         OkHttpUtils
@@ -168,23 +170,18 @@ public class ModifyPayPasswordActivity extends Activity{
                     @Override
                     public void onResponse(String s, int i) {
                         Log.i("百信学车","确认支付密码结果" + s);
-                        first_flag = true;
-//                        Gson gson = new Gson();
-//                        BaseEntity baseEntity = gson.fromJson(s, BaseEntity.class);
-//                        if (baseEntity.getCode() == 200) {
-//                            Toast.makeText(ModifyPayPasswordActivity.this, "支付密码设置成功", Toast.LENGTH_LONG).show();
-//                            /**
-//                             * 本地存储paypw(支付密码值)值
-//                             */
-//                            SharedPreferences sp_paypwd = getSharedPreferences("paypwd", Activity.MODE_PRIVATE);
-//                            SharedPreferences.Editor editor_paypwd = sp_paypwd.edit();
-//                            editor_paypwd.clear();
-//                            editor_paypwd.putString("paypwd",Md5.md5(password));
-//                            editor_paypwd.commit();
-//                            finish();
-//                        }else{
-//                            Toast.makeText(ModifyPayPasswordActivity.this, baseEntity.getReason().toString(), Toast.LENGTH_LONG).show();
-//                        }
+                        Gson gson = new Gson();
+                        BaseEntity baseEntity = gson.fromJson(s, BaseEntity.class);
+                        if (baseEntity.getCode() == 200) {
+                            Toast.makeText(ModifyPayPasswordActivity.this, "支付密码确认成功", Toast.LENGTH_LONG).show();
+                            tv_remain.setVisibility(View.VISIBLE);
+                            first_flag = true;
+                            again_paypswd_pet.setText("");
+                            tv_remain.setText("请设置输入支付密码");
+                        }else{
+                            Toast.makeText(ModifyPayPasswordActivity.this, "支付密码确认失败", Toast.LENGTH_LONG).show();
+                            again_paypswd_pet.setText("");
+                        }
                     }
                 });
     }

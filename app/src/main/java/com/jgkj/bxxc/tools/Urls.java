@@ -42,4 +42,26 @@ public class Urls {
     // 修改支付密码
     public static String savePayPwd = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/savePayPwd";
 
+    // 发送验证码
+    public static String remsg = "http://www.baixinxueche.com/index.php/Home/Apitokenmsg/remsg";
+
+    // 验证验证码
+    public static String judgePayPwdmsg = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/judgePayPwdmsgAndroid";
+
+    // 忘记支付密码
+    public static String forgetSavePayPassword = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/forgetSavePayPassword";
+
+    // 重置密码
+    public static String repassword = "http://www.baixinxueche.com/index.php/Home/Apialltoken/repassword";
+
+    // 获取银行卡信息
+    public static String getBank = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/getBank";
+
+    // 添加银行卡信息
+    public static String addBankAndroid = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/addBankAndroid";
+
+    //我的教练
+    public static String myCoachUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/myCoach";
+
+
 }

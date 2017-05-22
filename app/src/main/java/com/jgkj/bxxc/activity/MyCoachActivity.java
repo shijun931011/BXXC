@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.MyCoachAction;
 import com.jgkj.bxxc.tools.CreateDialog;
+import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -48,7 +49,7 @@ public class MyCoachActivity extends Activity implements View.OnClickListener {
     private String state;
     private Button btn;
     private String token;
-    private String myCoachUrl = "http://www.baixinxueche.com/index.php/Home/Apiapplytoken/remyCoachAgainFive";
+    private String myCoachUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/myCoach";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,7 @@ public class MyCoachActivity extends Activity implements View.OnClickListener {
      * 初始化布局文件
      */
     private void init() {
-        Log.d("shijun","init()");
+        Log.i("shijun","init()");
         dialog = ProgressDialog.show(this,null,"加载中...");
         back_forward = (Button) findViewById(R.id.button_backward);
         back_forward.setVisibility(View.VISIBLE);
@@ -105,7 +106,7 @@ public class MyCoachActivity extends Activity implements View.OnClickListener {
         cid = intent.getStringExtra("cid");
         state = intent.getStringExtra("state");
         token = intent.getStringExtra("token");
-        Log.d("shijun","ssss"+uid);
+        Log.i("shijun","ssss"+uid);
         if(!state.equals("")&&state!=null&&!state.equals("未报名")){
             if (uid != -1) {
                 getMyCoach(uid + "");
@@ -128,7 +129,7 @@ public class MyCoachActivity extends Activity implements View.OnClickListener {
      * 并且填充控件中去
      */
     private void setListView() {
-        Log.d("shijun","setListView()");
+        Log.i("shijun","setListView()");
         if(dialog.isShowing()){
             dialog.dismiss();
         }
@@ -173,13 +174,11 @@ public class MyCoachActivity extends Activity implements View.OnClickListener {
      *            token 用户的token值
      */
     private void getMyCoach(String uid) {
-        Log.d("shijun","getMyCoach()");
+        Log.i("百信学车","我的教练参数  uid=" + uid + "   cid=" + cid + "   state=" + state + "   token=" + token + "   url=" + myCoachUrl);
         OkHttpUtils
                 .post()
-                .url(myCoachUrl)
+                .url(Urls.myCoachUrl)
                 .addParams("uid", uid)
-                .addParams("cid",cid)
-                .addParams("state",state)
                 .addParams("token", token)
                 .build()
                 .execute(new StringCallback() {
@@ -190,6 +189,7 @@ public class MyCoachActivity extends Activity implements View.OnClickListener {
                     }
                     @Override
                     public void onResponse(String s, int i) {
+                        Log.i("百信学车","我的教练结果" + s);
                         Log.d("shijun","ssss"+s);
                         text_title.setTag(s);
                         if (text_title.getTag() != null) {
@@ -202,18 +202,18 @@ public class MyCoachActivity extends Activity implements View.OnClickListener {
 
     @Override
     protected void onRestart() {
-        Log.d("shijun","onRestart() ");
+        Log.i("shijun","onRestart() ");
         super.onRestart();
-        SharedPreferences sp = getSharedPreferences("getSubjectSet", Activity.MODE_PRIVATE);
-        boolean ischange = sp.getBoolean("isChange",false);
-        if(uid!=-1&&!res.getCid().equals("")&&res.getCid()!=null&&ischange){
-            Intent intent = new Intent();
-            intent.setClass(MyCoachActivity.this,AppTimeNewActivity.class);
-            intent.putExtra("uid",uid);
-            intent.putExtra("cid",res.getCid());//token
-            intent.putExtra("token",token);
-            startActivity(intent);
-        }
+//        SharedPreferences sp = getSharedPreferences("getSubjectSet", Activity.MODE_PRIVATE);
+//        boolean ischange = sp.getBoolean("isChange",false);
+//        if(uid!=-1&&!res.getCid().equals("")&&res.getCid()!=null&&ischange){
+//            Intent intent = new Intent();
+//            intent.setClass(MyCoachActivity.this,AppTimeNewActivity.class);
+//            intent.putExtra("uid",uid);
+//            intent.putExtra("cid",res.getCid());//token
+//            intent.putExtra("token",token);
+//            startActivity(intent);
+//        }
     }
 
     /**
