@@ -13,7 +13,7 @@
         android:id="@+id/car_send_map"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title_bar"
+        android:layout_below="@id/title_bar"
         android:layout_marginBottom="55dp"
         android:visibility="gone"/>
     <!-- 导航栏 -->

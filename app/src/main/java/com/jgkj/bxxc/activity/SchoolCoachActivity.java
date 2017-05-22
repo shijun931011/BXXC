@@ -37,7 +37,6 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
     private int page = 1;
     private String schId;
     private String schName;
-
     private String tag;
     private SelectPopupWindow mPopupWindowSub = null;
     private SelectPopupWindow mPopupWindowCampus = null;
@@ -51,7 +50,6 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
     private String class_class = "";
     //新版本排序
     private String sortPath = "http://www.baixinxueche.com/index.php/Home/Apitoken/chooseinfo";
-
     private List<CoachDetailAction.Result> tagList;
     private List<CoachDetailAction.Result> coachList = new ArrayList<>();
     private CoachDetailAction coachDetailAction;
@@ -60,7 +58,6 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
     private Button sort_btn1, sort_btn3, sort_btn4;
     private Button back_forward;
     private TextView textView;
-
     private String schoolPath = "http://www.baixinxueche.com/index.php/Home/Apitoken/Coaches";
 
     @Override
@@ -98,7 +95,6 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
                         }
                     }
                 });
-
     }
 
     /**
@@ -107,7 +103,6 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
     private void setAdapter(){
         setMyAdapter(listView.getTag().toString());
     }
-
     /**
      * 设置 adapter
      * @param tag

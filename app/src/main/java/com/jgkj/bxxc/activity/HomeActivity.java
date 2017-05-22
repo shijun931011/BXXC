@@ -33,6 +33,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,6 +70,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
     private TextView text_title,place;
     private ImageView kefu;
     private ScrollView scroll_bar;
+    private RelativeLayout titlebar;
     private FrameLayout frame, car_frameLayout;
     private static String[] school = {"越达驾校(新周谷堆校区)", "越达驾校(包河区第一校区)",
             "越达驾校(大学城中心校区)", "越达驾校(蜀山区新华校区)", "越达驾校(庐阳区总校区)"};
@@ -98,7 +100,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
     public final static int CLOSE_ACTIVITY = 1001;
     public final static int TOUCH_DOWN = 1002;
     public static boolean isForeground = false;
-
     private Boolean isLogined = false;
     private SharedPreferences sp;
     private UserInfo userInfo;
@@ -178,6 +179,8 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         Drawable rbImg4 = getResources().getDrawable(R.drawable.selector_me_bottom);
         rbImg4.setBounds(0, 0, 40, 40);
 
+        titlebar = (RelativeLayout) findViewById(R.id.title_bar);
+
         //地区
         place = (TextView) findViewById(R.id.txt_place);
         place.setOnClickListener(this);
@@ -205,7 +208,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         radioButton2.setOnClickListener(this);
         radioButton4.setOnClickListener(this);
         radioButton3.setOnClickListener(this);
-
         //设置按钮顶部图标   左、上、右、下
         radioButton1.setCompoundDrawables(null, rbImg1, null, null);
         radioButton2.setCompoundDrawables(null, rbImg2, null, null);
@@ -220,31 +222,39 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         study = new StudyFragment();
         Intent intent = getIntent();
         fromActivity = intent.getStringExtra("FromActivity");
-        if (fromActivity.equals("WelcomeActivity") || fromActivity.equals("LoginActivity")) {
-            transaction.add(R.id.index_fragment_layout, indexFragment);
-            kefu.setImageResource(R.drawable.kefu_phone);
-            place.setText("合肥");
-            place.setVisibility(View.VISIBLE);
-            kefu.setVisibility(View.VISIBLE);
-
-        } else if (fromActivity.equals("SimpleCoachActivity") || fromActivity.equals("IndexFragment")) {
-            text_title.setText("报考");
-            search.setVisibility(View.VISIBLE);
-            radioButton2.setChecked(true);
-            scroll_bar.setVisibility(View.GONE);
-            car_frameLayout.setVisibility(View.VISIBLE);
-            transaction.add(R.id.car_send_map, coach);
-        } else if (fromActivity.equals("MySetting")) {
+        if (fromActivity == null){
             text_title.setText("我的资料");
             radioButton4.setChecked(true);
             scroll_bar.setVisibility(View.GONE);
             car_frameLayout.setVisibility(View.VISIBLE);
             transaction.add(R.id.car_send_map, my_set);
+        }else{
+            if (fromActivity.equals("WelcomeActivity") || fromActivity.equals("LoginActivity")) {
+                transaction.add(R.id.index_fragment_layout, indexFragment);
+                kefu.setImageResource(R.drawable.kefu_phone);
+                place.setText("合肥");
+                place.setVisibility(View.VISIBLE);
+                kefu.setVisibility(View.VISIBLE);
+            } else if (fromActivity.equals("SimpleCoachActivity") || fromActivity.equals("IndexFragment")) {
+//            text_title.setText("报考");
+                search.setVisibility(View.VISIBLE);
+                text_title.setVisibility(View.GONE);
+                radioButton2.setChecked(true);
+                scroll_bar.setVisibility(View.GONE);
+                car_frameLayout.setVisibility(View.VISIBLE);
+                transaction.add(R.id.car_send_map, coach);
+            } else if (fromActivity.equals("MySetting")) {
+                text_title.setText("我的资料");
+                radioButton4.setChecked(true);
+                scroll_bar.setVisibility(View.GONE);
+                car_frameLayout.setVisibility(View.VISIBLE);
+                transaction.add(R.id.car_send_map, my_set);
+            }
         }
+
         transaction.addToBackStack(null);
         transaction.commit();
     }
-
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void creatDialog() {
         dialog = new Dialog(this, R.style.ActionSheetDialogStyle);
@@ -358,6 +368,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         switch (v.getId()) {
             // 底部导航栏监听
             case R.id.radio_button_01:
+                titlebar.setVisibility(View.VISIBLE);
                 search.setVisibility(View.GONE);
                 place.setVisibility(View.VISIBLE);
                 kefu.setVisibility(View.VISIBLE);
@@ -368,27 +379,22 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                     text_title.setText("百信学车");
                     place.setText("合肥");
                     kefu.setImageResource(R.drawable.kefu_phone);
-                    transaction.replace(R.id.index_fragment_layout, index)
-                            .addToBackStack(null).commit();
+                    transaction.replace(R.id.index_fragment_layout, index).addToBackStack(null).commit();
                     mCurrentFragment = index;
                 }
                 break;
             case R.id.radio_button_02:
-                search.setVisibility(View.VISIBLE);
-                kefu.setVisibility(View.GONE);
-                place.setVisibility(View.GONE);
+                titlebar.setVisibility(View.GONE);
                 coach = new CoachFragment();
                 if (mCurrentFragment != coach) {
                     scroll_bar.setVisibility(View.GONE);
                     car_frameLayout.setVisibility(View.VISIBLE);
-                    text_title.setText("报考");
-                    transaction.replace(R.id.car_send_map, coach)
-                            .addToBackStack(null).commit();
+                    transaction.replace(R.id.car_send_map, coach).addToBackStack(null).commit();
                     mCurrentFragment = coach;
                 }
-
                 break;
             case R.id.radio_button_03:
+                titlebar.setVisibility(View.VISIBLE);
                 search.setVisibility(View.GONE);
                 kefu.setVisibility(View.GONE);
                 place.setVisibility(View.GONE);
@@ -397,12 +403,12 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                     scroll_bar.setVisibility(View.GONE);
                     car_frameLayout.setVisibility(View.VISIBLE);
                     text_title.setText("学习");
-                    transaction.replace(R.id.car_send_map, study)
-                            .addToBackStack(null).commit();
+                    transaction.replace(R.id.car_send_map, study).addToBackStack(null).commit();
                     mCurrentFragment = study;
                 }
                 break;
             case R.id.radio_button_04:
+                titlebar.setVisibility(View.VISIBLE);
                 search.setVisibility(View.GONE);
                 kefu.setVisibility(View.GONE);
                 place.setVisibility(View.GONE);
@@ -506,7 +512,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
     }
 
     public class MessageReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             if (MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
@@ -521,7 +526,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
             }
         }
     }
-
     private void setCostomMsg(String msg) {
         if (null != msgText) {
             msgText.setText(msg);
