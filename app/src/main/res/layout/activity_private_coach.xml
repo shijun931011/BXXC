@@ -32,6 +32,19 @@
                     android:text="经典班"
                     android:gravity="center"/>
         </LinearLayout>
+        <ImageView
+            android:id="@+id/search"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/themeColor"
+            android:drawablePadding="3dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:padding="12dp"
+            android:paddingLeft="5dp"
+            android:src="@drawable/search"
+            />
     </RelativeLayout>
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
