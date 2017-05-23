@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+        android:layout_height="48dp"
+        android:layout_width="fill_parent"
+        android:background="@color/themeColor"
+        android:id="@+id/rl_header">
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:paddingLeft="8.0dp"
+            android:layout_centerVertical="true"
+            android:layout_centerInParent="true">
+            <Button android:layout_height="30dip"
+                    android:layout_width="70dip"
+                    android:background="@drawable/baike_btn_pink_left_f_96"
+                    android:id="@+id/btn_private"
+                    android:textSize="14sp"
+                    android:textColor="@color/themeColor"
+                    android:text="私教班"
+                    android:gravity="center"/>
+            <Button android:layout_height="30dip"
+                    android:layout_width="70dip"
+                    android:background="@drawable/baike_btn_trans_right_f_96"
+                    android:id="@+id/btn_coach"
+                    android:textSize="14sp"
+                    android:textColor="#ffffff"
+                    android:text="经典班"
+                    android:gravity="center"/>
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/search"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/themeColor"
+            android:drawablePadding="3dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:padding="12dp"
+            android:paddingLeft="5dp"
+            android:src="@drawable/search"
+            />
+    </RelativeLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    />
+</LinearLayout>
