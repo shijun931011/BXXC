@@ -10,7 +10,7 @@ android {
         targetSdkVersion 25
         versionCode 12
         versionName "2.2.2"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.reservation_item.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -37,4 +37,5 @@ dependencies {
     compile 'com.facebook.fresco:fresco:0.9.0'
     compile project(':mypwdinputlibrary')
     testCompile 'junit:junit:4.12'
+    compile project(':mypwdinputlibrary')
 }

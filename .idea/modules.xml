@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BXXC.iml" filepath="$PROJECT_DIR$/BXXC.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mypwdinputlibrary/mypwdinputlibrary.iml" filepath="$PROJECT_DIR$/mypwdinputlibrary/mypwdinputlibrary.iml" />
     </modules>
   </component>
 </project>
