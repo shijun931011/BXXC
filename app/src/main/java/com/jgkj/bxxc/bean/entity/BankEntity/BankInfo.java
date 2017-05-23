@@ -2149,9 +2149,9 @@ public class BankInfo {
 
         if(index==-1)
         {
-            return "磁条卡卡号:\n";
+            return "磁条卡卡号\n";
         }
-        return bankName[index]+":\n";
+        return bankName[index]+"\n";
 
     }
 

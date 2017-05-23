@@ -32,6 +32,16 @@ public class UserInfo {
         private String name;
         private String paypwd;
 
+        public String getClasstype() {
+            return classtype;
+        }
+
+        public void setClasstype(String classtype) {
+            this.classtype = classtype;
+        }
+
+        private String classtype;
+
         public String getPaypwd() {
             return paypwd;
         }

@@ -1,119 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
-    <include layout="@layout/title"/>
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:background="@color/white"
-                  android:paddingBottom="10dp"
-                  android:paddingTop="10dp">
-        <TextView android:id="@+id/mySub"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginLeft="12dp"
-                  android:layout_weight="3"
-                  android:hint="我的科目二教练"/>
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="1"
-                  android:gravity="center_horizontal"
-                  android:text="已预约"
-                  android:textColor="@color/themeColor"/>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:id="@+id/mySub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_weight="3"
+            android:hint="我的科目二教练" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="已预约"
+            android:textColor="@color/themeColor" />
     </LinearLayout>
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:background="@color/lightgray"
-                  android:orientation="horizontal">
-        <ImageView android:id="@+id/coachHead"
-                   android:layout_width="90dp"
-                   android:layout_height="80dp"
-                   android:layout_marginBottom="10dp"
-                   android:layout_marginRight="10dp"
-                   android:layout_marginTop="10dp"
-                   android:src="@drawable/head1"/>
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_marginRight="10dp"
-                      android:layout_marginTop="10dp"
-                      android:orientation="vertical">
-            <TextView android:id="@+id/coachName"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_weight="1"
-                      android:text="教练员：百信学车"
-                      android:textSize="17sp"/>
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_marginTop="10dp"
-                          android:layout_weight="1"
-                          android:orientation="horizontal">
-                <TextView android:id="@+id/place"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_weight="1"
-                          android:textSize="12sp"
-                          android:text="经开区-中心校区"/>
-                <TextView android:id="@+id/mycar"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_weight="1"
-                          android:textSize="12sp"
-                          android:text="车型：C1"/>
-                <TextView android:id="@+id/myclass"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_weight="1"
-                          android:textSize="12sp"
-                          android:text="班级：Vip"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/coachHead"
+            android:layout_width="90dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/head1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/coachName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="教练员：百信学车"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/place"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="经开区-中心校区"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/mycar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="车型：C1"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/myclass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="班级：Vip"
+                    android:textSize="12sp" />
             </LinearLayout>
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="match_parent"
-                          android:layout_gravity="center_vertical"
-                          android:layout_marginTop="10dp"
-                          android:layout_weight="1"
-                          android:orientation="horizontal">
-                <TextView android:id="@+id/num1"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_gravity="center_vertical"
-                          android:layout_weight="1"
-                          android:text="当前所带学员数：15人"
-                          android:textSize="10sp"/>
-                <TextView android:id="@+id/num2"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_gravity="center_vertical"
-                          android:layout_weight="1"
-                          android:text="最高可带学员数：25人"
-                          android:textSize="10sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/num1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="当前所带学员数：15人"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/num2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="最高可带学员数：25人"
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <TextView android:id="@+id/myContext"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_gravity="center_horizontal"
-              android:background="@color/lightgray"
-              android:hint="\u3000\u3000亲，您已预约该教练为您的科目二教练在您的科目一完成后若改教练下学员数未满您可以继续选择他，若学员已满您可以重新选择其他教练或者继续等待"
-              android:padding="10dp"/>
-    <Button android:id="@+id/btn"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:background="@color/redTheme"
-            android:padding="10dp"
-            android:textSize="18sp"
-            android:text="预约课时"
-            android:textColor="@color/white"/>
-    <TextView
-        android:id="@+id/textView"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/gray"
-        android:textSize="15sp"
+        android:background="#ffffff"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:id="@+id/myContext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:hint="亲，您已预约该教练为您的科目二教练在您的科目一完成后若改教练下学员数未满您可以继续选择他，若学员已满您可以重新选择其他教练或者继续等待"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:hint="选择学车时间："
+            android:textColor="@color/themeColor" />
+        <TextView
+            android:id="@+id/tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="温馨提示，每个时间段上线人数为三人，并且距学车时间段2小时内不可被取消。"
+            android:textSize="12sp"
+            android:textColor="@color/btn_orange" />
+
+    </LinearLayout>
+
+    <com.jgkj.bxxc.tools.RefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:text="暂时没有可选时间段"
+                android:visibility="gone" />
+
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffff" />
+
+        </LinearLayout>
+    </com.jgkj.bxxc.tools.RefreshLayout>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        />
+        android:textColor="@color/gray"
+        android:textSize="15sp" />
 </LinearLayout>

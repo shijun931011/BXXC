@@ -32,8 +32,7 @@ import okhttp3.Call;
  * 预约时间
  */
 
-public class AppTimeNewActivity extends Activity implements View.OnClickListener,
-        SwipeRefreshLayout.OnRefreshListener {
+public class AppTimeNewActivity extends Activity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     private TextView title;
     private Button back;
     private ListView listView;
@@ -51,8 +50,7 @@ public class AppTimeNewActivity extends Activity implements View.OnClickListener
     private TextView textView;
 
     private String myCoachUrl = "http://www.baixinxueche.com/index.php/Home/Apiupdatasecond/remyCoachAgain";
-    private String mynewCoachUrl = "http://www.baixinxueche.com/index.php/Home/Apiapplytoken/remyCoachAgainFive";
-
+    private String mynewCoachUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/myCoach";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

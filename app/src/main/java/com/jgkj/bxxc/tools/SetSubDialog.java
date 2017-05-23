@@ -3,6 +3,7 @@ package com.jgkj.bxxc.tools;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,6 +101,7 @@ public class SetSubDialog implements View.OnClickListener{
      *
      */
     private void saveTime() {
+        Log.i("百信学车","金典版预约：  uid=" + uid + "   cid=" + cid + "   day=" + day + "   time_slot=" + time_slot + "   token=" + token + "   url=" + url);
         OkHttpUtils
                 .post()
                 .url(url)
