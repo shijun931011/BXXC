@@ -84,8 +84,7 @@ public class CreateDialog implements View.OnClickListener{
         // 获取当前Activity所在的窗体
         Window dialogWindow = sureDialog.getWindow();
         // 设置dialog宽度
-        dialogWindow.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialogWindow.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         // 设置Dialog从窗体中间弹出
         dialogWindow.setGravity(Gravity.CENTER);
         sureDialog.show();

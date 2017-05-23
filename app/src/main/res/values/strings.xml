@@ -54,6 +54,7 @@
     <string name="refund_record">退款记录</string>
     <string name="person_percar">一人一车</string>
     <string name="priclass_fuwu">·金牌教官 ·优质服务</string>
+    <string name="choose_tv">请选择您需要退款的套餐：</string>
 
     <string name="pay">
         <u>前去付款</u>

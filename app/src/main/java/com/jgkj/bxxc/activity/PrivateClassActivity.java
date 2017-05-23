@@ -33,7 +33,6 @@ import okhttp3.Call;
  */
 public class PrivateClassActivity extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener,SwipeRefreshLayout.OnRefreshListener,
         RefreshLayout.OnLoadListener {
-
     private TextView title;
     private Button button_backward;
     private Button sort_btn1, sort_btn2, sort_btn3;      //全城   科目   综合

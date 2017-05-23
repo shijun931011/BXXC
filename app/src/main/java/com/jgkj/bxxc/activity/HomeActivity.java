@@ -1,6 +1,5 @@
 package com.jgkj.bxxc.activity;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -9,7 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,21 +15,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -40,7 +31,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
-import com.jgkj.bxxc.bean.CoachDetailAction;
 import com.jgkj.bxxc.bean.SchoolAction;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.bean.Version;
@@ -187,9 +177,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
        //客服电话
         kefu = (ImageView) findViewById(R.id.remind);
         kefu.setOnClickListener(this);
-        //搜索按钮
-//        search = (ImageView) findViewById(R.id.search);
-//        search.setOnClickListener(this);
         car_frameLayout = (FrameLayout) findViewById(R.id.car_send_map);
         mCurrentFragment = index;
         frame = (FrameLayout) findViewById(R.id.index_fragment_layout);
@@ -255,104 +242,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         transaction.addToBackStack(null);
         transaction.commit();
     }
-//    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-//    public void creatDialog() {
-//        dialog = new Dialog(this, R.style.ActionSheetDialogStyle);
-//        // 填充对话框的布局
-//        View inflate = LayoutInflater.from(this).inflate(R.layout.search_dialog,null);
-//        // 初始化控件
-//        mEtSearch = (EditText) inflate.findViewById(R.id.et_search);
-//        mBtnClearSearchText = (Button) inflate.findViewById(R.id.btn_clear_search_text);
-//        mLayoutClearSearchText = (LinearLayout) inflate.findViewById(R.id.layout_clear_search_text);
-//        mEtSearch.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//            }
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                int textLength = mEtSearch.getText().length();
-//                if (textLength > 0) {
-//                    mLayoutClearSearchText.setVisibility(View.VISIBLE);
-//                } else {
-//                    mLayoutClearSearchText.setVisibility(View.GONE);
-//                }
-//            }
-//        });
-//
-//        mBtnClearSearchText.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mEtSearch.setText("");
-//                mLayoutClearSearchText.setVisibility(View.GONE);
-//            }
-//        });
-//        mEtSearch.setOnKeyListener(new View.OnKeyListener() {
-//
-//            @Override
-//            public boolean onKey(View arg0, int keyCode, KeyEvent event) {
-//                if (keyCode == KeyEvent.KEYCODE_ENTER) {
-//                    search(mEtSearch.getText().toString().trim(), "1");
-//                }
-//                return false;
-//            }
-//        });
-//        // 将布局设置给Dialog
-//        dialog.setContentView(inflate);
-//        // 获取当前Activity所在的窗体
-//        Window dialogWindow = dialog.getWindow();
-//        // 设置dialog横向充满
-//        dialogWindow.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-//                android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-//        // 设置Dialog从窗体中间弹出
-//        dialogWindow.setGravity(Gravity.TOP);
-//        dialog.show();/// 显示对话框
-//    }
-
-    /**
-     * 教练中心页面模糊查找
-     *
-     * @param str        编辑框输出的文字
-     * @param searchPage 页数
-     */
-//    private void search(String str, String searchPage) {
-//        OkHttpUtils
-//                .post()
-//                .url(searchUrl)
-//                .addParams("input", str)
-//                .addParams("page", searchPage)
-//                .build()
-//                .execute(new StringCallback() {
-//                    @Override
-//                    public void onError(Call call, Exception e, int i) {
-//                        dialog.dismiss();
-//                        Toast.makeText(HomeActivity.this, "网络异常，请检查网络！", Toast.LENGTH_LONG).show();
-//                    }
-//
-//                    @Override
-//                    public void onResponse(String s, int i) {
-//                        dialog.dismiss();
-//                        Gson gson = new Gson();
-//                        CoachDetailAction coachDetailAction = gson.fromJson(s, CoachDetailAction.class);
-//                        if (coachDetailAction.getCode() == 200) {
-//                            coach = new CoachFragment();
-//                            fragmentManager = getSupportFragmentManager();
-//                            Bundle bundle = new Bundle();
-//                            bundle.putString("SEARCH", s);
-//                            coach.setArguments(bundle);
-//                            transaction = fragmentManager.beginTransaction();
-//                            transaction.replace(R.id.car_send_map, coach).commit();
-//                        } else {
-//                            Toast.makeText(HomeActivity.this, coachDetailAction.getReason(), Toast.LENGTH_LONG).show();
-//                        }
-//                    }
-//                });
-//    }
 
     /**
      * 点击监听事件
@@ -367,7 +256,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
             // 底部导航栏监听
             case R.id.radio_button_01:
                 titlebar.setVisibility(View.VISIBLE);
-//                search.setVisibility(View.GONE);
                 place.setVisibility(View.VISIBLE);
                 kefu.setVisibility(View.VISIBLE);
                 index = new IndexFragment();
@@ -393,7 +281,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                 break;
             case R.id.radio_button_03:
                 titlebar.setVisibility(View.VISIBLE);
-//                search.setVisibility(View.GONE);
                 kefu.setVisibility(View.GONE);
                 place.setVisibility(View.GONE);
                 study = new StudyFragment();
@@ -407,7 +294,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                 break;
             case R.id.radio_button_04:
                 titlebar.setVisibility(View.VISIBLE);
-//                search.setVisibility(View.GONE);
                 kefu.setVisibility(View.GONE);
                 place.setVisibility(View.GONE);
                 my_set = new My_Setting_Fragment();
@@ -427,9 +313,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                     mCurrentFragment = my_set;
                 }
                 break;
-//            case R.id.search:
-//                creatDialog();
-//                break;
 
             case R.id.remind:
                 new CallDialog(HomeActivity.this,"0551-65555744").call();

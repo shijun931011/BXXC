@@ -29,7 +29,6 @@ import com.jgkj.bxxc.adapter.RehourAdapter;
 import com.jgkj.bxxc.bean.Rehour;
 import com.jgkj.bxxc.bean.entity.MenuEntity.MenuEntitys;
 import com.jgkj.bxxc.bean.entity.MenuEntity.MenuResults;
-import com.jgkj.bxxc.tools.BuyClassHoDialog;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -144,7 +143,6 @@ public class RehourActivity extends Activity implements View.OnClickListener{
                     }
                 });
     }
-
     private View.OnClickListener clickListener=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -178,6 +176,7 @@ public class RehourActivity extends Activity implements View.OnClickListener{
     }
 
     public void showCustomServiceAlert() {
+        extraDialog.dismiss();
         final AlertDialog dialog = new AlertDialog.Builder(this).create();
         dialog.show();
         Window window = dialog.getWindow();
@@ -188,6 +187,7 @@ public class RehourActivity extends Activity implements View.OnClickListener{
         TextView tv_refund_class_hours = (TextView) window.findViewById(R.id.tv_buy_class_hours);
         tv_refund_class_hours.setText("提交退款后，相对应的套餐学时将清零，退款金额" +
                 "我们将会在2-5个工作日内退还到您所绑定的银行卡上");
+        tv_refund_class_hours.setTextSize(10);
         listView_hours = (ListView) window.findViewById(R.id.listView);
         btn_refund_menu.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

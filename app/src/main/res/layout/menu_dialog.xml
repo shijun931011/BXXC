@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/route1"
         android:layout_width="match_parent"
-        android:layout_height="155dp"
+        android:layout_height="134dp"
         android:background="@drawable/package_image">
 
         <ImageView
@@ -21,6 +21,15 @@
             android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/choose_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/choose_tv"
+        android:textColor="@color/gray"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="8dp"
+    />
     <ListView
         android:layout_marginTop="15dp"
         android:id="@+id/listView"
@@ -35,7 +44,7 @@
         android:id="@+id/btn_buy_menu"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/btn_selector"
         android:gravity="center"
         android:text="确  定"

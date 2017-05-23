@@ -10,7 +10,7 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:scaleType="fitXY"
-            android:background="#FFFFFF"
+            android:background="@drawable/linearlayout_shape_background"
             android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
@@ -19,6 +19,7 @@
                 android:id="@+id/cou"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
+                android:orientation="horizontal"
                 >
                 <TextView
                     android:layout_width="60dp"
@@ -28,15 +29,13 @@
                     android:textSize="20dp"
                     android:layout_margin="20dp"
                     />
-
                 <TextView
                     android:id="@+id/textView8"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:text="点击优惠卷即可使用,优惠卷的使用与获取方式请去我的优惠卷界面查询详情"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/orange"
                     android:textSize="13dp" />
             </LinearLayout>
             <ListView

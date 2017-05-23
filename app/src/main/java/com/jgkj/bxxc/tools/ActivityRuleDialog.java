@@ -89,16 +89,13 @@ public class ActivityRuleDialog extends Dialog {
          * @param positiveButtonText
          * @return
          */
-        public Builder setPositiveButton(int positiveButtonText,
-                                         DialogInterface.OnClickListener listener) {
-            this.positiveButtonText = (String) context
-                    .getText(positiveButtonText);
+        public Builder setPositiveButton(int positiveButtonText, DialogInterface.OnClickListener listener) {
+            this.positiveButtonText = (String) context.getText(positiveButtonText);
             this.positiveButtonClickListener = listener;
             return this;
         }
 
-        public Builder setPositiveButton(String positiveButtonText,
-                                         DialogInterface.OnClickListener listener) {
+        public Builder setPositiveButton(String positiveButtonText, DialogInterface.OnClickListener listener) {
             this.positiveButtonText = positiveButtonText;
             this.positiveButtonClickListener = listener;
             return this;
@@ -106,25 +103,21 @@ public class ActivityRuleDialog extends Dialog {
 
 
         public ActivityRuleDialog create() {
-            LayoutInflater inflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             // instantiate the dialog with the custom Theme
             final ActivityRuleDialog dialog = new ActivityRuleDialog(context,R.style.Dialog);
             View layout = inflater.inflate(R.layout.dialog_rules, null);
-            dialog.addContentView(layout, new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            dialog.addContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             // set the dialog title
             ((TextView) layout.findViewById(R.id.title)).setText(title);
             // set the confirm button
             if (positiveButtonText != null) {
-                ((Button) layout.findViewById(R.id.positiveButton))
-                        .setText(positiveButtonText);
+                ((Button) layout.findViewById(R.id.positiveButton)).setText(positiveButtonText);
                 if (positiveButtonClickListener != null) {
                     ((Button) layout.findViewById(R.id.positiveButton))
                             .setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View v) {
-                                    positiveButtonClickListener.onClick(dialog,
-                                            DialogInterface.BUTTON_POSITIVE);
+                                    positiveButtonClickListener.onClick(dialog, DialogInterface.BUTTON_POSITIVE);
                                 }
                             });
                 }

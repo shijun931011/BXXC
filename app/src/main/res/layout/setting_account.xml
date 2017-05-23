@@ -40,7 +40,7 @@
         android:layout_height="29dp"
         android:textColor="@color/gray"
         android:text="余额说明"
-        android:background="@drawable/btn_shape"
+        android:background="@drawable/btn_style_blue"
         android:textSize="10sp"
         android:layout_gravity="center"
 
@@ -52,8 +52,9 @@
         android:layout_height="30dp"
         android:text="充   值"
         android:textSize="20dp"
+        android:textColor="@color/white"
         android:layout_marginTop="10dp"
-        android:background="#9652fc"
+        android:background="@drawable/tv_bg_pay"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
     />

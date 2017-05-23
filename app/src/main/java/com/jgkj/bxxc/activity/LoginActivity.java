@@ -88,7 +88,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.i("百信学车","1111"+s);
+                        Log.i("BXXC","1111"+s);
                         dialog.dismiss();
                         Gson gson = new Gson();
                         UserInfo userInfo = gson.fromJson(s, UserInfo.class);
@@ -127,6 +127,17 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                             editor_paypwd.clear();
                             editor_paypwd.putString("paypwd", userInfo.getResult().getPaypwd());
                             editor_paypwd.commit();
+
+                            /**
+                             *
+                             * 本地储存account值
+                             */
+
+                            SharedPreferences account = getSharedPreferences("useraccount", Activity.MODE_PRIVATE);
+                            SharedPreferences.Editor editor_account = account.edit();
+                            editor_account.clear();
+                            editor_account.putString("useraccount", userInfo.getResult().getAccount());
+                            editor_account.commit();
 
                             Intent intent = getIntent();
                             String str = "";

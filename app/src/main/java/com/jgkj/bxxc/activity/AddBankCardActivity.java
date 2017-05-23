@@ -1,7 +1,6 @@
 package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -9,19 +8,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
-import com.jgkj.bxxc.adapter.ManageBankCardAdapter;
 import com.jgkj.bxxc.bean.Code;
 import com.jgkj.bxxc.bean.UserInfo;
-import com.jgkj.bxxc.bean.entity.BankEntity.BankInfo;
 import com.jgkj.bxxc.bean.entity.BaseEntity.BaseEntity;
-import com.jgkj.bxxc.bean.entity.ManageBankCardEntity.ManageBankCardResult;
 import com.jgkj.bxxc.tools.Base64;
 import com.jgkj.bxxc.tools.SpaceText;
 import com.jgkj.bxxc.tools.Urls;
@@ -112,6 +106,17 @@ public class AddBankCardActivity extends Activity implements View.OnClickListene
                         BaseEntity baseEntity = gson.fromJson(s, BaseEntity.class);
                         if (baseEntity.getCode() == 200) {
                             Toast.makeText(AddBankCardActivity.this, "绑定成功", Toast.LENGTH_LONG).show();
+
+                            /**
+                             *
+                             * 本地储存account值
+                             */
+
+                            SharedPreferences account = getSharedPreferences("account", Activity.MODE_PRIVATE);
+                            SharedPreferences.Editor editor_account = account.edit();
+                            editor_account.clear();
+                            editor_account.putString("account",et_card_number.getText().toString());
+                            editor_account.commit();
                             finish();
                         }else{
                             Toast.makeText(AddBankCardActivity.this, baseEntity.getReason(), Toast.LENGTH_LONG).show();
