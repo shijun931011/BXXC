@@ -56,9 +56,8 @@
         android:id="@+id/tv_buy_class_hours"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:text="套餐不够？立即购买"
-        android:textColor="#FF8000"
         android:gravity="center"
-        />
+        android:text="套餐不够？立即购买"
+        android:textColor="#FF8000" />
 
 </LinearLayout>

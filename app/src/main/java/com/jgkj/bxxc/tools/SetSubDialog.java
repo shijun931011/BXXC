@@ -110,6 +110,7 @@ public class SetSubDialog implements View.OnClickListener{
                 .addParams("day", day)
                 .addParams("time_slot", time_slot)
                 .addParams("token", token)
+                .addParams("package_id", "5")
                 .build()
                 .execute(new StringCallback() {
                     @Override

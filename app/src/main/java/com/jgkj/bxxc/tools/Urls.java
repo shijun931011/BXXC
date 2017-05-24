@@ -63,5 +63,8 @@ public class Urls {
     //我的教练
     public static String myCoachUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/myCoach";
 
+    //微信支付
+    public static String wxapppay = "http://www.baixinxueche.com/index.php/Home/wxapppay/pay";
+
 
 }

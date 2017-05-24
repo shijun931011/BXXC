@@ -19,11 +19,14 @@ import com.alipay.sdk.app.PayTask;
 import com.google.gson.Gson;
 
 import com.jgkj.bxxc.R;
+import com.jgkj.bxxc.activity.weixin.WXPay;
 import com.jgkj.bxxc.adapter.RechargeAdapter;
 import com.jgkj.bxxc.bean.ItemModel;
 import com.jgkj.bxxc.bean.MyPayResult;
 import com.jgkj.bxxc.bean.Recharge;
+import com.jgkj.bxxc.bean.entity.WXEntity.WXEntity;
 import com.jgkj.bxxc.tools.PayResult;
+import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 import java.util.ArrayList;
@@ -207,6 +210,52 @@ public class RechargeActivity extends Activity implements View.OnClickListener{
 
     }
 
+    private void WXRecharge( String uid_ ,String moneyId){
+        OkHttpUtils.post()
+                .url(Urls.wxapppay)
+                .addParams("uid",uid_)
+                .addParams("moneyId", moneyId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int i) {
+                        Toast.makeText(RechargeActivity.this, "请检查网络", Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onResponse(String s, int i) {
+                        Log.i("百信学车", "微信结果"+s);
+                        Gson gson = new Gson();
+                        WXEntity wxEntity = gson.fromJson(s, WXEntity.class);
+                        if(wxEntity.getErrorCode() == 0){
+                            WXPay wxpay = new WXPay(RechargeActivity.this, wxEntity.getResponseData().getApp_response().getAppid());
+                            wxpay.doPay(s, new WXPay.WXPayResultCallBack() {
+                                @Override
+                                public void onSuccess() {
+                                    //刷新支付余额
+                                    Intent intent = new Intent();
+                                    intent.setAction("updataBalance");
+                                    sendBroadcast(intent);
+                                    Toast.makeText(RechargeActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onError(int error_code) {
+                                    Toast.makeText(RechargeActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onCancel() {
+                                    Toast.makeText(RechargeActivity.this, "支付取消", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                        }else{
+                            Toast.makeText(RechargeActivity.this, wxEntity.getErrorMsg(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -254,6 +303,18 @@ public class RechargeActivity extends Activity implements View.OnClickListener{
                     }else {
                         if (weixinFlag){
                             Toast.makeText(RechargeActivity.this, "微信支付", Toast.LENGTH_SHORT).show();
+
+//                            /**
+//                             * 微信支付
+//                             * 微信支付常见坑
+//                             * 1.微信开放平台的包名和签名是否和本地的一致
+//                             * 2.服务器能拿到prepare_id,还是返回-1，查看调起支付接口时的签名是否计算正确
+//                             * 3.能调起支付，没有返回消息的，请查看自己项目包下是否有（wxapi.WXPayEntryActivity）
+//                             * 4.本地调试时一定要使用正式签名文件进行调试，否则是调不起微信支付窗口的
+//                             * 5.网络上遇到说微信缓存会影响返回-1的，目前没有遇到过
+//                             */
+                            WXRecharge(uid+"", moneyIdList.get(RechargeAdapter.positionIndex));
+
                         }else{
                             AlipayRecharge(uid+"", moneyIdList.get(RechargeAdapter.positionIndex));
                         }

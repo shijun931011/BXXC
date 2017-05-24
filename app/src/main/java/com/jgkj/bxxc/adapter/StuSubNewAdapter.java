@@ -41,7 +41,7 @@ public class StuSubNewAdapter extends BaseAdapter {
     private String token;
     private Drawable draw1, draw2;
 
-    private String appUrl = "http://www.baixinxueche.com/index.php/Home/Apiapplytoken/stuAppointmentFive";
+    private String appUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/stuAppointmentpackage";
     private String cancelUrl = "http://www.baixinxueche.com/index.php/Home/Apiapplytoken/deleteAppTimeLimitFive";
 
     public StuSubNewAdapter(Context context, List<CreateDay_Time> list,

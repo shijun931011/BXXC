@@ -217,9 +217,10 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                 place.setVisibility(View.VISIBLE);
                 kefu.setVisibility(View.VISIBLE);
             } else if (fromActivity.equals("SimpleCoachActivity") || fromActivity.equals("IndexFragment")) {
-                text_title.setVisibility(View.GONE);
+                titlebar.setVisibility(View.GONE);
+                //text_title.setVisibility(View.GONE);
                 radioButton2.setChecked(true);
-                scroll_bar.setVisibility(View.GONE);
+                //scroll_bar.setVisibility(View.GONE);
                 car_frameLayout.setVisibility(View.VISIBLE);
                 transaction.add(R.id.car_send_map, coach);
             } else if (fromActivity.equals("MySetting")) {

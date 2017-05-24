@@ -241,8 +241,6 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
         }
     }
 
-
-
     public void onResume() {
         super.onResume();
         // 在当前的activity中注册广播
