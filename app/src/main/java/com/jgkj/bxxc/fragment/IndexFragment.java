@@ -76,7 +76,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
             license_Text_Fragment2, coach;
     private FragmentManager fragmentManager;
     private FragmentTransaction transaction;
-    // 标题栏    private Fragment mCurrentFragment, license_Text_Fragment1,
     private TextView text_title;
     //毫秒数转化为天数
     private SecondToDate std;
@@ -114,9 +113,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
         view = inflater.inflate(R.layout.index_fragment2, container, false);
         view.scrollBy(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-
-
-
         init();
         getImage();
         scrollView();
@@ -144,11 +140,9 @@ public class IndexFragment extends Fragment implements OnClickListener {
         select_coach = (RelativeLayout) view.findViewById(R.id.select_coach);
         select_place = (RelativeLayout) view.findViewById(R.id.select_place);
         select_class = (RelativeLayout) view.findViewById(R.id.select_class);
-
         headlines.setText("科技改变生活，百信引领学车!");
         // 实例化控件
         linearlayout = (LinearLayout) view.findViewById(R.id.linearlayout);
-
         coach = new CoachFragment();
         fragmentManager = getFragmentManager();
         viewpager = (ViewPager) view.findViewById(R.id.viewPage);
@@ -158,7 +152,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
         yQfirend = (LinearLayout) view.findViewById(R.id.yQfirend);
         classic_coach = (LinearLayout) view.findViewById(R.id.classic_coach);
         private_coach = (LinearLayout) view.findViewById(R.id.private_coach);
-
         headlines.setOnClickListener(this);
         bxhead.setOnClickListener(this);
         select_place.setOnClickListener(this);
@@ -171,12 +164,10 @@ public class IndexFragment extends Fragment implements OnClickListener {
         signup_guide.setOnClickListener(this);
         classic_coach.setOnClickListener(this);
         private_coach.setOnClickListener(this);
-
         car_pickup.setCompoundDrawables(null, carpick, null, null);
         bxCenter.setCompoundDrawables(null, bxcenter, null, null);
         quesAns.setCompoundDrawables(null, question, null, null);
         signup_guide.setCompoundDrawables(null, signup, null,null);
-
         // 验证是否登录
         sp = getActivity().getApplication().getSharedPreferences("USER",
                 Activity.MODE_PRIVATE);
@@ -359,7 +350,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
             timer.schedule(timerTask, 1000, 3000);
         }
     }
-
     // fragment切换
     public void switchFragment(Fragment from, Fragment to) {
         transaction.setCustomAnimations(R.anim.switch_fragment_anim_in,
@@ -371,7 +361,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
             transaction.hide(from).show(to).commit();
         }
     }
-
     @Override
     public void onClick(View v) {
         fragmentManager = getFragmentManager();
@@ -389,13 +378,13 @@ public class IndexFragment extends Fragment implements OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.select_coach:           //教练
-//                text_title.setText("教练");
                 intent.setClass(getActivity(), HomeActivity.class);
                 intent.putExtra("FromActivity", "IndexFragment");
                 startActivity(intent);
                 getActivity().finish();
                 mCurrentFragment = coach;
                 break;
+
             case R.id.select_place:          //场地
                 intent.setClass(getActivity(), PlaceChooseActivity.class);
                 startActivity(intent);

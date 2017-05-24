@@ -38,8 +38,9 @@ import okhttp3.Call;
  * 我的设置--我的钱包
  */
 public class Setting_AccountActivity extends Activity implements View.OnClickListener {
-    private Button back_forward;
+    private Button btn_back;
     private TextView title;
+    private Button manage_band;      //管理银行卡
     private LinearLayout myCoupod;     //优惠劵
     private LinearLayout rehour;       //剩余学时
     private LinearLayout paydetail;    //支付明细
@@ -106,10 +107,16 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
                 });
     }
     private void initView() {
-        back_forward = (Button) findViewById(R.id.button_backward);
+        btn_back = (Button) findViewById(R.id.button_backward);
         title = (TextView) findViewById(R.id.text_title);
-        back_forward.setVisibility(View.VISIBLE);
-        back_forward.setOnClickListener(this);
+        manage_band = (Button) findViewById(R.id.button_forward);
+        manage_band.setVisibility(View.VISIBLE);
+        manage_band.setText("管理银行卡");
+        manage_band.setPadding(0,0,10,0);
+        manage_band.setTextSize(14);
+        manage_band.setOnClickListener(this);
+        btn_back.setVisibility(View.VISIBLE);
+        btn_back.setOnClickListener(this);
         title.setText("我的钱包");
         myCoupod = (LinearLayout) findViewById(R.id.mycoupod);
         rehour = (LinearLayout) findViewById(R.id.re_hour);
@@ -134,6 +141,10 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
         switch (view.getId()) {
             case R.id.button_backward:
                 finish();
+                break;
+            case R.id.button_forward:
+                intent.setClass(Setting_AccountActivity.this,ManageBankCardActivity.class);
+                startActivity(intent);
                 break;
             case R.id.mycoupod:
                 intent.setClass(Setting_AccountActivity.this,CouponActivity.class);

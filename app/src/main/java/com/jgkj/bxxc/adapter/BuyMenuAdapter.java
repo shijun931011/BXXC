@@ -14,7 +14,7 @@ import com.jgkj.bxxc.bean.entity.MenuEntity.MenuEntitys;
 import java.util.List;
 
 
-public class MenuAdapter extends BaseAdapter {
+public class BuyMenuAdapter extends BaseAdapter {
     private Context context;
     private List<MenuEntitys> list;
     private LayoutInflater inflater;
@@ -24,7 +24,7 @@ public class MenuAdapter extends BaseAdapter {
     public static String package_id;
     private int locationPosition = -1;
 
-    public MenuAdapter(Context context, List<MenuEntitys> list){
+    public BuyMenuAdapter(Context context, List<MenuEntitys> list){
         this.context = context;
         this.list = list;
         inflater = LayoutInflater.from(context);
@@ -60,7 +60,7 @@ public class MenuAdapter extends BaseAdapter {
         }
         viewHolder.tv_mune.setText(list.get(position).getPackname());
         if(!list.get(position).getSurplus_money().equals("0")){
-            viewHolder.tv_buy.setText("剩余" + list.get(position).getSurplus_class() + "个课时"+"(共"+list.get(position).getSurplus_money()+"元）");
+            viewHolder.tv_buy.setText("剩余" + list.get(position).getSurplus_class() + "个课时");
         }else{
             viewHolder.tv_buy.setText("暂未购买");
         }

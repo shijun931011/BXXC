@@ -3,7 +3,6 @@ package com.jgkj.bxxc.tools;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,7 +69,6 @@ public class SureRefundDialog implements View.OnClickListener{
                     }
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.d("shijun","退款："+s);
                         Gson gson = new Gson();
                         Result result = gson.fromJson(s, Result.class);
                         if (result.getCode() == 200){
@@ -96,6 +94,7 @@ public class SureRefundDialog implements View.OnClickListener{
         dialog_cancel.setText("再想想");
         dialog_bind = (TextView) inflate.findViewById(R.id.dialog_card_imfo);
         dialog_bind.setVisibility(View.VISIBLE);
+        dialog_bind.setText("银行卡："+account.substring(18,23));
         dialog_sure.setOnClickListener(this);
         dialog_cancel.setOnClickListener(this);
         dialog_textView.setText(content);

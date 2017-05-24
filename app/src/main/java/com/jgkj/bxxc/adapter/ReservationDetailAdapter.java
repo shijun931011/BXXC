@@ -14,17 +14,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.activity.BuyClassHoursActivity;
-import com.jgkj.bxxc.activity.ReservationDetailActivity;
 import com.jgkj.bxxc.bean.entity.ConfirmReservationEntity.ConfirmReservationResult;
 import com.jgkj.bxxc.bean.entity.MenuEntity.MenuEntitys;
 import com.jgkj.bxxc.bean.entity.MenuEntity.MenuResults;
 import com.jgkj.bxxc.bean.entity.ReservationDetailEntity.Stusubject;
 import com.jgkj.bxxc.bean.entity.ReservationDetailEntity.Subject;
 import com.jgkj.bxxc.tools.BuyClassHoDialog;
-import com.jgkj.bxxc.tools.CallDialog;
 import com.jgkj.bxxc.tools.RemindDialog;
 import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -224,6 +223,8 @@ public class ReservationDetailAdapter extends BaseAdapter {
         Window window = dlg.getWindow();
         window.setContentView(R.layout.menu_dialog);
         Button btn_buy_menu = (Button) window.findViewById(R.id.btn_buy_menu);
+        TextView choose_tv = (TextView) window.findViewById(R.id.choose_tv);
+        choose_tv.setVisibility(View.GONE);
         ImageView im_canael = (ImageView) window.findViewById(R.id.im_canael);
         TextView tv_buy_class_hours = (TextView) window.findViewById(R.id.tv_buy_class_hours);
         listView = (ListView) window.findViewById(R.id.listView);
@@ -288,7 +289,7 @@ public class ReservationDetailAdapter extends BaseAdapter {
                         Log.i("百信学车","套餐详细信息结果" + s);
                         if (menuResult.getCode() == 200) {
                             showCustomServiceAlert(btn,position);
-                            MenuAdapter adapter = new MenuAdapter(context,result);
+                            BuyMenuAdapter adapter = new BuyMenuAdapter(context,result);
                             listView.setAdapter(adapter);
                         }
                         if(menuResult.getCode() == 400){

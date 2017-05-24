@@ -74,17 +74,12 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
     private Bundle bundle;
     private SchoolAction schoolAction;
     private Dialog dialog;
-    //搜索按钮
-//    private ImageView search;
     private View inflate;
     private CarSendActivity carSendMap;
     // 定义一个变量，来标识是否退出
     private static boolean isExit = false;
     //判断调过来的Activity
     private String fromActivity = null;
-//    private EditText mEtSearch = null;// 输入搜索内容
-//    private Button mBtnClearSearchText = null;// 清空搜索信息的按钮
-//    private LinearLayout mLayoutClearSearchText = null;
     //jPush推送
     private EditText msgText;
     public final static int CLOSE_ACTIVITY = 1001;
@@ -95,7 +90,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
     private UserInfo userInfo;
     private UserInfo.Result result;
     private String token;
-//    private String searchUrl = "http://www.baixinxueche.com/index.php/Home/Apitoken/like";
     private String versionUrl = "http://www.baixinxueche.com/index.php/Home/Apitoken/versionandroid";
 
     @Override
@@ -223,8 +217,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                 place.setVisibility(View.VISIBLE);
                 kefu.setVisibility(View.VISIBLE);
             } else if (fromActivity.equals("SimpleCoachActivity") || fromActivity.equals("IndexFragment")) {
-//            text_title.setText("报考");
-//                search.setVisibility(View.VISIBLE);
                 text_title.setVisibility(View.GONE);
                 radioButton2.setChecked(true);
                 scroll_bar.setVisibility(View.GONE);

@@ -6,7 +6,8 @@
     <!-- 设置按钮的四个角为弧形 -->
     <corners android:radius="100dip"/>
     <!-- padding: Button 里面的文字与Button边界的间隔 -->
-
+    <!--边框的宽度及颜色-->
+    <stroke android:width="2px" android:color="#3bbaff" />
     <padding
         android:left="10dp"
         android:right="10dp"

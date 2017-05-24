@@ -3,7 +3,11 @@ package com.jgkj.bxxc.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -46,7 +50,9 @@ public class RehourActivity extends Activity implements View.OnClickListener{
     private ListView list_hour;           //剩余学时
     ListView listView_hours;
     private int uid;
+    private String cid;
     private String token;
+    private String account;
     private TextView prompt;   //提示文字
     private ImageView img_cry;//哭脸图片
     private TextView immediate_bug;     //学时不够？立即购买
@@ -55,6 +61,12 @@ public class RehourActivity extends Activity implements View.OnClickListener{
     private View extraView;
     private TextView dialog_textView, dialog_sure, dialog_cancel,dialog_prompt;
 
+
+    //套餐退款
+    /**
+     * 套餐退款 传值：  uid token  package_id 套餐的id  account 到账的银行卡号
+     */
+    private String RefundUrl="http://www.baixinxueche.com/index.php/Home/Apitokenpt/refund";
 
     // 剩余学时，
     /*
@@ -66,6 +78,23 @@ public class RehourActivity extends Activity implements View.OnClickListener{
      * */
     private String RehourUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/Hours";
 
+    private class Result {
+        private int code;
+        private String reason;
+        public String getReason() {
+            return reason;
+        }
+        public int getCode() {
+            return code;
+        }
+    }
+
+    //广播接收更新数据
+    protected BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            getRehour(uid + "", token);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +131,13 @@ public class RehourActivity extends Activity implements View.OnClickListener{
         Intent intent = getIntent();
         uid = intent.getIntExtra("uid", -1);
         token = intent.getStringExtra("token");
-        Log.d("shijun", uid + "::::" + token);
+        SharedPreferences sp = getSharedPreferences("useraccount",Activity.MODE_PRIVATE);
+        account = sp.getString("useraccount", null);
+
+//        Gson gson = new Gson();
+//        CoachInfo coachInfoResult = gson.fromJson(coachInfo, CoachInfo.class);
+//        List<CoachInfo.Result> list = coachInfoResult.getResult();
+//        CoachInfo.Result result = list.get(0);
     }
 
     private void getRehour(String uid,String token){
@@ -119,7 +154,6 @@ public class RehourActivity extends Activity implements View.OnClickListener{
                     }
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.d("shijun", "hhhh"+s);
                         Gson gson = new Gson();
                         Rehour rehour = gson.fromJson(s, Rehour.class);
                         List<Rehour.Result> list = new ArrayList<Rehour.Result>();
@@ -191,7 +225,14 @@ public class RehourActivity extends Activity implements View.OnClickListener{
         listView_hours = (ListView) window.findViewById(R.id.listView);
         btn_refund_menu.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                 if (MenuAdapter.flag){
+                     getRefundDatas(uid+"", token, MenuAdapter.package_id, account);
+                     MenuAdapter.package_id = null;
+                     MenuAdapter.flag = false;
+                     dialog.dismiss();
+                 }else {
+                     Toast.makeText(RehourActivity.this, "请选择一种套餐", Toast.LENGTH_LONG).show();
+                 }
             }
         });
 
@@ -202,6 +243,43 @@ public class RehourActivity extends Activity implements View.OnClickListener{
             }
         });
         getHoursDatas(uid+"",token);
+    }
+
+    private void getRefundDatas(String uid, String token,String package_id, String account) {
+        OkHttpUtils
+                .post()
+                .url(RefundUrl)
+                .addParams("uid", uid)
+                .addParams("token", token)
+                .addParams("package_id", package_id)
+                .addParams("account", account)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int i) {
+                        Toast.makeText(RehourActivity.this, "请检查网络", Toast.LENGTH_LONG).show();
+                    }
+                    @Override
+                    public void onResponse(String s, int i) {
+                        Log.d("shijun", "HHHH" + s);
+                        Gson gson = new Gson();
+                        Result result = gson.fromJson(s, Result.class);
+                        if (result.getCode() == 200){
+                            Toast.makeText(RehourActivity.this,result.getReason(),Toast.LENGTH_SHORT).show();
+                            updata();
+                        }
+                        if (result.getCode() == 400){
+                            Toast.makeText(RehourActivity.this,result.getReason(),Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+    }
+    //广播更新数据
+    public void updata() {
+        Intent intent = new Intent();
+        intent.setAction("updataRefund");
+        sendBroadcast(intent);
     }
 
     private void getHoursDatas(String uid, String token) {
@@ -219,7 +297,6 @@ public class RehourActivity extends Activity implements View.OnClickListener{
 
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.d("shijun", "hhhh" + s);
                         Gson gson = new Gson();
                         MenuResults menuResult = gson.fromJson(s, MenuResults.class);
                         List<MenuEntitys> result = menuResult.getResult();
@@ -247,6 +324,9 @@ public class RehourActivity extends Activity implements View.OnClickListener{
                 break;
             case R.id.immediate_bug:
                 intent.setClass(this,  BuyClassHoursActivity.class);
+                intent.putExtra("uid",uid);
+                intent.putExtra("cid",cid);//token
+                intent.putExtra("token",token);
                 startActivity(intent);
                 break;
             case R.id.extra_hours:
@@ -283,4 +363,14 @@ public class RehourActivity extends Activity implements View.OnClickListener{
                 extraDialog.show();
         }
     }
+
+
+    public void onResume() {
+        super.onResume();
+        // 在当前的activity中注册广播
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("updataRefund");
+        registerReceiver(this.broadcastReceiver, filter);
+    }
+
 }
