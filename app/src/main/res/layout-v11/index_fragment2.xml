@@ -328,11 +328,11 @@
         <TextView android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:layout_weight="1"
-                  android:id="@+id/signup_guide"
+                  android:id="@+id/use_guide"
                   android:drawablePadding="5dp"
                   android:layout_marginTop="5dp"
                   android:layout_marginBottom="5dp"
                   android:gravity="center_horizontal|bottom"
-                  android:text="报名指南"/>
+                  android:text="使用指南"/>
     </LinearLayout>
 </LinearLayout>

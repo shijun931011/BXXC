@@ -22,7 +22,7 @@ public class QuesAnsActivity extends Activity implements View.OnClickListener, A
     private ListView listView;
     private TextView title;
     private Button back;
-    private String[] listItem = {"练车指南", "常见问题", "支付问题"};
+    private String[] listItem = {"常见问题", "支付问题"};
     private QuesAnsAdapter adapter;
 
     @Override
@@ -43,7 +43,6 @@ public class QuesAnsActivity extends Activity implements View.OnClickListener, A
     //初始化控件
     private void initView() {
         listView = (ListView) findViewById(R.id.listView);
-
         title = (TextView) findViewById(R.id.text_title);
         title.setText("答疑解惑");
         back = (Button) findViewById(R.id.button_backward);
@@ -66,25 +65,24 @@ public class QuesAnsActivity extends Activity implements View.OnClickListener, A
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent intent = new Intent();
         switch (i) {
+//            case 0:
+//                intent.setClass(QuesAnsActivity.this,WebViewActivity.class);
+//                intent.putExtra("url","http://www.baixinxueche.com/webshow/keer/guide.html");
+//                intent.putExtra("title","练车指南");
+//                startActivity(intent);
+//                break;
             case 0:
-                intent.setClass(QuesAnsActivity.this,WebViewActivity.class);
-                intent.putExtra("url","http://www.baixinxueche.com/webshow/keer/guide.html");
-                intent.putExtra("title","练车指南");
-                startActivity(intent);
-                break;
-            case 1:
                 intent.setClass(QuesAnsActivity.this,WebViewActivity.class);
                 intent.putExtra("url","http://www.baixinxueche.com/webshow/keer/problem.html");
                 intent.putExtra("title","常见问题");
                 startActivity(intent);
                 break;
-            case 2:
+            case 1:
                 intent.setClass(QuesAnsActivity.this,WebViewActivity.class);
                 intent.putExtra("url","http://www.baixinxueche.com/webshow/keer/pay.html");
                 intent.putExtra("title","支付问题");
                 startActivity(intent);
                 break;
-
         }
 
 

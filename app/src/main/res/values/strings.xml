@@ -20,7 +20,7 @@
     </string>
     <string name="version_unknown">请求异常</string>
     <string name="line">
-        <hr/>
+        <hr />
     </string>
     <string name="gotonext">前往完成下一步</string>
     <string name="gotobaoming">前去报名</string>
@@ -55,6 +55,11 @@
     <string name="person_percar">一人一车</string>
     <string name="priclass_fuwu">·金牌教官 ·优质服务</string>
     <string name="choose_tv">请选择您需要退款的套餐：</string>
+    <string name="guide_type">指南类型</string>
+    <string name="classic_registion">经典班报名</string>
+    <string name="private_regisition">私教班报名</string>
+    <string name="classic_instructions">经典班使用说明</string>
+    <string name="private_instructions">私教班使用说明</string>
 
     <string name="pay">
         <u>前去付款</u>

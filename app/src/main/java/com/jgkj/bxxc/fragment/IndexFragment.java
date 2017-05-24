@@ -38,6 +38,7 @@ import com.jgkj.bxxc.activity.LoginActivity;
 import com.jgkj.bxxc.activity.PlaceChooseActivity;
 import com.jgkj.bxxc.activity.PrivateActivity;
 import com.jgkj.bxxc.activity.QuesAnsActivity;
+import com.jgkj.bxxc.activity.UseGuideActivity;
 import com.jgkj.bxxc.activity.WebViewActivity;
 import com.jgkj.bxxc.adapter.MyAdapter;
 import com.jgkj.bxxc.bean.HeadlinesAction;
@@ -101,7 +102,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
     private SharedPreferences sp;
     private UserInfo userInfo;
     private UserInfo.Result result;
-    private TextView signup_guide;
+    private TextView use_guide;
     private TextView car_pickup;
     private Boolean isLogined = false;
     private String token;
@@ -135,7 +136,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
         headlines = (AutoTextView) view.findViewById(R.id.headlines);
         headlines.setTag("nourl");
         bxhead = (ImageView) view.findViewById(R.id.bxhead);
-        signup_guide = (TextView) view.findViewById(R.id.signup_guide);
+        use_guide = (TextView) view.findViewById(R.id.use_guide);
         car_pickup = (TextView) view.findViewById(R.id.car_pickup);
         select_coach = (RelativeLayout) view.findViewById(R.id.select_coach);
         select_place = (RelativeLayout) view.findViewById(R.id.select_place);
@@ -161,13 +162,13 @@ public class IndexFragment extends Fragment implements OnClickListener {
         car_pickup.setOnClickListener(this);
         bxCenter.setOnClickListener(this);
         quesAns.setOnClickListener(this);
-        signup_guide.setOnClickListener(this);
+        use_guide.setOnClickListener(this);
         classic_coach.setOnClickListener(this);
         private_coach.setOnClickListener(this);
         car_pickup.setCompoundDrawables(null, carpick, null, null);
         bxCenter.setCompoundDrawables(null, bxcenter, null, null);
         quesAns.setCompoundDrawables(null, question, null, null);
-        signup_guide.setCompoundDrawables(null, signup, null,null);
+        use_guide.setCompoundDrawables(null, signup, null,null);
         // 验证是否登录
         sp = getActivity().getApplication().getSharedPreferences("USER",
                 Activity.MODE_PRIVATE);
@@ -369,8 +370,8 @@ public class IndexFragment extends Fragment implements OnClickListener {
         license_Text_Fragment2 = new License_Text_Fragment();
         Intent intent = new Intent();
         switch (v.getId()) {
-            case R.id.signup_guide:     //报名指南
-                intent.setClass(getActivity(), GuideActivity.class);
+            case R.id.use_guide:     //报名指南
+                intent.setClass(getActivity(), UseGuideActivity.class);
                 startActivity(intent);
                 break;
             case R.id.car_pickup:            //车接车送
@@ -416,9 +417,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
                 intent.setClass(getActivity(),BXCenterActivity.class);
                 startActivity(intent);
                 break;
-//            case R.id.search:
-//                new CallDialog(getActivity(),"055165555744").call();
-//                break;
             case R.id.yQfirend:            //邀请好友
                 if (userInfo == null){
                     intent.setClass(getActivity(), LoginActivity.class);
