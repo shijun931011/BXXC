@@ -2,10 +2,13 @@ package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +23,9 @@ import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.Balance;
 import com.jgkj.bxxc.tools.ActivityRuleDialog;
+import com.jgkj.bxxc.tools.BindCardDialog;
+import com.jgkj.bxxc.tools.RemainBaseDialog;
+import com.jgkj.bxxc.tools.SureRefundDialog;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -32,10 +38,9 @@ import okhttp3.Call;
  * 我的设置--我的钱包
  */
 public class Setting_AccountActivity extends Activity implements View.OnClickListener {
-    private Button back_forward;
+    private Button btn_back;
     private TextView title;
-//    private LinearLayout bindingAlipay;
-//    private LinearLayout myOrder;      //订单
+    private Button manage_band;      //管理银行卡
     private LinearLayout myCoupod;     //优惠劵
     private LinearLayout rehour;       //剩余学时
     private LinearLayout paydetail;    //支付明细
@@ -49,7 +54,17 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
     private TextView dialog_textView, dialog_sure, dialog_cancel,dialog_prompt;
     private int uid;
     private String token;
+    private String account;
     private String balanceUrl="http://www.baixinxueche.com/index.php/Home/Apitokenpt/balance";
+
+
+    //广播接收更新数据
+    protected BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            getBalance(uid+"", token);
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +80,8 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
         Intent intent = getIntent();
         uid = intent.getIntExtra("uid",-1);
         token = intent.getStringExtra("token");
+        SharedPreferences sp = getSharedPreferences("useraccount",Activity.MODE_PRIVATE);
+        account = sp.getString("useraccount", null);
     }
 
     private void getBalance(String uid, String token){
@@ -80,7 +97,6 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
                     }
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.d("shijun","hhhh"+s);
                         Gson gson = new Gson();
                         Balance balance = gson.fromJson(s, Balance.class);
                         if (balance.getCode() == 200){
@@ -89,18 +105,19 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
                         }
                     }
                 });
-
     }
-
-
     private void initView() {
-        back_forward = (Button) findViewById(R.id.button_backward);
+        btn_back = (Button) findViewById(R.id.button_backward);
         title = (TextView) findViewById(R.id.text_title);
-        back_forward.setVisibility(View.VISIBLE);
-        back_forward.setOnClickListener(this);
+        manage_band = (Button) findViewById(R.id.button_forward);
+        manage_band.setVisibility(View.VISIBLE);
+        manage_band.setText("管理银行卡");
+        manage_band.setPadding(0,0,10,0);
+        manage_band.setTextSize(14);
+        manage_band.setOnClickListener(this);
+        btn_back.setVisibility(View.VISIBLE);
+        btn_back.setOnClickListener(this);
         title.setText("我的钱包");
-//        bindingAlipay = (LinearLayout) findViewById(bindingAlipay);
-//        myOrder = (LinearLayout) findViewById(R.id.myOrder);
         myCoupod = (LinearLayout) findViewById(R.id.mycoupod);
         rehour = (LinearLayout) findViewById(R.id.re_hour);
         paydetail = (LinearLayout) findViewById(R.id.pay_detail);
@@ -109,8 +126,6 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
         balance_deal = (TextView) findViewById(R.id.balance_deal);
         refund_record = (TextView) findViewById(R.id.refund_record);
         btn_recharge = (Button) findViewById(R.id.recharge);
-//        bindingAlipay.setOnClickListener(this);
-//        myOrder.setOnClickListener(this);
         myCoupod.setOnClickListener(this);
         rehour.setOnClickListener(this);
         paydetail.setOnClickListener(this);
@@ -127,12 +142,10 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
             case R.id.button_backward:
                 finish();
                 break;
-//            case R.id.myOrder:
-//                intent.setClass(Setting_AccountActivity.this, MyOrderActivity.class);
-//                intent.putExtra("uid", uid);
-//                intent.putExtra("token", token);
-//                startActivity(intent);
-//                break;
+            case R.id.button_forward:
+                intent.setClass(Setting_AccountActivity.this,ManageBankCardActivity.class);
+                startActivity(intent);
+                break;
             case R.id.mycoupod:
                 intent.setClass(Setting_AccountActivity.this,CouponActivity.class);
                 intent.putExtra("uid", uid);
@@ -152,7 +165,7 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
                 startActivity(intent);
                 break;
             case R.id.balance_explain:
-                ActivityRuleDialog.Builder dialog = new ActivityRuleDialog.Builder(this);
+                final ActivityRuleDialog.Builder dialog = new ActivityRuleDialog.Builder(this);
                 dialog.setTitle("余额说明")
                         .setMessage("1、 账户余额仅在本平台购买学车学时套餐的时候使用。" +
                                 "2、 您的消费将优先使用您充值的余额，后使用活动赠送的金额" +
@@ -185,8 +198,23 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
                 dialog_sure.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+//                       Toast.makeText(Setting_AccountActivity.this,  "balance_money"+balance_money.getText().toString(), Toast.LENGTH_SHORT).show();
+                        if (account.equals("")) {
+                            balance_diolog.dismiss();
+                            new BindCardDialog(Setting_AccountActivity.this, "系统检测到您还没有绑定任何银行卡信息，" + "暂不能退款。是否去绑定？").Bindcard();
+                        }else{
+                            if (balance_money.getText().toString().equals("￥0.00")) {
+                                balance_diolog.dismiss();
+                                new RemainBaseDialog(Setting_AccountActivity.this, "抱歉， " +
+                                        "您目前的账户余额为零，暂不支持退款").call();
+                            }else{
+                                balance_diolog.dismiss();
+                                new SureRefundDialog(Setting_AccountActivity.this,
+                                        "退款将在2-5个工作日退还到您所在的平台上绑定的银行卡。", uid, token, account).SureRefund();
+                            }
+                        }
+                        }
 
-                    }
                 });
                 dialog_cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -210,9 +238,16 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
             intent.putExtra("token", token);
             startActivity(intent);
             break;
-
-
-
         }
+    }
+
+
+
+    public void onResume() {
+        super.onResume();
+        // 在当前的activity中注册广播
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("updataBalance");
+        registerReceiver(this.broadcastReceiver, filter);
     }
 }

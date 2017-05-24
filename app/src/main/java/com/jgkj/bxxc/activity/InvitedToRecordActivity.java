@@ -82,8 +82,7 @@ public class InvitedToRecordActivity extends Activity  {
         userInfo = gson.fromJson(str, UserInfo.class);
         result = userInfo.getResult();
         uid = result.getUid();
-        sp1 = getApplication().getSharedPreferences("token",
-                Activity.MODE_PRIVATE);
+        sp1 = getApplication().getSharedPreferences("token",Activity.MODE_PRIVATE);
         token = sp1.getString("token", null);
 
     }

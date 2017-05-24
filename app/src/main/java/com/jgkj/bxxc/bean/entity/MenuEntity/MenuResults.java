@@ -7,7 +7,6 @@ import java.util.List;
  */
 
 public class MenuResults {
-
     private int code;
 
     private String reason;

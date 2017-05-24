@@ -31,6 +31,7 @@ public class UserInfo {
         private String token;
         private String name;
         private String paypwd;
+        private String useraccount;
 
         public String getClasstype() {
             return classtype;
@@ -52,6 +53,10 @@ public class UserInfo {
 
         private int uid;
 
+
+        public String getAccount() {
+            return useraccount;
+        }
 
         public String getToken() {
             return token;

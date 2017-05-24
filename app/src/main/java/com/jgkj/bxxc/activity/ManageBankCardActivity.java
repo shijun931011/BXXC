@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,7 +16,6 @@ import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.adapter.ManageBankCardAdapter;
 import com.jgkj.bxxc.bean.UserInfo;
-import com.jgkj.bxxc.bean.entity.BaseEntity.BaseEntity;
 import com.jgkj.bxxc.bean.entity.ManageBankCardEntity.ManageBankCardEntity;
 import com.jgkj.bxxc.bean.entity.ManageBankCardEntity.ManageBankCardResult;
 import com.jgkj.bxxc.tools.Urls;
@@ -149,8 +147,8 @@ public class ManageBankCardActivity extends Activity{
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onRestart() {
+        super.onRestart();
         getUpdataData(userInfo.getResult().getUid(),token,Urls.getBank);
     }
 }

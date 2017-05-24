@@ -3,8 +3,6 @@ package com.jgkj.bxxc.tools;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.Uri;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -65,9 +63,7 @@ public class RemindDialog implements View.OnClickListener{
         dialog_cancel = (TextView) inflate.findViewById(R.id.dialog_cancel);
         dialog_sure.setOnClickListener(this);
         dialog_cancel.setOnClickListener(this);
-
         dialog_textView.setText(content);
-
         // 将布局设置给Dialog
         dialog.setContentView(inflate);
         // 获取当前Activity所在的窗体

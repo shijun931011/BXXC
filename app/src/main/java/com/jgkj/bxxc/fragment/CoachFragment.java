@@ -1,9 +1,7 @@
 package com.jgkj.bxxc.fragment;
 
-import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -27,7 +25,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
-import com.jgkj.bxxc.activity.HomeActivity;
 import com.jgkj.bxxc.bean.CoachDetailAction;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -195,9 +192,7 @@ public class CoachFragment extends Fragment implements View.OnClickListener{
                         CoachDetailAction coachDetailAction = gson.fromJson(s, CoachDetailAction.class);
                         if (coachDetailAction.getCode() == 200) {
                             coach = new CoachFragment();
-//                            fragmentManager = getActivity().getSupportFragmentManager();
                             fragmentManager= getFragmentManager();
-                            Log.d("ddddd","fragmentManager:"+fragmentManager);
                             Bundle bundle = new Bundle();
                             bundle.putString("SEARCH", s);
                             coach.setArguments(bundle);
@@ -222,8 +217,6 @@ public class CoachFragment extends Fragment implements View.OnClickListener{
             case R.id.search:
                 creatDialog();
                 break;
-//            default:
-//                break;
 
         }
     }
