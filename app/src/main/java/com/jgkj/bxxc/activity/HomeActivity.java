@@ -214,6 +214,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                 transaction.add(R.id.index_fragment_layout, indexFragment);
                 kefu.setImageResource(R.drawable.kefu_phone);
                 place.setText("合肥");
+                text_title.setText("百信学车");
                 place.setVisibility(View.VISIBLE);
                 kefu.setVisibility(View.VISIBLE);
             } else if (fromActivity.equals("SimpleCoachActivity") || fromActivity.equals("IndexFragment")) {
@@ -231,11 +232,9 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                 transaction.add(R.id.car_send_map, my_set);
             }
         }
-
         transaction.addToBackStack(null);
         transaction.commit();
     }
-
     /**
      * 点击监听事件
      *
@@ -406,5 +405,4 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
             msgText.setVisibility(android.view.View.VISIBLE);
         }
     }
-
 }

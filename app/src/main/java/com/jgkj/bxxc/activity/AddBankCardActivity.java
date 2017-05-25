@@ -106,16 +106,14 @@ public class AddBankCardActivity extends Activity implements View.OnClickListene
                         BaseEntity baseEntity = gson.fromJson(s, BaseEntity.class);
                         if (baseEntity.getCode() == 200) {
                             Toast.makeText(AddBankCardActivity.this, "绑定成功", Toast.LENGTH_LONG).show();
-
                             /**
                              *
                              * 本地储存account值
                              */
-
-                            SharedPreferences account = getSharedPreferences("account", Activity.MODE_PRIVATE);
+                            SharedPreferences account = getSharedPreferences("useraccount", Activity.MODE_PRIVATE);
                             SharedPreferences.Editor editor_account = account.edit();
                             editor_account.clear();
-                            editor_account.putString("account",et_card_number.getText().toString());
+                            editor_account.putString("useraccount",et_card_number.getText().toString());
                             editor_account.commit();
                             finish();
                         }else{

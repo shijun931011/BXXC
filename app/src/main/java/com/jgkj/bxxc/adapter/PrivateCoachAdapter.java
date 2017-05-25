@@ -18,14 +18,14 @@ import java.util.List;
 /**
  * 我的教练适配器
  */
-public class MyCoachAdapter extends BaseAdapter {
+public class PrivateCoachAdapter extends BaseAdapter {
     private Context context;
     private List<CoachDetailAction.Result> list;
     private LayoutInflater inflater;
     private CoachDetailAction.Result coachDetailAction;
     private LinearLayout.LayoutParams wrapParams;
 
-    public MyCoachAdapter(Context context, List<CoachDetailAction.Result> list) {
+    public PrivateCoachAdapter(Context context, List<CoachDetailAction.Result> list) {
         this.context = context;
         this.list = list;
         inflater = LayoutInflater.from(context);
@@ -52,15 +52,14 @@ public class MyCoachAdapter extends BaseAdapter {
         ViewHolder viewHolder = null;
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = inflater.inflate(R.layout.coach_jingdian_item, parent, false);
+            convertView = inflater.inflate(R.layout.coach_private_item, parent, false);
             viewHolder.coachName = (TextView) convertView.findViewById(R.id.coachName);
             viewHolder.kemu = (ImageView) convertView.findViewById(R.id.kemu);
             viewHolder.place = (TextView) convertView.findViewById(R.id.place);
             viewHolder.coachId = (TextView) convertView.findViewById(R.id.coachId);
             viewHolder.classType = (TextView) convertView.findViewById(R.id.classType);
-            viewHolder.totalPriseText2 = (TextView) convertView.findViewById(R.id.totalPriseText2);
             viewHolder.goodPrise = (TextView) convertView.findViewById(R.id.goodPrise);
-            viewHolder.adopt = (TextView) convertView.findViewById(R.id.adopt);
+            viewHolder.totalPriseText2 = (TextView) convertView.findViewById(R.id.totalPriseText2);
             viewHolder.coachPic = (ImageView) convertView.findViewById(R.id.coachPic);
             viewHolder.totalPriseText1 = (LinearLayout) convertView.findViewById(R.id.totalPriseText1);
             convertView.setTag(viewHolder);
@@ -85,7 +84,6 @@ public class MyCoachAdapter extends BaseAdapter {
         viewHolder.classType.setText("班级:"+coachDetailAction.getClass_class());
         viewHolder.totalPriseText2.setHint(coachDetailAction.getZonghe()+".0分");
         viewHolder.goodPrise.setHint("好评率:"+coachDetailAction.getPraise()+"%");
-        viewHolder.adopt.setHint("通过率:"+coachDetailAction.getPass()+"%");
         viewHolder.coachId.setText(coachDetailAction.getCid()+"");
 
         if (coachDetailAction.getClass_type().equals("科目二教练") ){
@@ -98,7 +96,7 @@ public class MyCoachAdapter extends BaseAdapter {
     //listView优化
     static class ViewHolder {
         public ImageView coachPic,kemu;
-        public TextView coachName, place,classType,totalPriseText2,goodPrise,adopt;
+        public TextView coachName, place,classType,totalPriseText2,goodPrise;
         private TextView coachId;
         public LinearLayout totalPriseText1;
     }

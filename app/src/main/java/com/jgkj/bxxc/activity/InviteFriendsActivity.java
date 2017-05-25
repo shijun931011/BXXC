@@ -1,7 +1,6 @@
 package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.tools.ActivityRuleDialog;
@@ -150,7 +148,6 @@ public class InviteFriendsActivity extends Activity implements View.OnClickListe
                  *
                  * tips：温馨提示,此版本只能分享到签名版的，debug版本无法分享，如果需要debug分享的话
                  *       请在各大平台上注册并完善debug和正式版本的信息填写，然后更换此项目的appkey
-                 *
                  */
                 new ShareAction(InviteFriendsActivity.this).setPlatform(SHARE_MEDIA.SINA)
                     .withText("科技改变生活，百信引领学车。学驾驶就用百信学车，方便快捷，更优惠！")

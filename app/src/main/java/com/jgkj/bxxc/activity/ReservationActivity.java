@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -33,7 +32,6 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
-import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -43,11 +41,6 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.geocode.GeoCodeResult;
-import com.baidu.mapapi.search.geocode.GeoCoder;
-import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
@@ -522,12 +515,23 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                 break;
             case R.id.signup_Coach:
                 if (signup_Coach.getText().toString().equals("立即报名")) {
-                    Intent intent2 = new Intent();
-                    intent2.setClass(ReservationActivity.this, PayInfoActivity.class);
-                    intent2.putExtra("uid",uid);
-                    intent2.putExtra("token",token);
-                    intent2.putExtra("coachInfo", signup_Coach.getTag().toString());
-                    startActivity(intent2);
+                    SharedPreferences sp = getSharedPreferences("USER", Activity.MODE_PRIVATE);
+                    String str = sp.getString("userInfo", null);
+                    Gson gson = new Gson();
+                    userInfo = gson.fromJson(str, UserInfo.class);
+                    if (userInfo == null) {
+                        Intent intent = new Intent();
+                        intent.setClass(ReservationActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }else {
+                        Intent intent2 = new Intent();
+                        intent2.setClass(ReservationActivity.this, PayInfoActivity.class);
+                        intent2.putExtra("uid", uid);
+                        intent2.putExtra("token", token);
+                        intent2.putExtra("coachInfo", signup_Coach.getTag().toString());
+                        startActivity(intent2);
+                    }
                 } else if (signup_Coach.getText().toString().equals("更改教练")) {
                     SharedPreferences sp = getSharedPreferences("USER", Activity.MODE_PRIVATE);
                     String str = sp.getString("userInfo", null);

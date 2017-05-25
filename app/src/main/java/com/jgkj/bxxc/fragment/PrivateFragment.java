@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.activity.ReservationForPrivateActivity;
-import com.jgkj.bxxc.adapter.MyCoachAdapter;
+import com.jgkj.bxxc.adapter.PrivateCoachAdapter;
 import com.jgkj.bxxc.bean.CoachDetailAction;
 import com.jgkj.bxxc.bean.SchoolPlaceTotal;
 import com.jgkj.bxxc.bean.UserInfo;
@@ -62,9 +62,9 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
     private String[][] datialPlace;
     private int page = 1;
     private List<CoachDetailAction.Result> coachList = new ArrayList<>();
-    private MyCoachAdapter adapter;
+    private PrivateCoachAdapter adapter;
     private String[] sub = {"科目二", "科目三"};
-    private String[] sortStr = {"综合", "信用", "通过率", "好评率"};
+    private String[] sortStr = {"综合","好评率"};
     private String class_type = "";
     private String sortString = "zonghe";
     private String class_class = "私教班";
@@ -141,7 +141,7 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
             String string = bundle.getString("SEARCH");
             Gson gson = new Gson();
             CoachDetailAction coachDetailAction = gson.fromJson(string, CoachDetailAction.class);
-            adapter = new MyCoachAdapter(getActivity(), coachDetailAction.getResult());
+            adapter = new PrivateCoachAdapter(getActivity(), coachDetailAction.getResult());
             listView.setAdapter(adapter);
         } else {
             check();
@@ -249,7 +249,7 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
         CoachDetailAction coachDetailAction = gson.fromJson(tag, CoachDetailAction.class);
         if (coachDetailAction.getCode() == 200) {
             coachList.addAll(coachDetailAction.getResult());
-            adapter = new MyCoachAdapter(getActivity(), coachList);
+            adapter = new PrivateCoachAdapter(getActivity(), coachList);
             listView.setAdapter(adapter);
         } else {
             swipeLayout.setVisibility(View.GONE);
@@ -340,12 +340,8 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
             String string = sort_btn3.getText().toString().trim();
             if (string.equals("综合")) {
                 sortString = "zonghe";
-            } else if (string.equals("信用")) {
-                sortString = "credit";
-            } else if (string.equals("好评率")) {
+            }else if (string.equals("好评率")) {
                 sortString = "haopin";
-            } else if (string.equals("通过率")) {
-                sortString = "tguo";
             }
         }
     }
@@ -363,7 +359,7 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
                 break;
             case R.id.coach_sort_btn1:          //全城
                 coachList.clear();
-                adapter = new MyCoachAdapter(getActivity(), coachList);
+                adapter = new PrivateCoachAdapter(getActivity(), coachList);
                 listView.setAdapter(adapter);
                 tag = "sort_btn1";
                 if (datialPlace == null) {

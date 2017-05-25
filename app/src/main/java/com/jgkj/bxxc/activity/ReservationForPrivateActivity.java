@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -174,8 +173,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
         init();
         initMap();
         getData(coachId, coachUrl);
-        bitmapA = BitmapDescriptorFactory
-                .fromResource(R.drawable.a2);
+        bitmapA = BitmapDescriptorFactory.fromResource(R.drawable.a2);
 
     }
 

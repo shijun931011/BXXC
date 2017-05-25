@@ -22,9 +22,11 @@ import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
+import com.jgkj.bxxc.activity.weixin.WXPay;
 import com.jgkj.bxxc.bean.CoachInfo;
 import com.jgkj.bxxc.bean.MyPayResult;
 import com.jgkj.bxxc.bean.UserInfo;
+import com.jgkj.bxxc.bean.entity.WXEntity.WXEntity;
 import com.jgkj.bxxc.tools.PayResult;
 import com.jgkj.bxxc.tools.RemainBaseDialog;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -41,7 +43,6 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
     //服务条款
     private ImageView isCheck;
     private TextView tiaokuan;
-
     private boolean aipayflag = false, weixinFlag = false, aserFlg = false;
     private ImageView weixin_isCheck, aipay_isCheck;
     private LinearLayout fuwutiaokuan;
@@ -59,6 +60,7 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
     private TextView coach_Price;
     private String PripayUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/payInviter";
     private String privateUrl = "http://www.baixinxueche.com/index.php/Home/Aliapppay/sijiaomoney";
+    private String weipayUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/wxpay";
     private int uid;
     private String token;
     private int pack=1;
@@ -101,6 +103,10 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
         aipay_layout = (LinearLayout) findViewById(R.id.aipay_layout);
         aipay_isCheck = (ImageView) findViewById(R.id.aipay_isCheck);
         aipay_layout.setOnClickListener(this);
+        weixin_layout = (LinearLayout) findViewById(R.id.weixin_layout);
+        weixin_isCheck = (ImageView) findViewById(R.id.weixin_isCheck);
+        weixin_layout.setOnClickListener(this);
+
         messageDeatil = (TextView) findViewById(R.id.messageDetail);
         messageDeatil.setText("报名信息     "+ Html.fromHtml("<font color=\"#ff5000\">*注：请确保以下填写信息真实有效</font>"));
         username.addTextChangedListener(this);
@@ -157,11 +163,6 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
                     }
                 });
     }
-
-
-
-
-
     /**报名信息*/
     private boolean check() {
         name = username.getText().toString().trim();
@@ -275,20 +276,81 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
                     }
                 });
     }
+
+    //微信支付
+
+    /**
+     * uid  name  idcard  cid  phone  invite 邀请（选填）    tuijianren
+     */
+    private void weixinpay(String uid, String name, String phone, String idcard,int pack){
+        OkHttpUtils
+                .post()
+                .url(weipayUrl)
+                .addParams("uid", uid)
+                .addParams("name", name)
+                .addParams("phone", phone)
+                .addParams("idcard", idcard)
+                .addParams("pt","1")
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int i) {
+                        Toast.makeText(PrivateActivity.this, "加载失败", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onResponse(String s, int i) {
+                        Log.d("BXXC","微信支付"+s);
+                        Gson gson = new Gson();
+                        WXEntity wxEntity = gson.fromJson(s, WXEntity.class);
+                        if(wxEntity.getErrorCode() == 0){
+                            WXPay wxpay = new WXPay(PrivateActivity.this, wxEntity.getResponseData().getApp_response().getAppid());
+                            wxpay.doPay(s, new WXPay.WXPayResultCallBack() {
+                                @Override
+                                public void onSuccess() {
+                                    Toast.makeText(PrivateActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onError(int error_code) {
+                                    Toast.makeText(PrivateActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onCancel() {
+                                    Toast.makeText(PrivateActivity.this, "支付取消", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }else{
+                            Toast.makeText(PrivateActivity.this, wxEntity.getErrorMsg(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.payInfo:
                 if(check()==true){
-                    Log.d("1111", "onClick: ");
-                    if(aipayflag == false){
+                    if(aipayflag == false && weixinFlag == false){
                         Toast.makeText(PrivateActivity.this, "请选择支付方式",Toast.LENGTH_SHORT).show();
                     }else{
-                        sendaiPay(useResult.getUid()+"",
-                                username.getText().toString().trim(),
-                                phoneNo.getText().toString().trim(),
-                                userId.getText().toString().trim(),
-                                pack);
+                        if (weixinFlag){
+                            weixinpay(useResult.getUid()+"",
+                                    username.getText().toString().trim(),
+                                    phoneNo.getText().toString().trim(),
+                                    userId.getText().toString().trim(),
+                                    pack);
+
+                        }else {
+                            sendaiPay(useResult.getUid() + "",
+                                    username.getText().toString().trim(),
+                                    phoneNo.getText().toString().trim(),
+                                    userId.getText().toString().trim(),
+                                    pack);
+
+                        }
 
                     }
 
@@ -302,6 +364,13 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
                         "科目二、科目三的练车费用，车辆接送费，挂科补考费，体检费用，学时卡费。该条例的最终解释权归平台所有").call();
                 break;
             case R.id.isCheck:
+                if (!aserFlg) {
+                    isCheck.setImageResource(R.drawable.right);
+                    aserFlg = true;
+                } else {
+                    isCheck.setImageResource(R.drawable.check_background);
+                    aserFlg = false;
+                }
                 check();
                 break;
             case R.id.tiaokuan:
@@ -312,14 +381,38 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
                 startActivity(intent);
                 break;
             case R.id.aipay_layout:
-                if (!aipayflag) {
+                if (weixinFlag) {
+                    weixin_isCheck.setImageResource(R.drawable.check_background);
+                    weixinFlag = false;
                     aipay_isCheck.setImageResource(R.drawable.right);
                     aipayflag = true;
-                } else {
-                    aipay_isCheck.setImageResource(R.drawable.check_background);
-                    aipayflag = false;
+                }else{
+                    if (!aipayflag) {
+                        aipay_isCheck.setImageResource(R.drawable.right);
+                        aipayflag = true;
+                    } else {
+                        aipay_isCheck.setImageResource(R.drawable.check_background);
+                        aipayflag = false;
+                    }
                 }
                 break;
+            case R.id.weixin_layout:
+                if (aipayflag) {
+                    aipay_isCheck.setImageResource(R.drawable.check_background);
+                    aipayflag = false;
+                    weixin_isCheck.setImageResource(R.drawable.right);
+                    weixinFlag = true;
+                } else {
+                    if (!weixinFlag) {
+                        weixin_isCheck.setImageResource(R.drawable.right);
+                        weixinFlag = true;
+                    } else {
+                        weixin_isCheck.setImageResource(R.drawable.check_background);
+                        weixinFlag = false;
+                    }
+                }
+                break;
+
         }
     }
 

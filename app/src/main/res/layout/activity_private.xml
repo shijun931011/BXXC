@@ -152,7 +152,6 @@
         android:background="@color/white"
         android:layout_below="@id/layout3"
         android:padding="5dp"
-
         />
     <LinearLayout
         android:id="@+id/payMethod1"

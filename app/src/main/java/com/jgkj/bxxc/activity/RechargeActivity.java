@@ -294,6 +294,8 @@ public class RechargeActivity extends Activity implements View.OnClickListener{
                     }
                 }
                 break;
+
+
             case R.id.btn_recharge:            //充值
                 if (aipayflag == false &&weixinFlag == false){
                     Toast.makeText(RechargeActivity.this, "请选择充值方式", Toast.LENGTH_SHORT).show();

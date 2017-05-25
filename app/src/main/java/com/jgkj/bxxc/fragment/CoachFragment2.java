@@ -53,7 +53,7 @@ public class CoachFragment2 extends Fragment implements OnClickListener, Adapter
     private SelectPopupWindow mPopupWindowClassType = null;
     private String tag;
     private String[] sub = {"科目二", "科目三"};
-    private String[] sortStr = {"综合", "信用", "通过率", "好评率"};
+    private String[] sortStr = {"综合", "通过率", "好评率"};
     private String[] classType = {"贵宾班", "VIP班"};
     private String class_type = "";
     private String sortString = "";
@@ -339,9 +339,7 @@ public class CoachFragment2 extends Fragment implements OnClickListener, Adapter
             String string = sort_btn3.getText().toString().trim();
             if (string.equals("综合")) {
                 sortString = "zonghe";
-            } else if (string.equals("信用")) {
-                sortString = "credit";
-            } else if (string.equals("好评率")) {
+            }else if (string.equals("好评率")) {
                 sortString = "haopin";
             } else if (string.equals("通过率")) {
                 sortString = "tguo";
@@ -385,8 +383,6 @@ public class CoachFragment2 extends Fragment implements OnClickListener, Adapter
         intent.putExtra("token", token);
         startActivity(intent);
     }
-
-
     //上拉加载
     @Override
     public void onLoad() {

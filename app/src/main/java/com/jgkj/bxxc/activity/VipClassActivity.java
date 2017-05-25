@@ -3,9 +3,8 @@ package com.jgkj.bxxc.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,7 +21,6 @@ import com.jgkj.bxxc.bean.SchoolPlaceTotal;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.tools.RefreshLayout;
 import com.jgkj.bxxc.tools.SelectPopupWindow;
-import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -62,7 +60,7 @@ public class VipClassActivity extends Activity implements View.OnClickListener, 
     private List<CoachDetailAction.Result> coachList = new ArrayList<>();
     private MyCoachAdapter adapter;
     private String[] sub = {"科目二", "科目三"};
-    private String[] sortStr = {"综合", "信用", "通过率", "好评率"};
+    private String[] sortStr = {"综合", "通过率", "好评率"};
     private String class_type = "";
     private String sortString = "zonghe";
     private String class_class = "VIP班";
@@ -341,11 +339,9 @@ public class VipClassActivity extends Activity implements View.OnClickListener, 
             String string = sort_btn3.getText().toString().trim();
             if (string.equals("综合")) {
                 sortString = "zonghe";
-            } else if (string.equals("信用")) {
-                sortString = "credit";
-            } else if (string.equals("好评率")) {
+            }else if (string.equals("好评率")) {
                 sortString = "haopin";
-            } else if (string.equals("通过率")) {
+            }else if (string.equals("通过率")) {
                 sortString = "tguo";
             }
         }

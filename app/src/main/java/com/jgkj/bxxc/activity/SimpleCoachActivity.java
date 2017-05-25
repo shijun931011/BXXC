@@ -27,10 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleCoachActivity extends Activity implements OnClickListener {
-
     private TextView training_filed;
     private TextView bt;
-
     // LinearLayout
     private LinearLayout linearlayout, dialog_layout;
     // viewpager

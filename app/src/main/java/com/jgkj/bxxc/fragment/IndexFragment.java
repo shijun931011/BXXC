@@ -30,7 +30,6 @@ import com.jgkj.bxxc.activity.BXCenterActivity;
 import com.jgkj.bxxc.activity.CarPickUpActivity;
 import com.jgkj.bxxc.activity.ClassTypeActivity;
 import com.jgkj.bxxc.activity.ClassicActivity;
-import com.jgkj.bxxc.activity.GuideActivity;
 import com.jgkj.bxxc.activity.HeadlinesActivity;
 import com.jgkj.bxxc.activity.HomeActivity;
 import com.jgkj.bxxc.activity.InviteFriendsActivity;
@@ -208,7 +207,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
                                 intent.setClass(getActivity(),InviteFriendsActivity.class);
                                 startActivity(intent);
                             }
-
                         }catch(Exception e){
                             e.printStackTrace();
                         }
@@ -351,17 +349,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
             timer.schedule(timerTask, 1000, 3000);
         }
     }
-    // fragment切换
-    public void switchFragment(Fragment from, Fragment to) {
-        transaction.setCustomAnimations(R.anim.switch_fragment_anim_in,
-                R.anim.switch_fragment_anim_out);
-        if (!to.isAdded()) {
-            transaction.hide(from).add(R.id.license_text_learnning, to)
-                    .addToBackStack(null).commit();
-        } else {
-            transaction.hide(from).show(to).commit();
-        }
-    }
     @Override
     public void onClick(View v) {
         fragmentManager = getFragmentManager();
@@ -385,7 +372,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
                 getActivity().finish();
                 mCurrentFragment = coach;
                 break;
-
             case R.id.select_place:          //场地
                 intent.setClass(getActivity(), PlaceChooseActivity.class);
                 startActivity(intent);
@@ -431,8 +417,13 @@ public class IndexFragment extends Fragment implements OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.private_coach:
-                intent.setClass(getActivity(), PrivateActivity.class);
-                startActivity(intent);
+                if (userInfo == null){
+                    intent.setClass(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }else{
+                    intent.setClass(getActivity(), PrivateActivity.class);
+                    startActivity(intent);
+                }
                 break;
         }
     }
