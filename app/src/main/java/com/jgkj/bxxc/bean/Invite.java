@@ -10,6 +10,7 @@ public class Invite {
     private int code;
     private String reason;
     private List<Result> result;
+    private Useraccount useraccount;
 
     public int getCode() {
         return code;
@@ -21,6 +22,35 @@ public class Invite {
 
     public List<Result> getResult() {
         return result;
+    }
+
+    public Useraccount getUseraccount() {
+        return useraccount;
+    }
+
+    public void setUseraccount(Useraccount useraccount) {
+        this.useraccount = useraccount;
+    }
+
+    public class Useraccount{
+        public String banktype;
+        public String account;
+
+        public String getBanktype() {
+            return banktype;
+        }
+
+        public void setBanktype(String banktype) {
+            this.banktype = banktype;
+        }
+
+        public String getAccount() {
+            return account;
+        }
+
+        public void setAccount(String account) {
+            this.account = account;
+        }
     }
 
     public class Result{

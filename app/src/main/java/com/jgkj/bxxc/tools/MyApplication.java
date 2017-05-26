@@ -23,7 +23,9 @@ public class MyApplication extends Application {
         queue = Volley.newRequestQueue(getApplicationContext());
     }
     {
-//    	微信
+        //QQ
+        PlatformConfig.setQQZone("1106051977","yFJBgfD4DvYsdoma");
+        //微信
         PlatformConfig.setWeixin("wx75b78ead0e64a547","16a2704c6eab845d6170899f201d2321");
         //新浪
         PlatformConfig.setSinaWeibo("6681699", "c2318d8d8d8bd0906297aad3394abeec");

@@ -66,5 +66,8 @@ public class Urls {
     //微信支付
     public static String wxapppay = "http://www.baixinxueche.com/index.php/Home/wxapppay/pay";
 
+    //提现
+    public static String tixian = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/tixian";
+
 
 }

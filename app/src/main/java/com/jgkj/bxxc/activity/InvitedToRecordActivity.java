@@ -1,6 +1,10 @@
 package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +19,7 @@ import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.adapter.InvitedToRecordAdapter;
 import com.jgkj.bxxc.bean.Invite;
 import com.jgkj.bxxc.bean.UserInfo;
+import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -49,6 +54,18 @@ public class InvitedToRecordActivity extends Activity  {
     private Invite InviteInfo;
 
     private SharedPreferences sp1,sp2,sp3;
+
+    public static String bankType = "";
+
+    private TextView noSmsData;
+
+    //广播接收更新数据
+    protected BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            updataInviter(uid + "", token);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +91,8 @@ public class InvitedToRecordActivity extends Activity  {
             }
         });
         listView = (ListView) findViewById(R.id.listView);
+        noSmsData = (TextView)findViewById(R.id.noSmsData);
+        listView.setEmptyView(noSmsData);
         invite_number = (TextView) findViewById(R.id.invite_number);
         SharedPreferences sp = getSharedPreferences("USER", Activity.MODE_PRIVATE);
         String str = sp.getString("userInfo", null);
@@ -101,7 +120,7 @@ public class InvitedToRecordActivity extends Activity  {
                     }
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.d("zyzhang", "hhhh"+s);
+                        Log.i("百姓学车", "邀请记录"+s);
                         //TODO
                         Gson gson = new Gson();
                         Invite invite = gson.fromJson(s, Invite.class);
@@ -109,7 +128,9 @@ public class InvitedToRecordActivity extends Activity  {
                             List<Invite.Result> inviteResult = invite.getResult();
                             Log.d("1111", "onResponse: "+ inviteResult.size());
                             list.addAll(inviteResult);
-                            invite_number.setText("您已邀请"+ inviteResult.size()+ "人加入百信学车");
+                            //设置邀请人数
+                            invite_number.setText(inviteResult.size() + "");
+                            bankType = invite.getUseraccount().getBanktype();
                         }
                         adapter = new InvitedToRecordAdapter(InvitedToRecordActivity.this,list);
                         listView.setAdapter(adapter);
@@ -117,4 +138,41 @@ public class InvitedToRecordActivity extends Activity  {
                 });
     }
 
+    private void updataInviter(String uid,String token) {
+        OkHttpUtils
+                .post()
+                .url(InviteSendUrl)
+                .addParams("uid", uid)
+                .addParams("token", token)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int i) {
+                        Toast.makeText(InvitedToRecordActivity.this, "请检查网络", Toast.LENGTH_LONG).show();
+                    }
+                    @Override
+                    public void onResponse(String s, int i) {
+                        Log.i("百姓学车", "邀请记录"+s);
+                        //TODO
+                        Gson gson = new Gson();
+                        Invite invite = gson.fromJson(s, Invite.class);
+                        if (invite.getCode() == 200) {
+                            List<Invite.Result> inviteResult = invite.getResult();
+                            Log.d("1111", "onResponse: "+ inviteResult.size());
+                            list.clear();
+                            list.addAll(inviteResult);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 在当前的activity中注册广播
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("updataInvationApp");
+        registerReceiver(this.broadcastReceiver, filter);
+    }
 }
