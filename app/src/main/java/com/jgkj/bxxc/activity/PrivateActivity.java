@@ -309,6 +309,11 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
                                 @Override
                                 public void onSuccess() {
                                     Toast.makeText(PrivateActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                                    //支付成功跳转到提交个人信息照片页面
+                                    Intent successIntent = new Intent();
+                                    successIntent.setClass(PrivateActivity.this,RegisterDetailActivity2.class);
+                                    //successIntent.putExtra("uid",uid);
+                                    startActivity(successIntent);
                                 }
 
                                 @Override

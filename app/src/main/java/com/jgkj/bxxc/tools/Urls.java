@@ -69,5 +69,8 @@ public class Urls {
     //提现
     public static String tixian = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/tixian";
 
+    //首页轮播图
+    public static String bannerpicsands = "http://www.baixinxueche.com/index.php/Home/Apitoken/bannerpicsands";
+
 
 }

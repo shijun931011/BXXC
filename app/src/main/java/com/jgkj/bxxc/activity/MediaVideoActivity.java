@@ -6,6 +6,8 @@ import android.graphics.PixelFormat;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -30,6 +32,7 @@ public class MediaVideoActivity extends Activity {
     private String videoid;
     private VideoShow videoShow;
     private ProgressDialog dialog;
+    private ImageView im_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +56,15 @@ public class MediaVideoActivity extends Activity {
         videoView.setMediaController(mediaController);
         //将mediaController与videoView建立关联
         mediaController.setMediaPlayer(videoView);
-        getWindow().setFormat(PixelFormat.TRANSLUCENT);
         dialog = ProgressDialog.show(MediaVideoActivity.this, null, "视频加载中...");
+
+        im_back = (ImageView)findViewById(R.id.im_back);
+        im_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -65,7 +75,6 @@ public class MediaVideoActivity extends Activity {
                 }
             }
         });
-
 
     }
 

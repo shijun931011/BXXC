@@ -323,6 +323,11 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                                 @Override
                                 public void onSuccess() {
                                     Toast.makeText(PayInfoActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                                    //支付成功跳转到提交个人信息照片页面
+                                    Intent successIntent = new Intent();
+                                    successIntent.setClass(PayInfoActivity.this,RegisterDetailActivity2.class);
+                                    //successIntent.putExtra("uid",uid);
+                                    startActivity(successIntent);
                                 }
 
                                 @Override

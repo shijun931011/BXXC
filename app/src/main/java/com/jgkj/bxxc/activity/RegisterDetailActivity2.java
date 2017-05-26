@@ -107,10 +107,10 @@ public class RegisterDetailActivity2 extends Activity implements View.OnClickLis
             Result res = gson.fromJson(msg.obj.toString(), Result.class);
             if (res.getCode().equals("200")) {
                 Toast.makeText(RegisterDetailActivity2.this, res.getReason(), Toast.LENGTH_SHORT).show();
-                Intent login = new Intent();
-                login.setClass(RegisterDetailActivity2.this, HomeActivity.class);
-                login.putExtra("FromActivity", "MySetting");
-                startActivity(login);
+//                Intent login = new Intent();
+//                login.setClass(RegisterDetailActivity2.this, HomeActivity.class);
+//                login.putExtra("FromActivity", "MySetting");
+//                startActivity(login);
                 finish();
             } else {
                 Toast.makeText(RegisterDetailActivity2.this, res.getReason(), Toast.LENGTH_SHORT).show();

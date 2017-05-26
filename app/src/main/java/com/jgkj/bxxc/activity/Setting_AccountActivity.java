@@ -241,7 +241,11 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
         }
     }
 
-
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getBalance(uid+"", token);
+    }
 
     public void onResume() {
         super.onResume();

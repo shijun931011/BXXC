@@ -43,8 +43,11 @@ import com.jgkj.bxxc.adapter.MyAdapter;
 import com.jgkj.bxxc.bean.HeadlinesAction;
 import com.jgkj.bxxc.bean.Picture;
 import com.jgkj.bxxc.bean.UserInfo;
+import com.jgkj.bxxc.bean.entity.BannerEntity.BannerEntity;
+import com.jgkj.bxxc.bean.entity.BannerEntity.BannerResult;
 import com.jgkj.bxxc.tools.AutoTextView;
 import com.jgkj.bxxc.tools.SecondToDate;
+import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -85,7 +88,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
     private LinearLayout yQfirend,classic_coach,private_coach;
     private AutoTextView headlines;
     //图片地址
-    private String url = "http://www.baixinxueche.com/index.php/Home/Apitoken/bannerpics ";
+    private String url = "http://www.baixinxueche.com/index.php/Home/Apitoken/bannerpics";
     private List<String> imagePath = new ArrayList<>();
     private LinearLayout.LayoutParams wrapParams;
     private Timer timer = new Timer();
@@ -106,6 +109,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
     private Boolean isLogined = false;
     private String token;
     private int uid;
+    private List<BannerEntity> bannerEntitylist;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,7 +118,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
         view.scrollBy(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         init();
         getImage();
-        scrollView();
+        //scrollView();
         getheadlines();
         headlinesList = new ArrayList<HeadlinesAction.Result>();
         return view;
@@ -199,13 +203,34 @@ public class IndexFragment extends Fragment implements OnClickListener {
                     if (Math.abs(endX - startX) < 50 && Math.abs(endY - startY) < 50){
                         Intent intent = new Intent();
                         try{
-                            if (userInfo == null){
-                                intent.setClass(getActivity(), LoginActivity.class);
-                                startActivity(intent);
-                            }else{
-                                intent.setClass(getActivity(),InviteFriendsActivity.class);
+                            int itemPosition = viewpager.getCurrentItem();
+                            if(bannerEntitylist.get(itemPosition).getKey().equals("1")){
+                                intent.setClass(getActivity(),WebViewActivity.class);
+                                intent.putExtra("url",bannerEntitylist.get(itemPosition).getUrl());
+                                intent.putExtra("title",bannerEntitylist.get(itemPosition).getTitle());
                                 startActivity(intent);
                             }
+                            if(bannerEntitylist.get(itemPosition).getKey().equals("2")){
+                                if (userInfo == null){
+                                    intent.setClass(getActivity(), LoginActivity.class);
+                                    intent.putExtra("message","lunbotu");
+                                    startActivity(intent);
+                                }else{
+                                    intent.setClass(getActivity(),InviteFriendsActivity.class);
+                                    startActivity(intent);
+                                }
+                            }
+                            if(bannerEntitylist.get(itemPosition).getKey().equals("3")){
+                                if (userInfo == null){
+                                    intent.setClass(getActivity(), LoginActivity.class);
+                                    intent.putExtra("message","privateCoach");
+                                    startActivity(intent);
+                                }else{
+                                    intent.setClass(getActivity(), PrivateActivity.class);
+                                    startActivity(intent);
+                                }
+                            }
+
                         }catch(Exception e){
                             e.printStackTrace();
                         }
@@ -269,7 +294,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
     private void getImage() {
         OkHttpUtils
                 .post()
-                .url(url)
+                .url(Urls.bannerpicsands)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -279,27 +304,29 @@ public class IndexFragment extends Fragment implements OnClickListener {
 
                     @Override
                     public void onResponse(String s, int i) {
+                        Log.i("百姓学车","轮播图"+s);
                         Gson gson = new Gson();
-                        Picture pic = gson.fromJson(s, Picture.class);
+                        BannerResult pic = gson.fromJson(s, BannerResult.class);
                         if (pic.getCode() == 200) {
-                            final List<String> list = pic.getResult();
-                            if (list != null) {
+                            bannerEntitylist = pic.getResult();
+                            if (bannerEntitylist != null) {
                                 // 实例化listView
                                 List<View> listView = new ArrayList<View>();
-                                for (int k = 0; k < list.size(); k++) {
+                                for (int k = 0; k < bannerEntitylist.size(); k++) {
                                     imageView = new ImageView(getActivity());
-                                    Glide.with(getActivity()).load(list.get(k)).into(imageView);
-                                    imageView.setTag(list.get(k));
+                                    Glide.with(getActivity()).load(bannerEntitylist.get(k).getPic()).into(imageView);
+                                    imageView.setTag(bannerEntitylist.get(k).getPic());
                                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                                     listView.add(imageView);
                                 }
                                 adapter = new MyAdapter(getActivity(), listView);
                                 SharedPreferences sp = getActivity().getSharedPreferences("PicCount", Activity.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sp.edit();
-                                editor.putInt("Count", list.size());
+                                editor.putInt("Count", bannerEntitylist.size());
                                 editor.commit();
                                 viewpager.setAdapter(adapter);
                             }
+                            scrollView();
                         }
                     }
                 });

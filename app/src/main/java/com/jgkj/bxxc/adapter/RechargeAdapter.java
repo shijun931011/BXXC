@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class RechargeAdapter extends RecyclerView.Adapter<RechargeAdapter.BaseViewHolder>{
     private ArrayList<ItemModel> dataList = new ArrayList<>();
     private int lastPressIndex = -1;
-    public static int positionIndex = 6;
+    public static int positionIndex = 1001;
 
     public void replaceAll(ArrayList<ItemModel> list) {
         dataList.clear();

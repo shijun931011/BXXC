@@ -32,18 +32,26 @@ public class PayResultActivity extends Activity implements View.OnClickListener{
     private void data() {
         intent = getIntent();
         int payResult = intent.getIntExtra("result",-1);
-        if(payResult==1){
-            double count = intent.getDoubleExtra("price",3688.00);
-            price.setText(count+"");
-            success.setVisibility(View.VISIBLE);
-            failure.setVisibility(View.GONE);
-            button_forward.setTag(1);
-        }else if(payResult==0){
+        if(payResult == -1){
             failure.setVisibility(View.VISIBLE);
             success.setVisibility(View.GONE);
             chenggong.setVisibility(View.GONE);
             shibai.setVisibility(View.VISIBLE);
             button_forward.setTag(0);
+        }else{
+            if(payResult==1){
+                double count = intent.getDoubleExtra("price",3688.00);
+                price.setText(count+"");
+                success.setVisibility(View.VISIBLE);
+                failure.setVisibility(View.GONE);
+                button_forward.setTag(1);
+            }else if(payResult==0){
+                failure.setVisibility(View.VISIBLE);
+                success.setVisibility(View.GONE);
+                chenggong.setVisibility(View.GONE);
+                shibai.setVisibility(View.VISIBLE);
+                button_forward.setTag(0);
+            }
         }
     }
 
@@ -67,10 +75,10 @@ public class PayResultActivity extends Activity implements View.OnClickListener{
                 int uid = intent.getIntExtra("uid",-1);
                 switch (tag){
                     case 0:
-                        Intent login = new Intent();
-                        login.setClass(PayResultActivity.this, HomeActivity.class);
-                        login.putExtra("FromActivity", "MySetting");
-                        startActivity(login);
+//                        Intent login = new Intent();
+//                        login.setClass(PayResultActivity.this, HomeActivity.class);
+//                        login.putExtra("FromActivity", "MySetting");
+//                        startActivity(login);
                         finish();
                         break;
                     case 1:
