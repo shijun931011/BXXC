@@ -51,7 +51,8 @@ public class SelectPopupWindow extends PopupWindow {
         this.setHeight(dm.heightPixels * 7 / 10);
 
 		/* 设置背景显示 */
-        setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.pop_bg));
+//        setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.pop_bg));
+        setBackgroundDrawable(activity.getResources().getDrawable(R.color.white));
 		/* 设置触摸外面时消失 */
         setOutsideTouchable(true);
         setTouchable(true);

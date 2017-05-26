@@ -60,7 +60,7 @@ public class ManageBankCardActivity extends Activity{
         button_backward.setVisibility(View.VISIBLE);
         remind = (ImageView) findViewById(R.id.remind);
         remind.setVisibility(View.VISIBLE);
-        remind.setImageDrawable(getResources().getDrawable(R.drawable.myprise));
+        remind.setImageResource(R.drawable.change_bank_img);
 
         listView = (ListView)findViewById(R.id.listView);
         noSmsData = (TextView)findViewById(R.id.noSmsData);

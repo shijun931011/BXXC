@@ -28,10 +28,8 @@ public class AccountSecurityActivity extends Activity implements View.OnClickLis
 
     private UserInfo userInfo;
     private String result;
-
     private String paypwd;
     private TextView tv_account;
-
     //标题
     private TextView title;
     private Button button_backward;

@@ -50,7 +50,7 @@ public class ManageBankCardAdapter extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.tv_bank_name.setText(list.get(position).getBank_type());
+        viewHolder.tv_bank_name.setText(list.get(position).getBank_type().substring(0,4)+"("+list.get(position).getAccount().substring(18,23)+")");
         return convertView;
     }
 

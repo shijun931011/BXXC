@@ -169,7 +169,7 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
         idCard = userId.getText().toString().trim();
         boolean isSuccess = false;
         if (name.equals("") || name == null || idCard.equals("") || idCard == null) { // || serFlag == false
-            payInfo.setBackgroundColor(getResources().getColor(R.color.right_bg));
+            payInfo.setBackgroundColor(getResources().getColor(R.color.gray));
             payInfo.setClickable(false);
             isSuccess = false;
             Toast.makeText(PrivateActivity.this, "填写信息不完整！",Toast.LENGTH_SHORT).show();

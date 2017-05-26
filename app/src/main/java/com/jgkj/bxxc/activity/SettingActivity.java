@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.UserInfo;
@@ -30,7 +28,6 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import okhttp3.Call;
 
 public class SettingActivity extends Activity implements View.OnClickListener {
-
     private Button back;
     private TextView title;
     private TextView softInfo;

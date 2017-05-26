@@ -8,8 +8,8 @@
     <string name="app_name">百信学车</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="phone">请输入用户名/手机号码</string>
-    <string name="password">请输入用户密码</string>
+    <string name="phone">请输入手机号</string>
+    <string name="password">请输入密码</string>
     <string name="login_btn">登 录</string>
     <string name="register">免费注册</string>
     <string name="callback">找回密码</string>

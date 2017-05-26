@@ -82,7 +82,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
 
         po = new PictureOptimization();
         ll.setBackgroundDrawable(PictureOptimization.bitmapToDrawble(PictureOptimization.decodeSampledBitmapFromResource(getResources(),
-                R.drawable.background_null, 480, 760), RegisterActivity.this));
+                R.drawable.baixinxueche_login_null, 480, 760), RegisterActivity.this));
 
         //返回按钮
         button_backward = (Button) findViewById(R.id.button_backward);
