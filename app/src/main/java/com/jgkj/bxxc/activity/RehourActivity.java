@@ -133,11 +133,6 @@ public class RehourActivity extends Activity implements View.OnClickListener{
         token = intent.getStringExtra("token");
         SharedPreferences sp = getSharedPreferences("useraccount",Activity.MODE_PRIVATE);
         account = sp.getString("useraccount", null);
-
-//        Gson gson = new Gson();
-//        CoachInfo coachInfoResult = gson.fromJson(coachInfo, CoachInfo.class);
-//        List<CoachInfo.Result> list = coachInfoResult.getResult();
-//        CoachInfo.Result result = list.get(0);
     }
 
     private void getRehour(String uid,String token){
@@ -167,6 +162,7 @@ public class RehourActivity extends Activity implements View.OnClickListener{
                             img_cry.setVisibility(View.VISIBLE);
                             prompt.setVisibility(View.VISIBLE);
                             immediate_bug.setVisibility(View.GONE);
+                            extra_hours.setVisibility(View.GONE);
                             prompt = (TextView) findViewById(R.id.prompt);
                             prompt.setHighlightColor(getResources().getColor(android.R.color.transparent));
                             SpannableString spanableInfo = new SpannableString("您还没有任何可用学时，请速速  前往购买");
@@ -363,8 +359,6 @@ public class RehourActivity extends Activity implements View.OnClickListener{
                 extraDialog.show();
         }
     }
-
-
     public void onResume() {
         super.onResume();
         // 在当前的activity中注册广播

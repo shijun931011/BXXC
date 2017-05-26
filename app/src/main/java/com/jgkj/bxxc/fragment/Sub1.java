@@ -3,9 +3,9 @@ package com.jgkj.bxxc.fragment;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-
+import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,19 +13,26 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.ant.liao.GifView;
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.interfaces.DraweeController;
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
-import com.jgkj.bxxc.activity.HomeActivity;
 import com.jgkj.bxxc.activity.SubErrorTestActivity;
 import com.jgkj.bxxc.activity.SubExamTestActivity;
 import com.jgkj.bxxc.activity.SubRandTestActivity;
 import com.jgkj.bxxc.activity.SubTestActivity;
 import com.jgkj.bxxc.activity.TrafficSignsActivity;
 import com.jgkj.bxxc.activity.WebViewActivity;
+import com.jgkj.bxxc.adapter.MyAdapter;
+import com.jgkj.bxxc.bean.SubPicture;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.Call;
 
 //科目一的一级界面
 public class Sub1 extends Fragment implements View.OnClickListener {
@@ -34,13 +41,19 @@ public class Sub1 extends Fragment implements View.OnClickListener {
     private int index;
     private LinearLayout visual, traffic, gestures;
     private TextView visual1, traffic1, gestures1;
-    private GifView baoming;
+    private ImageView imageView;
+//    private GifView baoming;
+    private MyAdapter adapter;
+    private ViewPager viewpager;
+
+    //学习界面的轮播图，和做题的四个图片：
+    private String Sub1Url = "http://www.baixinxueche.com/index.php/Home/Apitoken/bannerbaokao";
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.subject1, container, false);
         init();
+        getImage();
         return view;
     }
 
@@ -70,11 +83,12 @@ public class Sub1 extends Fragment implements View.OnClickListener {
         gestures.setOnClickListener(this);
         traffic.setOnClickListener(this);
         visual.setOnClickListener(this);
-        baoming = (GifView) view.findViewById(R.id.baoming);
-        baoming.setGifImage(R.drawable.baoming);   //设置Gif图片源
-        baoming.setShowDimension(700, 80); //设置显示的大小，拉伸或者压缩
-        baoming.setGifImageType(GifView.GifImageType.COVER);  //设置加载方式：先加载后显示、边加载边显示、只显示第一帧再显示
-        baoming.setOnClickListener(this);
+        viewpager = (ViewPager) view.findViewById(R.id.viewPager);
+//        baoming = (GifView) view.findViewById(R.id.baoming);
+//        baoming.setGifImage(R.drawable.baoming);   //设置Gif图片源
+//        baoming.setShowDimension(700, 80); //设置显示的大小，拉伸或者压缩
+//        baoming.setGifImageType(GifView.GifImageType.COVER);  //设置加载方式：先加载后显示、边加载边显示、只显示第一帧再显示
+//        baoming.setOnClickListener(this);
 
         visual1 = (TextView) view.findViewById(R.id.visual1);
         traffic1 = (TextView) view.findViewById(R.id.traffic1);
@@ -103,6 +117,46 @@ public class Sub1 extends Fragment implements View.OnClickListener {
         error_Sub.setCompoundDrawables(null, cuoti, null, null);
         examTest.setCompoundDrawables(null, suiji, null, null);
         randomTest.setCompoundDrawables(null, moni, null, null);
+    }
+
+    /**
+     * 图片请求，几张图片创建相对应的viewPager+ImageView
+     * 来显示图片
+     */
+    private void getImage() {
+        OkHttpUtils
+                .post()
+                .url(Sub1Url)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int i) {
+                        Toast.makeText(getActivity(), "网络状态不佳,请稍后再试！", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onResponse(String s, int i) {
+                        Log.d("BXXC","图片请求"+s);
+                        Gson gson = new Gson();
+                        SubPicture pic = gson.fromJson(s, SubPicture.class);
+                        if (pic.getCode() == 200) {
+                            final List<SubPicture.Result> list = pic.getResult();
+                            if (list != null) {
+                                // 实例化listView
+                                List<View> listView = new ArrayList<View>();
+                                for (int k = 0; k < list.size(); k++) {
+                                    imageView = new ImageView(getActivity());
+                                    Glide.with(getActivity()).load(list.get(k).getPic()).into(imageView);
+                                    imageView.setTag(list.get(k));
+                                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                                    listView.add(imageView);
+                                }
+                                adapter = new MyAdapter(getActivity(), listView);
+                                viewpager.setAdapter(adapter);
+                            }
+                        }
+                    }
+                });
     }
 
     @Override
@@ -141,12 +195,12 @@ public class Sub1 extends Fragment implements View.OnClickListener {
                 intent.putExtra("title", "交警手势");
                 startActivity(intent);
                 break;
-            case R.id.baoming:
-                intent.setClass(getActivity(), HomeActivity.class);
-                intent.putExtra("FromActivity", "IndexFragment");
-                startActivity(intent);
-                getActivity().finish();
-                break;
+//            case R.id.baoming:
+//                intent.setClass(getActivity(), HomeActivity.class);
+//                intent.putExtra("FromActivity", "IndexFragment");
+//                startActivity(intent);
+//                getActivity().finish();
+//                break;
         }
 
     }

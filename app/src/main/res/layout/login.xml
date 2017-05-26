@@ -90,6 +90,7 @@
                     android:background="@null"
                     android:hint="@string/phone"
                     android:textColorHint="#FFFFFF"
+                    android:textColor="@color/white"
                     android:textSize="15sp"
                 />
                 <View
@@ -114,8 +115,6 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/password_img"/>
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -127,8 +126,9 @@
                     android:layout_height="25dp"
                     android:background="@null"
                     android:hint="@string/password"
-                    android:inputType="textPassword"
                     android:textColorHint="#FFFFFF"
+                    android:textColor="@color/white"
+                    android:inputType="textPassword"
                     android:textSize="15sp"
                 />
                 <View

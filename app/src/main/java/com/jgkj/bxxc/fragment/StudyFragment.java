@@ -21,7 +21,6 @@ public class StudyFragment extends Fragment {
     private SimpleFragmentPagerAdapter pagerAdapter;
     private ViewPager viewPager;
     private TabLayout tabLayout;
-
     /**
      * 注意：在fragment中嵌套fragment，当外部fragment切换时，内部fragment会出现空白情况
      * 这是因为外部fragment切换后，内部fragment会走destroy生命周期，当外部fragment切换回来后自然
@@ -33,8 +32,7 @@ public class StudyFragment extends Fragment {
      * @return
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         if(container.getTag()==null){
             view = inflater.inflate(R.layout.study, container, false);

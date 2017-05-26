@@ -57,14 +57,12 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
     private String account;
     private String balanceUrl="http://www.baixinxueche.com/index.php/Home/Apitokenpt/balance";
 
-
     //广播接收更新数据
     protected BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             getBalance(uid+"", token);
         }
     };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

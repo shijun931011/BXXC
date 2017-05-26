@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-
-              android:orientation="vertical">
+              android:layout_height="wrap_content"
+              android:layout_centerHorizontal="true"
+              >
     <include
+        android:id="@+id/layout"
         layout="@layout/title"/>
    <LinearLayout
+       android:id="@+id/linearlayout"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
+       android:layout_below="@id/layout"
        android:orientation="horizontal">
        <ImageView
            android:layout_width="84dp"
@@ -29,6 +32,7 @@
         android:id="@+id/balance_money"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/linearlayout"
         android:text="￥ 0"
         android:textColor="@color/red"
         android:textSize="25dp"
@@ -42,14 +46,15 @@
         android:text="余额说明"
         android:background="@drawable/btn_shape"
         android:textSize="10sp"
-        android:layout_gravity="center"
-
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/balance_money"
     />
-
     <Button
         android:id="@+id/recharge"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_below="@id/balance_explain"
         android:text="充   值"
         android:textSize="20dp"
         android:textColor="@color/white"
@@ -58,16 +63,18 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
     />
-
     <View
+        android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
         android:layout_marginTop="10dp"
+        android:layout_below="@id/recharge"
         android:background="@color/background"/>
     <LinearLayout
         android:id="@+id/re_hour"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/view"
         android:orientation="horizontal">
         <ImageView
             android:layout_width="30dp"
@@ -96,50 +103,19 @@
 
     </LinearLayout>
     <View
+        android:id="@+id/view1"
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
         android:layout_marginLeft="10dp"
+        android:layout_below="@id/re_hour"
         android:background="@color/background"/>
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/myOrder"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:orientation="horizontal">-->
-        <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:drawablePadding="10dp"-->
-            <!--android:gravity="center_vertical"-->
-            <!--android:drawableLeft="@drawable/my_order_image"-->
-            <!--android:paddingBottom="10dp"-->
-            <!--android:paddingLeft="10dp"-->
-            <!--android:paddingRight="15dp"-->
-            <!--android:paddingTop="10dp"-->
-            <!--android:text="我的订单"/>-->
-        <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:drawablePadding="15dp"-->
-            <!--android:drawableRight="@drawable/right_arrow"-->
-            <!--android:gravity="right"-->
-            <!--android:paddingBottom="15dp"-->
-            <!--android:paddingRight="15dp"-->
-            <!--android:paddingTop="15dp"/>-->
-    <!--</LinearLayout>-->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_marginLeft="10dp"
-        android:background="@color/background"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/pay_detail"
         android:layout_marginTop="10dp"
+        android:layout_below="@id/view1"
         android:orientation="horizontal">
         <TextView
             android:layout_width="match_parent"
@@ -165,48 +141,17 @@
             android:paddingTop="15dp"/>
     </LinearLayout>
     <View
+        android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
         android:layout_marginLeft="10dp"
+        android:layout_below="@id/pay_detail"
         android:background="@color/background"/>
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="#FFFFFF"-->
-        <!--android:id="@+id/bindingAlipay"-->
-        <!--android:orientation="horizontal">-->
-        <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:drawablePadding="10dp"-->
-            <!--android:gravity="center_vertical"-->
-            <!--android:paddingBottom="10dp"-->
-            <!--android:paddingLeft="10dp"-->
-            <!--android:paddingRight="15dp"-->
-            <!--android:paddingTop="10dp"-->
-            <!--android:text="我的支付宝账户"/>-->
-        <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:drawablePadding="15dp"-->
-            <!--android:drawableRight="@drawable/right_arrow"-->
-            <!--android:gravity="right"-->
-            <!--android:hint="未绑定"-->
-            <!--android:paddingBottom="15dp"-->
-            <!--android:paddingRight="15dp"-->
-            <!--android:paddingTop="15dp"/>-->
-    <!--</LinearLayout>-->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/background"
-    />
     <LinearLayout
         android:id="@+id/mycoupod"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/view2"
         android:orientation="horizontal">
         <TextView
             android:layout_width="match_parent"
@@ -237,14 +182,14 @@
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
         android:layout_marginLeft="10dp"
+        android:layout_below="@id/mycoupod"
         android:background="@color/background"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="155dp"
-        android:orientation="horizontal"
         android:gravity="center"
+        android:paddingBottom="10dp"
+        android:layout_alignParentBottom="true"
         >
         <TextView
             android:id="@+id/balance_deal"
@@ -262,7 +207,6 @@
             android:layout_marginStart="25dp"
             />
     </LinearLayout>
+</RelativeLayout>
 
 
-
-</LinearLayout>

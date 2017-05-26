@@ -109,7 +109,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                             SharedPreferences.Editor editor2 = sp2.edit();
                             editor2.putLong("userSessionTime", new Date().getTime());
                             editor2.commit();
-
                             /**
                              * 本地存储token值，只有登录之后才会产生token值
                              */

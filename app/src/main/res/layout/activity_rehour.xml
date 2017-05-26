@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_rehour"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     >
 
-    <include layout="@layout/title"/>
+    <include
+        android:id="@+id/layout"
+        layout="@layout/title"/>
 
     <ListView
         android:id="@+id/listView"
+        android:layout_below="@id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
     />
@@ -23,6 +25,7 @@
         android:textColor="@color/color_bule"
         android:layout_marginLeft="200dp"
         android:layout_marginTop="20dp"
+        android:layout_below="@+id/listView"
 
     />
     <ImageView
@@ -30,20 +33,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/kulian"
-        android:layout_marginTop="60dp"
+        android:layout_centerInParent="true"
         android:visibility="gone"
     />
     <TextView
         android:id="@+id/prompt"
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
         android:textSize="13dp"
         android:textColor="@color/gray"
-        android:visibility="gone"
+        android:layout_below="@id/kulian"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
     />
-
     <TextView
         android:id="@+id/extra_hours"
         android:layout_width="match_parent"
@@ -51,6 +53,7 @@
         android:text="@string/extra_hours_package"
         android:gravity="center"
         android:textColor="@color/gray"
-        android:layout_marginTop="280dp"
+        android:paddingBottom="10dp"
+        android:layout_alignParentBottom="true"
     />
-</LinearLayout>
+</RelativeLayout>
