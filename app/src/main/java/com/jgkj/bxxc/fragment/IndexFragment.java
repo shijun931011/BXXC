@@ -111,8 +111,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.index_fragment2, container, false);
-        view.scrollBy(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+        view.scrollBy(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         init();
         getImage();
         scrollView();
@@ -406,6 +405,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
             case R.id.yQfirend:            //邀请好友
                 if (userInfo == null){
                     intent.setClass(getActivity(), LoginActivity.class);
+                    intent.putExtra("message","ivatationFriends");
                     startActivity(intent);
                 }else{
                     intent.setClass(getActivity(),InviteFriendsActivity.class);
@@ -419,12 +419,33 @@ public class IndexFragment extends Fragment implements OnClickListener {
             case R.id.private_coach:
                 if (userInfo == null){
                     intent.setClass(getActivity(), LoginActivity.class);
+                    intent.putExtra("message","privateCoach");
                     startActivity(intent);
                 }else{
                     intent.setClass(getActivity(), PrivateActivity.class);
                     startActivity(intent);
                 }
                 break;
+        }
+    }
+
+    /**
+     * 获取焦点时刷新界面
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // 验证是否登录
+        sp = getActivity().getApplication().getSharedPreferences("USER",
+                Activity.MODE_PRIVATE);
+        int isFirstRun = sp.getInt("isfirst", 0);
+        if (isFirstRun != 0) {
+            String str = sp.getString("userInfo", null);
+            Log.d("11111", "init: " + str);
+            Gson gson = new Gson();
+            userInfo = gson.fromJson(str, UserInfo.class);
+            result = userInfo.getResult();
         }
     }
 }

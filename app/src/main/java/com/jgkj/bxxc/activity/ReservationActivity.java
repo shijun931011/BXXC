@@ -522,6 +522,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                     if (userInfo == null) {
                         Intent intent = new Intent();
                         intent.setClass(ReservationActivity.this, LoginActivity.class);
+                        intent.putExtra("message","reservation");
                         startActivity(intent);
                         finish();
                     }else {
@@ -540,6 +541,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                     if (userInfo == null) {
                         Intent intent2 = new Intent();
                         intent2.setClass(ReservationActivity.this, LoginActivity.class);
+                        intent2.putExtra("message","modifyCoach");
                         startActivity(intent2);
                         finish();
                     } else {
@@ -564,7 +566,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                  */
                 image = new UMImage(ReservationActivity.this, coach_head.getTag().toString());
 
-                new ShareAction(this).setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
+                new ShareAction(this).setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
                         .withText("科技改变生活，百信引领学车！百信学车在这里向您分享我们这里最优秀的教练"+coach_name.getText().toString())
                         .withMedia(image)
                         .withTitle("百信学车向您分享")

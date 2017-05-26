@@ -54,8 +54,6 @@ public class PersonalInfoActivity extends Activity implements OnClickListener {
     private int mDay;
     private int mHour;
     private int mMinute;
-    //修改密码
-    private TextView changePassword;
     //读取个人信息
     private SharedPreferences sp;
     private String token;
@@ -93,9 +91,7 @@ public class PersonalInfoActivity extends Activity implements OnClickListener {
         text_title = (TextView) findViewById(R.id.text_title);
         button_backward.setOnClickListener(this);
         button_forward.setOnClickListener(this);
-        //修改密码
-        changePassword = (TextView) findViewById(R.id.changePassword);
-        changePassword.setOnClickListener(this);
+
         //更改标题栏
         text_title.setText("个人信息");
         button_forward.setVisibility(View.VISIBLE);
@@ -227,10 +223,6 @@ public class PersonalInfoActivity extends Activity implements OnClickListener {
     public void onClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()) {
-            case R.id.changePassword:
-                intent.setClass(PersonalInfoActivity.this,CallbackActivity.class);
-                startActivity(intent);
-                break;
             case R.id.button_backward:
                 finish();
                 break;

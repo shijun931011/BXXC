@@ -82,18 +82,7 @@
                 android:textSize="17sp" />
 
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/background"/>
-            <TextView
-                android:id="@+id/changePassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:padding="10dp"
-                android:text="修改密码"
-                android:textSize="17sp" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"

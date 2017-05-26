@@ -349,6 +349,7 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
                         R.layout.sure_cancel_dialog, null);
                 // 初始化控件
                 dialog_textView = (TextView) inflate.findViewById(R.id.dialog_textView);
+                dialog_textView.setText("tel:" + "0551-65555744");
                 dialog_sure = (TextView) inflate.findViewById(R.id.dialog_sure);
                 dialog_cancel = (TextView) inflate.findViewById(R.id.dialog_cancel);
                 dialog_sure.setOnClickListener(this);
@@ -478,15 +479,20 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
     }
     private void isLogin(){
         // 验证是否登录
-        sp = getActivity().getSharedPreferences("USER",
-                Activity.MODE_PRIVATE);
-        int isFirstRun = sp.getInt("isfirst", 0);
-        if(isFirstRun!=0){
-            try {
-                refreshInfo(result.getUid() + "");
-            }catch (Exception e){
-                e.printStackTrace();
-                Toast.makeText(getActivity(),"暂未登录，请登录后再试！", Toast.LENGTH_SHORT).show();
+        sp = getActivity().getSharedPreferences("USER", Activity.MODE_PRIVATE);
+        String str = sp.getString("userInfo", null);
+        Gson gson = new Gson();
+        userInfo = gson.fromJson(str, UserInfo.class);
+        if(userInfo != null){
+            result = userInfo.getResult();
+            int isFirstRun = sp.getInt("isfirst", 0);
+            if(isFirstRun!=0){
+                try {
+                    refreshInfo(result.getUid() + "");
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(getActivity(),"暂未登录，请登录后再试！", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }

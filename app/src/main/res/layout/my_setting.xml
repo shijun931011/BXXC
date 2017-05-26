@@ -93,6 +93,46 @@
                   android:layout_height="0.1dp"
                   android:layout_marginTop="5dp"
                   android:background="@color/background"/>
+            <!-- 学车进程 -->
+            <TextView
+                android:id="@+id/learnPro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:drawableLeft="@drawable/drive_process"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/right_arrow"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:paddingTop="10dp"
+                android:text="学车进程"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="@color/background"/>
+
+            <TextView
+                android:id="@+id/learn_record"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:drawableLeft="@drawable/learning_records"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/right_arrow"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:paddingTop="10dp"
+                android:text="学车记录"/>
+            <View android:layout_width="match_parent"
+                  android:layout_height="0.1dp"
+                  android:layout_marginTop="5dp"
+                  android:background="@color/background"/>
+
             <!-- 我的教练 -->
             <TextView
                 android:id="@+id/myCoach"
@@ -108,73 +148,7 @@
                 android:paddingRight="15dp"
                 android:paddingTop="10dp"
                 android:text="我的教练"/>
-            <View android:layout_width="match_parent"
-                  android:layout_height="0.1dp"
-                  android:layout_marginTop="5dp"
-                  android:background="@color/background"/>
-            <!-- 学车进程 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/drive_process"
-                    android:drawablePadding="10dp"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="10dp"
-                    android:text="学车进程"/>
-                <TextView
-                    android:id="@+id/learnPro"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="15dp"
-                    android:drawableRight="@drawable/right_arrow"
-                    android:gravity="right"
-                    android:paddingBottom="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="15dp"/>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:background="@color/background"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/learning_records"
-                    android:drawablePadding="10dp"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="10dp"
-                    android:text="学车记录"/>
-                <TextView
-                    android:id="@+id/learn_record"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="15dp"
-                    android:drawableRight="@drawable/right_arrow"
-                    android:gravity="right"
-                    android:paddingBottom="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="15dp"/>
-            </LinearLayout>
+
             <View android:layout_width="match_parent"
                   android:layout_height="0.1dp"
                   android:layout_marginTop="5dp"
@@ -200,68 +174,42 @@
                 android:layout_height="0.1dp"
                 android:layout_marginLeft="50dp"
                 android:background="@color/background"/>
-            <LinearLayout
+
+            <TextView
+                android:id="@+id/myactivity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/activity"
-                    android:drawablePadding="10dp"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="10dp"
-                    android:text="活动中心"/>
-                <TextView
-                    android:id="@+id/myactivity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="15dp"
-                    android:drawableRight="@drawable/right_arrow"
-                    android:gravity="right"
-                    android:paddingBottom="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="15dp"/>
-            </LinearLayout>
+                android:drawableLeft="@drawable/activity"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/right_arrow"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:paddingTop="10dp"
+                android:text="活动中心"/>
 
             <View android:layout_width="match_parent"
                   android:layout_height="0.1dp"
                   android:layout_marginTop="5dp"
                   android:background="@color/background"/>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/setting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/setting_image"
-                    android:drawablePadding="10dp"
-                    android:gravity="center_vertical"
-                    android:padding="10dp"
-                    android:text="设置"
-                    />
-                <TextView
-                    android:id="@+id/setting"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="15dp"
-                    android:drawableRight="@drawable/right_arrow"
-                    android:gravity="right"
-                    android:paddingBottom="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="15dp"/>
-            </LinearLayout>
+                android:drawableLeft="@drawable/setting_image"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/right_arrow"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:paddingTop="10dp"
+                android:text="设置"/>
+
         </LinearLayout>
     </ScrollView>
 </com.jgkj.bxxc.tools.RefreshLayout>

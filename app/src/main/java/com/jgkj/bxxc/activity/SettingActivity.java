@@ -166,6 +166,7 @@ public class SettingActivity extends Activity implements View.OnClickListener {
                 int isFirstRun = sp.getInt("isfirst",0);
                 if (isFirstRun == 0) {
                     intent.setClass(SettingActivity.this,LoginActivity.class);
+                    intent.putExtra("message","account_security");
                     startActivity(intent);
                 }else{
                     intent.setClass(this,AccountSecurityActivity.class);
@@ -191,6 +192,20 @@ public class SettingActivity extends Activity implements View.OnClickListener {
                 startActivity(intent);
                 finish();
                 break;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //验证是否登录
+        sp = getApplication().getSharedPreferences("USER", Activity.MODE_PRIVATE);
+        int isFirstRun = sp.getInt("isfirst",0);
+        if (isFirstRun == 0) {
+            exit.setVisibility(View.GONE);
+        }else{
+            exit.setVisibility(View.VISIBLE);
         }
     }
 }

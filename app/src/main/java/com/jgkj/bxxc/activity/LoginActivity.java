@@ -150,6 +150,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                                 finish();
                             } else if (str.equals("payInfo")||str.equals("InviteFriendsActivity")) {
                                 finish();
+                            }else{
+                                finish();
                             }
                             login_btn.setTag(userInfo.getResult().getUid());
                             if(login_btn.getTag()!=null){

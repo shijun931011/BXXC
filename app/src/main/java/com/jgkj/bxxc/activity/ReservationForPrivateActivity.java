@@ -511,6 +511,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                     if (userInfo == null) {
                         Intent intent2 = new Intent();
                         intent2.setClass(ReservationForPrivateActivity.this, LoginActivity.class);
+                        intent2.putExtra("message","reservation");
                         startActivity(intent2);
                         finish();
                     } else {
@@ -529,6 +530,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                     if (userInfo == null) {
                         Intent intent2 = new Intent();
                         intent2.setClass(ReservationForPrivateActivity.this, LoginActivity.class);
+                        intent2.putExtra("message","modifyCoach");
                         startActivity(intent2);
                         finish();
                     } else {
