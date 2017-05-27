@@ -570,9 +570,6 @@
         <activity
             android:name=".activity.AddBankCardActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.BugPageageActivity"
-            android:screenOrientation="portrait" />
         <activity android:name=".activity.UseGuideActivity"
             android:screenOrientation="portrait"
             />

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,8 +19,10 @@ import com.alipay.sdk.app.PayTask;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
+import com.jgkj.bxxc.activity.weixin.WXPay;
 import com.jgkj.bxxc.bean.MyPayResult;
 import com.jgkj.bxxc.bean.ShowRePay;
+import com.jgkj.bxxc.bean.entity.WXEntity.WXEntity;
 import com.jgkj.bxxc.tools.PayResult;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -42,7 +45,15 @@ public class BuKaoActivity extends Activity implements View.OnClickListener {
     private boolean aipayflag = false, weixinFlag = false, serFlag = false;
     private int uid;
     private Button payInfo;
+    /**
+     * 支付宝补考支付
+     * uid  baixin_state  refee
+     */
     private String payUrl = "http://www.baixinxueche.com/index.php/Home/Aliappretext/retestPay";
+    /*  微信支付  补考支付
+     uid  baixin_state  refee
+     */
+    private String weixinPayUrl="http://www.baixinxueche.com/index.php/Home/Aliappretext/wxretestPay";
     private String orderUrl = "http://www.baixinxueche.com/index.php/Home/Apiupdata/retest";
 
     @Override
@@ -107,7 +118,8 @@ public class BuKaoActivity extends Activity implements View.OnClickListener {
                     Toast.makeText(BuKaoActivity.this, "请首先选择支付方式", Toast.LENGTH_SHORT).show();
                 } else {
                     if (weixinFlag) {
-                        Toast.makeText(BuKaoActivity.this, "暂未开通微信支付哦！", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(BuKaoActivity.this, "暂未开通微信支付哦！", Toast.LENGTH_SHORT).show();
+                        sendweixinPay(uid+"",showRePay.getResult().getBaixin_state()+"",showRePay.getResult().getRefee()+"");
                     } else {
                         sendaiPay(uid+"",showRePay.getResult().getBaixin_state()+"",showRePay.getResult().getRefee()+"");
                     }
@@ -207,7 +219,7 @@ public class BuKaoActivity extends Activity implements View.OnClickListener {
                 Glide.with(this).load(url).into(img);
             }
             name.setText(res.getName());
-            car.setText("所报班级："+res.getCar());
+            car.setText("所报车型："+res.getCar());
             classType.setText("所报班级："+res.getClass_class());
             phone.setText("手机号："+res.getPhone());
             orderfee.setText("￥"+res.getRefee());
@@ -223,7 +235,51 @@ public class BuKaoActivity extends Activity implements View.OnClickListener {
             Toast.makeText(BuKaoActivity.this, showRePay.getReason(), Toast.LENGTH_SHORT).show();
         }
     }
+    private void sendweixinPay(String uid, String baixin_state, String fee){
+        OkHttpUtils
+                .post()
+                .url(payUrl)
+                .addParams("uid", uid)
+                .addParams("baixin_state", baixin_state)
+                .addParams("refee",fee)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int i) {
+                        Toast.makeText(BuKaoActivity.this, "加载失败", Toast.LENGTH_LONG).show();
+                    }
 
+                    @Override
+                    public void onResponse(String s, int i) {
+                        Log.i("百信学车", "微信结果"+s);
+                        Gson gson = new Gson();
+                        WXEntity wxEntity = gson.fromJson(s, WXEntity.class);
+                        if(wxEntity.getErrorCode() == 0){
+                            WXPay wxpay = new WXPay(BuKaoActivity.this, wxEntity.getResponseData().getApp_response().getAppid());
+                            wxpay.doPay(s, new WXPay.WXPayResultCallBack() {
+                                @Override
+                                public void onSuccess() {
+
+                                    Toast.makeText(BuKaoActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onError(int error_code) {
+                                    Toast.makeText(BuKaoActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onCancel() {
+                                    Toast.makeText(BuKaoActivity.this, "支付取消", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                        }else{
+                            Toast.makeText(BuKaoActivity.this, wxEntity.getErrorMsg(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
 
     /**
      * 交补考费
@@ -304,10 +360,4 @@ public class BuKaoActivity extends Activity implements View.OnClickListener {
                     }
                 });
     }
-
-
-
-
-
-
 }

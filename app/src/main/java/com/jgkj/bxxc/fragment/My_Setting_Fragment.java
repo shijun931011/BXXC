@@ -24,6 +24,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,7 +74,8 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
     private TextView dialog_textView, dialog_sure, dialog_cancel;
     //退出登录
     private TextView myCoach;
-    private TextView learnPro;
+    private LinearLayout learnPro;
+    private TextView learnPro1;
     private TextView Setting;
     //头像处理
     private ImageView choose_headImage;
@@ -127,7 +129,8 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
         userNick = (TextView) view.findViewById(R.id.userNick);
         myactivity = (TextView) view.findViewById(R.id.myactivity);
         myactivity.setOnClickListener(this);
-        learnPro = (TextView) view.findViewById(R.id.learnPro);
+        learnPro = (LinearLayout) view.findViewById(R.id.learnPro);
+        learnPro1 = (TextView) view.findViewById(R.id.learnPro1);
         learnPro.setOnClickListener(this);
         Setting = (TextView) view.findViewById(R.id.setting);
         Setting.setOnClickListener(this);
@@ -145,7 +148,7 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.head1);
             choose_headImage.setImageBitmap(bitmap);
             userNick.setText("点击登录");
-            learnPro.setText("无记录");
+//            learnPro.setText("无记录");
             if (userNick.getText().toString().trim().equals("点击登录")) {
                 userNick.setOnClickListener(new OnClickListener() {
                     @Override
@@ -193,7 +196,7 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
         }else{
             Glide.with(getActivity()).load(result.getPic()).into(choose_headImage);
         }
-        learnPro.setText(result.getState());
+        learnPro1.setText(result.getState());
         if (result.getName() != null&&!result.getName().equals("")) {
             userNick.setText(result.getName());
         } else {

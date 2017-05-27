@@ -221,7 +221,7 @@ public class RechargeActivity extends Activity implements View.OnClickListener{
                     }
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.i("百信学车", "微信结果"+s);
+
                         Gson gson = new Gson();
                         WXEntity wxEntity = gson.fromJson(s, WXEntity.class);
                         if(wxEntity.getErrorCode() == 0){

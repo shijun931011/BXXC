@@ -39,7 +39,6 @@ public class ClassTypeActivity extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_type);
         initview();
-
     }
     private void initview(){
         title = (TextView)  findViewById(R.id.text_title);
