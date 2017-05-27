@@ -108,7 +108,6 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
         listView = (ListView) findViewById(R.id.listView);
         Intent intent = getIntent();
         token = intent.getStringExtra("token");
-
     }
 
     //初始化布局

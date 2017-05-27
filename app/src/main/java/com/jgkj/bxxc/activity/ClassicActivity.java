@@ -3,9 +3,8 @@ package com.jgkj.bxxc.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -48,7 +47,7 @@ public class ClassicActivity extends Activity implements View.OnClickListener,Ad
     private SelectPopupWindow mPopupWindowClassType = null;
     private String tag;
     private String[] sub = {"科目二", "科目三"};
-    private String[] sortStr = {"综合", "信用", "通过率", "好评率"};
+    private String[] sortStr = {"综合","通过率", "好评率"};
     private String[] classType = {"贵宾班", "VIP班"};
     private String class_type = "";
     private String sortString = "";
@@ -339,8 +338,6 @@ public class ClassicActivity extends Activity implements View.OnClickListener,Ad
             String string = sort_btn3.getText().toString().trim();
             if (string.equals("综合")) {
                 sortString = "zonghe";
-            } else if (string.equals("信用")) {
-                sortString = "credit";
             } else if (string.equals("好评率")) {
                 sortString = "haopin";
             } else if (string.equals("通过率")) {

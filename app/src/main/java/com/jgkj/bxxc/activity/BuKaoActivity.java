@@ -30,7 +30,6 @@ import okhttp3.Call;
  * Created by fangzhou on 2017/1/5.
  * 补考展示页面
  */
-
 public class BuKaoActivity extends Activity implements View.OnClickListener {
     private TextView title, name, classType, car, phone, ordername, orderfee,coach_Price;
     private Button back;
