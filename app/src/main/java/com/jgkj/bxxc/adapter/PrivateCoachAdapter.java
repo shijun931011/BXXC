@@ -91,6 +91,7 @@ public class PrivateCoachAdapter extends BaseAdapter {
         }else if(coachDetailAction.getClass_type().equals("科目三教练") ){
             viewHolder.kemu.setImageResource(R.drawable.kemu3);
         }
+
         return convertView;
     }
     //listView优化

@@ -1,7 +1,10 @@
 package com.jgkj.bxxc.fragment;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,6 +28,7 @@ import com.jgkj.bxxc.bean.SchoolPlaceTotal;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.tools.RefreshLayout;
 import com.jgkj.bxxc.tools.SelectPopupWindow;
+import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -69,6 +73,24 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
     private String sortString = "zonghe";
     private String class_class = "私教班";
     private int schId;
+    private List<CoachDetailAction.Result> listTemp = new ArrayList<>();
+
+    //广播接收更新数据
+    protected BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            String string = CoachFragment.strResult;
+            Gson gson = new Gson();
+            CoachDetailAction coachDetailAction = gson.fromJson(string, CoachDetailAction.class);
+            listTemp.clear();
+            for(int i=0;i<coachDetailAction.getResult().size();i++){
+                if(coachDetailAction.getResult().get(i).getClass_class().equals("私教班")){
+                    listTemp.add(coachDetailAction.getResult().get(i));
+                }
+            }
+            adapter = new PrivateCoachAdapter(getActivity(), listTemp);
+            listView.setAdapter(adapter);
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -126,7 +148,7 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
                     }
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.d("shijun","bxxc" +s);
+                        Log.i("百信学车","地方" +s);
                         listView.setTag(s);
                         if (listView.getTag() != null) {
                             addAdapter();
@@ -179,6 +201,7 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
 
     //条件查询
     private void sort(String class_type, String school, String sort, String page, String class_class) {
+        Log.i("百姓学车","全城参数" + "class_type="+class_type + "   school_id=" + school + "   sort=" + sort + "   page=" + page + "   class_class=" + class_class);
         OkHttpUtils
                 .post()
                 .url(sortPath)
@@ -195,7 +218,7 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
                     }
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.d("shijun","1111"+s);
+                        Log.i("百姓学车","全城参数"+s);
                         listView.setTag(s);
                         if (listView.getTag() != null) {
                             setAdapter();
@@ -265,8 +288,13 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
         @Override
         public void selectCategory(Integer parentSelectposition, Integer childrenSelectposition) {
             if (tag.equals("sort_btn1")){
-                schId = schoolPlaceTotal.getResult().get(parentSelectposition).getResult().get(childrenSelectposition).getId();
-                sort_btn1.setText(datialPlace[parentSelectposition][childrenSelectposition]);
+                if(childrenSelectposition == null){
+                    sort_btn1.setText("全城");
+                    schId = 0;
+                }else{
+                    schId = schoolPlaceTotal.getResult().get(parentSelectposition).getResult().get(childrenSelectposition).getId();
+                    sort_btn1.setText(datialPlace[parentSelectposition][childrenSelectposition]);
+                }
             }else if (tag.equals("sort_btn2")){
                 sort_btn2.setText(sub[parentSelectposition]);
             }else if (tag.equals("sort_btn3")){
@@ -358,9 +386,9 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
                 mPopupWindowSub.showAsDropDown(sort_btn1, -5, 1);
                 break;
             case R.id.coach_sort_btn1:          //全城
-                coachList.clear();
-                adapter = new PrivateCoachAdapter(getActivity(), coachList);
-                listView.setAdapter(adapter);
+//                coachList.clear();
+//                adapter = new PrivateCoachAdapter(getActivity(), coachList);
+//                listView.setAdapter(adapter);
                 tag = "sort_btn1";
                 if (datialPlace == null) {
                     Toast.makeText(getActivity(), "网络状态不佳，请稍后再试", Toast.LENGTH_SHORT).show();
@@ -382,11 +410,11 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
         }
     }
 
-
-
-
-
-
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("updataAppPrivateFragment");
+        getActivity().registerReceiver(this.broadcastReceiver, filter);
+    }
 }

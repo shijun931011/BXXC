@@ -48,7 +48,7 @@ public class SelectPopupWindow extends PopupWindow {
 
         this.setContentView(contentView);
         this.setWidth(dm.widthPixels);
-        this.setHeight(dm.heightPixels * 7 / 10);
+        this.setHeight(dm.heightPixels * 3 / 10);
 
 		/* 设置背景显示 */
 //        setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.pop_bg));
@@ -97,10 +97,19 @@ public class SelectPopupWindow extends PopupWindow {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             if(childrenStrings!= null){
-                childrenCategoryAdapter.setDatas(childrenStrings[position]);
-                childrenCategoryAdapter.notifyDataSetChanged();
-                parentCategoryAdapter.setSelectedPosition(position);
-                parentCategoryAdapter.notifyDataSetChanged();
+                if(parentStrings[position].equals("全城")){
+                    if (selectCategory != null) {
+                        selectCategory.selectCategory(position, null);
+                    }
+                    parentCategoryAdapter.setSelectedPosition(position);
+                    parentCategoryAdapter.notifyDataSetChanged();
+                    dismiss();
+                }else{
+                    childrenCategoryAdapter.setDatas(childrenStrings[position]);
+                    childrenCategoryAdapter.notifyDataSetChanged();
+                    parentCategoryAdapter.setSelectedPosition(position);
+                    parentCategoryAdapter.notifyDataSetChanged();
+                }
             }else{
                 if (selectCategory != null) {
                     selectCategory.selectCategory(position, null);

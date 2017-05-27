@@ -1,6 +1,7 @@
 package com.jgkj.bxxc.fragment;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -48,6 +49,10 @@ public class CoachFragment extends Fragment implements View.OnClickListener{
     private Dialog dialog;
     private View view;
     private String searchUrl = "http://www.baixinxueche.com/index.php/Home/Apitoken/like";
+
+    //判断点击了哪个按钮（私教/金典）
+    public boolean flag = false;
+    public static String strResult;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -164,7 +169,6 @@ public class CoachFragment extends Fragment implements View.OnClickListener{
         dialog.show();/// 显示对话框
     }
 
-
     /**
      * 教练中心页面模糊查找
      *
@@ -172,6 +176,7 @@ public class CoachFragment extends Fragment implements View.OnClickListener{
      * @param searchPage 页数
      */
     private void search(String str, String searchPage) {
+        Log.i("百姓学车","模糊查询参数"+ "input=" + str + "   page=" + searchPage + "url=" + searchUrl);
         OkHttpUtils
                 .post()
                 .url(searchUrl)
@@ -187,17 +192,38 @@ public class CoachFragment extends Fragment implements View.OnClickListener{
 
                     @Override
                     public void onResponse(String s, int i) {
+                        Log.i("百姓学车","模糊查询"+s);
                         dialog.dismiss();
                         Gson gson = new Gson();
                         CoachDetailAction coachDetailAction = gson.fromJson(s, CoachDetailAction.class);
                         if (coachDetailAction.getCode() == 200) {
-                            coach = new CoachFragment();
-                            fragmentManager= getFragmentManager();
-                            Bundle bundle = new Bundle();
-                            bundle.putString("SEARCH", s);
-                            coach.setArguments(bundle);
-                            transaction = fragmentManager.beginTransaction();
-                            transaction.replace(R.id.car_send_map, coach).commit();
+
+//                            coach = new PrivateFragment();
+//                            fragmentManager= getFragmentManager();
+//                            Bundle bundle = new Bundle();
+//                            bundle.putString("SEARCH", s);
+//                            coach.setArguments(bundle);
+//                            transaction = fragmentManager.beginTransaction();
+//                            transaction.replace(R.id.car_send_map, coach).commit();
+                            strResult = s;
+                            Intent intent = new Intent();
+                            if(flag == false){
+                                intent.setAction("updataAppPrivateFragment");
+                                getActivity().sendBroadcast(intent);
+                            }else{
+                                intent.setAction("updataAppCoachFragment2");
+                                getActivity().sendBroadcast(intent);
+                            }
+//
+//                            coach = new CoachFragment2();
+//                            fragmentManager= getFragmentManager();
+//                            Bundle bundle = new Bundle();
+//                            bundle.putString("SEARCH", s);
+//                            coach.setArguments(bundle);
+//                            transaction = fragmentManager.beginTransaction();
+//                            transaction.replace(R.id.car_send_map, coach).commit();
+//                            viewPager.setCurrentItem(1, true);
+
                         } else {
                             Toast.makeText(getActivity(), coachDetailAction.getReason(), Toast.LENGTH_LONG).show();
                         }
@@ -210,9 +236,11 @@ public class CoachFragment extends Fragment implements View.OnClickListener{
         switch (v.getId()){
             case R.id.btn_private:
                 viewPager.setCurrentItem(0, true);
+                flag = false;
                 break;
             case R.id.btn_coach:
                 viewPager.setCurrentItem(1, true);
+                flag = true;
                 break;
             case R.id.search:
                 creatDialog();

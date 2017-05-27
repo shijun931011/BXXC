@@ -1,7 +1,10 @@
 package com.jgkj.bxxc.fragment;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -78,6 +81,25 @@ public class CoachFragment2 extends Fragment implements OnClickListener, Adapter
     private int uid;
     private String token;
     private Boolean isLogined = false;  //如果未登录，请登录
+
+    private List<CoachDetailAction.Result> listTemp = new ArrayList<>();
+
+    //广播接收更新数据
+    protected BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            String string = CoachFragment.strResult;
+            Gson gson = new Gson();
+            CoachDetailAction coachDetailAction = gson.fromJson(string, CoachDetailAction.class);
+            listTemp.clear();
+            for(int i=0;i<coachDetailAction.getResult().size();i++){
+                if(!coachDetailAction.getResult().get(i).getClass_class().equals("私教班")){
+                    listTemp.add(coachDetailAction.getResult().get(i));
+                }
+            }
+            adapter = new MyCoachAdapter(getActivity(), listTemp);
+            listView.setAdapter(adapter);
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -290,9 +312,9 @@ public class CoachFragment2 extends Fragment implements OnClickListener, Adapter
                 mPopupWindowSub.showAsDropDown(sort_btn1, -5, 1);
                 break;
             case R.id.coach_sort_btn2:            //全城
-                coachList.clear();
-                adapter = new MyCoachAdapter(getActivity(), coachList);
-                listView.setAdapter(adapter);
+//                coachList.clear();
+//                adapter = new MyCoachAdapter(getActivity(), coachList);
+//                listView.setAdapter(adapter);
                 tag = "sort_btn2";
                 if (datialPlace == null) {
                     Toast.makeText(getActivity(), "网络状态不佳，请稍后再试", Toast.LENGTH_SHORT).show();
@@ -356,8 +378,13 @@ public class CoachFragment2 extends Fragment implements OnClickListener, Adapter
             if (tag.equals("sort_btn1")) {
                 sort_btn1.setText(sub[parentSelectposition]);
             } else if (tag.equals("sort_btn2")) {
-                schId = schoolPlaceTotal.getResult().get(parentSelectposition).getResult().get(childrenSelectposition).getId();
-                sort_btn2.setText(datialPlace[parentSelectposition][childrenSelectposition]);
+                if(childrenSelectposition == null){
+                    sort_btn2.setText("全城");
+                    schId = 0;
+                }else{
+                    schId = schoolPlaceTotal.getResult().get(parentSelectposition).getResult().get(childrenSelectposition).getId();
+                    sort_btn2.setText(datialPlace[parentSelectposition][childrenSelectposition]);
+                }
             } else if (tag.equals("sort_btn3")) {
                 sortString = sortStr[parentSelectposition];
                 sort_btn3.setText(sortStr[parentSelectposition]);
@@ -421,5 +448,13 @@ public class CoachFragment2 extends Fragment implements OnClickListener, Adapter
                 swipeLayout.setRefreshing(false);
             }
         }, 2000);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("updataAppCoachFragment2");
+        getActivity().registerReceiver(this.broadcastReceiver, filter);
     }
 }
