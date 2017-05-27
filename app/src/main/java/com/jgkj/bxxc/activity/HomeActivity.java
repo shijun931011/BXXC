@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -57,20 +58,17 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
     private FragmentTransaction transaction;
     private RadioButton radioButton1, radioButton2, radioButton3, radioButton4;
     private Fragment mCurrentFragment, per, index, my_set, coach, map, study;
-    private TextView text_title,place;
+    private TextView text_title, place;
     private ImageView kefu;
     private ScrollView scroll_bar;
     private RelativeLayout titlebar;
     private FrameLayout frame, car_frameLayout;
-    private static String[] school = {"越达驾校(新周谷堆校区)", "越达驾校(包河区第一校区)",
-            "越达驾校(大学城中心校区)", "越达驾校(蜀山区新华校区)", "越达驾校(庐阳区总校区)"};
+    private static String[] school = {"越达驾校(新周谷堆校区)", "越达驾校(包河区第一校区)", "越达驾校(大学城中心校区)", "越达驾校(蜀山区新华校区)", "越达驾校(庐阳区总校区)"};
     private static String[] cityInfo = {"合肥"};
     //popupWindow
     private SelectPopupWindow mPopupWindow = null;
     private String[] city = {"合肥"};
-    private String[][] datialPlace = {
-            {"新周谷堆校区", "包河区第一校区", "大学城中心校区", "蜀山区新华校区", "庐阳区总校区"}
-    };
+    private String[][] datialPlace = {{"新周谷堆校区", "包河区第一校区", "大学城中心校区", "蜀山区新华校区", "庐阳区总校区"}};
     private Bundle bundle;
     private SchoolAction schoolAction;
     private Dialog dialog;
@@ -91,6 +89,10 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
     private UserInfo.Result result;
     private String token;
     private String versionUrl = "http://www.baixinxueche.com/index.php/Home/Apitoken/versionandroid";
+    private Drawable rbImg1;
+    private Drawable rbImg2;
+    private Drawable rbImg3;
+    private Drawable rbImg4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,9 +101,10 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         init();
         //.getApplicationContext（）取的是这个应 用程序的Context，Activity.this取的是这个Activity的Context
         JPushInterface.init(getApplicationContext());
-        registerMessageReceiver();
+        //receiveAdDownload();
         isClearLoginSession();
         checkSoftInfo();
+        registerMessageReceiver();
     }
 
     /**
@@ -128,47 +131,42 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
      * 检查版本更新
      */
     private void checkSoftInfo() {
-        OkHttpUtils
-                .get()
-                .url(versionUrl)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int i) {
-                        Toast.makeText(HomeActivity.this, "请检查网络", Toast.LENGTH_LONG).show();
+        OkHttpUtils.get().url(versionUrl).build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int i) {
+                Toast.makeText(HomeActivity.this, "请检查网络", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onResponse(String s, int i) {
+                Gson gson = new Gson();
+                Version version = gson.fromJson(s, Version.class);
+                if (version.getCode() == 200) {
+                    if (version.getResult().get(0).getVersionCode() > GetVersion.getVersionCode(HomeActivity.this)) {
+
+                        UpdateManger updateManger = new UpdateManger(HomeActivity.this, version.getResult().get(0).getPath(), version.getResult().get(0).getVersionName());
+                        updateManger.checkUpdateInfo();
                     }
-                    @Override
-                    public void onResponse(String s, int i) {
-                        Gson gson = new Gson();
-                        Version version = gson.fromJson(s, Version.class);
-                        if (version.getCode() == 200) {
-                            if (version.getResult().get(0).getVersionCode() > GetVersion.getVersionCode(HomeActivity.this)) {
-                                UpdateManger updateManger = new UpdateManger(HomeActivity.this,
-                                        version.getResult().get(0).getPath(), version.getResult().get(0).getVersionName());
-                                updateManger.checkUpdateInfo();
-                            }
-                        }
-                    }
-                });
+                }
+            }
+        });
     }
 
     // 初始化控件及部分方法
     private void init() {
-        Drawable rbImg1 = getResources().getDrawable(R.drawable.selector_home_bottom);
+        rbImg1 = getResources().getDrawable(R.drawable.selector_home_bottom);
         rbImg1.setBounds(0, 0, 40, 40);
-        Drawable rbImg2 = getResources().getDrawable(R.drawable.selector_coach_bottom);
+        rbImg2 = getResources().getDrawable(R.drawable.selector_coach_bottom);
         rbImg2.setBounds(0, 0, 40, 40);
-        Drawable rbImg3 = getResources().getDrawable(R.drawable.selector_study_bottom);
+        rbImg3 = getResources().getDrawable(R.drawable.selector_study_bottom);
         rbImg3.setBounds(0, 0, 40, 40);
-        Drawable rbImg4 = getResources().getDrawable(R.drawable.selector_me_bottom);
+        rbImg4 = getResources().getDrawable(R.drawable.selector_me_bottom);
         rbImg4.setBounds(0, 0, 40, 40);
-
         titlebar = (RelativeLayout) findViewById(R.id.title_bar);
-
         //地区
         place = (TextView) findViewById(R.id.txt_place);
         place.setOnClickListener(this);
-       //客服电话
+        //客服电话
         kefu = (ImageView) findViewById(R.id.remind);
         kefu.setOnClickListener(this);
         car_frameLayout = (FrameLayout) findViewById(R.id.car_send_map);
@@ -195,6 +193,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         radioButton3.setCompoundDrawables(null, rbImg3, null, null);
         radioButton4.setCompoundDrawables(null, rbImg4, null, null);
         // 初始化一个fragment填充首页
+//        Sub1 sub1 = new Sub1();
         IndexFragment indexFragment = new IndexFragment();
         fragmentManager = getSupportFragmentManager();
         transaction = fragmentManager.beginTransaction();
@@ -203,13 +202,13 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         study = new StudyFragment();
         Intent intent = getIntent();
         fromActivity = intent.getStringExtra("FromActivity");
-        if (fromActivity == null){
+        if (fromActivity == null) {
             text_title.setText("我的资料");
             radioButton4.setChecked(true);
             scroll_bar.setVisibility(View.GONE);
             car_frameLayout.setVisibility(View.VISIBLE);
             transaction.add(R.id.car_send_map, my_set);
-        }else{
+        } else {
             if (fromActivity.equals("WelcomeActivity") || fromActivity.equals("LoginActivity")) {
                 transaction.add(R.id.index_fragment_layout, indexFragment);
                 kefu.setImageResource(R.drawable.kefu_phone);
@@ -219,9 +218,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                 kefu.setVisibility(View.VISIBLE);
             } else if (fromActivity.equals("SimpleCoachActivity") || fromActivity.equals("IndexFragment")) {
                 titlebar.setVisibility(View.GONE);
-                //text_title.setVisibility(View.GONE);
                 radioButton2.setChecked(true);
-                //scroll_bar.setVisibility(View.GONE);
                 car_frameLayout.setVisibility(View.VISIBLE);
                 transaction.add(R.id.car_send_map, coach);
             } else if (fromActivity.equals("MySetting")) {
@@ -235,6 +232,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
     /**
      * 点击监听事件
      *
@@ -270,6 +268,8 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                     transaction.replace(R.id.car_send_map, coach).addToBackStack(null).commit();
                     mCurrentFragment = coach;
                 }
+
+
                 break;
             case R.id.radio_button_03:
                 titlebar.setVisibility(View.VISIBLE);
@@ -300,14 +300,13 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                         }
                     });
                     text_title.setText("我的资料");
-                    transaction.replace(R.id.car_send_map, my_set)
-                            .addToBackStack(null).commit();
+                    transaction.replace(R.id.car_send_map, my_set).addToBackStack(null).commit();
                     mCurrentFragment = my_set;
                 }
                 break;
 
             case R.id.remind:
-                new CallDialog(HomeActivity.this,"0551-65555744").call();
+                new CallDialog(HomeActivity.this, "0551-65555744").call();
                 break;
             case R.id.txt_place:
                 new RemainBaseDialog(HomeActivity.this, "目前仅支持合肥地区").call();
@@ -340,8 +339,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
     private void exit() {
         if (!isExit) {
             isExit = true;
-            Toast.makeText(getApplicationContext(), "再按一次退出程序",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
             // 利用handler延迟发送更改状态信息
             mHandler.sendEmptyMessageDelayed(0, 2000);
         } else {
@@ -399,10 +397,45 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
             }
         }
     }
+
     private void setCostomMsg(String msg) {
         if (null != msgText) {
             msgText.setText(msg);
             msgText.setVisibility(android.view.View.VISIBLE);
         }
     }
+
+
+
+    LocalBroadcastManager broadcastManager;
+    /**
+     * 注册广播接收器
+     */
+    private void receiveAdDownload() {
+        broadcastManager = LocalBroadcastManager.getInstance(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("sub1");
+        broadcastManager.registerReceiver(mAdDownLoadReceiver, intentFilter);
+    }
+
+    BroadcastReceiver mAdDownLoadReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //这里接收到广播和数据，进行处理就是了
+            titlebar.setVisibility(View.GONE);
+            coach = new CoachFragment();
+            intent.getStringExtra("sub1");
+            FragmentManager fragmentManagers = getSupportFragmentManager();
+            FragmentTransaction transactions = fragmentManagers.beginTransaction();
+            scroll_bar.setVisibility(View.GONE);
+            car_frameLayout.setVisibility(View.VISIBLE);
+            transactions.replace(R.id.car_send_map, coach).addToBackStack(null).commitAllowingStateLoss();
+            mCurrentFragment = coach;
+            radioButton2.setChecked(true);
+            radioButton3.setChecked(false);
+
+        }
+    };
+
+
 }

@@ -41,12 +41,10 @@ import com.jgkj.bxxc.activity.UseGuideActivity;
 import com.jgkj.bxxc.activity.WebViewActivity;
 import com.jgkj.bxxc.adapter.MyAdapter;
 import com.jgkj.bxxc.bean.HeadlinesAction;
-import com.jgkj.bxxc.bean.Picture;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.bean.entity.BannerEntity.BannerEntity;
 import com.jgkj.bxxc.bean.entity.BannerEntity.BannerResult;
 import com.jgkj.bxxc.tools.AutoTextView;
-import com.jgkj.bxxc.tools.SecondToDate;
 import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -64,32 +62,20 @@ import okhttp3.Call;
 public class IndexFragment extends Fragment implements OnClickListener {
     // LinearLayout
     private LinearLayout linearlayout;
-    private View view, view1;
+    private View view;
     // viewpager
     private ViewPager viewpager;
-    // 集合list
-    private List<View> list;
     // 适配器
     private MyAdapter adapter;
-    // 实例化4个主button
-    private TextView first_btn, fourth_btn, coach_center_btn, carsend,
-            space_choose_btn, question;
     // 实例化Fragment
     private Fragment mCurrentFragment, license_Text_Fragment1,
             license_Text_Fragment2, coach;
     private FragmentManager fragmentManager;
     private FragmentTransaction transaction;
-    private TextView text_title;
-    //毫秒数转化为天数
-    private SecondToDate std;
-    private TextView lookMore;
-    private ImageView imageView, KefuPhone;
+    private ImageView imageView;
     private RelativeLayout select_coach, select_place,select_class;//教练、 场地、 班型
     private LinearLayout yQfirend,classic_coach,private_coach;
     private AutoTextView headlines;
-    //图片地址
-    private String url = "http://www.baixinxueche.com/index.php/Home/Apitoken/bannerpics";
-    private List<String> imagePath = new ArrayList<>();
     private LinearLayout.LayoutParams wrapParams;
     private Timer timer = new Timer();
     private int currentItem = 0;
@@ -100,15 +86,12 @@ public class IndexFragment extends Fragment implements OnClickListener {
     private int headlinesCount = 0;
     private ImageView bxhead;
     private HeadlinesAction action;
-    private TextView quesAns,bxCenter,customerPhone;
+    private TextView quesAns,bxCenter;
     private SharedPreferences sp;
     private UserInfo userInfo;
     private UserInfo.Result result;
     private TextView use_guide;
     private TextView car_pickup;
-    private Boolean isLogined = false;
-    private String token;
-    private int uid;
     private List<BannerEntity> bannerEntitylist;
 
     @Override
@@ -315,7 +298,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
                                 for (int k = 0; k < bannerEntitylist.size(); k++) {
                                     imageView = new ImageView(getActivity());
                                     Glide.with(getActivity()).load(bannerEntitylist.get(k).getPic()).into(imageView);
-                                    imageView.setTag(bannerEntitylist.get(k).getPic());
+//                                    imageView.setTag(bannerEntitylist.get(k).getPic());
                                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                                     listView.add(imageView);
                                 }
