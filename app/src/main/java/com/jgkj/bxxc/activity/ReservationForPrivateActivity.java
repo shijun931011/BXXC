@@ -508,16 +508,19 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                     String str = sp.getString("userInfo", null);
                     Gson gson = new Gson();
                     userInfo = gson.fromJson(str, UserInfo.class);
+
+                    SharedPreferences sp1 = getSharedPreferences("token", Activity.MODE_PRIVATE);
+                    token = sp1.getString("token", null);
+
                     if (userInfo == null) {
                         Intent intent2 = new Intent();
                         intent2.setClass(ReservationForPrivateActivity.this, LoginActivity.class);
                         intent2.putExtra("message","reservation");
                         startActivity(intent2);
-                        finish();
                     } else {
                         Intent intent2 = new Intent();
                         intent2.setClass(ReservationForPrivateActivity.this, ReservationDetailActivity.class);
-                        intent2.putExtra("uid",uid);
+                        intent2.putExtra("uid",userInfo.getResult().getUid());
                         intent2.putExtra("token",token);
                         intent2.putExtra("coachInfo", signup_Coach.getTag().toString());
                         startActivity(intent2);

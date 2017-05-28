@@ -42,7 +42,7 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
     //标题
     private TextView title;
     private Button button_backward;
-    private ImageView remind;
+    private Button remind;
 
     private int uid;
     private String cid;
@@ -64,7 +64,7 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
         title = (TextView) findViewById(R.id.text_title);
         title.setText("购买学时套餐");
         button_backward = (Button) findViewById(R.id.button_backward);
-        remind = (ImageView) findViewById(R.id.remind);
+        remind = (Button) findViewById(R.id.button_forward);
         button_backward.setVisibility(View.VISIBLE);
         button_backward.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +73,7 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
             }
         });
         remind.setVisibility(View.VISIBLE);
+        remind.setText("购买须知");
         remind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

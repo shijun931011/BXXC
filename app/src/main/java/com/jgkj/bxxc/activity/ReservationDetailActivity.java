@@ -417,10 +417,10 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                     @Override
                     public void onResponse(String s, int i) {
                         //关闭ProgressDialog
+                        Log.i("百信学车","预约教练详细信息结果" + s);
                         progressDialog.dismiss();
                         Gson gson = new Gson();
                         ReservationDetailEntity reservationDetailEntity = gson.fromJson(s, ReservationDetailEntity.class);
-                        Log.i("百信学车","预约教练详细信息结果" + s);
                         if (reservationDetailEntity.getCode() == 200) {
                             price = reservationDetailEntity.getResult().getPrice();
                             address = reservationDetailEntity.getResult().getFaddress();

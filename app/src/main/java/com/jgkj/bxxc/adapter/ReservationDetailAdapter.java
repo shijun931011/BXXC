@@ -230,10 +230,10 @@ public class ReservationDetailAdapter extends BaseAdapter {
         listView = (ListView) window.findViewById(R.id.listView);
         btn_buy_menu.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(MenuAdapter.flag){
-                    getDataForReservation(uid,cid,token,time_slot,timeone,MenuAdapter.package_id,Urls.stuAppointmentpackage,btn,position);
-                    MenuAdapter.package_id = null;
-                    MenuAdapter.flag = false;
+                if(BuyMenuAdapter.flag){
+                    getDataForReservation(uid,cid,token,time_slot,timeone,BuyMenuAdapter.package_id,Urls.stuAppointmentpackage,btn,position);
+                    BuyMenuAdapter.package_id = null;
+                    BuyMenuAdapter.flag = false;
                     dlg.cancel();
                 }else{
                     Toast.makeText(context, "请选择一种套餐", Toast.LENGTH_LONG).show();

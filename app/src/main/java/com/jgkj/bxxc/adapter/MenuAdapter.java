@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jgkj.bxxc.R;
+import com.jgkj.bxxc.activity.ReservationForPrivateActivity;
 import com.jgkj.bxxc.bean.entity.MenuEntity.MenuEntitys;
 
 import java.util.List;
@@ -70,7 +72,6 @@ public class MenuAdapter extends BaseAdapter {
         }else{
             viewHolder.checkBox.setChecked(false);
         }
-
         viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

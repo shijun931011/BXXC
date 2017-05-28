@@ -71,7 +71,7 @@ public class ForgetPayPasswordActivity extends Activity implements View.OnClickL
 
         po = new PictureOptimization();
         ll.setBackgroundDrawable(PictureOptimization.bitmapToDrawble(PictureOptimization.decodeSampledBitmapFromResource(getResources(),
-                R.drawable.background_null, 480, 760), ForgetPayPasswordActivity.this));
+                R.drawable.baixinxueche_login_null, 480, 760), ForgetPayPasswordActivity.this));
         //返回按钮
         button_backward = (Button) findViewById(R.id.button_backward);
         button_backward.setVisibility(View.VISIBLE);

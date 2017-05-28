@@ -97,6 +97,7 @@ public class SelectPopupWindow extends PopupWindow {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             if(childrenStrings!= null){
+                childrenCategoryAdapter.setDatas(null);
                 if(parentStrings[position].equals("全城")){
                     if (selectCategory != null) {
                         selectCategory.selectCategory(position, null);
@@ -118,7 +119,6 @@ public class SelectPopupWindow extends PopupWindow {
                 parentCategoryAdapter.notifyDataSetChanged();
                 dismiss();
             }
-
 
         }
     };

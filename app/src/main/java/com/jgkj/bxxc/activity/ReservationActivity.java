@@ -692,7 +692,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
             CoachFullDetailAdapter adapter = new CoachFullDetailAdapter(ReservationActivity.this, listStu);
             listView.setAdapter(adapter);
         } else {
-            Toast.makeText(ReservationActivity.this, coachInfo.getReason(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(ReservationActivity.this, coachInfo.getReason(), Toast.LENGTH_SHORT).show();
         }
     }
 

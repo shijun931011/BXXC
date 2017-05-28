@@ -286,9 +286,9 @@ public class ClassicActivity extends Activity implements View.OnClickListener,Ad
                 mPopupWindowSub.showAsDropDown(sort_btn1, -5, 1);
                 break;
             case R.id.coach_sort_btn2:
-                coachList.clear();
-                adapter = new MyCoachAdapter(this, coachList);
-                listView.setAdapter(adapter);
+//                coachList.clear();
+//                adapter = new MyCoachAdapter(this, coachList);
+//                listView.setAdapter(adapter);
                 tag = "sort_btn2";
                 if (datialPlace == null) {
                     Toast.makeText(this, "网络状态不佳，请稍后再试", Toast.LENGTH_SHORT).show();
@@ -355,8 +355,13 @@ public class ClassicActivity extends Activity implements View.OnClickListener,Ad
             if (tag.equals("sort_btn1")) {
                 sort_btn1.setText(sub[parentSelectposition]);
             } else if (tag.equals("sort_btn2")) {
-                schId = schoolPlaceTotal.getResult().get(parentSelectposition).getResult().get(childrenSelectposition).getId();
-                sort_btn2.setText(datialPlace[parentSelectposition][childrenSelectposition]);
+                if(childrenSelectposition == null){
+                    sort_btn2.setText("全城");
+                    schId = 0;
+                }else{
+                    schId = schoolPlaceTotal.getResult().get(parentSelectposition).getResult().get(childrenSelectposition).getId();
+                    sort_btn2.setText(datialPlace[parentSelectposition][childrenSelectposition]);
+                }
             } else if (tag.equals("sort_btn3")) {
                 sortString = sortStr[parentSelectposition];
                 sort_btn3.setText(sortStr[parentSelectposition]);
