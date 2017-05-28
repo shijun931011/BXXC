@@ -41,7 +41,7 @@
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:text="唐小糖"
-                          android:textColor="@color/orange"/>
+                          android:textColor="@color/themeColor"/>
             </LinearLayout>
             <LinearLayout android:layout_width="match_parent"
                           android:layout_height="wrap_content"
@@ -52,13 +52,14 @@
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:layout_weight="1"
+                          android:textColor="@color/themeColor"
                           android:text="所报班级：vip班"/>
                 <TextView android:id="@+id/car"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:layout_weight="1"
                           android:text="所报车型：C1"
-                          android:textColor="@color/orange"/>
+                          android:textColor="@color/themeColor"/>
             </LinearLayout>
             <TextView android:id="@+id/phone"
                       android:layout_width="wrap_content"
@@ -163,7 +164,7 @@
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:layout_alignParentBottom="true"
-                      android:hint="仅支持有有支付宝账号的用户"
+                      android:hint="推荐有支付宝账号的用户使用"
                       android:singleLine="true"/>
         </RelativeLayout>
         <LinearLayout android:id="@+id/aipay_layout"
@@ -211,7 +212,7 @@
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:layout_alignParentBottom="true"
-                      android:hint="暂未开通微信支付哦，请耐心等待"
+                      android:hint="请在微信6.0.2及以上版本使用"
                       android:singleLine="true"/>
         </RelativeLayout>
         <LinearLayout android:id="@+id/weixin_layout"
@@ -230,28 +231,33 @@
           android:layout_height="1dp"
           android:layout_below="@+id/payMethod2"
           android:background="@color/background"/>
-    <LinearLayout android:id="@+id/fuwutiaokuan"
+    <LinearLayout
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:layout_below="@+id/line2"
                   android:gravity="center_vertical"
                   android:orientation="horizontal"
+                  android:layout_alignParentBottom="true"
                   android:padding="10dp">
         <ImageView android:id="@+id/isCheck"
                    android:layout_width="18dp"
                    android:layout_height="18dp"
                    android:src="@drawable/check_background"/>
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginLeft="10dp"
-                  android:text="我已阅读并同意《"/>
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="@string/underline_text"
-                  android:textColor="@color/orange"/>
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="》"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="我已阅读并同意《"/>
+        <TextView
+            android:id="@+id/tiaokuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/underline_text"
+            android:textColor="@color/orange"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="》"/>
 
     </LinearLayout>
     <LinearLayout android:layout_width="match_parent"
@@ -265,6 +271,7 @@
                   android:background="@color/white"
                   android:gravity="center"
                   android:text="总金额:3299￥"
+                  android:textColor="@color/orange"
                   android:textSize="17sp"/>
         <Button android:id="@+id/payInfo"
                 android:layout_width="match_parent"

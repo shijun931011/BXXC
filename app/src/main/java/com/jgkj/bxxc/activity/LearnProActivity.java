@@ -410,6 +410,7 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
         } else if (gotoComplete.getText().toString().equals("科目一未通过，请缴补考费")) {
             intent.setClass(LearnProActivity.this, BuKaoActivity.class);
             intent.putExtra("uid", result.getUid());
+            intent.putExtra("token",token);
             startActivity(intent);
         } else if (gotoComplete.getText().toString().equals("申请科目二")) {
             createSureDialog("申请科目二");
@@ -418,6 +419,7 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
         } else if (gotoComplete.getText().toString().equals("科目二未通过，请缴补考费")) {
             intent.setClass(LearnProActivity.this, BuKaoActivity.class);
             intent.putExtra("uid", result.getUid());
+            intent.putExtra("token",token);
             startActivity(intent);
         } else if (gotoComplete.getText().toString().equals("申请科目三")) {
             createSureDialog("申请科目三");
@@ -426,6 +428,7 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
         } else if (gotoComplete.getText().toString().equals("科目三未通过，请缴补考费")) {
             intent.setClass(LearnProActivity.this, BuKaoActivity.class);
             intent.putExtra("uid", result.getUid());
+            intent.putExtra("token",token);
             startActivity(intent);
         } else if (gotoComplete.getText().toString().equals("申请科目四")) {
             createSureDialog("申请科目四");

@@ -68,7 +68,6 @@ public class CallbackActivity extends Activity implements View.OnClickListener {
         //手机号码输入框
         phone_editText = (EditText) findViewById(R.id.phone_editText);
         phone_code_editText = (EditText) findViewById(R.id.phone_code_editText);
-
         ll = (LinearLayout) findViewById(R.id.callback_id);
         time = new TimeCount(60000, 1000);//构造CountDownTimer对象
         getCode_btn.setOnClickListener(this);
@@ -115,6 +114,7 @@ public class CallbackActivity extends Activity implements View.OnClickListener {
                             getCode_btn.setText("完成");
                             time.start();
                         } else {
+                            phone_editText.setVisibility(View.VISIBLE);
                             Toast.makeText(CallbackActivity.this, code.getReason(), Toast.LENGTH_LONG).show();
                         }
                     }
@@ -199,7 +199,6 @@ public class CallbackActivity extends Activity implements View.OnClickListener {
                         sendMeg(phoneNo);
                     }
                 } else if (str.equals("完成")) {
-
                     String pwd1 = scan_pwd.getText().toString().trim();
                     String pwd2 = scan_pwd_second.getText().toString().trim();
                     if (phone_editText.getText().toString().equals("") || phone_editText.getText().toString() == null) {

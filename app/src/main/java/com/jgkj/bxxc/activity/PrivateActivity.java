@@ -347,18 +347,14 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
                                     phoneNo.getText().toString().trim(),
                                     userId.getText().toString().trim(),
                                     pack);
-
                         }else {
                             sendaiPay(useResult.getUid() + "",
                                     username.getText().toString().trim(),
                                     phoneNo.getText().toString().trim(),
                                     userId.getText().toString().trim(),
                                     pack);
-
                         }
-
                     }
-
                 }
                 break;
             case R.id.button_backward:
@@ -382,7 +378,7 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
                 Intent intent = new Intent();
                 intent.setClass(PrivateActivity.this,WebViewActivity.class);
                 intent.putExtra("url","http://www.baixinxueche.com/webshow/chongzhi/sijiaoPayAgreement.html ");
-                intent.putExtra("title","百信学车服务条款");
+                intent.putExtra("title","百信学车补考支付协议");
                 startActivity(intent);
                 break;
             case R.id.aipay_layout:

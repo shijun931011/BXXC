@@ -19,10 +19,8 @@ import com.alipay.sdk.app.PayTask;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
-import com.jgkj.bxxc.activity.weixin.WXPay;
 import com.jgkj.bxxc.bean.MyPayResult;
 import com.jgkj.bxxc.bean.ShowRePay;
-import com.jgkj.bxxc.bean.entity.WXEntity.WXEntity;
 import com.jgkj.bxxc.tools.PayResult;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -34,16 +32,17 @@ import okhttp3.Call;
  * 补考展示页面
  */
 public class BuKaoActivity extends Activity implements View.OnClickListener {
-    private TextView title, name, classType, car, phone, ordername, orderfee,coach_Price;
+    private TextView title, name, classType, car, phone, ordername, orderfee,coach_Price,tiaokuan;
     private Button back;
     private ImageView img, weixin_isCheck, aipay_isCheck;
-    private LinearLayout weixin_layout, aipay_layout, fuwutiaokuan;
+    private LinearLayout weixin_layout, aipay_layout;
     private RelativeLayout layout;
     private ShowRePay showRePay;
     //服务条款
     private ImageView isCheck;
     private boolean aipayflag = false, weixinFlag = false, serFlag = false;
     private int uid;
+    private String token;
     private Button payInfo;
     /**
      * 支付宝补考支付
@@ -54,7 +53,8 @@ public class BuKaoActivity extends Activity implements View.OnClickListener {
      uid  baixin_state  refee
      */
     private String weixinPayUrl="http://www.baixinxueche.com/index.php/Home/Aliappretext/wxretestPay";
-    private String orderUrl = "http://www.baixinxueche.com/index.php/Home/Apiupdata/retest";
+
+    private String NewOrderUrl="http://www.baixinxueche.com/index.php/Home/Apitokenupdata/retest";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,8 @@ public class BuKaoActivity extends Activity implements View.OnClickListener {
     private void getintent(){
         Intent intent = getIntent();
         uid = intent.getIntExtra("uid",-1);
-        getData(uid+"",orderUrl);
+        token = intent.getStringExtra("token");
+        getData(uid+"",token);
     }
 
     private void initView() {
@@ -76,14 +77,11 @@ public class BuKaoActivity extends Activity implements View.OnClickListener {
         aipay_layout = (LinearLayout) findViewById(R.id.aipay_layout);
         aipay_isCheck = (ImageView) findViewById(R.id.aipay_isCheck);
         aipay_layout.setOnClickListener(this);
-        //服务条款
-        fuwutiaokuan = (LinearLayout) findViewById(R.id.fuwutiaokuan);
-        fuwutiaokuan.setOnClickListener(this);
         payInfo = (Button) findViewById(R.id.payInfo);
         payInfo.setOnClickListener(this);
         coach_Price = (TextView) findViewById(R.id.coach_Price);
-
         isCheck = (ImageView) findViewById(R.id.isCheck);
+        isCheck.setOnClickListener(this);
         title = (TextView) findViewById(R.id.text_title);
         title.setText("补考详情");
         back = (Button) findViewById(R.id.button_backward);
@@ -97,7 +95,8 @@ public class BuKaoActivity extends Activity implements View.OnClickListener {
         orderfee = (TextView) findViewById(R.id.orderfee);
         img = (ImageView) findViewById(R.id.headImg);
         layout = (RelativeLayout) findViewById(R.id.layout);
-
+        tiaokuan = (TextView) findViewById(R.id.tiaokuan);
+        tiaokuan.setOnClickListener(this);
     }
     private void isClick(){
         if((aipayflag||weixinFlag)&&serFlag){
@@ -109,83 +108,12 @@ public class BuKaoActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.payInfo:
-                isClick();
-                if (aipayflag == false && weixinFlag == false) {
-                    Toast.makeText(BuKaoActivity.this, "请首先选择支付方式", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (weixinFlag) {
-//                        Toast.makeText(BuKaoActivity.this, "暂未开通微信支付哦！", Toast.LENGTH_SHORT).show();
-                        sendweixinPay(uid+"",showRePay.getResult().getBaixin_state()+"",showRePay.getResult().getRefee()+"");
-                    } else {
-                        sendaiPay(uid+"",showRePay.getResult().getBaixin_state()+"",showRePay.getResult().getRefee()+"");
-                    }
-                }
-                break;
-            case R.id.button_backward:
-                finish();
-                break;
-            case R.id.fuwutiaokuan:
-                if (!serFlag) {
-                    isCheck.setImageResource(R.drawable.right);
-                    serFlag = true;
-                    isClick();
-                } else {
-                    isCheck.setImageResource(R.drawable.check_background);
-                    serFlag = false;
-                    isClick();
-                }
-                break;
-            case R.id.weixin_layout:
-                if (aipayflag) {
-                    aipay_isCheck.setImageResource(R.drawable.check_background);
-                    aipayflag = false;
-                    weixin_isCheck.setImageResource(R.drawable.right);
-                    weixinFlag = true;
-                    isClick();
-                } else {
-                    if (!weixinFlag) {
-                        weixin_isCheck.setImageResource(R.drawable.right);
-                        weixinFlag = true;
-                        isClick();
-                    } else {
-                        weixin_isCheck.setImageResource(R.drawable.check_background);
-                        weixinFlag = false;
-                        isClick();
-                    }
-                }
-                break;
-            case R.id.aipay_layout:
-                if (weixinFlag) {
-                    weixin_isCheck.setImageResource(R.drawable.check_background);
-                    weixinFlag = false;
-                    aipay_isCheck.setImageResource(R.drawable.right);
-                    aipayflag = true;
-                    isClick();
-                } else {
-                    if (!aipayflag) {
-                        aipay_isCheck.setImageResource(R.drawable.right);
-                        aipayflag = true;
-                        isClick();
-                    } else {
-                        aipay_isCheck.setImageResource(R.drawable.check_background);
-                        aipayflag = false;
-                        isClick();
-                    }
-                }
-                break;
-
-        }
-
-    }
-    private void getData(String uid, String refreashUrl) {
+    private void getData(String uid, String token) {
         OkHttpUtils
                 .post()
-                .url(refreashUrl)
+                .url(NewOrderUrl)
                 .addParams("uid", uid)
+                .addParams("token", token)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -194,6 +122,7 @@ public class BuKaoActivity extends Activity implements View.OnClickListener {
                     }
                     @Override
                     public void onResponse(String s, int i) {
+                        Log.d("百信学车","补考费用:"+s);
                         layout.setTag(s);
                         if(layout.getTag()!=null){
                             setData();
@@ -238,7 +167,7 @@ public class BuKaoActivity extends Activity implements View.OnClickListener {
     private void sendweixinPay(String uid, String baixin_state, String fee){
         OkHttpUtils
                 .post()
-                .url(payUrl)
+                .url(weixinPayUrl)
                 .addParams("uid", uid)
                 .addParams("baixin_state", baixin_state)
                 .addParams("refee",fee)
@@ -252,31 +181,31 @@ public class BuKaoActivity extends Activity implements View.OnClickListener {
                     @Override
                     public void onResponse(String s, int i) {
                         Log.i("百信学车", "微信结果"+s);
-                        Gson gson = new Gson();
-                        WXEntity wxEntity = gson.fromJson(s, WXEntity.class);
-                        if(wxEntity.getErrorCode() == 0){
-                            WXPay wxpay = new WXPay(BuKaoActivity.this, wxEntity.getResponseData().getApp_response().getAppid());
-                            wxpay.doPay(s, new WXPay.WXPayResultCallBack() {
-                                @Override
-                                public void onSuccess() {
-
-                                    Toast.makeText(BuKaoActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
-                                }
-
-                                @Override
-                                public void onError(int error_code) {
-                                    Toast.makeText(BuKaoActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
-                                }
-
-                                @Override
-                                public void onCancel() {
-                                    Toast.makeText(BuKaoActivity.this, "支付取消", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                        }else{
-                            Toast.makeText(BuKaoActivity.this, wxEntity.getErrorMsg(), Toast.LENGTH_LONG).show();
-                        }
+//                        Gson gson = new Gson();
+//                        WXEntity wxEntity = gson.fromJson(s, WXEntity.class);
+//                        if(wxEntity.getErrorCode() == 0){
+//                            WXPay wxpay = new WXPay(BuKaoActivity.this, wxEntity.getResponseData().getApp_response().getAppid());
+//                            wxpay.doPay(s, new WXPay.WXPayResultCallBack() {
+//                                @Override
+//                                public void onSuccess() {
+//
+//                                    Toast.makeText(BuKaoActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+//                                }
+//
+//                                @Override
+//                                public void onError(int error_code) {
+//                                    Toast.makeText(BuKaoActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+//                                }
+//
+//                                @Override
+//                                public void onCancel() {
+//                                    Toast.makeText(BuKaoActivity.this, "支付取消", Toast.LENGTH_SHORT).show();
+//                                }
+//                            });
+//
+//                        }else{
+//                            Toast.makeText(BuKaoActivity.this, wxEntity.getErrorMsg(), Toast.LENGTH_LONG).show();
+//                        }
                     }
                 });
     }
@@ -359,5 +288,86 @@ public class BuKaoActivity extends Activity implements View.OnClickListener {
                         }
                     }
                 });
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.payInfo:
+                isClick();
+                if (aipayflag == false && weixinFlag == false) {
+                    Toast.makeText(BuKaoActivity.this, "请首先选择支付方式", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (weixinFlag) {
+                        sendweixinPay(uid+"",showRePay.getResult().getBaixin_state()+"",showRePay.getResult().getRefee()+"");
+                        Log.d("BXXC","hhhh"+uid+""+showRePay.getResult().getBaixin_state()+""+showRePay.getResult().getRefee()+"");
+                    } else {
+                        sendaiPay(uid+"",showRePay.getResult().getBaixin_state()+"",showRePay.getResult().getRefee()+"");
+                    }
+                }
+                break;
+            case R.id.button_backward:
+                finish();
+                break;
+            case R.id.isCheck:
+                if (!serFlag) {
+                    isCheck.setImageResource(R.drawable.right);
+                    serFlag = true;
+                    isClick();
+                } else {
+                    isCheck.setImageResource(R.drawable.check_background);
+                    serFlag = false;
+                    isClick();
+                }
+                break;
+            case R.id.tiaokuan:
+                Intent intent = new Intent();
+                intent.setClass(BuKaoActivity.this,WebViewActivity.class);
+                intent.putExtra("url","http://www.baixinxueche.com/webshow/chongzhi/bukaoPayAgreement.html ");
+                intent.putExtra("title","百信学车补考支付协议");
+                startActivity(intent);
+                break;
+            case R.id.weixin_layout:
+                if (aipayflag) {
+                    aipay_isCheck.setImageResource(R.drawable.check_background);
+                    aipayflag = false;
+                    weixin_isCheck.setImageResource(R.drawable.right);
+                    weixinFlag = true;
+                    isClick();
+                } else {
+                    if (!weixinFlag) {
+                        weixin_isCheck.setImageResource(R.drawable.right);
+                        weixinFlag = true;
+                        isClick();
+                    } else {
+                        weixin_isCheck.setImageResource(R.drawable.check_background);
+                        weixinFlag = false;
+                        isClick();
+                    }
+                }
+                break;
+            case R.id.aipay_layout:
+                if (weixinFlag) {
+                    weixin_isCheck.setImageResource(R.drawable.check_background);
+                    weixinFlag = false;
+                    aipay_isCheck.setImageResource(R.drawable.right);
+                    aipayflag = true;
+                    isClick();
+                } else {
+                    if (!aipayflag) {
+                        aipay_isCheck.setImageResource(R.drawable.right);
+                        aipayflag = true;
+                        isClick();
+                    } else {
+                        aipay_isCheck.setImageResource(R.drawable.check_background);
+                        aipayflag = false;
+                        isClick();
+                    }
+                }
+                break;
+
+        }
+
     }
 }
