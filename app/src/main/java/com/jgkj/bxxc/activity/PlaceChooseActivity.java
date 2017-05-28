@@ -34,7 +34,6 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
-import com.jgkj.bxxc.adapter.MyCoachAdapter;
 import com.jgkj.bxxc.adapter.SchoolPlaceAdapter;
 import com.jgkj.bxxc.bean.SchoolPlaceTotal;
 import com.jgkj.bxxc.bean.SchoolShow;
@@ -49,15 +48,11 @@ import java.util.List;
 
 import okhttp3.Call;
 
-public class PlaceChooseActivity extends Activity implements
-        OnClickListener, AdapterView.OnItemClickListener {
+public class PlaceChooseActivity extends Activity implements OnClickListener, AdapterView.OnItemClickListener {
     // 定位相关
     public LocationClient mLocClient;
     public LocationMode mCurrentMode;
     public BitmapDescriptor mCurrentMarker;
-    public static final int accuracyCircleFillColor = 0xAAFFFF88;
-    public static final int accuracyCircleStrokeColor = 0xAA00FF00;
-
     private final MyLocationListenner myListener = new MyLocationListenner();
     public MapView mMapView;
     public BaiduMap mBaiduMap;
@@ -76,7 +71,6 @@ public class PlaceChooseActivity extends Activity implements
     //listView
     //教练排序展示
     private ListView listView;
-    private MyCoachAdapter adapter;
     private Button place;
     private String[] city = new String[0];
     //请求url
@@ -95,8 +89,7 @@ public class PlaceChooseActivity extends Activity implements
     private SchoolPlaceTotal schoolPlaceTotal;
     private Bitmap bitmap;
     private String placePath = "http://www.baixinxueche.com/index.php/Home/Apitoken/Apiarea";
-    private BitmapDescriptor bitmapDefault,bitmapA,bitmapB,bitmapC,bitmapD,bitmapE,
-            bitmapF,bitmapG,bitmapH,bitmapI;
+    private BitmapDescriptor bitmapDefault,bitmapA,bitmapB,bitmapC,bitmapD,bitmapE,bitmapF,bitmapG,bitmapH,bitmapI;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,7 +166,6 @@ public class PlaceChooseActivity extends Activity implements
      * @param i
      */
     private void reMarker(int i){
-
         List<SchoolPlaceTotal.Result.Res> list1 = schoolPlaceTotal.getResult().get(i).getResult();
         for (int j = 0; j < list1.size(); j++) {
             double latitude = Double.parseDouble(list1.get(j).getLatitude());
@@ -223,11 +215,9 @@ public class PlaceChooseActivity extends Activity implements
                     break;
             }
             mMarker = (Marker) mBaiduMap.addOverlay(option);
-
             MapStatus.Builder builder = new MapStatus.Builder();
             builder.target(point).zoom(17.0f);
-            mBaiduMap.animateMapStatus(MapStatusUpdateFactory
-                    .newMapStatus(builder.build()));
+            mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
             mBaiduMap.setOnMarkerClickListener(new markerClickListener());
         }
     }
@@ -240,8 +230,7 @@ public class PlaceChooseActivity extends Activity implements
         List<SchoolPlaceTotal.Result.Res> list1 = schoolPlaceTotal.getResult().get(i).getResult();
         for (int j = 0; j < list1.size(); j++) {
             LatLng p1LL = new LatLng(mCurrentLantitude, mCurrentLongitude);
-            LatLng p2LL = new LatLng(Double.parseDouble(list1.get(j).getLatitude()),
-                    Double.parseDouble(list1.get(j).getLongitude()));
+            LatLng p2LL = new LatLng(Double.parseDouble(list1.get(j).getLatitude()),Double.parseDouble(list1.get(j).getLongitude()));
             double distance = DistanceUtil.getDistance(p1LL, p2LL)/ 1000;
             java.text.DecimalFormat df = new java.text.DecimalFormat("#.00");
 
@@ -504,36 +493,25 @@ public class PlaceChooseActivity extends Activity implements
         btn_forward.setVisibility(View.VISIBLE);
         btn_forward.setOnClickListener(this);
         title = (TextView) findViewById(R.id.text_title);
-        title.setText("所有场地");
+        title.setText("选择场地");
         place = (Button) findViewById(R.id.place);
+        place.setText("全城");
         place.setVisibility(View.VISIBLE);
         place.setOnClickListener(this);
-
-        bitmap = PictureOptimization.decodeSampledBitmapFromResource(getResources(),
-                R.drawable.head1, 90, 90);
+        bitmap = PictureOptimization.decodeSampledBitmapFromResource(getResources(),R.drawable.head1, 90, 90);
         listView = (ListView) findViewById(R.id.placeListView);
         listView.setOnItemClickListener(this);
         listView.setFocusable(false);
-        bitmapDefault = BitmapDescriptorFactory
-                .fromResource(R.drawable.red_car);
-        bitmapA = BitmapDescriptorFactory
-                .fromResource(R.drawable.a2);
-        bitmapB = BitmapDescriptorFactory
-                .fromResource(R.drawable.b1);
-        bitmapC = BitmapDescriptorFactory
-                .fromResource(R.drawable.c1);
-        bitmapD = BitmapDescriptorFactory
-                .fromResource(R.drawable.d1);
-        bitmapE = BitmapDescriptorFactory
-                .fromResource(R.drawable.e1);
-        bitmapF = BitmapDescriptorFactory
-                .fromResource(R.drawable.f1);
-        bitmapG = BitmapDescriptorFactory
-                .fromResource(R.drawable.g1);
-        bitmapH = BitmapDescriptorFactory
-                .fromResource(R.drawable.h1);
-        bitmapI = BitmapDescriptorFactory
-                .fromResource(R.drawable.i1);
+        bitmapDefault = BitmapDescriptorFactory.fromResource(R.drawable.red_car);
+        bitmapA = BitmapDescriptorFactory.fromResource(R.drawable.a2);
+        bitmapB = BitmapDescriptorFactory.fromResource(R.drawable.b1);
+        bitmapC = BitmapDescriptorFactory.fromResource(R.drawable.c1);
+        bitmapD = BitmapDescriptorFactory.fromResource(R.drawable.d1);
+        bitmapE = BitmapDescriptorFactory.fromResource(R.drawable.e1);
+        bitmapF = BitmapDescriptorFactory.fromResource(R.drawable.f1);
+        bitmapG = BitmapDescriptorFactory.fromResource(R.drawable.g1);
+        bitmapH = BitmapDescriptorFactory.fromResource(R.drawable.h1);
+        bitmapI = BitmapDescriptorFactory.fromResource(R.drawable.i1);
     }
 
     @Override
@@ -584,7 +562,6 @@ public class PlaceChooseActivity extends Activity implements
      * 定位SDK监听函数
      */
     public class MyLocationListenner implements BDLocationListener {
-
         @Override
         public void onReceiveLocation(final BDLocation location) {
             // map view 销毁后不在处理新接收的位置
