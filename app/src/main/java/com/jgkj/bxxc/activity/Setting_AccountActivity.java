@@ -73,7 +73,6 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
         getBalance(uid+"", token);
 
     }
-
     private void getData() {
         Intent intent = getIntent();
         uid = intent.getIntExtra("uid",-1);
@@ -81,7 +80,6 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
         SharedPreferences sp = getSharedPreferences("useraccount",Activity.MODE_PRIVATE);
         account = sp.getString("useraccount", null);
     }
-
     private void getBalance(String uid, String token){
         OkHttpUtils.post()
                 .url(balanceUrl)
@@ -132,7 +130,6 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
         balance_deal.setOnClickListener(this);
         refund_record.setOnClickListener(this);
     }
-
     @Override
     public void onClick(View view) {
         Intent intent = new Intent();
@@ -196,7 +193,6 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
                 dialog_sure.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-//                       Toast.makeText(Setting_AccountActivity.this,  "balance_money"+balance_money.getText().toString(), Toast.LENGTH_SHORT).show();
                         if (account.equals("")) {
                             balance_diolog.dismiss();
                             new BindCardDialog(Setting_AccountActivity.this, "系统检测到您还没有绑定任何银行卡信息，" + "暂不能退款。是否去绑定？").Bindcard();

@@ -21,17 +21,12 @@ import com.jgkj.bxxc.adapter.ParentCategoryAdapter;
  */
 public class SelectPopupWindow extends PopupWindow {
     private SelectCategory selectCategory;
-
     private String[] parentStrings;
     private String[][] childrenStrings;
-
     private ListView lvParentCategory = null;
     private ListView lvChildrenCategory = null;
     private ParentCategoryAdapter parentCategoryAdapter = null;
     private ChildrenCategoryAdapter childrenCategoryAdapter = null;
-    //回调数据
-    private String string;
-
     /**
      * @param parentStrings  字类别数据
      * @param activity
@@ -41,17 +36,12 @@ public class SelectPopupWindow extends PopupWindow {
         this.selectCategory = selectCategory;
         this.parentStrings = parentStrings;
         this.childrenStrings = childrenStrings;
-
         View contentView = LayoutInflater.from(activity).inflate(R.layout.layout_quyu_choose_view, null);
         DisplayMetrics dm = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-
         this.setContentView(contentView);
         this.setWidth(dm.widthPixels);
         this.setHeight(dm.heightPixels * 3 / 10);
-
-		/* 设置背景显示 */
-//        setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.pop_bg));
         setBackgroundDrawable(activity.getResources().getDrawable(R.color.white));
 		/* 设置触摸外面时消失 */
         setOutsideTouchable(true);
@@ -67,17 +57,13 @@ public class SelectPopupWindow extends PopupWindow {
         lvParentCategory = (ListView) contentView.findViewById(R.id.lv_parent_category);
         parentCategoryAdapter = new ParentCategoryAdapter(activity, parentStrings);
         lvParentCategory.setAdapter(parentCategoryAdapter);
-
         //子类别适配器
         lvChildrenCategory = (ListView) contentView.findViewById(R.id.lv_children_category);
         childrenCategoryAdapter = new ChildrenCategoryAdapter(activity);
         lvChildrenCategory.setAdapter(childrenCategoryAdapter);
-
         lvParentCategory.setOnItemClickListener(parentItemClickListener);
         lvChildrenCategory.setOnItemClickListener(childrenItemClickListener);
     }
-
-
     /**
      * 子类别点击事件
      */

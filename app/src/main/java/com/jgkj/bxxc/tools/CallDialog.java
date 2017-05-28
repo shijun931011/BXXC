@@ -23,7 +23,7 @@ public class CallDialog implements View.OnClickListener{
     private String content;
     private Dialog dialog, sureDialog;
     private View inflate, sureView;
-    private TextView dialog_textView, dialog_sure, dialog_cancel;
+    private TextView dialog_textView, dialog_sure, dialog_cancel,diolog_prompt;
 
     public CallDialog(Context context, String content){
         this.content = content;
@@ -38,9 +38,12 @@ public class CallDialog implements View.OnClickListener{
         dialog_textView = (TextView) inflate.findViewById(R.id.dialog_textView);
         dialog_sure = (TextView) inflate.findViewById(R.id.dialog_sure);
         dialog_cancel = (TextView) inflate.findViewById(R.id.dialog_cancel);
+        diolog_prompt = (TextView) inflate.findViewById(R.id.diolog_prompt);
+        diolog_prompt.setText("是否拨打客服电话");
         dialog_sure.setOnClickListener(this);
         dialog_cancel.setOnClickListener(this);
-        dialog_textView.setText("tel:"+content);
+        dialog_textView.setText(content);
+
         // 将布局设置给Dialog
         dialog.setContentView(inflate);
         // 获取当前Activity所在的窗体
@@ -57,7 +60,7 @@ public class CallDialog implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.dialog_sure:
-                Intent call_intent = new Intent(Intent.ACTION_DIAL, Uri.parse(dialog_textView.getText().toString().trim()));
+                Intent call_intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+ dialog_textView.getText().toString().trim()));
                 context.startActivity(call_intent);
                 dialog.hide();
                 break;

@@ -85,7 +85,7 @@ public class SureRefundDialog implements View.OnClickListener{
     public void SureRefund(){
         dialog = new Dialog(context, R.style.ActionSheetDialogStyle);
         // 填充对话框的布局
-        inflate = LayoutInflater.from(context).inflate(R.layout.sure_cancel_dialog, null);
+        inflate = LayoutInflater.from(context).inflate(R.layout.sure_idcard_dialog, null);
         // 初始化控件
         dialog_textView = (TextView) inflate.findViewById(R.id.dialog_textView);
         dialog_sure = (TextView) inflate.findViewById(R.id.dialog_sure);
@@ -94,7 +94,7 @@ public class SureRefundDialog implements View.OnClickListener{
         dialog_cancel.setText("再想想");
         dialog_bind = (TextView) inflate.findViewById(R.id.dialog_card_imfo);
         dialog_bind.setVisibility(View.VISIBLE);
-        dialog_bind.setText("银行卡："+account.substring(18,23));
+        dialog_bind.setText("银行卡信息："+account.substring(18,23));
         dialog_sure.setOnClickListener(this);
         dialog_cancel.setOnClickListener(this);
         dialog_textView.setText(content);

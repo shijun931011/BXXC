@@ -61,8 +61,8 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
     private int page = 1;
     private List<CoachDetailAction.Result> coachList = new ArrayList<>();
     private PrivateCoachAdapter adapter;
-    private String[] sub = {"科目二", "科目三"};
-    private String[] sortStr = {"综合","好评率"};
+    private String[] sub = {"科目","科目二", "科目三"};
+    private String[] sortStr = {"综合排序","好评率"};
     private String class_type = "";
     private String sortString = "zonghe";
     private String class_class = "私教班";
@@ -99,7 +99,6 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
         swipeLayout.setOnRefreshListener(this);
         swipeLayout.setOnLoadListener(this);
         swipeLayout.setTag("UNENABLE");
-
         //验证是否登录
         sp = getApplication().getSharedPreferences("USER",
                 Activity.MODE_PRIVATE);
@@ -115,7 +114,6 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
                 Activity.MODE_PRIVATE);
         token = sp1.getString("token", null);
     }
-
     private void getPlace(){
         OkHttpUtils
                 .get()
@@ -259,7 +257,6 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
             Toast.makeText(this, coachDetailAction.getReason(), Toast.LENGTH_SHORT).show();
         }
     }
-
     /**
      * 选择完成回调接口
      */
@@ -329,7 +326,7 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
                 swipeLayout.setTag("ONFRESH");
                 sort_btn1.setText("全城");
                 sort_btn2.setText("科目");
-                sort_btn3.setText("综合");
+                sort_btn3.setText("综合排序");
                 check();
                 sort(class_type, schId + "", sortString, page + "", class_class);
                 swipeLayout.setRefreshing(false);
@@ -341,11 +338,11 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
         if (!sort_btn2.getText().toString().trim().equals("科目")) {
             class_type = sort_btn2.getText().toString().trim()+"教练";
         }
-        if (sort_btn3.getText().toString().trim().equals("综合")) {
+        if (sort_btn3.getText().toString().trim().equals("综合排序")) {
             sortString = "zonghe";
         } else {
             String string = sort_btn3.getText().toString().trim();
-            if (string.equals("综合")) {
+            if (string.equals("综合排序")) {
                 sortString = "zonghe";
             }  else if (string.equals("好评率")) {
                 sortString = "haopin";
@@ -369,9 +366,6 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
                 mPopupWindowSub.showAsDropDown(sort_btn1, -5, 1);
                 break;
             case R.id.coach_sort_btn1:          //全城
-//                coachList.clear();
-//                adapter = new PrivateCoachAdapter(this, coachList);
-//                listView.setAdapter(adapter);
                 tag = "sort_btn1";
                 if (datialPlace == null) {
                     Toast.makeText(this, "网络状态不佳，请稍后再试", Toast.LENGTH_SHORT).show();

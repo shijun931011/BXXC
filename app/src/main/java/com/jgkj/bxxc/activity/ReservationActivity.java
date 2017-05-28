@@ -74,10 +74,8 @@ import okhttp3.Call;
  */
 public class  ReservationActivity extends Activity implements OnClickListener, SwipeRefreshLayout.OnRefreshListener,
         RefreshLayout.OnLoadListener {
-
     private CoachFullDetailAdapter adapter;
     private ListView listView;
-
     private TextView text_title, call;
     private Button back;
     private TextView coach_name;
@@ -129,7 +127,6 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
 
     //地图
     public MapView mMapView;
-
     //定位
     public LocationClient mLocClient;
     public MyLocationConfiguration.LocationMode mCurrentMode;
@@ -139,7 +136,6 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
     private int mXDirection;
     private double mCurrentLantitude, mCurrentLongitude;
     private float mCurrentAccracy;
-
     private String address= "";
     private BaiduMap mBaiduMap;
     private BitmapDescriptor bitmap;
@@ -150,7 +146,6 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
     boolean isFirstLoc = true; // 是否首次定位
     private InfoWindow mInfoWindow;
     private BitmapDescriptor  bitmapA;
-
     private String[] city = new String[0];
     private Marker mMarker;
     private class Result {
@@ -174,12 +169,8 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         init();
         initMap();
         getData(coachId, coachUrl);
-        bitmapA = BitmapDescriptorFactory
-                .fromResource(R.drawable.a2);
-
+        bitmapA = BitmapDescriptorFactory.fromResource(R.drawable.a2);
     }
-
-
     /**
      * 初始化地图
      */
@@ -191,7 +182,6 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         mMapView.showScaleControl(false);
         //设置是否显示缩放控件
         mMapView.showZoomControls(false);
-
         // 开启定位图层
         mBaiduMap.setMyLocationEnabled(true);
         // 定位初始化
@@ -212,8 +202,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                 // 设置定位数据
                 mBaiduMap.setMyLocationData(locData);
                 // 设置自定义图标
-                mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
-                        mCurrentMode, true, mCurrentMarker));
+                mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(mCurrentMode, true, mCurrentMarker));
             }
         });
         LocationClientOption option = new LocationClientOption();
@@ -222,8 +211,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         option.setScanSpan(1000);
         mLocClient.setLocOption(option);
         mCurrentMode = MyLocationConfiguration.LocationMode.FOLLOWING;
-        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
-                mCurrentMode, true, mCurrentMarker));
+        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(mCurrentMode, true, mCurrentMarker));
         mLocClient.start();
     }
 
@@ -445,7 +433,6 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         tongguo = (TextView) headView.findViewById(R.id.tongguo);
         totalStu = (TextView) headView.findViewById(R.id.totalStu);
         haopinglv = (TextView) headView.findViewById(R.id.haopinglv);
-
         share = (ImageView) headView.findViewById(R.id.share);
         share.setOnClickListener(this);
         //费用说明
@@ -453,7 +440,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         costsThat.setOnClickListener(this);
         // 实例化控件
         text_title = (TextView) findViewById(R.id.text_title);
-        text_title.setText("个人简介");
+        text_title.setText("教练详情");
         back = (Button) findViewById(R.id.button_backward);
         back.setOnClickListener(this);
         back.setVisibility(View.VISIBLE);
@@ -469,7 +456,6 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         swipeLayout.setOnRefreshListener(this);
         swipeLayout.setOnLoadListener(this);
     }
-
     /**
      * 更改教练
      * @param uid 用户id
@@ -565,8 +551,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                  *
                  */
                 image = new UMImage(ReservationActivity.this, coach_head.getTag().toString());
-
-                new ShareAction(this).setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
+                new ShareAction(this).setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QQ)
                         .withText("科技改变生活，百信引领学车！百信学车在这里向您分享我们这里最优秀的教练"+coach_name.getText().toString())
                         .withMedia(image)
                         .withTitle("百信学车向您分享")

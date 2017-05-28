@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -34,8 +33,7 @@ public class InviteFriendsActivity extends Activity implements View.OnClickListe
     private UserInfo userInfo;
     private UserInfo.Result result;
     private String shareUrl = "http://www.baixinxueche.com/index.php/Home/index/share?uid=";
-    private int uid;
-    private String token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,11 +51,11 @@ public class InviteFriendsActivity extends Activity implements View.OnClickListe
     }
 
     private void initView() {
-        Drawable xinlang = getResources().getDrawable(R.drawable.umeng_socialize_sina_on);
+        Drawable xinlang = getResources().getDrawable(R.drawable.share_sina);
         xinlang.setBounds(0, 0, 100, 100);
-        Drawable weixin = getResources().getDrawable(R.drawable.umeng_socialize_wechat);
+        Drawable weixin = getResources().getDrawable(R.drawable.share_weixin);
         weixin.setBounds(0, 0, 100, 100);
-        Drawable pengyouquan = getResources().getDrawable(R.drawable.umeng_socialize_wxcircle);
+        Drawable pengyouquan = getResources().getDrawable(R.drawable.share_friendcricle);
         pengyouquan.setBounds(0, 0, 100, 100);
         title = (TextView) findViewById(R.id.text_title);
         title.setText("邀请好友");
@@ -82,7 +80,6 @@ public class InviteFriendsActivity extends Activity implements View.OnClickListe
         inviteCode = (TextView) findViewById(R.id.inviteCode);
         SharedPreferences sp = getSharedPreferences("USER", Activity.MODE_PRIVATE);
         String str = sp.getString("userInfo", null);
-        Log.d("zyzhang","invitedCode:"+str);
         Gson gson = new Gson();
         userInfo = gson.fromJson(str, UserInfo.class);
         result = userInfo.getResult();
@@ -136,6 +133,7 @@ public class InviteFriendsActivity extends Activity implements View.OnClickListe
                         });
                 dialog.create().show();
                 break;
+
             case R.id.sina:
                 /**
                  * setDisplayList方法是友盟内部封装好的，我们拿来调用就好了，

@@ -41,7 +41,6 @@ import com.jgkj.bxxc.activity.UseGuideActivity;
 import com.jgkj.bxxc.activity.WebViewActivity;
 import com.jgkj.bxxc.adapter.MyAdapter;
 import com.jgkj.bxxc.bean.HeadlinesAction;
-import com.jgkj.bxxc.bean.Picture;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.bean.entity.BannerEntity.BannerEntity;
 import com.jgkj.bxxc.bean.entity.BannerEntity.BannerResult;
@@ -118,7 +117,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
         view.scrollBy(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         init();
         getImage();
-        //scrollView();
         getheadlines();
         headlinesList = new ArrayList<HeadlinesAction.Result>();
         return view;
@@ -315,7 +313,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
                                 for (int k = 0; k < bannerEntitylist.size(); k++) {
                                     imageView = new ImageView(getActivity());
                                     Glide.with(getActivity()).load(bannerEntitylist.get(k).getPic().toString()).into(imageView);
-                                    //imageView.setTag(bannerEntitylist.get(k).getPic());
                                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                                     listView.add(imageView);
                                 }
@@ -462,7 +459,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-
         // 验证是否登录
         sp = getActivity().getApplication().getSharedPreferences("USER",
                 Activity.MODE_PRIVATE);

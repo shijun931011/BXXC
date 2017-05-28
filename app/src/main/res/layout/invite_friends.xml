@@ -5,21 +5,20 @@
               android:orientation="vertical">
     <include
         layout="@layout/title"/>
-    <ScrollView android:layout_width="match_parent"
-                android:layout_height="match_parent">
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:orientation="vertical">
             <ImageView android:layout_width="match_parent"
-                       android:layout_height="230dp"
+                       android:layout_height="180dp"
                        android:scaleType="centerCrop"
-                       android:src="@drawable/pai"/>
+                       android:src="@drawable/pai"
+            />
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:gravity="center"
                       android:padding="10dp"
                       android:text="邀请好友一起来学车"
-                      android:textSize="20sp"/>
+                      android:textSize="18sp"/>
 
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
@@ -38,21 +37,40 @@
                       android:id="@+id/inviteCode"
                       android:gravity="center"
                       android:textSize="20sp"
+                      android:textStyle="bold"
                       android:textColor="@color/black"
                       android:text="18133224378"/>
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:id="@+id/activity_rules"
                       android:gravity="center"
-                      android:textSize="16sp"
+                      android:textSize="15sp"
                       android:hint="活动规则 >"
                       android:layout_marginTop="10dp"/>
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:gravity="center"
-                      android:layout_marginTop="15dp"
-                      android:textSize="17sp"
-                      android:hint="分享到"/>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="15dp"
+                          android:orientation="horizontal">
+                <View android:layout_width="150dp"
+                      android:layout_height="0.8dp"
+                      android:background="@color/background"
+                      android:layout_gravity="center_vertical"
+                      android:layout_marginLeft="5dp"
+                />
+                <TextView
+                    android:layout_width="65dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:hint="分享到"  />
+                <View android:layout_width="152dp"
+                      android:layout_height="0.8dp"
+                      android:background="@color/background"
+                      android:layout_gravity="center_vertical"
+                      android:layout_marginRight="5dp"
+                />
+
+            </LinearLayout>
             <LinearLayout android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:layout_marginBottom="10dp"
@@ -83,6 +101,6 @@
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
+
 
 </LinearLayout>

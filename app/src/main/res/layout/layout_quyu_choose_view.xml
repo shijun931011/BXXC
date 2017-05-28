@@ -16,6 +16,7 @@
         android:scrollbars="none"/>
 
     <View
+        android:id="@+id/line"
         android:layout_width="1dp"
         android:layout_height="fill_parent"
         android:background="@color/zu_choose_left_item_diveder"/>

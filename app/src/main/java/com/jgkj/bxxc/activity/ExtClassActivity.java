@@ -31,7 +31,6 @@ import okhttp3.Call;
 
 public class ExtClassActivity extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener,SwipeRefreshLayout.OnRefreshListener,
         RefreshLayout.OnLoadListener{
-
     private TextView title;
     private Button button_backward;
     private Button sort_btn1, sort_btn2, sort_btn3;      //全城   科目   综合
@@ -59,8 +58,8 @@ public class ExtClassActivity extends Activity implements View.OnClickListener, 
     private int page = 1;
     private List<CoachDetailAction.Result> coachList = new ArrayList<>();
     private MyCoachAdapter adapter;
-    private String[] sub = {"科目二", "科目三"};
-    private String[] sortStr = {"综合", "通过率", "好评率"};
+    private String[] sub = {"科目", "科目二", "科目三"};
+    private String[] sortStr = {"综合排序", "通过率", "好评率"};
     private String class_type = "";
     private String sortString = "zonghe";
     private String class_class = "至尊班";
@@ -326,7 +325,7 @@ public class ExtClassActivity extends Activity implements View.OnClickListener, 
                 swipeLayout.setTag("ONFRESH");
                 sort_btn1.setText("全城");
                 sort_btn2.setText("科目");
-                sort_btn3.setText("综合");
+                sort_btn3.setText("综合排序");
                 check();
                 sort(class_type, schId + "", sortString, page + "", class_class);
                 swipeLayout.setRefreshing(false);
@@ -338,11 +337,11 @@ public class ExtClassActivity extends Activity implements View.OnClickListener, 
         if (!sort_btn2.getText().toString().trim().equals("科目")) {
             class_type = sort_btn2.getText().toString().trim()+"教练";
         }
-        if (sort_btn3.getText().toString().trim().equals("综合")) {
+        if (sort_btn3.getText().toString().trim().equals("综合排序")) {
             sortString = "zonghe";
         } else {
             String string = sort_btn3.getText().toString().trim();
-            if (string.equals("综合")) {
+            if (string.equals("综合排序")) {
                 sortString = "zonghe";
             } else if (string.equals("好评率")) {
                 sortString = "haopin";
@@ -368,9 +367,6 @@ public class ExtClassActivity extends Activity implements View.OnClickListener, 
                 mPopupWindowSub.showAsDropDown(sort_btn1, -5, 1);
                 break;
             case R.id.coach_sort_btn1:          //全城
-//                coachList.clear();
-//                adapter = new MyCoachAdapter(this, coachList);
-//                listView.setAdapter(adapter);
                 tag = "sort_btn1";
                 if (datialPlace == null) {
                     Toast.makeText(this, "网络状态不佳，请稍后再试", Toast.LENGTH_SHORT).show();

@@ -55,9 +55,9 @@ public class CoachFragment2 extends Fragment implements OnClickListener, Adapter
     private SelectPopupWindow mPopupWindowSort = null;
     private SelectPopupWindow mPopupWindowClassType = null;
     private String tag;
-    private String[] sub = {"科目二", "科目三"};
-    private String[] sortStr = {"综合", "通过率", "好评率"};
-    private String[] classType = {"贵宾班", "VIP班"};
+    private String[] sub = {"科目","科目二", "科目三"};
+    private String[] sortStr = {"综合排序", "通过率", "好评率"};
+    private String[] classType = {"班型","至尊班", "VIP班"};
     private String class_type = "";
     private String sortString = "";
     private String class_class = "";
@@ -138,7 +138,6 @@ public class CoachFragment2 extends Fragment implements OnClickListener, Adapter
                     public void onError(Call call, Exception e, int i) {
                         Toast.makeText(getActivity(), "网络状态不佳，请检查网络", Toast.LENGTH_LONG).show();
                     }
-
                     @Override
                     public void onResponse(String s, int i) {
                         Log.d("shijun","2222"+s);
@@ -312,9 +311,6 @@ public class CoachFragment2 extends Fragment implements OnClickListener, Adapter
                 mPopupWindowSub.showAsDropDown(sort_btn1, -5, 1);
                 break;
             case R.id.coach_sort_btn2:            //全城
-//                coachList.clear();
-//                adapter = new MyCoachAdapter(getActivity(), coachList);
-//                listView.setAdapter(adapter);
                 tag = "sort_btn2";
                 if (datialPlace == null) {
                     Toast.makeText(getActivity(), "网络状态不佳，请稍后再试", Toast.LENGTH_SHORT).show();
@@ -355,11 +351,11 @@ public class CoachFragment2 extends Fragment implements OnClickListener, Adapter
         if (!sort_btn1.getText().toString().trim().equals("科目")) {
             class_type = sort_btn1.getText().toString().trim() + "教练";
         }
-        if (sort_btn3.getText().toString().trim().equals("综合")) {
+        if (sort_btn3.getText().toString().trim().equals("综合排序")) {
             sortString = "zonghe";
         } else {
             String string = sort_btn3.getText().toString().trim();
-            if (string.equals("综合")) {
+            if (string.equals("综合排序")) {
                 sortString = "zonghe";
             }else if (string.equals("好评率")) {
                 sortString = "haopin";
@@ -441,7 +437,7 @@ public class CoachFragment2 extends Fragment implements OnClickListener, Adapter
                 swipeLayout.setTag("ONFRESH");
                 sort_btn1.setText("科目");
                 sort_btn2.setText("全城");
-                sort_btn3.setText("综合");
+                sort_btn3.setText("综合排序");
                 sort_btn4.setText("班型");
                 check();
                 sort(class_type, schId + "", sortString, page + "", class_class);

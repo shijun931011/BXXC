@@ -28,7 +28,6 @@ import com.jgkj.bxxc.bean.SchoolPlaceTotal;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.tools.RefreshLayout;
 import com.jgkj.bxxc.tools.SelectPopupWindow;
-import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -40,8 +39,6 @@ import okhttp3.Call;
 public class PrivateFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener,SwipeRefreshLayout.OnRefreshListener,
         RefreshLayout.OnLoadListener {
     private View view;
-    private TextView title;
-    private Button button_backward;
     private Button sort_btn1, sort_btn2, sort_btn3;      //全城   科目   综合
     private ListView listView;                           //教练排序展示
     private TextView textView;                           //暂无数据
@@ -67,8 +64,8 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
     private int page = 1;
     private List<CoachDetailAction.Result> coachList = new ArrayList<>();
     private PrivateCoachAdapter adapter;
-    private String[] sub = {"科目二", "科目三"};
-    private String[] sortStr = {"综合","好评率"};
+    private String[] sub = {"科目","科目二", "科目三"};
+    private String[] sortStr = {"综合排序","好评率"};
     private String class_type = "";
     private String sortString = "zonghe";
     private String class_class = "私教班";
@@ -119,7 +116,6 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
         swipeLayout.setOnRefreshListener(this);
         swipeLayout.setOnLoadListener(this);
         swipeLayout.setTag("UNENABLE");
-
         //验证是否登录
         sp = getActivity().getApplication().getSharedPreferences("USER",
                 Activity.MODE_PRIVATE);
@@ -350,7 +346,7 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
                 swipeLayout.setTag("ONFRESH");
                 sort_btn1.setText("全城");
                 sort_btn2.setText("科目");
-                sort_btn3.setText("综合");
+                sort_btn3.setText("综合排序");
                 check();
                 sort(class_type, schId + "", sortString, page + "", class_class);
                 swipeLayout.setRefreshing(false);
@@ -362,11 +358,11 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
         if (!sort_btn2.getText().toString().trim().equals("科目")) {
             class_type = sort_btn2.getText().toString().trim()+"教练";
         }
-        if (sort_btn3.getText().toString().trim().equals("综合")) {
+        if (sort_btn3.getText().toString().trim().equals("综合排序")) {
             sortString = "zonghe";
         } else {
             String string = sort_btn3.getText().toString().trim();
-            if (string.equals("综合")) {
+            if (string.equals("综合排序")) {
                 sortString = "zonghe";
             }else if (string.equals("好评率")) {
                 sortString = "haopin";
@@ -386,9 +382,6 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
                 mPopupWindowSub.showAsDropDown(sort_btn1, -5, 1);
                 break;
             case R.id.coach_sort_btn1:          //全城
-//                coachList.clear();
-//                adapter = new PrivateCoachAdapter(getActivity(), coachList);
-//                listView.setAdapter(adapter);
                 tag = "sort_btn1";
                 if (datialPlace == null) {
                     Toast.makeText(getActivity(), "网络状态不佳，请稍后再试", Toast.LENGTH_SHORT).show();

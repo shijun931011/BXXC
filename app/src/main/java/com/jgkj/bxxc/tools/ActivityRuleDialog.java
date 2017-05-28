@@ -24,21 +24,16 @@ public class ActivityRuleDialog extends Dialog {
     public ActivityRuleDialog(Context context, int theme) {
         super(context, theme);
     }
-
     public static class Builder {
         private Context context;
         private String title;
         private String message;
         private String positiveButtonText;
-//        private String negativeButtonText;
         private View contentView;
         private DialogInterface.OnClickListener positiveButtonClickListener;
-//        private DialogInterface.OnClickListener negativeButtonClickListener;
-
         public Builder(Context context) {
             this.context = context;
         }
-
         public Builder setMessage(String message) {
             this.message = message;
             return this;
@@ -104,7 +99,6 @@ public class ActivityRuleDialog extends Dialog {
 
         public ActivityRuleDialog create() {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            // instantiate the dialog with the custom Theme
             final ActivityRuleDialog dialog = new ActivityRuleDialog(context,R.style.Dialog);
             View layout = inflater.inflate(R.layout.dialog_rules, null);
             dialog.addContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));

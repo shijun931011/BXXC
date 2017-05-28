@@ -73,10 +73,8 @@ import okhttp3.Call;
  */
 public class ReservationForPrivateActivity extends Activity implements OnClickListener, SwipeRefreshLayout.OnRefreshListener,
         RefreshLayout.OnLoadListener {
-
     private CoachFullDetailAdapter adapter;
     private ListView listView;
-
     private TextView text_title, call;
     private Button back;
     private TextView coach_name;
@@ -162,7 +160,6 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
             return code;
         }
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,10 +171,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
         initMap();
         getData(coachId, coachUrl);
         bitmapA = BitmapDescriptorFactory.fromResource(R.drawable.a2);
-
     }
-
-
     /**
      * 初始化地图
      */
@@ -189,7 +183,6 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
         mMapView.showScaleControl(false);
         //设置是否显示缩放控件
         mMapView.showZoomControls(false);
-
         // 开启定位图层
         mBaiduMap.setMyLocationEnabled(true);
         // 定位初始化
