@@ -2,6 +2,7 @@ package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.jgkj.bxxc.bean.MyPayResult;
 import com.jgkj.bxxc.bean.Recharge;
 import com.jgkj.bxxc.bean.entity.WXEntity.WXEntity;
 import com.jgkj.bxxc.tools.PayResult;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -34,7 +36,6 @@ import java.util.List;
 import okhttp3.Call;
 
 public class RechargeActivity extends Activity implements View.OnClickListener{
-
     private TextView title;
     private TextView recharge_protocol;     //充值协议
     private Button back;
@@ -65,6 +66,7 @@ public class RechargeActivity extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recharge);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         InitView();
         getCZmoney(uid+"", token);
     }

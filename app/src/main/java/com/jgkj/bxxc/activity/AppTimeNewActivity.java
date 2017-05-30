@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.jgkj.bxxc.adapter.StuSubNewAdapter;
 import com.jgkj.bxxc.bean.CreateDay_Time;
 import com.jgkj.bxxc.bean.MyCoachAction;
 import com.jgkj.bxxc.tools.RefreshLayout;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -36,13 +38,11 @@ public class AppTimeNewActivity extends Activity implements View.OnClickListener
     private TextView title;
     private Button back;
     private ListView listView;
-
     private RefreshLayout swipeLayout;
     private String uid;
     private String cid;
     private String token,state;
     private MyCoachAction coachAction;
-
     private StuSubNewAdapter adapter;
     private CreateDay_Time createday;
     private List<CreateDay_Time> list;
@@ -56,6 +56,7 @@ public class AppTimeNewActivity extends Activity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.apptime);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
         getMyCoach(uid);
     }

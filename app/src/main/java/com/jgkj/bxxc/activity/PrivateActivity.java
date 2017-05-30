@@ -3,6 +3,7 @@ package com.jgkj.bxxc.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -29,6 +30,7 @@ import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.bean.entity.WXEntity.WXEntity;
 import com.jgkj.bxxc.tools.PayResult;
 import com.jgkj.bxxc.tools.RemainBaseDialog;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -79,6 +81,7 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         InitView();
         getData();
         getPriData(uid+"", token);

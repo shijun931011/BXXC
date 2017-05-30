@@ -3,6 +3,7 @@ package com.jgkj.bxxc.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +20,7 @@ import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.bean.entity.BaseEntity.BaseEntity;
 import com.jgkj.bxxc.tools.Md5;
 import com.jgkj.bxxc.tools.PasswordInputView;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -43,7 +45,7 @@ public class SetPayPasswordActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_pay_password);
-
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         Intent intent = getIntent();
         forgetPayFlag = intent.getStringExtra("forgetPayFlag");
 

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import com.jgkj.bxxc.adapter.OrderAdapter;
 import com.jgkj.bxxc.bean.ErrorMsg;
 import com.jgkj.bxxc.bean.HistoryView;
 import com.jgkj.bxxc.bean.SubTest;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -91,6 +93,7 @@ public class SubTestActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_test);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
         SharedPreferences sp = getSharedPreferences("last_sub", Activity.MODE_PRIVATE);
         count = sp.getInt("LastSub",1);

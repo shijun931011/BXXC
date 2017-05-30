@@ -3,6 +3,7 @@ package com.jgkj.bxxc.activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.tools.StarBar;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -55,6 +57,7 @@ public class AppraiseActivity extends Activity implements View.OnClickListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.appraise);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
         getData();
     }

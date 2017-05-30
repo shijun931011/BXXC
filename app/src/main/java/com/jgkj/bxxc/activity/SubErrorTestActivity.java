@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -23,6 +24,7 @@ import com.jgkj.bxxc.adapter.OrderAdapter;
 import com.jgkj.bxxc.bean.ErrorMsg;
 import com.jgkj.bxxc.bean.HistoryView;
 import com.jgkj.bxxc.bean.SubTest;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -44,7 +46,6 @@ public class SubErrorTestActivity extends Activity implements View.OnClickListen
     private SubTest subTest;
     private OrderAdapter orderAdapter, adapter;
     private String subUrl = "http://www.baixinxueche.com/index.php/Home/Apiupdata/sendsubject";
-
     private int count = 0;
     private String currentCount;
     private ImageView image;
@@ -57,7 +58,6 @@ public class SubErrorTestActivity extends Activity implements View.OnClickListen
     private List<View> list;
     private View view, his_view;
     private LinearLayout detail;
-
     private SubTest.Result results;
     //历史视图
     private List<HistoryView> hisView;
@@ -68,30 +68,24 @@ public class SubErrorTestActivity extends Activity implements View.OnClickListen
     //用户选择的答案
     private int user_Answer = 0, right_Answer;
     private Drawable drawable_right, drawable_error;
-
     private Dialog dialog, saveDialog;
-
     private TextView dialog_cancel, dialog_sure, dialog_textView;
-
     private List<SubTest.Result> listTest;
-
     private SubTest.Result result;
     //上一题下一题
     private TextView above_Question, next_Question;
-
     private View line;
-
     private int num;
     /**
      * 自动保存错题
      */
     private List<ErrorMsg.Result> str;
     private ErrorMsg errorSub;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_test);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
     }
 

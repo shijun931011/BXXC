@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -23,6 +24,7 @@ import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.adapter.OrderAdapter;
 import com.jgkj.bxxc.bean.ErrorMsg;
 import com.jgkj.bxxc.bean.SubTest;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -106,6 +108,7 @@ public class SubFourExamTestActivity extends Activity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_test);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
         getSub(panUrl);
     }

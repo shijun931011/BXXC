@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -33,6 +34,7 @@ import com.jgkj.bxxc.adapter.RehourAdapter;
 import com.jgkj.bxxc.bean.Rehour;
 import com.jgkj.bxxc.bean.entity.MenuEntity.MenuEntitys;
 import com.jgkj.bxxc.bean.entity.MenuEntity.MenuResults;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -100,6 +102,7 @@ public class RehourActivity extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rehour);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
 
     }

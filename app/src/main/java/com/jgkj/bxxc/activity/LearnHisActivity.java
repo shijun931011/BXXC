@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Gravity;
@@ -23,6 +24,7 @@ import com.jgkj.bxxc.adapter.LearnHisAdapter;
 import com.jgkj.bxxc.bean.LearnHisAction;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.tools.RefreshLayout;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -58,10 +60,8 @@ public class LearnHisActivity extends Activity implements View.OnClickListener,
     private int page = 1;
     private TextView tips;
     private String state;
-
     //flag代表是否是已学车还是未学车
     private boolean flag = true;
-
     private int uid;
     private UserInfo userInfo;
 
@@ -69,6 +69,7 @@ public class LearnHisActivity extends Activity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.learnhis);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
         Intent intent = getIntent();
         uid = intent.getIntExtra("uid", -1);

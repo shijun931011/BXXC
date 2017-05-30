@@ -2,6 +2,7 @@ package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsListView;
@@ -17,6 +18,7 @@ import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.adapter.HeadlinesAdapter;
 import com.jgkj.bxxc.bean.HeadlinesAction;
 import com.jgkj.bxxc.tools.RefreshLayout;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -45,6 +47,7 @@ public class HeadlinesActivity extends Activity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.headlines);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
         initData();
         getheadlines();

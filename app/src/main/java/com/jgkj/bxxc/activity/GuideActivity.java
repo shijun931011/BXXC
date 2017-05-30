@@ -1,12 +1,14 @@
 package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.jgkj.bxxc.R;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 
 /**
  * Created by fangzhou on 2017/2/6.
@@ -22,6 +24,7 @@ public class GuideActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.guide);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
 
     }

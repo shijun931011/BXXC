@@ -2,6 +2,7 @@ package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.adapter.PaydetailAdapter;
 import com.jgkj.bxxc.bean.PayDetail;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -50,6 +52,7 @@ public class PaydetailActivity extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paydetail);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         InitView();
 
     }

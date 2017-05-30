@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.tools.ActivityRuleDialog;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -38,6 +40,7 @@ public class InviteFriendsActivity extends Activity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.invite_friends);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
         // 验证是否登录
         sp = getSharedPreferences("USER", Activity.MODE_PRIVATE);

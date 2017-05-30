@@ -1,6 +1,7 @@
 package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.tools.FileCacheUtils;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 
 import java.io.File;
 
@@ -22,6 +24,7 @@ public class SoftInfoActivity extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.softinfo);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         init();
     }
 

@@ -3,6 +3,7 @@ package com.jgkj.bxxc.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -40,6 +41,7 @@ import com.jgkj.bxxc.bean.SchoolShow;
 import com.jgkj.bxxc.tools.MyOrientationListener;
 import com.jgkj.bxxc.tools.PictureOptimization;
 import com.jgkj.bxxc.tools.SelectPopupWindow;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -94,6 +96,7 @@ public class PlaceChooseActivity extends Activity implements OnClickListener, Ad
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.placechoose);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         //初始化控件
         init();
         //初始化百度地图

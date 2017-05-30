@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -37,6 +38,7 @@ import com.jgkj.bxxc.bean.MyPayResult;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.bean.entity.WXEntity.WXEntity;
 import com.jgkj.bxxc.tools.PayResult;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -99,6 +101,7 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payinfo);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         init();
         getIntentData();
         Intent intent = getIntent();

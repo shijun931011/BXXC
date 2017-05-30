@@ -2,6 +2,7 @@ package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jgkj.bxxc.R;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 
 /**
  * Created by fangzhou on 2016/11/18.
@@ -26,6 +28,7 @@ public class PayResultActivity extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payresult);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         init();
         data();
     }

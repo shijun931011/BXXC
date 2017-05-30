@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import com.jgkj.bxxc.bean.Balance;
 import com.jgkj.bxxc.tools.ActivityRuleDialog;
 import com.jgkj.bxxc.tools.BindCardDialog;
 import com.jgkj.bxxc.tools.RemainBaseDialog;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.jgkj.bxxc.tools.SureRefundDialog;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -68,6 +70,7 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_account);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
         getData();
         getBalance(uid+"", token);

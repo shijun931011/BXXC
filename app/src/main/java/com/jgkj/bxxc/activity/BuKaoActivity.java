@@ -2,6 +2,7 @@ package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,6 +23,7 @@ import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.MyPayResult;
 import com.jgkj.bxxc.bean.ShowRePay;
 import com.jgkj.bxxc.tools.PayResult;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -60,6 +62,7 @@ public class BuKaoActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bukao);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
         getintent();
     }

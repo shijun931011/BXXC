@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -19,6 +20,7 @@ import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.tools.JPushDataUitl;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -43,10 +45,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private TextView morenew;
     private TextView callback;
     private ProgressDialog dialog;
-
     private static final String TAG = "JPush";
     private String loginOldUrl = "http://www.baixinxueche.com/index.php/Home/Api/LoginPost";
-
     private String loginUrl = "http://www.baixinxueche.com/index.php/Home/Apialltoken/LoginPost";
     private String loginNewUrl="http://www.baixinxueche.com/index.php/Home/Apialltoken/LoginPostPaypwd";
 
@@ -54,6 +54,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         init();
     }
 

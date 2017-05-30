@@ -3,6 +3,7 @@ package com.jgkj.bxxc.activity;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -24,6 +25,7 @@ import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.adapter.OrderAdapter;
 import com.jgkj.bxxc.bean.HistoryView;
 import com.jgkj.bxxc.bean.SubTest;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -46,9 +48,7 @@ public class SubExamTestActivity extends Activity implements View.OnClickListene
     private SubTest subTest;
     private OrderAdapter orderAdapter, adapter;
     private String subUrl = "http://www.baixinxueche.com/index.php/Home/Apiupdata/sendsubject";
-
     private int count = 0;
-
     //分数统计
     private int score = 0;
     private ImageView image;
@@ -74,26 +74,18 @@ public class SubExamTestActivity extends Activity implements View.OnClickListene
     //用户选择的答案
     private int user_Answer = 0, right_Answer;
     private Drawable drawable_right, drawable_error;
-
     private Dialog dialog, saveDialog;
-
     private TextView dialog_cancel, dialog_sure, dialog_textView;
-
     private List<SubTest.Result> listTest;
-
     private SubTest.Result result;
     //上一题下一题
     private TextView above_Question, next_Question;
-
     private List<String> str = new ArrayList<>();
     private View line;
-
     private int num;
     private int subCount = 0;
-
     private int randomSub;
     private List<Integer> randList = new ArrayList<>();
-
     private class Result {
         private int count;
 
@@ -106,6 +98,7 @@ public class SubExamTestActivity extends Activity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_test);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
         getCount();
 

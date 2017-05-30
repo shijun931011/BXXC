@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -51,6 +52,7 @@ import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.tools.CallDialog;
 import com.jgkj.bxxc.tools.MyOrientationListener;
 import com.jgkj.bxxc.tools.RefreshLayout;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
@@ -101,13 +103,12 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
     //创建费用说明dialog
     private Dialog dialog;
     private ProgressDialog progressDialog;
-
     private View dialogView;
     private LinearLayout fourPromise;
     //教练信息
     private TextView price, currentStu, tongguo, totalStu;
-    private LinearLayout xinyong, zhiliang, fuwu;
-    private TextView zhiliangfen, fuwufen;
+    private LinearLayout zhonghe, zhiliang, fuwu;
+    private TextView zhiliangfen, fuwufen,zhonghefen;
     private LinearLayout.LayoutParams wrapParams;
     private String state;
     private int uid;
@@ -147,7 +148,6 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
     boolean isFirstLoc = true; // 是否首次定位
     private InfoWindow mInfoWindow;
     private BitmapDescriptor  bitmapA;
-
     private String[] city = new String[0];
     private Marker mMarker;
     private class Result {
@@ -166,6 +166,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
         // 注意该方法要再setContentView方法之前实现
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.reservation);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         headView = getLayoutInflater().inflate(R.layout.coach_head_private, null);
         init();
         initMap();
@@ -334,11 +335,9 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                         if (coachInfo.getCode() == 200) {
                             List<CoachInfo.Result> list = coachInfo.getResult();
                             CoachInfo.Result result = list.get(0);
-                            coach_name.setText("教练员："+ result.getCoachname());
+                            coach_name.setText(result.getCoachname());
                             DecimalFormat df = new DecimalFormat("#.00");
                             price.setText("￥" + df.format(result.getPrice()));
-                            //currentStu.setHint("当前学员数" + result.getStunum() + "人");
-                            //tongguo.setHint("通过率：" + result.getTguo() + "%");
                             String path = result.getFile();
                             if (!path.endsWith(".jpg") && !path.endsWith(".jpeg") && !path.endsWith(".png") &&
                                     !path.endsWith(".GIF") && !path.endsWith(".PNG") && !path.endsWith(".JPG") && !path.endsWith(".gif")) {
@@ -350,19 +349,20 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                             place.setText("校区：" + result.getFaddress());
                             coach_head.setTag(result.getFile());
                             share.setTag(result.getCid());
-                            int credit = result.getCredit();
+//                            int credit = result.getCredit();
+                            int zhonghenum = result.getZonghe();
                             int teachnum = Integer.parseInt(result.getTeach());
                             int waitnum = Integer.parseInt(result.getWait());
                             haopinglv.setText("好评率："+result.getHaopin()+"%");
                             zhiliang.removeAllViews();
-                            xinyong.removeAllViews();
+                            zhonghe.removeAllViews();
                             fuwu.removeAllViews();
-                            for (int k = 0; k < credit; k++) {
+                            for (int k = 0; k < zhonghenum; k++) {
                                 ImageView image = new ImageView(ReservationForPrivateActivity.this);
-                                image.setBackgroundResource(R.drawable.xin_1);
+                                image.setBackgroundResource(R.drawable.star1);
                                 LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
                                 image.setLayoutParams(wrapParams);
-                                xinyong.addView(image);
+                                zhonghe.addView(image);
                             }
                             for (int k = 0; k < teachnum; k++) {
                                 ImageView image = new ImageView(ReservationForPrivateActivity.this);
@@ -378,6 +378,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                                 image.setLayoutParams(wrapParams);
                                 fuwu.addView(image);
                             }
+                            zhonghefen.setText(result.getZonghe()+".0分");
                             zhiliangfen.setText(result.getTeach() + ".0分");
                             fuwufen.setText(result.getWait() + ".0分");
                             List<StuEvaluation> listStu = new ArrayList<StuEvaluation>();
@@ -390,7 +391,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                             CoachFullDetailAdapter adapter = new CoachFullDetailAdapter(ReservationForPrivateActivity.this, listStu);
                             listView.setAdapter(adapter);
                         } else {
-                            //Toast.makeText(ReservationActivity.this, "没有更多的！", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ReservationForPrivateActivity.this, "没有更多的！", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -405,9 +406,10 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
         connectCus.setOnClickListener(this);
         signup_Coach = (TextView) findViewById(R.id.signup_Coach);
         signup_Coach.setOnClickListener(this);
-        xinyong = (LinearLayout) headView.findViewById(R.id.xinyong);
+        zhonghe = (LinearLayout) headView.findViewById(R.id.zhonghe);
         zhiliang = (LinearLayout) headView.findViewById(R.id.zhiliang);
         fuwu = (LinearLayout) headView.findViewById(R.id.fuwu);
+        zhonghefen = (TextView) headView.findViewById(R.id.zhonghefen);
         zhiliangfen = (TextView) headView.findViewById(R.id.zhiliangfen);
         fuwufen = (TextView) headView.findViewById(R.id.fuwufen);
         Intent intent = getIntent();
@@ -427,20 +429,14 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
         price = (TextView) headView.findViewById(R.id.price);
         totalStu = (TextView) headView.findViewById(R.id.totalStu);
         haopinglv = (TextView) headView.findViewById(R.id.haopinglv);
-
         share = (ImageView) headView.findViewById(R.id.share);
         share.setOnClickListener(this);
-        //费用说明
-        //costsThat = (TextView) headView.findViewById(R.id.costsThat);
-        //costsThat.setOnClickListener(this);
         // 实例化控件
         text_title = (TextView) findViewById(R.id.text_title);
         text_title.setText("个人简介");
         back = (Button) findViewById(R.id.button_backward);
         back.setOnClickListener(this);
         back.setVisibility(View.VISIBLE);
-        //fourPromise = (LinearLayout) headView.findViewById(R.id.fourPromiselinearLayout);
-        //fourPromise.setOnClickListener(this);
         // 实例化listView显示学员的评价
         listView = (ListView) findViewById(R.id.student_evaluate_listView);
         listView.setFocusable(false);

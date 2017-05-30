@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.jgkj.bxxc.adapter.MyAdapter;
 import com.jgkj.bxxc.adapter.MyCoachAdapter;
 import com.jgkj.bxxc.bean.CoachDetailAction;
 import com.jgkj.bxxc.tools.PictureOptimization;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +61,7 @@ public class SimpleCoachActivity extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.simplecoach);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         init();
     }
 

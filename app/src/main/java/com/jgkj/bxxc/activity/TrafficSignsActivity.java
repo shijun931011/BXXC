@@ -2,6 +2,7 @@ package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.adapter.TrafficSignAdapter;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 
 /**
  * Created by fangzhou on 2017/3/25.
@@ -28,6 +30,7 @@ public class TrafficSignsActivity extends Activity implements AdapterView.OnItem
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.taffic_signs);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
         initData();
     }

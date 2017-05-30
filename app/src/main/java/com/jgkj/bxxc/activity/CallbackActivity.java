@@ -3,6 +3,7 @@ package com.jgkj.bxxc.activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.Code;
 import com.jgkj.bxxc.tools.Base64;
 import com.jgkj.bxxc.tools.PictureOptimization;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.umeng.socialize.UMShareAPI;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -43,16 +45,15 @@ public class CallbackActivity extends Activity implements View.OnClickListener {
     private ProgressDialog dialog;
     private Button button_backward;
     private TextView title;
-
     private String phoneNo;
     private String sendMsg = "http://www.baixinxueche.com/index.php/Home/Apitokenmsg/remsg";
-
     private String callbackUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenmsg/backpwd";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.callback);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         init();
     }
 

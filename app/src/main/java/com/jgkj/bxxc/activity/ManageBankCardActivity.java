@@ -3,6 +3,7 @@ package com.jgkj.bxxc.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.jgkj.bxxc.adapter.ManageBankCardAdapter;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.bean.entity.ManageBankCardEntity.ManageBankCardEntity;
 import com.jgkj.bxxc.bean.entity.ManageBankCardEntity.ManageBankCardResult;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -28,7 +30,6 @@ import java.util.List;
 import okhttp3.Call;
 
 public class ManageBankCardActivity extends Activity{
-
     //标题
     private TextView title;
     private Button button_backward;
@@ -44,7 +45,7 @@ public class ManageBankCardActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_bank_card);
-
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         SharedPreferences sp = getSharedPreferences("USER", Activity.MODE_PRIVATE);
         String str = sp.getString("userInfo", null);
         Gson gson = new Gson();

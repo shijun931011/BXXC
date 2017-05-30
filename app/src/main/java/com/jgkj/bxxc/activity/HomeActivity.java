@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,6 +45,7 @@ import com.jgkj.bxxc.tools.GetVersion;
 import com.jgkj.bxxc.tools.JPushDataUitl;
 import com.jgkj.bxxc.tools.RemainBaseDialog;
 import com.jgkj.bxxc.tools.SelectPopupWindow;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.jgkj.bxxc.tools.UpdateManger;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -98,6 +100,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         init();
         //.getApplicationContext（）取的是这个应 用程序的Context，Activity.this取的是这个Activity的Context
         JPushInterface.init(getApplicationContext());

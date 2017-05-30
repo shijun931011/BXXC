@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.CarPickUpRoute;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -48,6 +50,7 @@ public class CarSendActivity extends Activity implements View.OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.webview);
+		StatusBarCompat.compat(this, Color.parseColor("#37363C"));
 		init();
 		dialog = ProgressDialog.show(CarSendActivity.this, null, "玩命加载中...");
 		getData();

@@ -3,6 +3,7 @@ package com.jgkj.bxxc.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.jgkj.bxxc.bean.SchoolPlaceTotal;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.tools.RefreshLayout;
 import com.jgkj.bxxc.tools.SelectPopupWindow;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -69,6 +71,7 @@ public class ExtClassActivity extends Activity implements View.OnClickListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private_class);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
         getPlace();
         getBundle();

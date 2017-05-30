@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.adapter.MyLearnProAdapter;
 import com.jgkj.bxxc.bean.LearnProAction;
 import com.jgkj.bxxc.bean.UserInfo;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -66,6 +68,7 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.process);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
         SharedPreferences sp = getSharedPreferences("USER",
                 Activity.MODE_PRIVATE);

@@ -2,6 +2,7 @@ package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.widget.VideoView;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.VideoShow;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -38,6 +40,7 @@ public class MediaVideoActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.videomedia);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
         getVideo();
     }

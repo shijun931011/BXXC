@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -25,6 +26,7 @@ import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.bean.entity.MyCoachForPrivateEntity.MyCoachPrivateResult;
 import com.jgkj.bxxc.tools.CreateDialog;
 import com.jgkj.bxxc.tools.RefreshLayout;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -56,25 +58,21 @@ public class MyCoachActivity extends Activity implements View.OnClickListener , 
     private String state;
     private String token;
     private String myCoachUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/myCoach";
-
     private ListView listView;
     private TextView noSmsData;
-
     private RefreshLayout swipeLayout;
     private MyCoachAction coachAction;
-
     private StuSubNewAdapter adapter;
     private CreateDay_Time createday;
     private List<CreateDay_Time> list;
     private TextView textView;
-
     private UserInfo userInfo;
     private String classType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         SharedPreferences sp = getSharedPreferences("USER", Activity.MODE_PRIVATE);
         String str = sp.getString("userInfo", null);
         Gson gson = new Gson();

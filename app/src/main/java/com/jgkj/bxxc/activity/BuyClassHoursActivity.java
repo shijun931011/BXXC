@@ -3,6 +3,7 @@ package com.jgkj.bxxc.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.jgkj.bxxc.bean.entity.PackageEntity.PackageEntity;
 import com.jgkj.bxxc.bean.entity.PackageEntity.PackageResult;
 import com.jgkj.bxxc.tools.Md5;
 import com.jgkj.bxxc.tools.RemainBaseDialog;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.jgkj.bxxc.tools.Urls;
 import com.lmj.mypwdinputlibrary.InputPwdView;
 import com.lmj.mypwdinputlibrary.MyInputPwdUtil;
@@ -43,7 +45,6 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
     private TextView title;
     private Button button_backward;
     private Button remind;
-
     private int uid;
     private String cid;
     private String token;
@@ -54,7 +55,7 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy_class_hours);
-
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         Intent intent = getIntent();
         uid = intent.getIntExtra("uid",uid);
         cid = intent.getStringExtra("cid");

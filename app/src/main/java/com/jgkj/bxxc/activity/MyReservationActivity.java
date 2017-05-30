@@ -1,6 +1,7 @@
 package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -10,6 +11,7 @@ import android.widget.ListView;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.adapter.MyReservationAdapter;
 import com.jgkj.bxxc.bean.MyReservationAction;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,7 +26,7 @@ public class MyReservationActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.my_reservation);
-		
+		StatusBarCompat.compat(this, Color.parseColor("#37363C"));
 		bundle = new Bundle();
 		myReservationAction = new MyReservationAction("百信学车","越达驾校中心校区", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
 		bundle.putSerializable("myReservation", myReservationAction);

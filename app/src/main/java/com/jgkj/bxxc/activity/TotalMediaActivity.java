@@ -3,6 +3,7 @@ package com.jgkj.bxxc.activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.VideoMsg;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -40,6 +42,7 @@ public class TotalMediaActivity extends Activity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.total_media);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
         getVideoMedia();
     }

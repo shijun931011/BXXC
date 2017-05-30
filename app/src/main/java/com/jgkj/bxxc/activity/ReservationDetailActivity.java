@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.jgkj.bxxc.bean.entity.ReservationDetailEntity.ReservationDetailEntity
 import com.jgkj.bxxc.bean.entity.ReservationDetailEntity.Stusubject;
 import com.jgkj.bxxc.bean.entity.ReservationDetailEntity.Subject;
 import com.jgkj.bxxc.tools.RemainBaseDialog;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -45,7 +47,6 @@ import okhttp3.Call;
  */
 
 public class ReservationDetailActivity extends Activity implements View.OnClickListener {
-
     private int uid;
     private String token;
     private String cid;
@@ -67,7 +68,6 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
     private TextView noSmsData;
     private ReservationDetailAdapter adapter;
     private ProgressDialog progressDialog;
-
     private TextView tv1_week;
     private TextView tv2_week;
     private TextView tv3_week;
@@ -75,7 +75,6 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
     private TextView tv5_week;
     private TextView tv6_week;
     private TextView tv7_week;
-
     private TextView tv1_number;
     private TextView tv2_number;
     private TextView tv3_number;
@@ -83,7 +82,6 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
     private TextView tv5_number;
     private TextView tv6_number;
     private TextView tv7_number;
-
     private TextView tv_bg_01;
     private TextView tv_bg_02;
     private TextView tv_bg_03;
@@ -91,7 +89,6 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
     private TextView tv_bg_05;
     private TextView tv_bg_06;
     private TextView tv_bg_07;
-
     private LinearLayout linearLayout1;
     private LinearLayout linearLayout2;
     private LinearLayout linearLayout3;
@@ -122,7 +119,7 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation_detail);
-
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         //显示ProgressDialog
         progressDialog = ProgressDialog.show(ReservationDetailActivity.this, "加载中...", "请等待...", true, false);
 

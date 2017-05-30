@@ -2,6 +2,7 @@ package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.tools.PictureOptimization;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 
 /**
  * Created by fangzhou on 2016/11/5.
@@ -23,6 +25,7 @@ public class SimQuestionActivity extends Activity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sim_question);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         Intent intent = getIntent();
         str = intent.getStringExtra("image");
         init();

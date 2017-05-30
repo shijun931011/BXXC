@@ -2,6 +2,7 @@ package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,6 +19,7 @@ import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.bean.entity.BaseEntity.BaseEntity;
 import com.jgkj.bxxc.tools.Md5;
 import com.jgkj.bxxc.tools.PasswordInputView;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -25,7 +27,6 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import okhttp3.Call;
 
 public class ModifyPayPasswordActivity extends Activity{
-
     private PasswordInputView again_paypswd_pet;
     private TextView tv_remain;
     private boolean flag = false;
@@ -34,7 +35,6 @@ public class ModifyPayPasswordActivity extends Activity{
     private UserInfo userInfo;
     private String token;
     private UserInfo.Result result;
-
     //标题
     private TextView title;
     private Button button_backward;
@@ -44,7 +44,7 @@ public class ModifyPayPasswordActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_pay_password);
-
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         //标题
         title = (TextView) findViewById(R.id.text_title);
         title.setText("修改支付密码");

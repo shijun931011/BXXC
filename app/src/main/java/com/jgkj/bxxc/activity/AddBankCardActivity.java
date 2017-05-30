@@ -2,6 +2,7 @@ package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.bean.entity.BaseEntity.BaseEntity;
 import com.jgkj.bxxc.tools.Base64;
 import com.jgkj.bxxc.tools.SpaceText;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -48,7 +50,7 @@ public class AddBankCardActivity extends Activity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_bank_card);
-
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         tv_verification_code = (TextView) findViewById(R.id.tv_verification_code);
         tv_verification_code.setOnClickListener(this);
         time = new AddBankCardActivity.TimeCount(60000, 1000);//构造CountDownTimer对象

@@ -1,6 +1,7 @@
 package com.jgkj.bxxc.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.Advertising;
 import com.jgkj.bxxc.tools.PictureOptimization;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -39,6 +41,7 @@ public class WelcomeActivity extends InstrumentedActivity implements View.OnClic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         init();
     }
 

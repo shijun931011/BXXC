@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.UserInfo;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.lidroid.xutils.http.client.multipart.MultipartEntity;
 import com.lidroid.xutils.http.client.multipart.content.FileBody;
 import com.lidroid.xutils.http.client.multipart.content.StringBody;
@@ -107,6 +109,7 @@ public class RegisterDetailActivity extends Activity implements View.OnClickList
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registerdetail);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         init();
         initData();
     }

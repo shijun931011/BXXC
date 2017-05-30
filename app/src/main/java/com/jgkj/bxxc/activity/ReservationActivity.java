@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -52,6 +53,7 @@ import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.tools.CallDialog;
 import com.jgkj.bxxc.tools.MyOrientationListener;
 import com.jgkj.bxxc.tools.RefreshLayout;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
@@ -165,11 +167,72 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         // 注意该方法要再setContentView方法之前实现
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.reservation);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         headView = getLayoutInflater().inflate(R.layout.coach_head, null);
         init();
         initMap();
         getData(coachId, coachUrl);
         bitmapA = BitmapDescriptorFactory.fromResource(R.drawable.a2);
+    }
+    /**
+     * 初始化控件
+     */
+    private void init() {
+        listStu = new ArrayList<StuEvaluation>();
+        connectCus = (TextView) findViewById(R.id.connectCus);
+        connectCus.setOnClickListener(this);
+        signup_Coach = (TextView) findViewById(R.id.signup_Coach);
+        signup_Coach.setOnClickListener(this);
+        xinyong = (LinearLayout) headView.findViewById(R.id.xinyong);
+        zhiliang = (LinearLayout) headView.findViewById(R.id.zhiliang);
+        fuwu = (LinearLayout) headView.findViewById(R.id.fuwu);
+        zhiliangfen = (TextView) headView.findViewById(R.id.zhiliangfen);
+        fuwufen = (TextView) headView.findViewById(R.id.fuwufen);
+        Intent intent = getIntent();
+        uid = intent.getIntExtra("uid",uid);
+        educationType = intent.getIntExtra("educationType",educationType);
+        coachId = intent.getStringExtra("coachId");
+        token = intent.getStringExtra("token");
+        int isChange = intent.getIntExtra("isChange", -1);
+        if (isChange == 0) {
+            signup_Coach.setText("更改教练");
+        } else {
+            signup_Coach.setText("立即报名");
+        }
+        chexing = (TextView) headView.findViewById(R.id.chexing);
+        myclass = (TextView) headView.findViewById(R.id.myclass);
+        coach_head = (ImageView) headView.findViewById(R.id.coach_head);
+        place = (TextView) headView.findViewById(R.id.place);
+        coach_name = (TextView) headView.findViewById(R.id.coach_name);
+        marketPrise = (TextView) headView.findViewById(R.id.marketPrise);
+        marketPrise.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        price = (TextView) headView.findViewById(R.id.price);
+        currentStu = (TextView) headView.findViewById(R.id.currentStu);
+        tongguo = (TextView) headView.findViewById(R.id.tongguo);
+        totalStu = (TextView) headView.findViewById(R.id.totalStu);
+        haopinglv = (TextView) headView.findViewById(R.id.haopinglv);
+        share = (ImageView) headView.findViewById(R.id.share);
+        share.setOnClickListener(this);
+        //费用说明
+        costsThat = (TextView) headView.findViewById(R.id.costsThat);
+        costsThat.setOnClickListener(this);
+        // 实例化控件
+        text_title = (TextView) findViewById(R.id.text_title);
+        text_title.setText("教练详情");
+        back = (Button) findViewById(R.id.button_backward);
+        back.setOnClickListener(this);
+        back.setVisibility(View.VISIBLE);
+        fourPromise = (LinearLayout) headView.findViewById(R.id.fourPromiselinearLayout);
+        fourPromise.setOnClickListener(this);
+        // 实例化listView显示学员的评价
+        listView = (ListView) findViewById(R.id.student_evaluate_listView);
+        listView.setFocusable(false);
+        listView.addHeaderView(headView);
+        //上拉刷新
+        swipeLayout = (RefreshLayout) findViewById(R.id.swipe_container);
+        swipeLayout.setColorSchemeResources(R.color.color_bule2, R.color.color_bule, R.color.color_bule2, R.color.color_bule3);
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setOnLoadListener(this);
     }
     /**
      * 初始化地图
@@ -331,9 +394,10 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                         if (coachInfo.getCode() == 200) {
                             List<CoachInfo.Result> list = coachInfo.getResult();
                             CoachInfo.Result result = list.get(0);
-                            coach_name.setText("教练员："+ result.getCoachname());
+                            coach_name.setText(result.getCoachname());
+                            place.setHint(result.getFaddress());
                             DecimalFormat df = new DecimalFormat("#.00");
-                            marketPrise.setText("￥" + df.format(result.getMarket_price()));
+                            marketPrise.setHint("￥" + df.format(result.getMarket_price()));
                             price.setText("￥" + df.format(result.getPrice()));
                             currentStu.setHint("当前学员数" + result.getStunum() + "人");
                             tongguo.setHint("通过率：" + result.getTguo() + "%");
@@ -347,7 +411,6 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                             totalStu.setHint("累计学员数" + result.getCount_stu() + "人");
                             chexing.setHint("车型：" + result.getChexing());
                             myclass.setHint("班型：" + result.getClass_type());
-                            place.setText(result.getFaddress());
                             coach_head.setTag(result.getFile());
                             share.setTag(result.getCid());
                             int credit = result.getCredit();
@@ -390,72 +453,13 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                             CoachFullDetailAdapter adapter = new CoachFullDetailAdapter(ReservationActivity.this, listStu);
                             listView.setAdapter(adapter);
                         } else {
-                            //Toast.makeText(ReservationActivity.this, "没有更多的！", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ReservationActivity.this, "没有更多的！", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
 
-    /**
-     * 初始化控件
-     */
-    private void init() {
-        listStu = new ArrayList<StuEvaluation>();
-        connectCus = (TextView) findViewById(R.id.connectCus);
-        connectCus.setOnClickListener(this);
-        signup_Coach = (TextView) findViewById(R.id.signup_Coach);
-        signup_Coach.setOnClickListener(this);
-        xinyong = (LinearLayout) headView.findViewById(R.id.xinyong);
-        zhiliang = (LinearLayout) headView.findViewById(R.id.zhiliang);
-        fuwu = (LinearLayout) headView.findViewById(R.id.fuwu);
-        zhiliangfen = (TextView) headView.findViewById(R.id.zhiliangfen);
-        fuwufen = (TextView) headView.findViewById(R.id.fuwufen);
-        Intent intent = getIntent();
-        uid = intent.getIntExtra("uid",uid);
-        educationType = intent.getIntExtra("educationType",educationType);
-        coachId = intent.getStringExtra("coachId");
-        token = intent.getStringExtra("token");
-        int isChange = intent.getIntExtra("isChange", -1);
-        if (isChange == 0) {
-            signup_Coach.setText("更改教练");
-        } else {
-            signup_Coach.setText("立即报名");
-        }
-        chexing = (TextView) headView.findViewById(R.id.chexing);
-        myclass = (TextView) headView.findViewById(R.id.myclass);
-        coach_head = (ImageView) headView.findViewById(R.id.coach_head);
-        place = (TextView) findViewById(R.id.place);
-        coach_name = (TextView) headView.findViewById(R.id.coach_name);
-        marketPrise = (TextView) headView.findViewById(R.id.marketPrise);
-        marketPrise.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        price = (TextView) headView.findViewById(R.id.price);
-        currentStu = (TextView) headView.findViewById(R.id.currentStu);
-        tongguo = (TextView) headView.findViewById(R.id.tongguo);
-        totalStu = (TextView) headView.findViewById(R.id.totalStu);
-        haopinglv = (TextView) headView.findViewById(R.id.haopinglv);
-        share = (ImageView) headView.findViewById(R.id.share);
-        share.setOnClickListener(this);
-        //费用说明
-        costsThat = (TextView) headView.findViewById(R.id.costsThat);
-        costsThat.setOnClickListener(this);
-        // 实例化控件
-        text_title = (TextView) findViewById(R.id.text_title);
-        text_title.setText("教练详情");
-        back = (Button) findViewById(R.id.button_backward);
-        back.setOnClickListener(this);
-        back.setVisibility(View.VISIBLE);
-        fourPromise = (LinearLayout) headView.findViewById(R.id.fourPromiselinearLayout);
-        fourPromise.setOnClickListener(this);
-        // 实例化listView显示学员的评价
-        listView = (ListView) findViewById(R.id.student_evaluate_listView);
-        listView.setFocusable(false);
-        listView.addHeaderView(headView);
-        //上拉刷新
-        swipeLayout = (RefreshLayout) findViewById(R.id.swipe_container);
-        swipeLayout.setColorSchemeResources(R.color.color_bule2, R.color.color_bule, R.color.color_bule2, R.color.color_bule3);
-        swipeLayout.setOnRefreshListener(this);
-        swipeLayout.setOnLoadListener(this);
-    }
+
     /**
      * 更改教练
      * @param uid 用户id
@@ -677,7 +681,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
             CoachFullDetailAdapter adapter = new CoachFullDetailAdapter(ReservationActivity.this, listStu);
             listView.setAdapter(adapter);
         } else {
-            //Toast.makeText(ReservationActivity.this, coachInfo.getReason(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(ReservationActivity.this, coachInfo.getReason(), Toast.LENGTH_SHORT).show();
         }
     }
 

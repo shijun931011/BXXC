@@ -3,6 +3,7 @@ package com.jgkj.bxxc.activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.Code;
 import com.jgkj.bxxc.tools.PictureOptimization;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.umeng.socialize.UMShareAPI;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -64,6 +66,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         //注册页面
         getCode_btn = (Button) findViewById(R.id.getCode_btn);
         //倒计时监听

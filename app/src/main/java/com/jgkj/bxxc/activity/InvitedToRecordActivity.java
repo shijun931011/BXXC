@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.adapter.InvitedToRecordAdapter;
 import com.jgkj.bxxc.bean.Invite;
 import com.jgkj.bxxc.bean.UserInfo;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -49,14 +51,10 @@ public class InvitedToRecordActivity extends Activity  {
     List<Invite.Result> list = new ArrayList<Invite.Result>();
     private UserInfo userInfo;
     private UserInfo.Result result;
-
     private Invite.Result Inviteresult;
     private Invite InviteInfo;
-
     private SharedPreferences sp1,sp2,sp3;
-
     public static String bankType = "";
-
     private TextView noSmsData;
 
     //广播接收更新数据
@@ -70,6 +68,7 @@ public class InvitedToRecordActivity extends Activity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.invited_to_record);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
     }
 

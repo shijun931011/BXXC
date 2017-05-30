@@ -3,6 +3,7 @@ package com.jgkj.bxxc.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.bean.entity.BaseEntity.BaseEntity;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -22,7 +24,6 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import okhttp3.Call;
 
 public class ModifyLoginPasswordActivity extends Activity{
-
     //标题
     private TextView title;
     private Button button_backward;
@@ -38,7 +39,7 @@ public class ModifyLoginPasswordActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_login_password);
-
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         Intent intent = getIntent();
         phone = intent.getStringExtra("account_phone");
 

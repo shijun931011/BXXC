@@ -2,6 +2,7 @@ package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.baidu.mapapi.map.Text;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.adapter.QuesAnsAdapter;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 
 public class UseGuideActivity extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener {
     private ListView listView;
@@ -26,6 +28,7 @@ public class UseGuideActivity extends Activity implements View.OnClickListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_use_guide);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         InitView();
         initData();
     }

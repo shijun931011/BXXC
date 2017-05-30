@@ -3,6 +3,7 @@ package com.jgkj.bxxc.activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.jgkj.bxxc.adapter.StuSubAdapter;
 import com.jgkj.bxxc.bean.CreateDay_Time;
 import com.jgkj.bxxc.bean.MyCoachAction;
 import com.jgkj.bxxc.tools.RefreshLayout;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -54,6 +56,7 @@ public class AppTimeActivity extends Activity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.apptime);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
         getMyCoach(uid);
     }

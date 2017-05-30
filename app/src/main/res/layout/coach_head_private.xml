@@ -26,6 +26,11 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="教练员："
+                />
+            <TextView
                 android:id="@+id/coach_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -64,13 +69,18 @@
                 android:layout_height="wrap_content"
                 android:text="课时价格："/>
             <TextView
+                android:id="@+id/original_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="4999"/>
+            <TextView
                 android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
                 android:textColor="@color/orange"
                 android:text="￥2999"/>
         </LinearLayout>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -105,12 +115,12 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="210dp"
         >
         <TextView
             android:id="@+id/coach_address"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="30dp"
             android:text="莲花路与汤口路交口向西200米"
             android:textSize="15sp"
             android:gravity="center"
@@ -129,40 +139,42 @@
             android:clickable="true"
             />
     </RelativeLayout>
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="信用："/>
+            android:paddingLeft="15dp"
+            android:text="综合评价:"/>
         <LinearLayout
-            android:id="@+id/xinyong"
+            android:id="@+id/zhonghe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="10dp"/>
+            android:paddingLeft="8dp"
+            android:paddingTop="3dp"
+            />
         <TextView
+            android:id="@+id/zhonghefen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:padding="10dp"
-            android:id="@+id/haopinglv"
-            android:text="好评率："/>
+            android:paddingLeft="5dp"
+            android:textColor="@color/orange"
+            android:text="5.0分"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:paddingLeft="15dp"
             android:text="教学质量："/>
         <LinearLayout
             android:id="@+id/zhiliang"
@@ -170,32 +182,44 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="10dp"/>
+            android:paddingBottom="5dp"/>
         <TextView
             android:id="@+id/zhiliangfen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:paddingLeft="5dp"
+            android:textColor="@color/orange"
             android:text="5.0分"/>
     </LinearLayout>
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
+                  android:layout_marginBottom="10dp"
                   android:orientation="horizontal">
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:padding="10dp"
+                  android:paddingLeft="15dp"
                   android:text="服务态度："/>
         <LinearLayout android:id="@+id/fuwu"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:gravity="center_vertical"
                       android:orientation="horizontal"
-                      android:padding="10dp"/>
+                      android:paddingTop="13dp"
+                      />
         <TextView android:id="@+id/fuwufen"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:padding="10dp"
+                  android:paddingLeft="5dp"
+                  android:textColor="@color/orange"
                   android:text="5.0分"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:id="@+id/haopinglv"
+            android:text="好评率："/>
     </LinearLayout>
     <View android:layout_width="match_parent"
           android:layout_height="10dp"

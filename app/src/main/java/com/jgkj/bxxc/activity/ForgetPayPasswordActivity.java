@@ -5,6 +5,7 @@ import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.bean.entity.BaseEntity.BaseEntity;
 import com.jgkj.bxxc.tools.Base64;
 import com.jgkj.bxxc.tools.PictureOptimization;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.jgkj.bxxc.tools.Urls;
 import com.umeng.socialize.UMShareAPI;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -19,6 +20,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -33,7 +35,6 @@ import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 
 public class ForgetPayPasswordActivity extends Activity implements View.OnClickListener {
-
     private ForgetPayPasswordActivity.TimeCount time;
     private PictureOptimization po;
     private EditText phone_editText, phone_code_editText;
@@ -51,6 +52,7 @@ public class ForgetPayPasswordActivity extends Activity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_pay_password);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         init();
     }
 

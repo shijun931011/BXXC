@@ -2,6 +2,7 @@ package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.jgkj.bxxc.adapter.MyBukaoOrderAdapter;
 import com.jgkj.bxxc.adapter.MyOrderAdapter;
 import com.jgkj.bxxc.bean.BuKaoOrder;
 import com.jgkj.bxxc.bean.MyOrder;
+import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -47,6 +49,7 @@ public class MyOrderActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.myorder);
+        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         init();
         Intent intent = getIntent();
         uid = intent.getIntExtra("uid",-1);
