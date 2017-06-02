@@ -97,10 +97,17 @@
                 android:layout_width="200dp"
                 android:layout_height="75dp"
                 android:orientation="horizontal">
-                <ImageView
+                <LinearLayout
                     android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/class_type_image" />
+                    android:layout_height="64dp"
+                    android:weightSum="1">
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="60dp"
+                        android:layout_height="56dp"
+                        android:src="@drawable/class_type_image"
+                        android:layout_weight="0.36" />
+                </LinearLayout>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -133,10 +140,17 @@
                 android:layout_height="75dp"
                 android:layout_below="@id/line"
                 android:orientation="horizontal">
-                <ImageView
+                <LinearLayout
                     android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/place_image" />
+                    android:layout_height="64dp"
+                    android:weightSum="1">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="56dp"
+                        android:src="@drawable/place_image"
+                        android:layout_weight="0.36" />
+                </LinearLayout>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

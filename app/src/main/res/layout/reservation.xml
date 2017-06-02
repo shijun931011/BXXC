@@ -7,6 +7,7 @@
         android:id="@+id/res_title"
         layout="@layout/title"/>
     <!-- 学员评价 -->
+
     <com.jgkj.bxxc.tools.RefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipe_container"
@@ -19,7 +20,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"/>
+
     </com.jgkj.bxxc.tools.RefreshLayout>
+
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="50dp"
                   android:layout_alignParentBottom="true"

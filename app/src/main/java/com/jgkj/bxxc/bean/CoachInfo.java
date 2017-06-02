@@ -1,5 +1,7 @@
 package com.jgkj.bxxc.bean;
 
+import com.jgkj.bxxc.bean.entity.CommentEntity.CommentEntity;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -38,14 +40,65 @@ public class CoachInfo implements Serializable {
 		this.reason = reason;
 	}
 
+	public class Comment{
+		private String comment;
+		private String comment_time;
+		private String default_file;
+
+		public String getComment() {
+			return comment;
+		}
+
+		public void setComment(String comment) {
+			this.comment = comment;
+		}
+
+		public String getComment_time() {
+			return comment_time;
+		}
+
+		public void setComment_time(String comment_time) {
+			this.comment_time = comment_time;
+		}
+
+		public String getDefault_file() {
+			return default_file;
+		}
+
+		public void setDefault_file(String default_file) {
+			this.default_file = default_file;
+		}
+	}
+
 	public class Result{
 		//教练id
 		private int cid;
 		private String chexing;
-		//校区
+		//地址
 		private String faddress;
+		//校区
+		private String address;
+		private String latitude;
+		private String longitude;
 		//教练姓名
 		private String coachname;
+
+		public String getLatitude() {
+			return latitude;
+		}
+
+		public void setLatitude(String latitude) {
+			this.latitude = latitude;
+		}
+
+		public String getLongitude() {
+			return longitude;
+		}
+
+		public void setLongitude(String longitude) {
+			this.longitude = longitude;
+		}
+
 		//教练教学质量
 		private String teach;
 		//教练服务态度
@@ -70,8 +123,6 @@ public class CoachInfo implements Serializable {
 		private int zonghe;
 		//所带学员数
 		private int stunum;
-		//学员评价
-		private String comment;
 		//评价时间
 		private String date;
 		//评价的学员的默认头像
@@ -81,6 +132,25 @@ public class CoachInfo implements Serializable {
 		//市场价
 		private double market_price;
 		private int count_stu;
+
+		public String getAddress() {
+			return address;
+		}
+
+		public void setAddress(String address) {
+
+			this.address = address;
+		}
+
+		private List<CommentEntity> comment ;
+
+		public List<CommentEntity> getComment() {
+			return comment;
+		}
+
+		public void setComment(List<CommentEntity> comment) {
+			this.comment = comment;
+		}
 
 		public String getWait() {
 			return wait;
@@ -156,10 +226,6 @@ public class CoachInfo implements Serializable {
 
 		public int getStunum() {
 			return stunum;
-		}
-
-		public String getComment() {
-			return comment;
 		}
 
 		public String getDate() {

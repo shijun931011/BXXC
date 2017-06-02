@@ -348,7 +348,7 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
             if (string.equals("综合排序")) {
                 sortString = "zonghe";
             }  else if (string.equals("好评率")) {
-                sortString = "haopin";
+                sortString = "praise";
             }
         }
     }

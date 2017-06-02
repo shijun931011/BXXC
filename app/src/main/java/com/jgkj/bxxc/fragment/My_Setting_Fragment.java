@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
+import com.jgkj.bxxc.activity.HomeActivity;
 import com.jgkj.bxxc.activity.LearnHisActivity;
 import com.jgkj.bxxc.activity.LearnProActivity;
 import com.jgkj.bxxc.activity.LoginActivity;
@@ -40,6 +41,7 @@ import com.jgkj.bxxc.activity.PersonalInfoActivity;
 import com.jgkj.bxxc.activity.SettingActivity;
 import com.jgkj.bxxc.activity.Setting_AccountActivity;
 import com.jgkj.bxxc.bean.UserInfo;
+import com.jgkj.bxxc.tools.CallDialog;
 import com.jgkj.bxxc.tools.RefreshLayout;
 import com.lidroid.xutils.http.client.multipart.MultipartEntity;
 import com.lidroid.xutils.http.client.multipart.content.FileBody;
@@ -346,30 +348,10 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
                 }
                 break;
             case R.id.customer:
-                dialog = new Dialog(getActivity(), R.style.ActionSheetDialogStyle);
-                // 填充对话框的布局
-                inflate = LayoutInflater.from(getActivity()).inflate(
-                        R.layout.sure_cancel_dialog, null);
-                // 初始化控件
-                dialog_textView = (TextView) inflate.findViewById(R.id.dialog_textView);
-                dialog_textView.setText("tel:" + "0551-65555744");
-                dialog_sure = (TextView) inflate.findViewById(R.id.dialog_sure);
-                dialog_cancel = (TextView) inflate.findViewById(R.id.dialog_cancel);
-                dialog_sure.setOnClickListener(this);
-                dialog_cancel.setOnClickListener(this);
-                // 将布局设置给Dialog
-                dialog.setContentView(inflate);
-                // 获取当前Activity所在的窗体
-                Window dialogWindow = dialog.getWindow();
-                // 设置dialog宽度
-                dialogWindow.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,
-                        android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-                // 设置Dialog从窗体中间弹出
-                dialogWindow.setGravity(Gravity.CENTER);
-                dialog.show();// 显示对话框
+                new CallDialog(getActivity(), "0551-65555744").call();
                 break;
             case R.id.dialog_sure:
-                Intent call_intent = new Intent(Intent.ACTION_DIAL, Uri.parse(dialog_textView.getText().toString()));
+                Intent call_intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "0551-65555744"));
                 startActivity(call_intent);
                 dialog.hide();
                 break;

@@ -14,7 +14,19 @@
         android:singleLine="true"
         android:text="百信学车"
         android:textColor="#FFFFFF"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:id="@+id/im_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:src="@drawable/title_image"
+        android:visibility="gone"
+        />
 
     <Button
         android:id="@+id/button_backward"

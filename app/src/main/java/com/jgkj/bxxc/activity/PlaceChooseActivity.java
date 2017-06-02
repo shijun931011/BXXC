@@ -102,7 +102,7 @@ public class PlaceChooseActivity extends Activity implements OnClickListener, Ad
         //初始化百度地图
         initMap();
         //获取场地信息，然后吧场地信息和百度地图上的marker对应起来进行排序
-        getPlace();
+        //getPlace();
     }
 
     private void getPlace() {
@@ -580,6 +580,11 @@ public class PlaceChooseActivity extends Activity implements OnClickListener, Ad
                         .longitude(location.getLongitude()).build();
                 mCurrentAccracy = location.getRadius();
                 mBaiduMap.setMyLocationData(locData);
+
+                mCurrentLantitude = location.getLatitude();
+                mCurrentLongitude = location.getLongitude();
+                getPlace();
+                isFirstLoc = false;
             }
             mCurrentLantitude = location.getLatitude();
             mCurrentLongitude = location.getLongitude();

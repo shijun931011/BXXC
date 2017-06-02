@@ -75,12 +75,18 @@ public class BuyMenuAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                     if(viewHolder.checkBox.isChecked()){
-                        flag = true;
-                        package_id = list.get(position).getPackage_id();
+                        //flag = true;
+                        //package_id = list.get(position).getPackage_id();
                         if(!list.get(position).getSurplus_money().equals("0")){
                             locationPosition = position;
+                            package_id = list.get(locationPosition).getPackage_id();
+                            flag = true;
                         }else{
-                            flag = false;
+                            if(locationPosition != -1){
+                                flag = true;
+                            }else{
+                                flag = false;
+                            }
                         }
                     }else{
                         locationPosition = -1;

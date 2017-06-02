@@ -48,9 +48,9 @@ public class ClassicActivity extends Activity implements View.OnClickListener,Ad
     private SelectPopupWindow mPopupWindowSort = null;
     private SelectPopupWindow mPopupWindowClassType = null;
     private String tag;
-    private String[] sub = {"科目二", "科目三"};
+    private String[] sub = {"科目","科目二", "科目三"};
     private String[] sortStr = {"综合","通过率", "好评率"};
-    private String[] classType = {"贵宾班", "VIP班"};
+    private String[] classType = {"班型","至尊班", "VIP班"};
     private String class_type = "";
     private String sortString = "";
     private String class_class = "";
@@ -63,7 +63,7 @@ public class ClassicActivity extends Activity implements View.OnClickListener,Ad
     //新版本教练中心
     private String coachShowUrl = "http://www.baixinxueche.com/index.php/Home/Apitoken/Apiarea";
     //新版本排序
-    private String sortPath = "http://www.baixinxueche.com/index.php/Home/Apitoken/chooseinfo";
+    private String sortPath = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/chooseinfo";
     private int page = 1;
     private int searchPage = 1;
     private List<CoachDetailAction.Result> coachList = new ArrayList<>();
@@ -342,9 +342,9 @@ public class ClassicActivity extends Activity implements View.OnClickListener,Ad
             if (string.equals("综合")) {
                 sortString = "zonghe";
             } else if (string.equals("好评率")) {
-                sortString = "haopin";
+                sortString = "praise";
             } else if (string.equals("通过率")) {
-                sortString = "tguo";
+                sortString = "pass";
             }
         }
     }

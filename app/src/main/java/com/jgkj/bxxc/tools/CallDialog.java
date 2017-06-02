@@ -39,7 +39,7 @@ public class CallDialog implements View.OnClickListener{
         dialog_sure = (TextView) inflate.findViewById(R.id.dialog_sure);
         dialog_cancel = (TextView) inflate.findViewById(R.id.dialog_cancel);
         diolog_prompt = (TextView) inflate.findViewById(R.id.diolog_prompt);
-        diolog_prompt.setText("是否拨打客服电话");
+        //diolog_prompt.setText("是否拨打客服电话");
         dialog_sure.setOnClickListener(this);
         dialog_cancel.setOnClickListener(this);
         dialog_textView.setText(content);

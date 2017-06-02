@@ -34,6 +34,7 @@ import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
@@ -50,6 +51,8 @@ import com.jgkj.bxxc.bean.CoachInfo;
 import com.jgkj.bxxc.bean.SchoolPlaceTotal;
 import com.jgkj.bxxc.bean.StuEvaluation;
 import com.jgkj.bxxc.bean.UserInfo;
+import com.jgkj.bxxc.bean.entity.CommentEntity.CommentEntity;
+import com.jgkj.bxxc.bean.entity.CommentEntity.CommentResult;
 import com.jgkj.bxxc.tools.CallDialog;
 import com.jgkj.bxxc.tools.MyOrientationListener;
 import com.jgkj.bxxc.tools.RefreshLayout;
@@ -67,7 +70,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
-
 
 /**
  * Created by fangzhou on 2016/10/29.
@@ -108,7 +110,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
     private View dialogView;
     private LinearLayout fourPromise;
     //教练信息
-    private TextView price, currentStu, tongguo, totalStu;
+    private TextView price, currentStu, tongguo, totalStu,coach_address;
     private LinearLayout xinyong, zhiliang, fuwu;
     private TextView zhiliangfen, fuwufen;
     private LinearLayout.LayoutParams wrapParams;
@@ -118,11 +120,10 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
     private String token;
     private SharedPreferences sp;
     private UserInfo userInfo;
-    private UserInfo.Result result;
-    private List<StuEvaluation> listStu;
+    private List<CommentEntity> listStu;
     private TextView connectCus,haopinglv;
     //url
-    private String coachUrl = "http://www.baixinxueche.com/index.php/Home/Apitoken/CoachinfoAgain";
+    private String coachUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/CoachinfoAgain";
     private String comment = "http://www.baixinxueche.com/index.php/Home/Api/comment";
     private String changeUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/subjectTwoCoachConfirm";
     private String commentUrl = "http://www.baixinxueche.com/index.php/Home/Apitoken/commentMore";
@@ -144,7 +145,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
     private SchoolPlaceTotal schoolPlaceTotal;
     //Marker地图标签
     private LatLng point;
-    private final  MyLocationListenner myListener = new MyLocationListenner();
+    //private final  MyLocationListenner myListener = new MyLocationListenner();
     boolean isFirstLoc = true; // 是否首次定位
     private InfoWindow mInfoWindow;
     private BitmapDescriptor  bitmapA;
@@ -161,6 +162,10 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         }
     }
 
+    private TextView noSmsData;
+    private LinearLayout linear_list_noData;
+    private CoachInfo.Result result;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -170,7 +175,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         headView = getLayoutInflater().inflate(R.layout.coach_head, null);
         init();
-        initMap();
+        //initMap();
         getData(coachId, coachUrl);
         bitmapA = BitmapDescriptorFactory.fromResource(R.drawable.a2);
     }
@@ -178,7 +183,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
      * 初始化控件
      */
     private void init() {
-        listStu = new ArrayList<StuEvaluation>();
+        listStu = new ArrayList<CommentEntity>();
         connectCus = (TextView) findViewById(R.id.connectCus);
         connectCus.setOnClickListener(this);
         signup_Coach = (TextView) findViewById(R.id.signup_Coach);
@@ -212,6 +217,8 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         totalStu = (TextView) headView.findViewById(R.id.totalStu);
         haopinglv = (TextView) headView.findViewById(R.id.haopinglv);
         share = (ImageView) headView.findViewById(R.id.share);
+        linear_list_noData = (LinearLayout)headView.findViewById(R.id.linear_list_noData);
+        coach_address = (TextView) headView.findViewById(R.id.coach_address);
         share.setOnClickListener(this);
         //费用说明
         costsThat = (TextView) headView.findViewById(R.id.costsThat);
@@ -227,7 +234,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         // 实例化listView显示学员的评价
         listView = (ListView) findViewById(R.id.student_evaluate_listView);
         listView.setFocusable(false);
-        listView.addHeaderView(headView);
+        listView.addHeaderView(headView, null, false);
         //上拉刷新
         swipeLayout = (RefreshLayout) findViewById(R.id.swipe_container);
         swipeLayout.setColorSchemeResources(R.color.color_bule2, R.color.color_bule, R.color.color_bule2, R.color.color_bule3);
@@ -237,7 +244,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
     /**
      * 初始化地图
      */
-    private void initMap(){
+    private void initMap(final String lantitude, final String longitude){
         // 地图初始化
         mMapView = (MapView) findViewById(R.id.coach_map);
         mBaiduMap = mMapView.getMap();
@@ -246,36 +253,54 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         //设置是否显示缩放控件
         mMapView.showZoomControls(false);
         // 开启定位图层
-        mBaiduMap.setMyLocationEnabled(true);
-        // 定位初始化
-        mLocClient = new LocationClient(ReservationActivity.this);
-        mLocClient.registerLocationListener(myListener);
-        myOrientationListener = new MyOrientationListener(getApplicationContext());
-        myOrientationListener.setOnOrientationListener(new MyOrientationListener.OnOrientationListener() {
-            @Override
-            public void onOrientationChanged(float x) {
-                mXDirection = (int) x;
-                // 构造定位数据
-                MyLocationData locData = new MyLocationData.Builder()
-                        .accuracy(mCurrentAccracy)
-                        // 此处设置开发者获取到的方向信息，顺时针0-360
-                        .direction(mXDirection)
-                        .latitude(mCurrentLantitude)
-                        .longitude(mCurrentLongitude).build();
-                // 设置定位数据
-                mBaiduMap.setMyLocationData(locData);
-                // 设置自定义图标
-                mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(mCurrentMode, true, mCurrentMarker));
-            }
-        });
-        LocationClientOption option = new LocationClientOption();
-        option.setOpenGps(true);// 打开gps
-        option.setCoorType("bd09ll"); // 设置坐标类型
-        option.setScanSpan(1000);
-        mLocClient.setLocOption(option);
-        mCurrentMode = MyLocationConfiguration.LocationMode.FOLLOWING;
-        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(mCurrentMode, true, mCurrentMarker));
-        mLocClient.start();
+//        mBaiduMap.setMyLocationEnabled(true);
+//        // 定位初始化
+//        mLocClient = new LocationClient(ReservationActivity.this);
+//        mLocClient.registerLocationListener(myListener);
+//        myOrientationListener = new MyOrientationListener(getApplicationContext());
+//        myOrientationListener.setOnOrientationListener(new MyOrientationListener.OnOrientationListener() {
+//            @Override
+//            public void onOrientationChanged(float x) {
+//                mXDirection = (int) x;
+//                // 构造定位数据
+//                MyLocationData locData = new MyLocationData.Builder()
+//                        .accuracy(mCurrentAccracy)
+//                        // 此处设置开发者获取到的方向信息，顺时针0-360
+//                        .direction(mXDirection)
+//                        .latitude(mCurrentLantitude)
+//                        .longitude(mCurrentLongitude).build();
+//                // 设置定位数据
+//                mBaiduMap.setMyLocationData(locData);
+//                // 设置自定义图标
+//                mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(mCurrentMode, true, mCurrentMarker));
+//            }
+//        });
+//        LocationClientOption option = new LocationClientOption();
+//        option.setOpenGps(true);// 打开gps
+//        option.setCoorType("bd09ll"); // 设置坐标类型
+//        option.setScanSpan(1000);
+//        mLocClient.setLocOption(option);
+//        mCurrentMode = MyLocationConfiguration.LocationMode.FOLLOWING;
+//        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(mCurrentMode, true, mCurrentMarker));
+//        mLocClient.start();
+
+        //设置指定定位坐标
+        point = new LatLng(Double.parseDouble(lantitude), Double.parseDouble(longitude));
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.addre_image);
+        OverlayOptions options = new MarkerOptions().icon(icon).position(point);
+        mBaiduMap.addOverlay(options);
+        //设定中心点坐标
+        //LatLng cenpt = new LatLng(30.663791,104.07281);
+        //定义地图状态
+        MapStatus mMapStatus = new MapStatus.Builder()
+                .target(point)
+                .zoom(16)
+                .build();
+        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+
+        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+        //改变地图状态
+        mBaiduMap.setMapStatus(mMapStatusUpdate);
     }
 
     /**
@@ -342,31 +367,31 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         }
     }
 
-    /**
-     * 定位SDK监听函数
-     */
-    public class MyLocationListenner implements BDLocationListener {
-
-        @Override
-        public void onReceiveLocation(final BDLocation location) {
-            // map view 销毁后不在处理新接收的位置
-            if (location == null || mMapView == null) {
-                return;
-            }
-            // 构造定位数据
-            if (isFirstLoc) {
-                MyLocationData locData = new MyLocationData.Builder()
-                        .accuracy(location.getRadius())
-                        // 此处设置开发者获取到的方向信息，顺时针0-360
-                        .direction(mXDirection).latitude(location.getLatitude())
-                        .longitude(location.getLongitude()).build();
-                mCurrentAccracy = location.getRadius();
-                mBaiduMap.setMyLocationData(locData);
-            }
-            mCurrentLantitude = location.getLatitude();
-            mCurrentLongitude = location.getLongitude();
-        }
-    }
+//    /**
+//     * 定位SDK监听函数
+//     */
+//    public class MyLocationListenner implements BDLocationListener {
+//
+//        @Override
+//        public void onReceiveLocation(final BDLocation location) {
+//            // map view 销毁后不在处理新接收的位置
+//            if (location == null || mMapView == null) {
+//                return;
+//            }
+//            // 构造定位数据
+//            if (isFirstLoc) {
+//                MyLocationData locData = new MyLocationData.Builder()
+//                        .accuracy(location.getRadius())
+//                        // 此处设置开发者获取到的方向信息，顺时针0-360
+//                        .direction(mXDirection).latitude(location.getLatitude())
+//                        .longitude(location.getLongitude()).build();
+//                mCurrentAccracy = location.getRadius();
+//                mBaiduMap.setMyLocationData(locData);
+//            }
+//            mCurrentLantitude = location.getLatitude();
+//            mCurrentLongitude = location.getLongitude();
+//        }
+//    }
 
     /**
      * 根据cid(教练id)获取教练信息
@@ -375,6 +400,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
      * @param url     请求地址
      */
     private void getData(String coachId, String url) {
+        Log.i("百信学车","教练cid=" + coachId + "   url=" + url);
         OkHttpUtils
                 .post()
                 .url(url)
@@ -390,10 +416,10 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                         signup_Coach.setTag(s);
                         Gson gson = new Gson();
                         CoachInfo coachInfo = gson.fromJson(s, CoachInfo.class);
-                        Log.i("百信学车","预约教练信息" + s);
+                        Log.i("百信学车","预约教练信息结果" + s);
                         if (coachInfo.getCode() == 200) {
                             List<CoachInfo.Result> list = coachInfo.getResult();
-                            CoachInfo.Result result = list.get(0);
+                            result = list.get(0);
                             coach_name.setText(result.getCoachname());
                             place.setHint(result.getFaddress());
                             DecimalFormat df = new DecimalFormat("#.00");
@@ -401,6 +427,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                             price.setText("￥" + df.format(result.getPrice()));
                             currentStu.setHint("当前学员数" + result.getStunum() + "人");
                             tongguo.setHint("通过率：" + result.getTguo() + "%");
+                            coach_address.setText(result.getAddress());
                             String path = result.getFile();
                             if (!path.endsWith(".jpg") && !path.endsWith(".jpeg") && !path.endsWith(".png") &&
                                     !path.endsWith(".GIF") && !path.endsWith(".PNG") && !path.endsWith(".JPG") && !path.endsWith(".gif")) {
@@ -443,15 +470,17 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                             }
                             zhiliangfen.setText(result.getTeach() + ".0分");
                             fuwufen.setText(result.getWait() + ".0分");
-                            List<StuEvaluation> listStu = new ArrayList<StuEvaluation>();
-                            StuEvaluation stu = new StuEvaluation();
-                            stu.setComment(result.getComment());
-                            stu.setDate(result.getDate());
-                            stu.setDefault_file(result.getDefault_file());
-                            listStu.add(stu);
-                            // 实例化listView显示学员的评价
+
+                            //List<CommentEntity> listStu = new ArrayList<CommentEntity>();
+                            listStu = result.getComment();
+                            if(listStu.size() == 0){
+                                linear_list_noData.setVisibility(View.VISIBLE);
+                            }
                             CoachFullDetailAdapter adapter = new CoachFullDetailAdapter(ReservationActivity.this, listStu);
                             listView.setAdapter(adapter);
+
+                            initMap(result.getLatitude(),result.getLongitude());
+
                         } else {
                             Toast.makeText(ReservationActivity.this, "没有更多的！", Toast.LENGTH_SHORT).show();
                         }
@@ -555,7 +584,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                  *
                  */
                 image = new UMImage(ReservationActivity.this, coach_head.getTag().toString());
-                new ShareAction(this).setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QQ)
+                new ShareAction(this).setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
                         .withText("科技改变生活，百信引领学车！百信学车在这里向您分享我们这里最优秀的教练"+coach_name.getText().toString())
                         .withMedia(image)
                         .withTitle("百信学车向您分享")
@@ -665,23 +694,18 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
     private void setCom() {
         String str = listView.getTag().toString();
         Gson gson = new Gson();
-        CoachInfo coachInfo = gson.fromJson(str, CoachInfo.class);
+        CommentResult coachInfo = gson.fromJson(str, CommentResult.class);
         if (coachInfo.getCode() == 200) {
-            List<CoachInfo.Result> list = coachInfo.getResult();
-            for (int k = 0; k < list.size(); k++) {
-                CoachInfo.Result result = list.get(k);
-                StuEvaluation stu = new StuEvaluation();
-                stu.setComment(result.getComment());
-                stu.setDate(result.getDate());
-                stu.setDefault_file(result.getDefault_file());
-                listStu.add(stu);
-            }
             listView.setFocusable(false);
             // 实例化listView显示学员的评价
+            listStu = coachInfo.getResult();
+            if(listStu.size() == 0){
+                linear_list_noData.setVisibility(View.VISIBLE);
+            }
             CoachFullDetailAdapter adapter = new CoachFullDetailAdapter(ReservationActivity.this, listStu);
             listView.setAdapter(adapter);
         } else {
-            Toast.makeText(ReservationActivity.this, coachInfo.getReason(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(ReservationActivity.this, coachInfo.getReason(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -707,6 +731,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                 listStu.clear();
                 getComment(commentUrl);
                 swipeLayout.setRefreshing(false);
+
             }
         }, 2000);
     }

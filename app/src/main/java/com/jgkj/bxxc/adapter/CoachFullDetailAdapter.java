@@ -12,17 +12,18 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.StuEvaluation;
+import com.jgkj.bxxc.bean.entity.CommentEntity.CommentEntity;
 
 import java.util.List;
 
 public class CoachFullDetailAdapter extends BaseAdapter {
     private Context context;
-    private List<StuEvaluation> list;
+    private List<CommentEntity> list;
     private LayoutInflater inflater;
     private Bitmap bitmap;
-    private StuEvaluation student;
+    private CommentEntity student;
 
-    public CoachFullDetailAdapter(Context context, List<StuEvaluation> list) {
+    public CoachFullDetailAdapter(Context context, List<CommentEntity> list) {
         this.list = list;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -59,7 +60,7 @@ public class CoachFullDetailAdapter extends BaseAdapter {
         }
         student = list.get(position);
         Glide.with(context).load("http://www.baixinxueche.com/Public/Home/img/default.png").into(viewHolder.imageView);
-        viewHolder.textView2.setText(student.getDate());
+        viewHolder.textView2.setText(student.getComment_time());
         viewHolder.textView3.setText(student.getComment());
         return convertView;
     }

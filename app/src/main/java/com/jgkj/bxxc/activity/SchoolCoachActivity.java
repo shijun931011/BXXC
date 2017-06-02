@@ -44,14 +44,14 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
     private SelectPopupWindow mPopupWindowCampus = null;
     private SelectPopupWindow mPopupWindowSort = null;
     private SelectPopupWindow mPopupWindowClassType = null;
-    private String[] sub = {"科目二", "科目三"};
-    private String[] sortStr = {"综合", "信用", "通过率", "好评率"};
-    private String[] classType = {"贵宾班", "VIP班"};
+    private String[] sub = {"科目","科目二", "科目三"};
+    private String[] sortStr = {"综合排序","通过率", "好评率"};
+    private String[] classType = {"班型","至尊班", "VIP班"};
     private String class_type = "";
     private String sortString = "";
     private String class_class = "";
     //新版本排序
-    private String sortPath = "http://www.baixinxueche.com/index.php/Home/Apitoken/chooseinfo";
+    private String sortPath = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/chooseinfo";
     private List<CoachDetailAction.Result> tagList;
     private List<CoachDetailAction.Result> coachList = new ArrayList<>();
     private CoachDetailAction coachDetailAction;
@@ -171,7 +171,7 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
                 coachList.clear();
                 page = 1;
                 sort_btn1.setText("科目");
-                sort_btn3.setText("综合");
+                sort_btn3.setText("综合排序");
                 sort_btn4.setText("班型");
                 sendRequest(page+"",schId);
                 swipeLayout.setRefreshing(false);
@@ -249,18 +249,16 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
         if (!sort_btn1.getText().toString().trim().equals("科目")) {
             class_type = sort_btn1.getText().toString().trim() + "教练";
         }
-        if (sort_btn3.getText().toString().trim().equals("综合")) {
+        if (sort_btn3.getText().toString().trim().equals("综合排序")) {
             sortString = "zonghe";
         } else {
             String string = sort_btn3.getText().toString().trim();
-            if (string.equals("综合")) {
+            if (string.equals("综合排序")) {
                 sortString = "zonghe";
-            } else if (string.equals("信用")) {
-                sortString = "credit";
             } else if (string.equals("好评率")) {
-                sortString = "haopin";
+                sortString = "praise";
             } else if (string.equals("通过率")) {
-                sortString = "tguo";
+                sortString = "pass";
             }
         }
     }

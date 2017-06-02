@@ -17,7 +17,7 @@ public class MyApplication extends Application {
         UMShareAPI.get(getApplicationContext());
         // 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
         SDKInitializer.initialize(getApplicationContext());
-        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.setDebugMode(false); 	// 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);     		// 初始化 JPush
         //创建队列
         queue = Volley.newRequestQueue(getApplicationContext());

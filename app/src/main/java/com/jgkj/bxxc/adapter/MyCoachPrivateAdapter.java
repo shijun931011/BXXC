@@ -29,7 +29,7 @@ public class MyCoachPrivateAdapter extends BaseAdapter {
     private Context context;
     private List<MyCoachPrivaetEntity> list;
     private LayoutInflater inflater;
-    private String coachUrl = "http://www.baixinxueche.com/index.php/Home/Apitoken/CoachinfoAgain";
+    private String coachUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/CoachinfoAgain";
     private int uid;
     private String token;
 

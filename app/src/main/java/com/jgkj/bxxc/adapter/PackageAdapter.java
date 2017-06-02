@@ -63,7 +63,7 @@ public class PackageAdapter extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        Glide.with(context).load(list.get(position).getPic()).placeholder(R.drawable.package_image).error(R.drawable.head1).into(viewHolder.im_pic);
+        Glide.with(context).load(list.get(position).getPic()).placeholder(R.drawable.package_image).error(R.drawable.package_image).into(viewHolder.im_pic);
         viewHolder.tv_pakage.setText(list.get(position).getPackagename());
         viewHolder.tv_buy.setText("￥" + list.get(position).getCountmoney());
         viewHolder.tv_buy_old.setText("原价：￥" + Calculation(list.get(position).getClasshour(),list.get(position).getClassmoney()));

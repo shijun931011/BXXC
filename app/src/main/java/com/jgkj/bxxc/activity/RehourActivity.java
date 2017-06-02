@@ -127,6 +127,7 @@ public class RehourActivity extends Activity implements View.OnClickListener{
         btn_backward.setVisibility(View.VISIBLE);
         btn_tuikuan.setVisibility(View.VISIBLE);
         btn_tuikuan.setText("退款进度");
+        btn_tuikuan.setVisibility(View.GONE);
         btn_backward.setOnClickListener(this);
         btn_tuikuan.setOnClickListener(this);
         immediate_bug.setOnClickListener(this);

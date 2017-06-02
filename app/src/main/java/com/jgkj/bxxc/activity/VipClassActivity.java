@@ -348,9 +348,9 @@ public class VipClassActivity extends Activity implements View.OnClickListener, 
             if (string.equals("综合排序")) {
                 sortString = "zonghe";
             }else if (string.equals("好评率")) {
-                sortString = "haopin";
+                sortString = "praise";
             }else if (string.equals("通过率")) {
-                sortString = "tguo";
+                sortString = "pass";
             }
         }
     }

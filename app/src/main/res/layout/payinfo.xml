@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/re"
                 >
     <include
         android:id="@+id/title"
@@ -211,13 +212,11 @@
         android:textSize="12sp"
         android:layout_marginLeft="8dp"
         android:background="@color/white"
-        android:layout_below="@id/layout5"
-
-    />
+        android:layout_below="@id/layout5" />
     <LinearLayout
         android:id="@+id/payMethod1"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_below="@id/zhifu_style"
         android:background="@drawable/num_text"
         android:orientation="horizontal"
@@ -273,7 +272,7 @@
     <LinearLayout
         android:id="@+id/payMethod2"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_below="@+id/line"
         android:background="@drawable/num_text"
         android:orientation="horizontal"
@@ -319,11 +318,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/payMethod2"
         android:layout_marginTop="65dp"
+        android:layout_below="@id/payMethod2"
+        android:layout_alignParentBottom="true"
         android:orientation="vertical"
-        android:background="@drawable/num_text"
-    >
+        android:background="@drawable/num_text">
         <LinearLayout
             android:id="@+id/fuwutiaokuan"
             android:layout_width="match_parent"

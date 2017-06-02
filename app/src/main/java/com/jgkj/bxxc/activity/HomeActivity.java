@@ -61,7 +61,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
     private RadioButton radioButton1, radioButton2, radioButton3, radioButton4;
     private Fragment mCurrentFragment, per, index, my_set, coach, map, study;
     private TextView text_title, place;
-    private ImageView kefu;
+    private ImageView kefu,im_title;
     private ScrollView scroll_bar;
     private RelativeLayout titlebar;
     private FrameLayout frame, car_frameLayout;
@@ -171,6 +171,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         place.setOnClickListener(this);
         //客服电话
         kefu = (ImageView) findViewById(R.id.remind);
+        im_title = (ImageView) findViewById(R.id.im_title);
         kefu.setOnClickListener(this);
         car_frameLayout = (FrameLayout) findViewById(R.id.car_send_map);
         mCurrentFragment = index;
@@ -207,6 +208,8 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         fromActivity = intent.getStringExtra("FromActivity");
         if (fromActivity == null) {
             text_title.setText("我的资料");
+            text_title.setVisibility(View.VISIBLE);
+            im_title.setVisibility(View.GONE);
             radioButton4.setChecked(true);
             scroll_bar.setVisibility(View.GONE);
             car_frameLayout.setVisibility(View.VISIBLE);
@@ -217,6 +220,8 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                 kefu.setImageResource(R.drawable.kefu_phone);
                 place.setText("合肥");
                 text_title.setText("百信学车");
+                text_title.setVisibility(View.GONE);
+                im_title.setVisibility(View.VISIBLE);
                 place.setVisibility(View.VISIBLE);
                 kefu.setVisibility(View.VISIBLE);
             } else if (fromActivity.equals("SimpleCoachActivity") || fromActivity.equals("IndexFragment")) {
@@ -226,6 +231,8 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                 transaction.add(R.id.car_send_map, coach);
             } else if (fromActivity.equals("MySetting")) {
                 text_title.setText("我的资料");
+                text_title.setVisibility(View.VISIBLE);
+                im_title.setVisibility(View.GONE);
                 radioButton4.setChecked(true);
                 scroll_bar.setVisibility(View.GONE);
                 car_frameLayout.setVisibility(View.VISIBLE);
@@ -256,6 +263,10 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                     scroll_bar.setVisibility(View.VISIBLE);
                     car_frameLayout.setVisibility(View.GONE);
                     text_title.setText("百信学车");
+                    text_title.setVisibility(View.GONE);
+                    im_title.setVisibility(View.VISIBLE);
+                    text_title.setVisibility(View.GONE);
+                    im_title.setVisibility(View.VISIBLE);
                     place.setText("合肥");
                     kefu.setImageResource(R.drawable.kefu_phone);
                     transaction.replace(R.id.index_fragment_layout, index).addToBackStack(null).commit();
@@ -275,6 +286,8 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
 
                 break;
             case R.id.radio_button_03:
+                text_title.setVisibility(View.VISIBLE);
+                im_title.setVisibility(View.GONE);
                 titlebar.setVisibility(View.VISIBLE);
                 kefu.setVisibility(View.GONE);
                 place.setVisibility(View.GONE);
@@ -288,6 +301,8 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                 }
                 break;
             case R.id.radio_button_04:
+                text_title.setVisibility(View.VISIBLE);
+                im_title.setVisibility(View.GONE);
                 titlebar.setVisibility(View.VISIBLE);
                 kefu.setVisibility(View.GONE);
                 place.setVisibility(View.GONE);

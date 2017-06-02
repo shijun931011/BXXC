@@ -329,7 +329,7 @@ public class ReservationDetailAdapter extends BaseAdapter {
                             positionList.add(position + "");
                             updata();
                         }else if (confirmReservationResult.getCode() == 400) {
-                            Toast.makeText(context, "已进入学车时间，不可被预约", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context,confirmReservationResult.getReason() , Toast.LENGTH_LONG).show();
                         }else{
                             Toast.makeText(context, "预约失败", Toast.LENGTH_LONG).show();
                         }
