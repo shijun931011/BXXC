@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jgkj.bxxc.R;
@@ -72,6 +73,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.item_group, null);
             viewHolder3.textView = (TextView) convertView.findViewById(R.id.textView);
             viewHolder3.imageView = (ImageView) convertView.findViewById(R.id.imageView);
+            viewHolder3.linear = (LinearLayout) convertView.findViewById(R.id.linear);
             convertView.setTag(viewHolder3);
         } else {
             viewHolder3 = (ViewHolder3) convertView.getTag();
@@ -107,6 +109,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     static class ViewHolder3 {
         public TextView textView;
         public ImageView imageView;
+        public LinearLayout linear;
     }
 
     @Override

@@ -122,6 +122,16 @@
             android:text="经开区-蜀山校区"
             android:textSize="12sp"
             android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/tv_stunum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:gravity="center_vertical"
+                android:text="累计所带学员199人"
+                android:textSize="12sp"
+                android:textColor="@color/black"/>
         </LinearLayout>
 
     </LinearLayout>

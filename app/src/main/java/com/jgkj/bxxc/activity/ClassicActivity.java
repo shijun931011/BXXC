@@ -422,7 +422,7 @@ public class ClassicActivity extends Activity implements View.OnClickListener,Ad
                 swipeLayout.setTag("ONFRESH");
                 sort_btn1.setText("科目");
                 sort_btn2.setText("全城");
-                sort_btn3.setText("综合");
+                sort_btn3.setText("综合排序");
                 sort_btn4.setText("班型");
                 check();
                 sort(class_type, schId + "", sortString, page + "", class_class);

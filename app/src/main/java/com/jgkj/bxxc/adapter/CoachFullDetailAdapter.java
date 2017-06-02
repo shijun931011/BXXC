@@ -59,7 +59,7 @@ public class CoachFullDetailAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         student = list.get(position);
-        Glide.with(context).load("http://www.baixinxueche.com/Public/Home/img/default.png").into(viewHolder.imageView);
+        Glide.with(context).load(student.getDefault_file()).into(viewHolder.imageView);
         viewHolder.textView2.setText(student.getComment_time());
         viewHolder.textView3.setText(student.getComment());
         return convertView;

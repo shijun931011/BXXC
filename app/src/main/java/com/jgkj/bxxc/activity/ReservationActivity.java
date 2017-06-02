@@ -286,7 +286,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
 
         //设置指定定位坐标
         point = new LatLng(Double.parseDouble(lantitude), Double.parseDouble(longitude));
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.addre_image);
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.yaogan);
         OverlayOptions options = new MarkerOptions().icon(icon).position(point);
         mBaiduMap.addOverlay(options);
         //设定中心点坐标
@@ -537,13 +537,16 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                     SharedPreferences sp = getSharedPreferences("USER", Activity.MODE_PRIVATE);
                     String str = sp.getString("userInfo", null);
                     Gson gson = new Gson();
+
+                    SharedPreferences sp1 = getSharedPreferences("token", Activity.MODE_PRIVATE);
+                    token = sp1.getString("token", null);
+
                     userInfo = gson.fromJson(str, UserInfo.class);
                     if (userInfo == null) {
                         Intent intent = new Intent();
                         intent.setClass(ReservationActivity.this, LoginActivity.class);
                         intent.putExtra("message","reservation");
                         startActivity(intent);
-                        finish();
                     }else {
                         Intent intent2 = new Intent();
                         intent2.setClass(ReservationActivity.this, PayInfoActivity.class);
@@ -696,7 +699,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         Gson gson = new Gson();
         CommentResult coachInfo = gson.fromJson(str, CommentResult.class);
         if (coachInfo.getCode() == 200) {
-            listView.setFocusable(false);
+            //listView.setFocusable(false);
             // 实例化listView显示学员的评价
             listStu = coachInfo.getResult();
             if(listStu.size() == 0){
@@ -727,9 +730,9 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
 
             @Override
             public void run() {
-                commentPage = 1;
-                listStu.clear();
-                getComment(commentUrl);
+//                commentPage = 1;
+//                listStu.clear();
+//                getComment(commentUrl);
                 swipeLayout.setRefreshing(false);
 
             }

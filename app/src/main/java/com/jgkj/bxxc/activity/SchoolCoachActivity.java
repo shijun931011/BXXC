@@ -69,6 +69,7 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
         StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
         sendRequest(page+"",schId);
+        //sort(class_type, sortString, page+"", class_class);
     }
 
     /**
@@ -92,6 +93,7 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
                     public void onResponse(String s, int i) {
                         listView.setTag(s);
                         if(listView.getTag()!=null){
+                            swipeLayout.setTag("REFRESH");
                             setAdapter();
                         }else{
                             Toast.makeText(SchoolCoachActivity.this, "网络状态不佳,请检查网络", Toast.LENGTH_LONG).show();
@@ -104,26 +106,55 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
      * 设置adapter
      */
     private void setAdapter(){
-        setMyAdapter(listView.getTag().toString());
+        String swiTag="";
+        String tag = "";
+        try {
+            swiTag = swipeLayout.getTag().toString();
+            tag = listView.getTag().toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Gson gson = new Gson();
+        swipeLayout.setVisibility(View.VISIBLE);
+        textView.setVisibility(View.GONE);
+        CoachDetailAction coachDetailAction = gson.fromJson(tag, CoachDetailAction.class);
+        switch (swiTag) {
+            case "UNENABLE":
+                coachList.clear();
+                setMyAdapter();
+                break;
+            case "REFRESH":
+                coachList.clear();
+                setMyAdapter();
+                break;
+            case "ONLOAD":
+                if(page == 1){
+                    coachList.clear();
+                }
+                if (coachDetailAction.getCode() == 200) {
+                    coachList.addAll(coachDetailAction.getResult());
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(SchoolCoachActivity.this, coachDetailAction.getReason(), Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
     }
     /**
      * 设置 adapter
-     * @param tag
      */
-    private void setMyAdapter(String tag){
-        swipeLayout.setVisibility(View.VISIBLE);
-        textView.setVisibility(View.GONE);
+    private void setMyAdapter(){
+        String tag = listView.getTag().toString();
         Gson gson = new Gson();
         CoachDetailAction coachDetailAction = gson.fromJson(tag, CoachDetailAction.class);
-        if(coachDetailAction.getCode()==200){
-            title.setText(coachDetailAction.getResult().get(0).getFaddress());
+        if (coachDetailAction.getCode() == 200) {
             coachList.addAll(coachDetailAction.getResult());
-            adapter = new MyCoachAdapter(SchoolCoachActivity.this, coachList);
+            adapter = new MyCoachAdapter(this, coachList);
             listView.setAdapter(adapter);
-        }else{
+        } else {
             swipeLayout.setVisibility(View.GONE);
             textView.setVisibility(View.VISIBLE);
-            Toast.makeText(SchoolCoachActivity.this,coachDetailAction.getReason(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, coachDetailAction.getReason(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -164,17 +195,23 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
 
     @Override
     public void onRefresh() {
+        listView.setVisibility(View.VISIBLE);
+        textView.setVisibility(View.GONE);
         swipeLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
                 // 更新数据  更新完后调用该方法结束刷新
                 coachList.clear();
+                swipeLayout.setTag("REFRESH");
                 page = 1;
                 sort_btn1.setText("科目");
                 sort_btn3.setText("综合排序");
                 sort_btn4.setText("班型");
-                sendRequest(page+"",schId);
+                check();
+                sort(class_type, sortString, page+"", class_class);
+                //sendRequest(page+"",schId);
                 swipeLayout.setRefreshing(false);
+                adapter.notifyDataSetChanged();
             }
         }, 2000);
     }
@@ -184,13 +221,10 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
         swipeLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-                try{
-                    String swiTag = swipeLayout.getTag().toString();
-                    String tag = listView.getTag().toString();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+                listView.setVisibility(View.VISIBLE);
+                textView.setVisibility(View.GONE);
                 page++;
+                swipeLayout.setTag("ONLOAD");
                 check();
                 sort(class_type, sortString, page+"", class_class);
                 swipeLayout.setLoading(false);
@@ -246,7 +280,9 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
         } else {
             class_class = sort_btn4.getText().toString().trim();
         }
-        if (!sort_btn1.getText().toString().trim().equals("科目")) {
+        if (sort_btn1.getText().toString().trim().equals("科目")) {
+            class_type = "";
+        }else{
             class_type = sort_btn1.getText().toString().trim() + "教练";
         }
         if (sort_btn3.getText().toString().trim().equals("综合排序")) {
@@ -279,6 +315,7 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
             }
             check();
             page = 1;
+            swipeLayout.setTag("REFRESH");
             sort(class_type,sortString, page+"", class_class);
         }
     };

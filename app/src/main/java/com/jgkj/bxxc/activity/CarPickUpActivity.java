@@ -37,6 +37,8 @@ public class CarPickUpActivity extends Activity implements View.OnClickListener,
     private SchoolPlaceTotal schoolPlaceTotal;
     private String[] city;
     private String[][] datialPlace;
+    private String[] citys;
+    private String[][] datialPlaces;
     private Integer[][] datialPlaceId;
     private MyExpandableListAdapter adapter;
     private ProgressDialog dialog ;
@@ -80,7 +82,8 @@ public class CarPickUpActivity extends Activity implements View.OnClickListener,
         schoolPlaceTotal = gson.fromJson(str, SchoolPlaceTotal.class);
         if (schoolPlaceTotal.getCode() == 200) {
             setPup(schoolPlaceTotal.getResult());
-            adapter = new MyExpandableListAdapter(CarPickUpActivity.this,city,datialPlace);
+            doDatialPlace(city,datialPlace);
+            adapter = new MyExpandableListAdapter(CarPickUpActivity.this,citys,datialPlaces);
             subListView.setAdapter(adapter);
         } else {
             Toast.makeText(CarPickUpActivity.this, schoolPlaceTotal.getReason(), Toast.LENGTH_SHORT).show();
@@ -101,7 +104,10 @@ public class CarPickUpActivity extends Activity implements View.OnClickListener,
                 datialPlaceId[i] = new Integer[listSch.size()];
                 for (int j = 0; j < listSch.size(); j++) {
                     datialPlace[i][j] = listSch.get(j).getSname();
-                    datialPlaceId[i][j] = listSch.get(j).getId();
+                    if(i != 0){
+                        datialPlaceId[i-1][j] = listSch.get(j).getId();
+                    }
+                    //datialPlaceId[i][j] = listSch.get(j).getId();
                 }
             }
         }
@@ -142,5 +148,21 @@ public class CarPickUpActivity extends Activity implements View.OnClickListener,
         intent.putExtra("name",textView.getText().toString());
         startActivity(intent);
         return false;
+    }
+
+    public void doDatialPlace(String[] cityTemp,String[][] datialPlaceTemp){
+        citys = new String[cityTemp.length-1];
+        for(int i = 1;i<cityTemp.length;i++){
+            citys[i-1] = cityTemp[i];
+        }
+        datialPlaces = new String[4][1];
+        for(int i = 0;i<datialPlaceTemp.length;i++){
+            for(int j = 0;j<datialPlaceTemp[i].length;j++){
+                if(i!=0){
+                    //datialPlaces[i-1] = new String[datialPlaceTemp[i].length-1];
+                    datialPlaces[i-1][j] = datialPlaceTemp[i][j];
+                }
+            }
+        }
     }
 }

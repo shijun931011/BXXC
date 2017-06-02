@@ -65,7 +65,7 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
     private List<CoachDetailAction.Result> coachList = new ArrayList<>();
     private PrivateCoachAdapter adapter;
     private String[] sub = {"科目","科目二", "科目三"};
-    private String[] sortStr = {"综合排序","好评率"};
+    private String[] sortStr = {"综合排序","好评率","累计所带学员数"};
     private String class_type = "";
     private String sortString = "zonghe";
     private String class_class = "私教班";
@@ -366,6 +366,8 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
                 sortString = "zonghe";
             }else if (string.equals("好评率")) {
                 sortString = "praise";
+            }else if (string.equals("累计所带学员数")) {
+                sortString = "leiji";
             }
         }
     }

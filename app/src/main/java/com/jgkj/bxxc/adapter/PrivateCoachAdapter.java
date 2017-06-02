@@ -60,6 +60,9 @@ public class PrivateCoachAdapter extends BaseAdapter {
             viewHolder.classType = (TextView) convertView.findViewById(R.id.classType);
             viewHolder.goodPrise = (TextView) convertView.findViewById(R.id.goodPrise);
             viewHolder.totalPriseText2 = (TextView) convertView.findViewById(R.id.totalPriseText2);
+
+            viewHolder.tv_stunum = (TextView) convertView.findViewById(R.id.tv_stunum);
+
             viewHolder.coachPic = (ImageView) convertView.findViewById(R.id.coachPic);
             viewHolder.totalPriseText1 = (LinearLayout) convertView.findViewById(R.id.totalPriseText1);
             convertView.setTag(viewHolder);
@@ -92,12 +95,14 @@ public class PrivateCoachAdapter extends BaseAdapter {
             viewHolder.kemu.setImageResource(R.drawable.kemu3);
         }
 
+        viewHolder.tv_stunum.setText("累计所带学员" + coachDetailAction.getStunum() + "人");
+
         return convertView;
     }
     //listView优化
     static class ViewHolder {
         public ImageView coachPic,kemu;
-        public TextView coachName, place,classType,totalPriseText2,goodPrise;
+        public TextView coachName, place,classType,totalPriseText2,goodPrise,tv_stunum;
         private TextView coachId;
         public LinearLayout totalPriseText1;
     }

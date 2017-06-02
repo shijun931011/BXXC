@@ -179,7 +179,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
         init();
         //initMap();
         getData(coachId, coachUrl);
-        bitmapA = BitmapDescriptorFactory.fromResource(R.drawable.dw);
+        bitmapA = BitmapDescriptorFactory.fromResource(R.drawable.a2);
     }
     /**
      * 初始化地图
@@ -255,7 +255,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
 
         //设置指定定位坐标
         point = new LatLng(Double.parseDouble(lantitude), Double.parseDouble(longitude));
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.addre_image);
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.yaogan);
         OverlayOptions options = new MarkerOptions().icon(icon).position(point);
         mBaiduMap.addOverlay(options);
         //设定中心点坐标
@@ -285,8 +285,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
             OverlayOptions option = null;
             switch (j) {
                 case 0:
-                    option = new MarkerOptions().position(point).zIndex(j).icon(
-                            bitmapA);
+                    option = new MarkerOptions().position(point).zIndex(j).icon(bitmapA);
                     break;
             }
             mMarker = (Marker) mBaiduMap.addOverlay(option);
@@ -747,9 +746,9 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
 
             @Override
             public void run() {
-                commentPage = 1;
-                listStu.clear();
-                getComment(commentUrl);
+//                commentPage = 1;
+//                listStu.clear();
+//                getComment(commentUrl);
                 swipeLayout.setRefreshing(false);
 
             }
