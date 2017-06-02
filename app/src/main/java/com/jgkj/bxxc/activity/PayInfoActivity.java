@@ -394,8 +394,9 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
         weixin_isCheck = (ImageView) findViewById(R.id.weixin_isCheck);
         weixin_layout.setOnClickListener(this);
         messageDeatil = (TextView) findViewById(R.id.messageDetail);
-        messageDeatil.setText("报名信息     "+ Html.fromHtml("<font color=\"#ff5000\">*注：请确保以下填写信息真实有效</font>"));
-        messageDeatil.setTextSize(10);
+        String source = "报名信息&nbsp &nbsp &nbsp &nbsp<font color='#FF8000'>注：请确保以下填写信息真实有效</font>";
+        messageDeatil.setText(Html.fromHtml(source));
+        messageDeatil.setTextSize(12);
         username.addTextChangedListener(this);
         userId.addTextChangedListener(this);
         coach_Price = (TextView) findViewById(R.id.coach_Price);
@@ -414,7 +415,7 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
         back_backward.setVisibility(View.VISIBLE);
         back_backward.setOnClickListener(this);
         textTitle = (TextView) findViewById(R.id.text_title);
-        textTitle.setText("订单信息");
+        textTitle.setText("确认订单");
         //教练信息
         coachname = (TextView) findViewById(R.id.coachname);
         coachhead = (ImageView) findViewById(R.id.coachhead);
@@ -476,11 +477,12 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                 if (!aserFlg) {
                     isCheck.setImageResource(R.drawable.right);
                     aserFlg = true;
+                    check();
                 } else {
                     isCheck.setImageResource(R.drawable.check_background);
                     aserFlg = false;
                 }
-                check();
+
                 break;
             case R.id.tiaokuan:
                 Intent intent = new Intent();

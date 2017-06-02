@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,7 +23,10 @@ import com.jgkj.bxxc.tools.AutoTextView;
 
 public class Sub4 extends Fragment implements View.OnClickListener {
     private View view;
-    private Button orderTest, error_Sub, randomTest, examTest;
+//    private Button orderTest, error_Sub, randomTest, examTest;
+    private LinearLayout linearLayout1,linearLayout2,linearLayout3,linearLayout4;
+    private ImageView orderTest, suijiTest,moniTest,cuotiTest;
+
     private int index;
     private LinearLayout inner_function, dashboard;
     private TextView inner_function1, dashboard1;
@@ -35,6 +37,11 @@ public class Sub4 extends Fragment implements View.OnClickListener {
     private int[] phoneSt = new int[]{130, 131, 132, 133, 134, 135, 136, 137, 138, 139,
             145, 147, 150, 151, 152, 153, 155, 156, 157, 158, 159, 180, 181,
             182, 183, 185, 186, 187, 188, 189};
+
+    private String picshunxuUrl = "http://www.baixinxueche.com/Public/App/img/picshunxu.png";
+    private String picsuijiUrl = "http://www.baixinxueche.com/Public/App/img/picsuiji.png";
+    private String picmoniUrl="http://www.baixinxueche.com/Public/App/img/picmoni.png";
+    private String piccuotiUrl="http://www.baixinxueche.com/Public/App/img/piccuoti.png";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,15 +55,22 @@ public class Sub4 extends Fragment implements View.OnClickListener {
      * 初始化布局
      */
     private void init() {
-
-        Drawable shunxu = getResources().getDrawable(R.drawable.license_text1);
-        shunxu.setBounds(0, 0, 100, 100);
-        Drawable cuoti = getResources().getDrawable(R.drawable.license_text2);
-        cuoti.setBounds(0, 0, 100, 100);
-        Drawable suiji = getResources().getDrawable(R.drawable.license_text4);
-        suiji.setBounds(0, 0, 100, 100);
-        Drawable moni = getResources().getDrawable(R.drawable.license_text3);
-        moni.setBounds(0, 0, 100, 100);
+        linearLayout1 = (LinearLayout) view.findViewById(R.id.linearlayout1);
+        linearLayout1.setOnClickListener(this);
+        linearLayout2 = (LinearLayout) view.findViewById(R.id.linearlayout2);
+        linearLayout2.setOnClickListener(this);
+        linearLayout3 = (LinearLayout) view.findViewById(R.id.linearlayout3);
+        linearLayout3.setOnClickListener(this);
+        linearLayout4 = (LinearLayout) view.findViewById(R.id.linearlayout4);
+        linearLayout4.setOnClickListener(this);
+        orderTest = (ImageView) view.findViewById(R.id.ordertest);
+        suijiTest = (ImageView) view.findViewById(R.id.suijiTest);
+        moniTest = (ImageView) view.findViewById(R.id.monitest);
+        cuotiTest = (ImageView) view.findViewById(R.id.cuotiTest);
+        Glide.with(getActivity()).load(picshunxuUrl).into(orderTest);
+        Glide.with(getActivity()).load(picsuijiUrl).into(suijiTest);
+        Glide.with(getActivity()).load(picmoniUrl).into(moniTest);
+        Glide.with(getActivity()).load(piccuotiUrl).into(cuotiTest);
 
         Drawable textimg1 = getResources().getDrawable(R.drawable.textimg1);
         textimg1.setBounds(0, 0, 50, 50);
@@ -80,25 +94,6 @@ public class Sub4 extends Fragment implements View.OnClickListener {
         showNum = (AutoTextView) view.findViewById(R.id.showNum);
         showNum.setText("恭喜 " + getNum() + " 学员 顺利拿证!");
         setShowNum();
-
-        //顺序练题
-        orderTest = (Button) view.findViewById(R.id.orderTest);
-        orderTest.setOnClickListener(this);
-        //错题
-        error_Sub = (Button) view.findViewById(R.id.error_Sub);
-        error_Sub.setOnClickListener(this);
-        //随机练题
-        randomTest = (Button) view.findViewById(R.id.randomTest);
-        randomTest.setOnClickListener(this);
-        //模拟考试
-        examTest = (Button) view.findViewById(R.id.examTest);
-        examTest.setOnClickListener(this);
-        index = 4;
-        //设置按钮顶部图标
-        orderTest.setCompoundDrawables(null, shunxu, null, null);
-        error_Sub.setCompoundDrawables(null, cuoti, null, null);
-        examTest.setCompoundDrawables(null, suiji, null, null);
-        randomTest.setCompoundDrawables(null, moni, null, null);
 
     }
 
@@ -124,19 +119,19 @@ public class Sub4 extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
-            case R.id.orderTest:
+            case R.id.linearlayout1:
                 intent.setClass(getActivity(), SubFourTestActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.error_Sub:
+            case R.id.linearlayout4:
                 intent.setClass(getActivity(), SubfourErrorTestActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.randomTest:
+            case R.id.linearlayout2:
                 intent.setClass(getActivity(), SubFourRandTestActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.examTest:
+            case R.id.linearlayout3:
                 intent.setClass(getActivity(), SubFourExamTestActivity.class);
                 startActivity(intent);
                 break;

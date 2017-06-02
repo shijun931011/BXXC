@@ -62,7 +62,7 @@ public class PaydetailAdapter extends BaseAdapter {
         }
         result = list.get(i);
         viewHolder.paydate.setText(result.getApplyTime());
-        viewHolder.payMoney.setText(result.getMoney());
+        viewHolder.payMoney.setText("￥  "+ result.getMoney());
         viewHolder.paystate.setText("支付方式：" + result.getPaystate());
         viewHolder.paydel.setText("商品详情：" + result.getPaydel());
         viewHolder.payOrider.setText("交易单号：" + result.getOrderNo());

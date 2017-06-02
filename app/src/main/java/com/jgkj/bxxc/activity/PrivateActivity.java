@@ -111,7 +111,9 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
         weixin_layout.setOnClickListener(this);
 
         messageDeatil = (TextView) findViewById(R.id.messageDetail);
-        messageDeatil.setText("报名信息     "+ Html.fromHtml("<font color=\"#ff5000\">*注：请确保以下填写信息真实有效</font>"));
+        String source = "报名信息&nbsp &nbsp &nbsp &nbsp<font color='#FF8000'>注：请确保以下填写信息真实有效</font>";
+        messageDeatil.setText(Html.fromHtml(source));
+        messageDeatil.setTextSize(12);
         username.addTextChangedListener(this);
         userId.addTextChangedListener(this);
         coach_Price = (TextView) findViewById(R.id.coach_Price);
@@ -371,11 +373,12 @@ public class PrivateActivity extends Activity implements View.OnClickListener,Te
                 if (!aserFlg) {
                     isCheck.setImageResource(R.drawable.right);
                     aserFlg = true;
+                    check();
                 } else {
                     isCheck.setImageResource(R.drawable.check_background);
                     aserFlg = false;
                 }
-                check();
+
                 break;
             case R.id.tiaokuan:
                 Intent intent = new Intent();

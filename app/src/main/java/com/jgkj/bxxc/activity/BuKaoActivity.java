@@ -20,8 +20,10 @@ import com.alipay.sdk.app.PayTask;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
+import com.jgkj.bxxc.activity.weixin.WXPay;
 import com.jgkj.bxxc.bean.MyPayResult;
 import com.jgkj.bxxc.bean.ShowRePay;
+import com.jgkj.bxxc.bean.entity.WXEntity.WXEntity;
 import com.jgkj.bxxc.tools.PayResult;
 import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -184,31 +186,31 @@ public class BuKaoActivity extends Activity implements View.OnClickListener {
                     @Override
                     public void onResponse(String s, int i) {
                         Log.i("百信学车", "微信结果"+s);
-//                        Gson gson = new Gson();
-//                        WXEntity wxEntity = gson.fromJson(s, WXEntity.class);
-//                        if(wxEntity.getErrorCode() == 0){
-//                            WXPay wxpay = new WXPay(BuKaoActivity.this, wxEntity.getResponseData().getApp_response().getAppid());
-//                            wxpay.doPay(s, new WXPay.WXPayResultCallBack() {
-//                                @Override
-//                                public void onSuccess() {
-//
-//                                    Toast.makeText(BuKaoActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
-//                                }
-//
-//                                @Override
-//                                public void onError(int error_code) {
-//                                    Toast.makeText(BuKaoActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
-//                                }
-//
-//                                @Override
-//                                public void onCancel() {
-//                                    Toast.makeText(BuKaoActivity.this, "支付取消", Toast.LENGTH_SHORT).show();
-//                                }
-//                            });
-//
-//                        }else{
-//                            Toast.makeText(BuKaoActivity.this, wxEntity.getErrorMsg(), Toast.LENGTH_LONG).show();
-//                        }
+                        Gson gson = new Gson();
+                        WXEntity wxEntity = gson.fromJson(s, WXEntity.class);
+                        if(wxEntity.getErrorCode() == 0){
+                            WXPay wxpay = new WXPay(BuKaoActivity.this, wxEntity.getResponseData().getApp_response().getAppid());
+                            wxpay.doPay(s, new WXPay.WXPayResultCallBack() {
+                                @Override
+                                public void onSuccess() {
+
+                                    Toast.makeText(BuKaoActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onError(int error_code) {
+                                    Toast.makeText(BuKaoActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onCancel() {
+                                    Toast.makeText(BuKaoActivity.this, "支付取消", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                        }else{
+                            Toast.makeText(BuKaoActivity.this, wxEntity.getErrorMsg(), Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
     }

@@ -50,7 +50,7 @@ public class ClassicActivity extends Activity implements View.OnClickListener,Ad
     private String tag;
     private String[] sub = {"科目","科目二", "科目三"};
     private String[] sortStr = {"综合","通过率", "好评率"};
-    private String[] classType = {"班型","至尊班", "VIP班"};
+    private String[] classType = {"班型","经理班", "VIP班"};
     private String class_type = "";
     private String sortString = "";
     private String class_class = "";

@@ -40,12 +40,10 @@ public class Sub1 extends Fragment implements View.OnClickListener {
     private View view;
     private LinearLayout linearLayout1,linearLayout2,linearLayout3,linearLayout4;
     private ImageView orderTest, suijiTest,moniTest,cuotiTest;
-//    private Button orderTest, error_Sub, randomTest, examTest;
     private int index;
     private LinearLayout visual, traffic, gestures;
     private TextView visual1, traffic1, gestures1;
     private ImageView imageView;
-//    private GifView baoming;
     private MyAdapter adapter;
     private ViewPager viewpager;
     private List<SubPicture.Result> list;
@@ -134,11 +132,6 @@ public class Sub1 extends Fragment implements View.OnClickListener {
                             int itemPosition = viewpager.getCurrentItem();
                             Log.d("BXXXC", "科目"+list.get(itemPosition).getKey());
                             if (list.get(itemPosition).getKey()==2){
-                                //发送广播
-//                                intent.putExtra("sub1", "kemu" );
-//                                intent.setAction("sub1");
-//                                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-
                                 intent.setClass(getActivity(), HomeActivity.class);
                                 intent.putExtra("FromActivity", "IndexFragment");
                                 startActivity(intent);

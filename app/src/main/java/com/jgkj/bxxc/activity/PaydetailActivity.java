@@ -71,7 +71,6 @@ public class PaydetailActivity extends Activity implements View.OnClickListener{
         title.setText("支付明细");
         btn_back.setVisibility(View.VISIBLE);
         btn_back.setOnClickListener(this);
-
         Intent intent = getIntent();
         uid = intent.getIntExtra("uid", -1);
         token = intent.getStringExtra("token");

@@ -6,7 +6,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/lightwhite"
+        android:background="#FFFFFF"
         android:orientation="vertical">
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"
@@ -19,7 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="#FFFFFF"
             android:orientation="horizontal">
             <LinearLayout
                 android:id="@+id/linearlayout1"
@@ -41,6 +41,10 @@
                           android:gravity="center"
                 />
             </LinearLayout>
+            <View android:layout_width="0.1dp"
+                  android:layout_height="100dp"
+                  android:background="@color/background"
+            />
             <LinearLayout
                 android:id="@+id/linearlayout2"
                 android:layout_width="190dp"
@@ -61,10 +65,14 @@
                 />
             </LinearLayout>
         </LinearLayout>
+        <View android:layout_width="match_parent"
+              android:layout_height="0.1dp"
+              android:background="@color/background"
+              />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="#FFFFFF"
             android:orientation="horizontal">
             <LinearLayout
                 android:id="@+id/linearlayout3"
@@ -88,6 +96,10 @@
                           android:paddingBottom="10dp"
                 />
             </LinearLayout>
+            <View android:layout_width="0.1dp"
+                  android:layout_height="100dp"
+                  android:background="@color/background"
+            />
             <LinearLayout
                 android:id="@+id/linearlayout4"
                 android:layout_width="190dp"

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -18,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jgkj.bxxc.R;
-import com.jgkj.bxxc.tools.StatusBarCompat;
 
 import java.util.ArrayList;
 
@@ -40,8 +38,8 @@ public class ClassTypeActivity extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_type);
-        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initview();
+
     }
     private void initview(){
         title = (TextView)  findViewById(R.id.text_title);
@@ -75,15 +73,17 @@ public class ClassTypeActivity extends Activity implements View.OnClickListener{
         pageview.add(view2);
         //绑定适配器
         viewPager.setAdapter(mPagerAdapter);
+        dialog.setCanceledOnTouchOutside(true);
         dialog.show();
         // 获取当前Activity所在的窗体
         Window dialogWindow = dialog.getWindow();
         // 设置dialog宽度
-        dialogWindow.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialogWindow.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         // 设置Dialog从窗体中间弹出
         dialogWindow.setGravity(Gravity.CENTER);
+
     }
+
     PagerAdapter mPagerAdapter = new PagerAdapter() {
         @Override
         //获取当前窗体界面数
@@ -109,7 +109,6 @@ public class ClassTypeActivity extends Activity implements View.OnClickListener{
             return pageview.get(arg1);
         }
     };
-
     @Override
     public void onClick(View v) {
         Intent intent = new Intent();
@@ -119,6 +118,7 @@ public class ClassTypeActivity extends Activity implements View.OnClickListener{
                 break;
             case R.id.button_forward:
                 classtypeDialog();
+
                 break;
             case R.id.pri_class:
                 intent.setClass(this, PrivateClassActivity.class);

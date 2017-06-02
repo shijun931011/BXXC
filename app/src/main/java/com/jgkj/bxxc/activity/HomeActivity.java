@@ -16,7 +16,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -104,7 +103,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         init();
         //.getApplicationContext（）取的是这个应 用程序的Context，Activity.this取的是这个Activity的Context
         JPushInterface.init(getApplicationContext());
-        //receiveAdDownload();
+
         isClearLoginSession();
         checkSoftInfo();
         registerMessageReceiver();
@@ -197,7 +196,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         radioButton3.setCompoundDrawables(null, rbImg3, null, null);
         radioButton4.setCompoundDrawables(null, rbImg4, null, null);
         // 初始化一个fragment填充首页
-//        Sub1 sub1 = new Sub1();
         IndexFragment indexFragment = new IndexFragment();
         fragmentManager = getSupportFragmentManager();
         transaction = fragmentManager.beginTransaction();
@@ -422,38 +420,5 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
             msgText.setVisibility(android.view.View.VISIBLE);
         }
     }
-
-
-
-    LocalBroadcastManager broadcastManager;
-    /**
-     * 注册广播接收器
-     */
-    private void receiveAdDownload() {
-        broadcastManager = LocalBroadcastManager.getInstance(this);
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("sub1");
-        broadcastManager.registerReceiver(mAdDownLoadReceiver, intentFilter);
-    }
-
-    BroadcastReceiver mAdDownLoadReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            //这里接收到广播和数据，进行处理就是了
-            titlebar.setVisibility(View.GONE);
-            coach = new CoachFragment();
-            intent.getStringExtra("sub1");
-            FragmentManager fragmentManagers = getSupportFragmentManager();
-            FragmentTransaction transactions = fragmentManagers.beginTransaction();
-            scroll_bar.setVisibility(View.GONE);
-            car_frameLayout.setVisibility(View.VISIBLE);
-            transactions.replace(R.id.car_send_map, coach).addToBackStack(null).commitAllowingStateLoss();
-            mCurrentFragment = coach;
-            radioButton2.setChecked(true);
-            radioButton3.setChecked(false);
-
-        }
-    };
-
 
 }

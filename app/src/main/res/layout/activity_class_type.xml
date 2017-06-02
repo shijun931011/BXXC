@@ -36,7 +36,7 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:layout_marginTop="20dp"
-                android:text="至尊版"
+                android:text="经理班"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
 

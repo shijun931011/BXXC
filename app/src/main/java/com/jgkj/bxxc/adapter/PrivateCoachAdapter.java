@@ -86,7 +86,7 @@ public class PrivateCoachAdapter extends BaseAdapter {
         viewHolder.place.setText(coachDetailAction.getFaddress());
         viewHolder.classType.setText("班级:"+coachDetailAction.getClass_class());
         viewHolder.totalPriseText2.setHint(coachDetailAction.getZonghe()+".0分");
-        viewHolder.goodPrise.setHint("好评率:"+coachDetailAction.getPraise()+"%");
+        viewHolder.goodPrise.setHint(coachDetailAction.getPraise()+"%");
         viewHolder.coachId.setText(coachDetailAction.getCid()+"");
 
         if (coachDetailAction.getClass_type().equals("科目二教练") ){

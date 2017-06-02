@@ -64,7 +64,7 @@ public class ExtClassActivity extends Activity implements View.OnClickListener, 
     private String[] sortStr = {"综合排序", "通过率", "好评率"};
     private String class_type = "";
     private String sortString = "zonghe";
-    private String class_class = "至尊班";
+    private String class_class = "经理班";
     private int schId;
 
     @Override
@@ -79,7 +79,7 @@ public class ExtClassActivity extends Activity implements View.OnClickListener, 
 
     private void initView(){
         title = (TextView)  findViewById(R.id.text_title);
-        title.setText("至尊班");
+        title.setText("经理班");
         button_backward = (Button) findViewById(R.id.button_backward);
         button_backward.setVisibility(View.VISIBLE);
         button_backward.setOnClickListener(this);

@@ -34,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/linearlayout"
         android:text="￥ 0"
+        android:textStyle="bold"
         android:textColor="@color/red"
         android:textSize="25dp"
         android:gravity="center"

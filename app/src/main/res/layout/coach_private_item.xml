@@ -26,13 +26,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:text="教练员："/>
             <TextView
                 android:id="@+id/coachName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="童海兵"
-                android:textColor="#FF8000"/>
+                android:textColor="@color/black"
+                />
             <TextView
                 android:id="@+id/coachId"
                 android:layout_width="wrap_content"
@@ -60,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:gravity="center_vertical"
+                    android:layout_marginTop="4dp"
                     android:orientation="horizontal"/>
                     <TextView
                         android:id="@+id/totalPriseText2"
@@ -69,6 +71,7 @@
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
                         android:hint="5.0分"
+                        android:textColorHint="@color/orange"
                         android:textSize="10sp"/>
                 </LinearLayout>
         </LinearLayout>
@@ -87,17 +90,22 @@
                 android:layout_weight="0.05"
                 android:text="VIP班"
                 android:textSize="12sp"
-                android:textColor="@color/black"
+
                 />
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="好评率:"
+                      android:textSize="12sp"
+            />
             <TextView
                 android:id="@+id/goodPrise"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.49"
+                android:layout_weight="0.13"
                 android:gravity="center_vertical"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="5dp"
                 android:hint="100%"
-                android:textSize="10sp"/>
+                android:textSize="12sp"/>
 
         </LinearLayout>
         <LinearLayout
@@ -132,6 +140,7 @@
                 android:text="累计所带学员199人"
                 android:textSize="12sp"
                 android:textColor="@color/black"/>
+            />
         </LinearLayout>
 
     </LinearLayout>

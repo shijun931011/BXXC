@@ -30,6 +30,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColorHint="@color/black"
                 android:hint="教练员：" />
 
             <TextView
@@ -38,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="洪复生"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <View
                 android:layout_width="1dp"

@@ -19,18 +19,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="百信学车支付凭证"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
         />
         <TextView
             android:id="@+id/date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="2017-05-05 16:16:01"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
         />
         <RelativeLayout
             android:layout_width="match_parent"
@@ -69,28 +69,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="支付方式:    账户余额"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:layout_marginTop="15dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
         />
         <TextView
             android:id="@+id/paydel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="商品详情： 百信学车 - C套餐"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
         />
         <TextView
             android:id="@+id/orider_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="交易单号:    1234567890"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="15dp"
         />
     </LinearLayout>
 

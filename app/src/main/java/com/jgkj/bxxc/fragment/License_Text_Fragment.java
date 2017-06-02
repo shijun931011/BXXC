@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.activity.SubErrorTestActivity;
@@ -20,7 +20,8 @@ import com.jgkj.bxxc.activity.SubfourErrorTestActivity;
 
 public class License_Text_Fragment extends Fragment implements View.OnClickListener{
 	private View view;
-	private Button orderTest,error_Sub,randomTest,examTest;
+//	private Button orderTest,error_Sub,randomTest,examTest;
+    private LinearLayout linearLayout1,linearLayout2,linearLayout3,linearLayout4;
 	private int index;
 
 	@Override
@@ -35,18 +36,14 @@ public class License_Text_Fragment extends Fragment implements View.OnClickListe
 	 * 初始化布局
 	 */
 	private void init() {
-		//顺序练题
-		orderTest = (Button) view.findViewById(R.id.orderTest);
-		orderTest.setOnClickListener(this);
-		//错题
-		error_Sub = (Button) view.findViewById(R.id.error_Sub);
-		error_Sub.setOnClickListener(this);
-		//随机练题
-		randomTest = (Button) view.findViewById(R.id.randomTest);
-		randomTest.setOnClickListener(this);
-		//模拟考试
-		examTest = (Button) view.findViewById(R.id.examTest);
-		examTest.setOnClickListener(this);
+		linearLayout1 = (LinearLayout) view.findViewById(R.id.linearlayout1);
+		linearLayout1.setOnClickListener(this);
+		linearLayout2 = (LinearLayout) view.findViewById(R.id.linearlayout2);
+		linearLayout2.setOnClickListener(this);
+		linearLayout3 = (LinearLayout) view.findViewById(R.id.linearlayout3);
+		linearLayout3.setOnClickListener(this);
+		linearLayout4 = (LinearLayout) view.findViewById(R.id.linearlayout4);
+		linearLayout4.setOnClickListener(this);
 		Bundle bundle = getArguments();
 
 		index = bundle.getInt("index");
@@ -56,28 +53,28 @@ public class License_Text_Fragment extends Fragment implements View.OnClickListe
 	public void onClick(View view) {
 		Intent intent = new Intent();
 		switch (view.getId()){
-			case R.id.orderTest:
+			case R.id.linearlayout1:
 				if(index==1){
 					intent.setClass(getActivity(),SubTestActivity.class);
 				}else if(index==4){
 					intent.setClass(getActivity(),SubFourTestActivity.class);
 				}
 				break;
-			case R.id.error_Sub://SubfourErrorTestActivity
+			case R.id.linearlayout4://SubfourErrorTestActivity
 				if(index==1){
 					intent.setClass(getActivity(),SubErrorTestActivity.class);
 				}else if(index==4){
 					intent.setClass(getActivity(),SubfourErrorTestActivity.class);
 				}
 				break;
-			case R.id.randomTest:
+			case R.id.linearlayout2:
 				if(index==1) {
 					intent.setClass(getActivity(), SubRandTestActivity.class);
 				}else if(index==4){
 					intent.setClass(getActivity(),SubFourRandTestActivity.class);
 				}
 				break;
-			case R.id.examTest:
+			case R.id.linearlayout3:
 				if(index==1) {
 					intent.setClass(getActivity(),SubExamTestActivity.class);
 				}else if(index==4){
