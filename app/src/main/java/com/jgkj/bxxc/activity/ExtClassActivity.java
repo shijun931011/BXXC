@@ -270,7 +270,7 @@ public class ExtClassActivity extends Activity implements View.OnClickListener, 
                     sort_btn1.setText("全城");
                     schId = 0;
                 }else{
-                    schId = schoolPlaceTotal.getResult().get(parentSelectposition).getResult().get(childrenSelectposition).getId();
+                    schId = schoolPlaceTotal.getResult().get(parentSelectposition).getResult().get(childrenSelectposition).getSid();
                     sort_btn1.setText(datialPlace[parentSelectposition][childrenSelectposition]);
                 }
             }else if (tag.equals("sort_btn2")){

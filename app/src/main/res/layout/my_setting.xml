@@ -128,6 +128,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
+                android:layout_marginLeft="50dp"
                 android:background="@color/background"/>
 
             <TextView
@@ -144,10 +145,31 @@
                 android:paddingRight="15dp"
                 android:paddingTop="10dp"
                 android:text="学车记录"/>
+
+            <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginLeft="50dp"
+            android:background="@color/background"/>
+
+            <TextView
+                android:id="@+id/tv_driving"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:drawableLeft="@drawable/driving"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/right_arrow"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:paddingTop="10dp"
+                android:text="陪练记录"/>
             <View android:layout_width="match_parent"
-                  android:layout_height="0.1dp"
-                  android:layout_marginTop="5dp"
-                  android:background="@color/background"/>
+                android:layout_height="0.1dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/background"/>
 
             <!-- 我的教练 -->
             <TextView

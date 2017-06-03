@@ -18,14 +18,14 @@ import java.util.List;
 /**
  * 我的教练适配器
  */
-public class PrivateCoachAdapter extends BaseAdapter {
+public class DrivingCoachAdapter extends BaseAdapter {
     private Context context;
     private List<CoachDetailAction.Result> list;
     private LayoutInflater inflater;
     private CoachDetailAction.Result coachDetailAction;
     private LinearLayout.LayoutParams wrapParams;
 
-    public PrivateCoachAdapter(Context context, List<CoachDetailAction.Result> list) {
+    public DrivingCoachAdapter(Context context, List<CoachDetailAction.Result> list) {
         this.context = context;
         this.list = list;
         inflater = LayoutInflater.from(context);
@@ -52,7 +52,7 @@ public class PrivateCoachAdapter extends BaseAdapter {
         ViewHolder viewHolder = null;
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = inflater.inflate(R.layout.coach_private_item, parent, false);
+            convertView = inflater.inflate(R.layout.coach_driving_item, parent, false);
             viewHolder.coachName = (TextView) convertView.findViewById(R.id.coachName);
             viewHolder.kemu = (ImageView) convertView.findViewById(R.id.kemu);
             viewHolder.place = (TextView) convertView.findViewById(R.id.place);

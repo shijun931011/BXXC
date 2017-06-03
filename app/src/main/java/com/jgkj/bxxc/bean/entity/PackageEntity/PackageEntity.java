@@ -18,6 +18,16 @@ public class PackageEntity {
 
     private String pic;
 
+    private String song;
+
+    public String getSong() {
+        return song;
+    }
+
+    public void setSong(String song) {
+        this.song = song;
+    }
+
     public String getPackageid() {
         return packageid;
     }

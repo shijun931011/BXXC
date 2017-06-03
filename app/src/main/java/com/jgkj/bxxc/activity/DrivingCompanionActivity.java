@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
+import com.jgkj.bxxc.adapter.DrivingCoachAdapter;
 import com.jgkj.bxxc.adapter.PrivateCoachAdapter;
 import com.jgkj.bxxc.bean.CoachDetailAction;
 import com.jgkj.bxxc.bean.SchoolPlaceTotal;
@@ -23,6 +24,7 @@ import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.tools.RefreshLayout;
 import com.jgkj.bxxc.tools.SelectPopupWindow;
 import com.jgkj.bxxc.tools.StatusBarCompat;
+import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -32,13 +34,13 @@ import java.util.List;
 import okhttp3.Call;
 
 /**
- * 私教班
+ * 陪驾班
  */
-public class PrivateClassActivity extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener,SwipeRefreshLayout.OnRefreshListener,
+public class DrivingCompanionActivity extends Activity implements View.OnClickListener, AdapterView.OnItemClickListener,SwipeRefreshLayout.OnRefreshListener,
         RefreshLayout.OnLoadListener {
     private TextView title;
     private Button button_backward;
-    private Button sort_btn1, sort_btn2, sort_btn3;      //全城   科目   综合
+    private Button sort_btn1,sort_btn3;      //全城   科目   综合
     private ListView listView;                           //教练排序展示
     private TextView textView;                           //暂无数据
     private RefreshLayout swipeLayout;                   //上拉刷新
@@ -62,18 +64,17 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
     private String[][] datialPlace;
     private int page = 1;
     private List<CoachDetailAction.Result> coachList = new ArrayList<>();
-    private PrivateCoachAdapter adapter;
-    private String[] sub = {"科目","科目二", "科目三"};
+    private DrivingCoachAdapter adapter;
     private String[] sortStr = {"综合排序","好评率","累计所带学员数"};
     private String class_type = "";
     private String sortString = "zonghe";
-    private String class_class = "私教班";
+    private String class_class = "陪驾";
     private int schId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_private_class);
+        setContentView(R.layout.activity_driving_class);
         StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
         getPlace();
@@ -87,12 +88,10 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
         button_backward.setVisibility(View.VISIBLE);
         button_backward.setOnClickListener(this);
         sort_btn1 = (Button) findViewById(R.id.coach_sort_btn1);
-        sort_btn2 = (Button) findViewById(R.id.coach_sort_btn2);
         sort_btn3 = (Button) findViewById(R.id.coach_sort_btn3);
         listView = (ListView) findViewById(R.id.widget_layout_item);
         textView = (TextView) findViewById(R.id.textView);
         sort_btn1.setOnClickListener(this);
-        sort_btn2.setOnClickListener(this);
         sort_btn3.setOnClickListener(this);
         listView.setOnItemClickListener(this);
         listView.setFocusable(false);
@@ -125,7 +124,7 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int i) {
-                        Toast.makeText(PrivateClassActivity.this, "网络状态不佳，请检查网络", Toast.LENGTH_LONG).show();
+                        Toast.makeText(DrivingCompanionActivity.this, "网络状态不佳，请检查网络", Toast.LENGTH_LONG).show();
                     }
                     @Override
                     public void onResponse(String s, int i) {
@@ -144,7 +143,7 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
             String string = bundle.getString("SEARCH");
             Gson gson = new Gson();
             CoachDetailAction coachDetailAction = gson.fromJson(string, CoachDetailAction.class);
-            adapter = new PrivateCoachAdapter(this, coachDetailAction.getResult());
+            adapter = new DrivingCoachAdapter(this, coachDetailAction.getResult());
             listView.setAdapter(adapter);
         } else {
             check();
@@ -182,20 +181,17 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
 
     //条件查询
     private void sort(String class_type, String school, String sort, String page, String class_class) {
-        Log.i("百姓学车","全城参数" + "class_type="+class_type + "   school_id=" + school + "   sort=" + sort + "   page=" + page + "   class_class=" + class_class);
         OkHttpUtils
                 .post()
-                .url(sortPath)
+                .url(Urls.peijia)
                 .addParams("school_id", school)
-                .addParams("class_type", class_type)
                 .addParams("sort", sort)
                 .addParams("page", page)
-                .addParams("class_class", class_class)
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int i) {
-                        Toast.makeText(PrivateClassActivity.this, "请检查网络", Toast.LENGTH_LONG).show();
+                        Toast.makeText(DrivingCompanionActivity.this, "请检查网络", Toast.LENGTH_LONG).show();
                     }
                     @Override
                     public void onResponse(String s, int i) {
@@ -238,7 +234,7 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
                     coachList.addAll(coachDetailAction.getResult());
                     adapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(PrivateClassActivity.this, coachDetailAction.getReason(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DrivingCompanionActivity.this, coachDetailAction.getReason(), Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -253,7 +249,7 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
         CoachDetailAction coachDetailAction = gson.fromJson(tag, CoachDetailAction.class);
         if (coachDetailAction.getCode() == 200) {
             coachList.addAll(coachDetailAction.getResult());
-            adapter = new PrivateCoachAdapter(this, coachList);
+            adapter = new DrivingCoachAdapter(this, coachList);
             listView.setAdapter(adapter);
         } else {
             swipeLayout.setVisibility(View.GONE);
@@ -275,8 +271,6 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
                     schId = schoolPlaceTotal.getResult().get(parentSelectposition).getResult().get(childrenSelectposition).getSid();
                     sort_btn1.setText(datialPlace[parentSelectposition][childrenSelectposition]);
                 }
-            }else if (tag.equals("sort_btn2")){
-                sort_btn2.setText(sub[parentSelectposition]);
             }else if (tag.equals("sort_btn3")){
                 sortString = sortStr[parentSelectposition];
                 sort_btn3.setText(sortStr[parentSelectposition]);
@@ -293,7 +287,7 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         TextView coachId = (TextView) view.findViewById(R.id.coachId);
         Intent intent = new Intent();
-        intent.setClass(this, ReservationForPrivateActivity.class);
+        intent.setClass(this, ReservationForDrivingActivity.class);
         intent.putExtra("coachId", coachId.getText().toString().trim());
         intent.putExtra("uid", uid);
         intent.putExtra("token", token);
@@ -329,7 +323,6 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
                 page = 1;
                 swipeLayout.setTag("ONFRESH");
                 sort_btn1.setText("全城");
-                sort_btn2.setText("科目");
                 sort_btn3.setText("综合排序");
                 check();
                 sort(class_type, schId + "", sortString, page + "", class_class);
@@ -339,9 +332,6 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
     }
 
     private void check() {
-        if (!sort_btn2.getText().toString().trim().equals("科目")) {
-            class_type = sort_btn2.getText().toString().trim()+"教练";
-        }
         if (sort_btn3.getText().toString().trim().equals("综合排序")) {
             sortString = "zonghe";
         } else {
@@ -363,14 +353,6 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
             case R.id.button_backward:
                 finish();
                 break;
-            case R.id.coach_sort_btn2:           //科目
-                tag = "sort_btn2";
-                if (mPopupWindowSub == null) {
-                    mPopupWindowSub = new SelectPopupWindow(sub, null,this,
-                            selectCategory);
-                }
-                mPopupWindowSub.showAsDropDown(sort_btn1, -5, 1);
-                break;
             case R.id.coach_sort_btn1:          //全城
                 tag = "sort_btn1";
                 if (datialPlace == null) {
@@ -380,7 +362,7 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
                     if (mPopupWindowCampus == null) {
                         mPopupWindowCampus = new SelectPopupWindow(city, datialPlace, this, selectCategory);
                     }
-                    mPopupWindowCampus.showAsDropDown(sort_btn2, -5, 1);
+                    mPopupWindowCampus.showAsDropDown(sort_btn1, -5, 1);
                 }
                 break;
             case R.id.coach_sort_btn3:            //综合

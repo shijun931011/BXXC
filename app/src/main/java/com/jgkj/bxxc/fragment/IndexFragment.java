@@ -30,6 +30,7 @@ import com.jgkj.bxxc.activity.BXCenterActivity;
 import com.jgkj.bxxc.activity.CarPickUpActivity;
 import com.jgkj.bxxc.activity.ClassTypeActivity;
 import com.jgkj.bxxc.activity.ClassicActivity;
+import com.jgkj.bxxc.activity.DrivingCompanionActivity;
 import com.jgkj.bxxc.activity.HeadlinesActivity;
 import com.jgkj.bxxc.activity.HomeActivity;
 import com.jgkj.bxxc.activity.InviteFriendsActivity;
@@ -84,7 +85,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
     private TextView lookMore;
     private ImageView imageView, KefuPhone;
     private RelativeLayout select_coach, select_place,select_class;//教练、 场地、 班型
-    private LinearLayout yQfirend,classic_coach,private_coach;
+    private LinearLayout yQfirend,classic_coach,private_coach,linear_driving_companion;
     private AutoTextView headlines;
     //图片地址
     private String url = "http://www.baixinxueche.com/index.php/Home/Apitoken/bannerpics";
@@ -153,6 +154,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
         yQfirend = (LinearLayout) view.findViewById(R.id.yQfirend);
         classic_coach = (LinearLayout) view.findViewById(R.id.classic_coach);
         private_coach = (LinearLayout) view.findViewById(R.id.private_coach);
+        linear_driving_companion = (LinearLayout) view.findViewById(R.id.linear_driving_companion);
         headlines.setOnClickListener(this);
         bxhead.setOnClickListener(this);
         select_place.setOnClickListener(this);
@@ -165,6 +167,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
         use_guide.setOnClickListener(this);
         classic_coach.setOnClickListener(this);
         private_coach.setOnClickListener(this);
+        linear_driving_companion.setOnClickListener(this);
         car_pickup.setCompoundDrawables(null, carpick, null, null);
         bxCenter.setCompoundDrawables(null, bxcenter, null, null);
         quesAns.setCompoundDrawables(null, question, null, null);
@@ -433,6 +436,16 @@ public class IndexFragment extends Fragment implements OnClickListener {
                     startActivity(intent);
                 }else{
                     intent.setClass(getActivity(),InviteFriendsActivity.class);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.linear_driving_companion:            //陪驾
+                if (userInfo == null){
+                    intent.setClass(getActivity(), LoginActivity.class);
+                    intent.putExtra("message","drivingCompanion");
+                    startActivity(intent);
+                }else{
+                    intent.setClass(getActivity(),DrivingCompanionActivity.class);
                     startActivity(intent);
                 }
                 break;

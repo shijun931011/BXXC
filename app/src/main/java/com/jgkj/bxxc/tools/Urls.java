@@ -72,5 +72,16 @@ public class Urls {
     //首页轮播图
     public static String bannerpicsands = "http://www.baixinxueche.com/index.php/Home/Apitoken/bannerpicsands";
 
+    //陪驾
+    public static String peijia = "http://www.baixinxueche.com/index.php/Home/Apitokenpj/peijia";
+
+    //陪练的教练详情页
+    public static String pjcoach = "http://www.baixinxueche.com/index.php/Home/Apitokenpj/pjcoach";
+
+    //陪驾记录
+    public static String pjShowApply = "http://www.baixinxueche.com/index.php/Home/Apitokenpj/pjShowApply";
+
+    //未陪驾记录
+    public static String pjShowApplyNotTo = "http://www.baixinxueche.com/index.php/Home/Apitokenpj/pjShowApplyNotTo";
 
 }

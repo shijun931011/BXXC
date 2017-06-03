@@ -362,7 +362,7 @@ public class ClassicActivity extends Activity implements View.OnClickListener,Ad
                     sort_btn2.setText("全城");
                     schId = 0;
                 }else{
-                    schId = schoolPlaceTotal.getResult().get(parentSelectposition).getResult().get(childrenSelectposition).getId();
+                    schId = schoolPlaceTotal.getResult().get(parentSelectposition).getResult().get(childrenSelectposition).getSid();
                     sort_btn2.setText(datialPlace[parentSelectposition][childrenSelectposition]);
                 }
             } else if (tag.equals("sort_btn3")) {

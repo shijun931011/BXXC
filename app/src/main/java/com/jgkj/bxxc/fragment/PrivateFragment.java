@@ -174,6 +174,7 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
     private void addAdapter() {
         Gson gson = new Gson();
         String str = listView.getTag().toString();
+        Log.i("百姓学车","校区地址" + str);
         schoolPlaceTotal = gson.fromJson(str, SchoolPlaceTotal.class);
         setPup(schoolPlaceTotal.getResult());
     }
@@ -288,7 +289,8 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
                     sort_btn1.setText("全城");
                     schId = 0;
                 }else{
-                    schId = schoolPlaceTotal.getResult().get(parentSelectposition).getResult().get(childrenSelectposition).getId();
+                    Log.i("百姓学车","parentSelectposition = " + parentSelectposition + "   childrenSelectposition" + childrenSelectposition);
+                    schId = schoolPlaceTotal.getResult().get(parentSelectposition).getResult().get(childrenSelectposition).getSid();
                     sort_btn1.setText(datialPlace[parentSelectposition][childrenSelectposition]);
                 }
             }else if (tag.equals("sort_btn2")){

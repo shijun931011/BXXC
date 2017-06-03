@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -25,10 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -41,7 +37,6 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
-import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.bumptech.glide.Glide;
@@ -50,7 +45,6 @@ import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.adapter.CoachFullDetailAdapter;
 import com.jgkj.bxxc.bean.CoachInfo;
 import com.jgkj.bxxc.bean.SchoolPlaceTotal;
-import com.jgkj.bxxc.bean.StuEvaluation;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.bean.entity.CommentEntity.CommentEntity;
 import com.jgkj.bxxc.bean.entity.CommentEntity.CommentResult;
@@ -58,6 +52,7 @@ import com.jgkj.bxxc.tools.CallDialog;
 import com.jgkj.bxxc.tools.MyOrientationListener;
 import com.jgkj.bxxc.tools.RefreshLayout;
 import com.jgkj.bxxc.tools.StatusBarCompat;
+import com.jgkj.bxxc.tools.Urls;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
@@ -74,11 +69,10 @@ import okhttp3.Call;
 
 
 /**
- * Created by fangzhou on 2016/10/29.
  * 教练个人简介和显示部分学员评价，
  * 可以进行，对教练的收藏和分享
  */
-public class ReservationForPrivateActivity extends Activity implements OnClickListener, SwipeRefreshLayout.OnRefreshListener,
+public class ReservationForDrivingActivity extends Activity implements OnClickListener, SwipeRefreshLayout.OnRefreshListener,
         RefreshLayout.OnLoadListener {
     private CoachFullDetailAdapter adapter;
     private ListView listView;
@@ -175,10 +169,10 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.reservation);
         StatusBarCompat.compat(this, Color.parseColor("#37363C"));
-        headView = getLayoutInflater().inflate(R.layout.coach_head_private, null);
+        headView = getLayoutInflater().inflate(R.layout.coach_head_driving, null);
         init();
         //initMap();
-        getData(coachId, coachUrl);
+        getData(coachId, Urls.pjcoach);
         bitmapA = BitmapDescriptorFactory.fromResource(R.drawable.a2);
     }
     /**
@@ -252,24 +246,24 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
 //        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
 //                mCurrentMode, true, mCurrentMarker));
 //        mLocClient.start();
-
-        //设置指定定位坐标
-        point = new LatLng(Double.parseDouble(lantitude), Double.parseDouble(longitude));
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.yaogan);
-        OverlayOptions options = new MarkerOptions().icon(icon).position(point);
-        mBaiduMap.addOverlay(options);
-        //设定中心点坐标
-        //LatLng cenpt = new LatLng(30.663791,104.07281);
-        //定义地图状态
-        MapStatus mMapStatus = new MapStatus.Builder()
-                .target(point)
-                .zoom(16)
-                .build();
-        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
-
-        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-        //改变地图状态
-        mBaiduMap.setMapStatus(mMapStatusUpdate);
+//
+//        //设置指定定位坐标
+//        point = new LatLng(Double.parseDouble(lantitude), Double.parseDouble(longitude));
+//        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.yaogan);
+//        OverlayOptions options = new MarkerOptions().icon(icon).position(point);
+//        mBaiduMap.addOverlay(options);
+//        //设定中心点坐标
+//        //LatLng cenpt = new LatLng(30.663791,104.07281);
+//        //定义地图状态
+//        MapStatus mMapStatus = new MapStatus.Builder()
+//                .target(point)
+//                .zoom(16)
+//                .build();
+//        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+//
+//        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+//        //改变地图状态
+//        mBaiduMap.setMapStatus(mMapStatusUpdate);
 
     }
 
@@ -321,7 +315,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
             double latitude = Double.parseDouble(listSch.get(index).getLatitude());
             double longitude = Double.parseDouble(listSch.get(index).getLongitude());
             if (latLng.latitude == latitude && latLng.longitude == longitude) {
-                Button button = new Button(ReservationForPrivateActivity.this
+                Button button = new Button(ReservationForDrivingActivity.this
                         .getApplicationContext());
                 button.setBackgroundResource(R.drawable.qipao);
                 button.setTextColor(getResources().getColor(R.color.black));
@@ -378,7 +372,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int i) {
-                        Toast.makeText(ReservationForPrivateActivity.this, "加载失败", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ReservationForDrivingActivity.this, "加载失败", Toast.LENGTH_LONG).show();
                     }
                     @Override
                     public void onResponse(String s, int i) {
@@ -397,7 +391,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                                     !path.endsWith(".GIF") && !path.endsWith(".PNG") && !path.endsWith(".JPG") && !path.endsWith(".gif")) {
                                 coach_head.setImageResource(R.drawable.coach_pic);
                             } else {
-                                Glide.with(ReservationForPrivateActivity.this).load(result.getFile()).placeholder(R.drawable.coach_pic).error(R.drawable.coach_pic).into(coach_head);
+                                Glide.with(ReservationForDrivingActivity.this).load(result.getFile()).placeholder(R.drawable.coach_pic).error(R.drawable.coach_pic).into(coach_head);
                             }
                             totalStu.setText("累计学员数" + result.getCount_stu() + "人");
                             place.setText("校区：" + result.getFaddress());
@@ -415,21 +409,21 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                             zhonghe.removeAllViews();
                             fuwu.removeAllViews();
                             for (int k = 0; k < zhonghenum; k++) {
-                                ImageView image = new ImageView(ReservationForPrivateActivity.this);
+                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
                                 image.setBackgroundResource(R.drawable.star1);
                                 LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
                                 image.setLayoutParams(wrapParams);
                                 zhonghe.addView(image);
                             }
                             for (int k = 0; k < teachnum; k++) {
-                                ImageView image = new ImageView(ReservationForPrivateActivity.this);
+                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
                                 image.setBackgroundResource(R.drawable.star1);
                                 LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
                                 image.setLayoutParams(wrapParams);
                                 zhiliang.addView(image);
                             }
                             for (int k = 0; k < waitnum; k++) {
-                                ImageView image = new ImageView(ReservationForPrivateActivity.this);
+                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
                                 image.setBackgroundResource(R.drawable.star1);
                                 LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
                                 image.setLayoutParams(wrapParams);
@@ -443,13 +437,13 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                             if(listStu.size() == 0){
                                 linear_list_noData.setVisibility(View.VISIBLE);
                             }
-                            CoachFullDetailAdapter adapter = new CoachFullDetailAdapter(ReservationForPrivateActivity.this, listStu);
+                            CoachFullDetailAdapter adapter = new CoachFullDetailAdapter(ReservationForDrivingActivity.this, listStu);
                             listView.setAdapter(adapter);
 
                             initMap(result.getLatitude(),result.getLongitude());
 
                         } else {
-                            Toast.makeText(ReservationForPrivateActivity.this, "没有更多的！", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ReservationForDrivingActivity.this, "没有更多的！", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -526,7 +520,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                              @Override
                              public void onError(Call call, Exception e, int i) {
                                  progressDialog.dismiss();
-                                 Toast.makeText(ReservationForPrivateActivity.this, "网络状态不佳，请稍后再试。", Toast.LENGTH_LONG).show();
+                                 Toast.makeText(ReservationForDrivingActivity.this, "网络状态不佳，请稍后再试。", Toast.LENGTH_LONG).show();
                              }
 
                              @Override
@@ -534,9 +528,9 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                                  progressDialog.dismiss();
                                  Gson gson = new Gson();
                                  Result result = gson.fromJson(s, Result.class);
-                                 Toast.makeText(ReservationForPrivateActivity.this, result.getReason(), Toast.LENGTH_LONG).show();
+                                 Toast.makeText(ReservationForDrivingActivity.this, result.getReason(), Toast.LENGTH_LONG).show();
                                  if (result.getCode() == 200) {
-                                     Toast.makeText(ReservationForPrivateActivity.this, result.getReason(), Toast.LENGTH_SHORT).show();
+                                     Toast.makeText(ReservationForDrivingActivity.this, result.getReason(), Toast.LENGTH_SHORT).show();
                                      finish();
                                  }
                              }
@@ -565,14 +559,15 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
 
                     if (userInfo == null) {
                         Intent intent2 = new Intent();
-                        intent2.setClass(ReservationForPrivateActivity.this, LoginActivity.class);
+                        intent2.setClass(ReservationForDrivingActivity.this, LoginActivity.class);
                         intent2.putExtra("message","reservation");
                         startActivity(intent2);
                     } else {
                         Intent intent2 = new Intent();
-                        intent2.setClass(ReservationForPrivateActivity.this, ReservationDetailActivity.class);
+                        intent2.setClass(ReservationForDrivingActivity.this, ReservationDetailActivity.class);
                         intent2.putExtra("uid",userInfo.getResult().getUid());
                         intent2.putExtra("token",token);
+                        intent2.putExtra("flag","flag");
                         intent2.putExtra("coachInfo", signup_Coach.getTag().toString());
                         startActivity(intent2);
                     }
@@ -583,12 +578,12 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                     userInfo = gson.fromJson(str, UserInfo.class);
                     if (userInfo == null) {
                         Intent intent2 = new Intent();
-                        intent2.setClass(ReservationForPrivateActivity.this, LoginActivity.class);
+                        intent2.setClass(ReservationForDrivingActivity.this, LoginActivity.class);
                         intent2.putExtra("message","modifyCoach");
                         startActivity(intent2);
                         finish();
                     } else {
-                        progressDialog = ProgressDialog.show(ReservationForPrivateActivity.this, null, "修改中...");
+                        progressDialog = ProgressDialog.show(ReservationForDrivingActivity.this, null, "修改中...");
                         changeCoach(userInfo.getResult().getUid() + "");
                     }
                 }
@@ -607,7 +602,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                  *       请在各大平台上注册并完善debug和正式版本的信息填写，然后更换此项目的appkey
                  *
                  */
-                image = new UMImage(ReservationForPrivateActivity.this, coach_head.getTag().toString());
+                image = new UMImage(ReservationForDrivingActivity.this, coach_head.getTag().toString());
 
                 new ShareAction(this).setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
                         .withText("科技改变生活，百信引领学车！百信学车在这里向您分享我们这里最优秀的教练"+coach_name.getText().toString())
@@ -626,11 +621,11 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
      * @param i 表示是展示4个承诺还是服务费用
      */
     private void createDialog(int i) {
-        dialog = new Dialog(ReservationForPrivateActivity.this, R.style.ActionSheetDialogStyle);
+        dialog = new Dialog(ReservationForDrivingActivity.this, R.style.ActionSheetDialogStyle);
         if (i == 0) {
-            dialogView = LayoutInflater.from(ReservationForPrivateActivity.this).inflate(R.layout.coststhat, null);
+            dialogView = LayoutInflater.from(ReservationForDrivingActivity.this).inflate(R.layout.coststhat, null);
         } else if (i == 1) {
-            dialogView = LayoutInflater.from(ReservationForPrivateActivity.this).inflate(R.layout.fourpromise, null);
+            dialogView = LayoutInflater.from(ReservationForDrivingActivity.this).inflate(R.layout.fourpromise, null);
         }
         Button btn = (Button) dialogView.findViewById(R.id.dialog_sure);
         btn.setOnClickListener(new OnClickListener() {
@@ -662,17 +657,17 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
     private UMShareListener shareListener = new UMShareListener() {
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(ReservationForPrivateActivity.this, platform + " 分享成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ReservationForDrivingActivity.this, platform + " 分享成功", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(ReservationForPrivateActivity.this, platform + " 分享失败", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ReservationForDrivingActivity.this, platform + " 分享失败", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            Toast.makeText(ReservationForPrivateActivity.this, platform + " 分享取消", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ReservationForDrivingActivity.this, platform + " 分享取消", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -697,7 +692,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int i) {
-                        Toast.makeText(ReservationForPrivateActivity.this, "加载失败", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ReservationForDrivingActivity.this, "加载失败", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -721,7 +716,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
             }
             listView.setFocusable(false);
             // 实例化listView显示学员的评价
-            CoachFullDetailAdapter adapter = new CoachFullDetailAdapter(ReservationForPrivateActivity.this, listStu);
+            CoachFullDetailAdapter adapter = new CoachFullDetailAdapter(ReservationForDrivingActivity.this, listStu);
             listView.setAdapter(adapter);
         } else {
 //            Toast.makeText(ReservationForPrivateActivity.this, coachInfo.getReason(), Toast.LENGTH_SHORT).show();

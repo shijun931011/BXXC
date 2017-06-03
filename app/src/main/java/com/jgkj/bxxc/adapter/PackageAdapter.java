@@ -67,7 +67,7 @@ public class PackageAdapter extends BaseAdapter {
         viewHolder.tv_pakage.setText(list.get(position).getPackagename());
         viewHolder.tv_buy.setText("￥" + list.get(position).getCountmoney());
         viewHolder.tv_buy_old.setText("原价：￥" + Calculation(list.get(position).getClasshour(),list.get(position).getClassmoney()));
-        viewHolder.tv_time.setText("所含课时数" + list.get(position).getClasshour());
+        viewHolder.tv_time.setText("所含课时数" + list.get(position).getClasshour() + list.get(position).getSong());
 
         return convertView;
     }

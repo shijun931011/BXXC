@@ -132,7 +132,6 @@ public class ClassTypeActivity extends Activity implements View.OnClickListener{
                 intent.setClass(this,VipClassActivity.class);
                 startActivity(intent);
                 break;
-
         }
 
     }

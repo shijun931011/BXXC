@@ -51,6 +51,16 @@ public class CoachDetailAction implements Serializable {
 		//所带学员数
 		private String stunum;
 
+		private String  clastatus;
+
+		public String getClastatus() {
+			return clastatus;
+		}
+
+		public void setClastatus(String clastatus) {
+			this.clastatus = clastatus;
+		}
+
 		public String getClass_class() {
 			return class_class;
 		}

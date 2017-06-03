@@ -51,6 +51,7 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
     private String token;
     private String cid;
     private String coachInfo = null;
+    private String flag;
     //标题
     private TextView title;
     private Button button_backward;
@@ -144,6 +145,7 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
 
         Intent intent = getIntent();
         uid = intent.getIntExtra("uid",uid);
+        flag = intent.getStringExtra("flag");
         coachInfo = intent.getStringExtra("coachInfo");
         token = intent.getStringExtra("token");
 
@@ -333,8 +335,13 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                 listView.setAdapter(adapter);
                 break;
             case R.id.button_forward:
-                new RemainBaseDialog(ReservationDetailActivity.this,"每次预约以两个学时起，您可以根据实际需求，选购学时套餐，预约您的心意教练，" +
-                        "体验高品质的驾培服务。您需要注意：如果约车已经下单，但有突发事件不能如时赴约，请在约定时间两小时前申请取消，否则将视为您的约车行为已经实施，不能退款。").call();
+                if(flag == null){
+                    new RemainBaseDialog(ReservationDetailActivity.this,"每次预约以3个学时起(1学时40分钟)，您可以根据实际需求，选购学时套餐，预约您的心仪的教练，" +
+                            "体验高品质的驾培服务。您需要注意：如果约车已经下单，但有突发事件不能如时赴约，请在约定时间两小时前申请取消，否则将视为您的约车行为已经实施，不退还所消耗的学时").call();
+                }else{
+                    new RemainBaseDialog(ReservationDetailActivity.this,"预约陪练服务，必须出示本人的驾驶证件！没有驾驶证请勿预约，否则概不退换所消耗的学时套餐！" +
+                            "每次预约以3个学时起(1学时40分钟)，您可以根据实际需求，选购学时套餐，预约您的心仪的教练，体验高品质的陪练服务。您需要注意：如果约车已经下单，但有突发事件不能如时赴约，请在约定时间两小时前申请取消，否则将视为您的约车行为已经实施，不退还所消耗的学时。").call();
+                }
                 break;
             case R.id.button_backward:
                 finish();

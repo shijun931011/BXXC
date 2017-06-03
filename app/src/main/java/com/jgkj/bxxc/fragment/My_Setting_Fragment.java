@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
+import com.jgkj.bxxc.activity.DrivingHisActivity;
 import com.jgkj.bxxc.activity.HomeActivity;
 import com.jgkj.bxxc.activity.LearnHisActivity;
 import com.jgkj.bxxc.activity.LearnProActivity;
@@ -109,7 +110,7 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
     private String refreashOldUrl = "http://www.baixinxueche.com/index.php/Home/Api/refresh";
     private String uploadImageUrl = "http://www.baixinxueche.com/index.php/Home/Apiinfotoken/get_file";
     private long random,random1=0;
-    private TextView learnRecord;
+    private TextView learnRecord,tv_driving;
     private TextView myactivity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -127,6 +128,8 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
     private void init() {
         learnRecord = (TextView) view.findViewById(R.id.learn_record);
         learnRecord.setOnClickListener(this);
+        tv_driving = (TextView) view.findViewById(R.id.tv_driving);
+        tv_driving.setOnClickListener(this);
         choose_headImage = (ImageView) view.findViewById(R.id.choose_headImage);
         userNick = (TextView) view.findViewById(R.id.userNick);
         myactivity = (TextView) view.findViewById(R.id.myactivity);
@@ -381,6 +384,17 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
                     startActivity(intent);
                 } else {
                     intent.setClass(getActivity(), LearnProActivity.class);
+                    intent.putExtra("token", token);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.tv_driving:           //陪练
+                if (!isLogined) {
+                    intent.setClass(getActivity(),LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    intent.setClass(getActivity(), DrivingHisActivity.class);
+                    intent.putExtra("uid", result.getUid());
                     intent.putExtra("token", token);
                     startActivity(intent);
                 }
