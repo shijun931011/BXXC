@@ -20,6 +20,16 @@ public class ReservationDetailResult {
 
     private int nowstudent;
 
+    private String flag;
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
+
     private List<Subject> subject;
 
     private List<Stusubject> stusubject;

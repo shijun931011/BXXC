@@ -89,11 +89,11 @@ public class PrivateCoachAdapter extends BaseAdapter {
         viewHolder.goodPrise.setHint(coachDetailAction.getPraise()+"%");
         viewHolder.coachId.setText(coachDetailAction.getCid()+"");
 
-//        if (coachDetailAction.getClass_type().equals("科目二教练") ){
-//            viewHolder.kemu.setImageResource(R.drawable.kemu);
-//        }else if(coachDetailAction.getClass_type().equals("科目三教练") ){
-//            viewHolder.kemu.setImageResource(R.drawable.kemu3);
-//        }
+        if (coachDetailAction.getClass_type().equals("科目二教练") ){
+            viewHolder.kemu.setImageResource(R.drawable.kemu);
+        }else if(coachDetailAction.getClass_type().equals("科目三教练") ){
+            viewHolder.kemu.setImageResource(R.drawable.kemu3);
+        }
 
         viewHolder.tv_stunum.setText("累计所带学员" + coachDetailAction.getClastatus() + "人");
 

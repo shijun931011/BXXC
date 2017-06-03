@@ -53,6 +53,7 @@ public class ReservationDetailAdapter extends BaseAdapter {
     private int uid;
     private String token;
     private String cid;
+    private String flag_class;
     private ListView listView;
 
     //时间段
@@ -64,7 +65,7 @@ public class ReservationDetailAdapter extends BaseAdapter {
     //记住取消预约点击的位置
     private List<String> positionCancelList = new ArrayList<>();
 
-    public ReservationDetailAdapter(Context context, List<Subject> list,List<Stusubject> stuList,String price,String address,String day,int uid,String token,String cid){
+    public ReservationDetailAdapter(Context context, List<Subject> list,List<Stusubject> stuList,String price,String address,String day,int uid,String token,String cid,String flag_class){
         this.context = context;
         this.list = list;
         this.stuList = stuList;
@@ -74,6 +75,7 @@ public class ReservationDetailAdapter extends BaseAdapter {
         this.uid = uid;
         this.cid = cid;
         this.token = token;
+        this.flag_class = flag_class;
         inflater = LayoutInflater.from(context);
     }
 
@@ -105,6 +107,7 @@ public class ReservationDetailAdapter extends BaseAdapter {
             viewHolder.tv_timeslot = (TextView) convertView.findViewById(R.id.tv_time);
             viewHolder.tv_time_number = (TextView) convertView.findViewById(R.id.tv_time_number);
             viewHolder.tv_price = (TextView) convertView.findViewById(R.id.tv_price);
+            viewHolder.tv_subjectName = (TextView) convertView.findViewById(R.id.tv_subjectName);
             viewHolder.tv_address = (TextView) convertView.findViewById(R.id.tv_address);
             viewHolder.btn_reservation = (Button) convertView.findViewById(btn_reservation);
             convertView.setTag(viewHolder);
@@ -113,11 +116,12 @@ public class ReservationDetailAdapter extends BaseAdapter {
         }
 
         viewHolder.tv_timeslot.setText(list.get(position).getTimeslot());
-        viewHolder.tv_time_number.setText(list.get(position).getClasshour() + "课时");
+        viewHolder.tv_time_number.setText(list.get(position).getClasshour() + "学时");
 
         DecimalFormat df = new DecimalFormat("#.00");
         viewHolder.tv_price.setText("￥ " + df.format(Float.parseFloat(price)*list.get(position).getClasshour()));
         viewHolder.tv_address.setText(address);
+        viewHolder.tv_subjectName.setText(flag_class);
 
         if(list.get(position).getCount() == 0){
             if(!checkPosition(positionList,position)){
@@ -184,6 +188,7 @@ public class ReservationDetailAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
+        public TextView tv_subjectName;
         public TextView tv_timeslot;
         public TextView tv_time_number;
         public TextView tv_price;
