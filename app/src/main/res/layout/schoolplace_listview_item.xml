@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="27dp"
             android:gravity="center_vertical"
-            android:text="经开区-蜀山校区"
+            android:text="蜀山校区"
             android:textColor="#FF8000"/>
         <TextView android:id="@+id/place"
                   android:layout_width="wrap_content"

@@ -93,7 +93,7 @@ public class ReservationForDrivingActivity extends Activity implements OnClickLi
      */
     private View mListViewFooter;
     UMImage image;
-    String url = "http://www.baixinxueche.com/index.php/Home/Coach/detail.html?pid=";
+    String url = "http://www.baixinxueche.com/index.php/Home/Info/indexs.html?pid=";
     private int commentPage = 0;
     private TextView signup_Coach;
     private ImageView coach_head, share;

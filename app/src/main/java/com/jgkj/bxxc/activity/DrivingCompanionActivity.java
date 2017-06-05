@@ -338,8 +338,7 @@ public class DrivingCompanionActivity extends Activity implements View.OnClickLi
             String string = sort_btn3.getText().toString().trim();
             if (string.equals("综合排序")) {
                 sortString = "zonghe";
-            }else if (string.equals("好评率")) {
-                sortString = "praise";
+                  sortString = "praise";
             }else if (string.equals("累计所带学员数")) {
                 sortString = "leiji";
             }

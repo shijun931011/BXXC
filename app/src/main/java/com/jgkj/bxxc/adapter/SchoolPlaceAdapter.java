@@ -70,7 +70,7 @@ public class SchoolPlaceAdapter extends BaseAdapter {
             viewHolder.CityName.setText(result.getSname()+"(默认标记)");
         }
 
-        viewHolder.schId.setText(result.getId() + "");
+        viewHolder.schId.setText(result.getSid() + "");
         viewHolder.place.setText(result.getFaddress());
         viewHolder.distance.setText(result.getDistance());
         String path = result.getSfile();
