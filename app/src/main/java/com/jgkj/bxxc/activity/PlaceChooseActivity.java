@@ -598,6 +598,7 @@ public class PlaceChooseActivity extends Activity implements OnClickListener, Ad
         @Override
         public void selectCategory(Integer parentSelectposition, Integer childrenSelectposition) {
             String sid = schoolPlaceTotal.getResult().get(parentSelectposition).getSid();
+            place.setText(city[parentSelectposition]);
             setMyAdapter(sid);
         }
     };
