@@ -161,6 +161,7 @@ public class ReservationForDrivingActivity extends Activity implements OnClickLi
 
     private LinearLayout linear_list_noData;
     private CoachInfo.Result result;
+    private boolean falg = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -437,9 +438,9 @@ public class ReservationForDrivingActivity extends Activity implements OnClickLi
                             if(listStu.size() == 0){
                                 linear_list_noData.setVisibility(View.VISIBLE);
                             }
-                            CoachFullDetailAdapter adapter = new CoachFullDetailAdapter(ReservationForDrivingActivity.this, listStu);
+                            adapter = new CoachFullDetailAdapter(ReservationForDrivingActivity.this, listStu);
                             listView.setAdapter(adapter);
-
+                            falg = true;
                             initMap(result.getLatitude(),result.getLongitude());
 
                         } else {
@@ -714,10 +715,9 @@ public class ReservationForDrivingActivity extends Activity implements OnClickLi
             if(listStu.size() == 0){
                 linear_list_noData.setVisibility(View.VISIBLE);
             }
-            listView.setFocusable(false);
+            //listView.setFocusable(false);
             // 实例化listView显示学员的评价
-            CoachFullDetailAdapter adapter = new CoachFullDetailAdapter(ReservationForDrivingActivity.this, listStu);
-            listView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         } else {
 //            Toast.makeText(ReservationForPrivateActivity.this, coachInfo.getReason(), Toast.LENGTH_SHORT).show();
         }
@@ -728,7 +728,12 @@ public class ReservationForDrivingActivity extends Activity implements OnClickLi
         swipeLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-                commentPage++;
+                if(falg == true){
+                    commentPage = 2;
+                    falg = false;
+                }else{
+                    commentPage++;
+                }
                 getComment(commentUrl);
                 swipeLayout.setLoading(false);
             }
@@ -741,9 +746,9 @@ public class ReservationForDrivingActivity extends Activity implements OnClickLi
 
             @Override
             public void run() {
-//                commentPage = 1;
-//                listStu.clear();
-//                getComment(commentUrl);
+                commentPage = 1;
+                listStu.clear();
+                getComment(commentUrl);
                 swipeLayout.setRefreshing(false);
 
             }

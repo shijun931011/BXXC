@@ -165,6 +165,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
     private TextView noSmsData;
     private LinearLayout linear_list_noData;
     private CoachInfo.Result result;
+    private boolean falg = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -476,9 +477,9 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                             if(listStu.size() == 0){
                                 linear_list_noData.setVisibility(View.VISIBLE);
                             }
-                            CoachFullDetailAdapter adapter = new CoachFullDetailAdapter(ReservationActivity.this, listStu);
+                            adapter = new CoachFullDetailAdapter(ReservationActivity.this, listStu);
                             listView.setAdapter(adapter);
-
+                            falg = true;
                             initMap(result.getLatitude(),result.getLongitude());
 
                         } else {
@@ -701,12 +702,12 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         if (coachInfo.getCode() == 200) {
             //listView.setFocusable(false);
             // 实例化listView显示学员的评价
-            listStu = coachInfo.getResult();
+            //listStu = coachInfo.getResult();
+            listStu.addAll(coachInfo.getResult());
             if(listStu.size() == 0){
                 linear_list_noData.setVisibility(View.VISIBLE);
             }
-            CoachFullDetailAdapter adapter = new CoachFullDetailAdapter(ReservationActivity.this, listStu);
-            listView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         } else {
 //            Toast.makeText(ReservationActivity.this, coachInfo.getReason(), Toast.LENGTH_SHORT).show();
         }
@@ -717,7 +718,12 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         swipeLayout.postDelayed(new Runnable() {
             @Override
             public void run() {
-                commentPage++;
+                if(falg == true){
+                    commentPage = 2;
+                    falg = false;
+                }else{
+                    commentPage++;
+                }
                 getComment(commentUrl);
                 swipeLayout.setLoading(false);
             }
@@ -730,11 +736,10 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
 
             @Override
             public void run() {
-//                commentPage = 1;
-//                listStu.clear();
-//                getComment(commentUrl);
+                commentPage = 1;
+                listStu.clear();
+                getComment(commentUrl);
                 swipeLayout.setRefreshing(false);
-
             }
         }, 2000);
     }
