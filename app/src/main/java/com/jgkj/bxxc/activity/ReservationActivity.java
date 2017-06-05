@@ -673,6 +673,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
     }
 
     private void getComment(String comment) {
+        Log.i("百信学车","评论参数" +"page=" + commentPage + "   cid=" + coachId);
         OkHttpUtils
                 .post()
                 .url(comment)
@@ -687,6 +688,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
 
                     @Override
                     public void onResponse(String s, int i) {
+                        Log.i("百信学车","评论结果" + s);
                         listView.setTag(s);
                         if (listView.getTag() != null) {
                             setCom();

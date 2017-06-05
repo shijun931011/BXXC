@@ -684,6 +684,7 @@ public class ReservationForDrivingActivity extends Activity implements OnClickLi
     }
 
     private void getComment(String comment) {
+        Log.i("百信学车","评论参数" +"page=" + commentPage + "   cid=" + coachId);
         OkHttpUtils
                 .post()
                 .url(comment)
@@ -698,6 +699,7 @@ public class ReservationForDrivingActivity extends Activity implements OnClickLi
 
                     @Override
                     public void onResponse(String s, int i) {
+                        Log.i("百信学车","评论结果" + s);
                         listView.setTag(s);
                         if (listView.getTag() != null) {
                             setCom();
@@ -711,7 +713,7 @@ public class ReservationForDrivingActivity extends Activity implements OnClickLi
         Gson gson = new Gson();
         CommentResult coachInfo = gson.fromJson(str, CommentResult.class);
         if (coachInfo.getCode() == 200) {
-            listStu = coachInfo.getResult();
+            listStu.addAll(coachInfo.getResult());
             if(listStu.size() == 0){
                 linear_list_noData.setVisibility(View.VISIBLE);
             }
