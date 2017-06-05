@@ -169,7 +169,7 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
                             myInputPwdUtil.hide();
                         }
                         if (buyClassHoureEntity.getCode() == 700) {
-                            new RemainBaseDialog(BuyClassHoursActivity.this,"余额不总，请充值!").call();
+                            new RemainBaseDialog(BuyClassHoursActivity.this,"余额不足，请充值!").call();
                             myInputPwdUtil.hide();
                         }
                         if (buyClassHoureEntity.getCode() == 600) {
