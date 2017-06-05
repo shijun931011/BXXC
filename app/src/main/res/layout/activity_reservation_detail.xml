@@ -308,7 +308,7 @@
                 android:layout_weight="1"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="周末"
+                android:text="周日"
                 android:textColor="#FF8000"
                 android:textSize="18sp" />
 

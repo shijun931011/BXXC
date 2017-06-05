@@ -87,8 +87,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
     private RelativeLayout select_coach, select_place,select_class;//教练、 场地、 班型
     private LinearLayout yQfirend,classic_coach,private_coach,linear_driving_companion;
     private AutoTextView headlines;
-    //图片地址
-    private String url = "http://www.baixinxueche.com/index.php/Home/Apitoken/bannerpics";
+
     private List<String> imagePath = new ArrayList<>();
     private LinearLayout.LayoutParams wrapParams;
     private Timer timer = new Timer();

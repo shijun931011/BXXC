@@ -364,7 +364,7 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
 
     //日期转星期
     public String dateToWeek(Date dt) {
-        String[] weekDays = {"周末", "周一", "周二", "周三", "周四", "周五", "周六"};
+        String[] weekDays = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
         Calendar cal = Calendar.getInstance();
         cal.setTime(dt);
         int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
