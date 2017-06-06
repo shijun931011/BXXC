@@ -4,8 +4,10 @@ import android.app.Application;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.baidu.mapapi.SDKInitializer;
+import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.utils.Log;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -14,9 +16,11 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        UMShareAPI.get(getApplicationContext());
+
+        UMShareAPI.get(this);
         // 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
-        SDKInitializer.initialize(getApplicationContext());
+        SDKInitializer.initialize(this);
+
         JPushInterface.setDebugMode(false); 	// 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);     		// 初始化 JPush
         //创建队列

@@ -62,7 +62,7 @@
                           android:layout_height="wrap_content"
                           android:gravity="center"
                           android:paddingTop="10dp"
-                          android:text="倒车入库"/>
+                          android:text="坡道起步"/>
             </LinearLayout>
 
         </LinearLayout>

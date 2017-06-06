@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -58,6 +59,7 @@ public class TotalMediaActivity extends Activity implements View.OnClickListener
         videoview1.setOnClickListener(this);
         textView1 = (TextView) findViewById(R.id.textView1);
         time1 = (TextView) findViewById(R.id.time1);
+
         videoview2 = (ImageView) findViewById(R.id.videoview2);
         videoview2.setOnClickListener(this);
         textView2 = (TextView) findViewById(R.id.textView2);
@@ -73,7 +75,7 @@ public class TotalMediaActivity extends Activity implements View.OnClickListener
         textView4 = (TextView) findViewById(R.id.textView4);
         time4 = (TextView) findViewById(R.id.time4);
 
-        videoview5 = (ImageView) findViewById(R.id.videoview1);
+        videoview5 = (ImageView) findViewById(R.id.videoview5);
         videoview5.setOnClickListener(this);
         textView5 = (TextView) findViewById(R.id.textView5);
         time5 = (TextView) findViewById(R.id.time5);
@@ -97,6 +99,7 @@ public class TotalMediaActivity extends Activity implements View.OnClickListener
                     }
                     @Override
                     public void onResponse(String s, int i) {
+                        Log.i("百姓学车","科目二" + s);
                         title.setTag(s);
                         if(title.getTag()!=null){
                             setData();
@@ -138,23 +141,23 @@ public class TotalMediaActivity extends Activity implements View.OnClickListener
             textView3.setTag(videoMsg.getResult().get(2).getVideoid());
             time3.setText(videoMsg.getResult().get(2).getTimes());
 
-//            Glide.with(TotalMediaActivity.this)
-//                    .load(videoMsg.getResult().get(3).getVideopic())
-//                    .placeholder(R.drawable.coach_pic)
-//                    .error(R.drawable.coach_pic)
-//                    .into(videoview4);
-//            textView4.setText(videoMsg.getResult().get(3).getTitle());
-//            textView4.setTag(videoMsg.getResult().get(3).getVideoid());
-//            time4.setText(videoMsg.getResult().get(3).getTimes());
-//
-//            Glide.with(TotalMediaActivity.this)
-//                    .load(videoMsg.getResult().get(4).getVideopic())
-//                    .placeholder(R.drawable.coach_pic)
-//                    .error(R.drawable.coach_pic)
-//                    .into(videoview2);
-//            textView5.setText(videoMsg.getResult().get(4).getTitle());
-//            textView5.setTag(videoMsg.getResult().get(4).getVideoid());
-//            time5.setText(videoMsg.getResult().get(4).getTimes());
+            Glide.with(TotalMediaActivity.this)
+                    .load(videoMsg.getResult().get(3).getVideopic())
+                    .placeholder(R.drawable.coach_pic)
+                    .error(R.drawable.coach_pic)
+                    .into(videoview4);
+            textView4.setText(videoMsg.getResult().get(3).getTitle());
+            textView4.setTag(videoMsg.getResult().get(3).getVideoid());
+            time4.setText(videoMsg.getResult().get(3).getTimes());
+
+            Glide.with(TotalMediaActivity.this)
+                    .load(videoMsg.getResult().get(4).getVideopic())
+                    .placeholder(R.drawable.coach_pic)
+                    .error(R.drawable.coach_pic)
+                    .into(videoview5);
+            textView5.setText(videoMsg.getResult().get(4).getTitle());
+            textView5.setTag(videoMsg.getResult().get(4).getVideoid());
+            time5.setText(videoMsg.getResult().get(4).getTimes());
 
         }else{
             Toast.makeText(TotalMediaActivity.this, videoMsg.getReason(), Toast.LENGTH_LONG).show();
@@ -181,6 +184,16 @@ public class TotalMediaActivity extends Activity implements View.OnClickListener
             case R.id.videoview3:
                 intent.setClass(TotalMediaActivity.this, MediaVideoActivity.class);
                 intent.putExtra("videoid", textView3.getTag().toString());
+                startActivity(intent);
+                break;
+            case R.id.videoview4:
+                intent.setClass(TotalMediaActivity.this, MediaVideoActivity.class);
+                intent.putExtra("videoid", textView4.getTag().toString());
+                startActivity(intent);
+                break;
+            case R.id.videoview5:
+                intent.setClass(TotalMediaActivity.this, MediaVideoActivity.class);
+                intent.putExtra("videoid", textView5.getTag().toString());
                 startActivity(intent);
                 break;
 
