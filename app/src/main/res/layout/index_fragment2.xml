@@ -53,14 +53,14 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginTop="5dp"
         android:background="@color/lightWhite">
         <RelativeLayout
             android:id="@+id/select_coach"
             android:layout_width="185dp"
-            android:layout_height="150dp"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
             <ImageView
                 android:layout_width="100dp"
@@ -89,11 +89,11 @@
             android:layout_height="150dp"
             android:background="@color/background" />
         <RelativeLayout
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="150dp">
             <RelativeLayout
                 android:id="@+id/select_class"
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
                 android:layout_height="75dp"
                 android:orientation="horizontal">
                 <LinearLayout
@@ -128,14 +128,14 @@
 
             <View
                 android:id="@+id/line"
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@id/select_class"
                 android:background="@color/background" />
 
             <RelativeLayout
                 android:id="@+id/select_place"
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
                 android:layout_height="75dp"
                 android:layout_below="@id/line"
                 android:orientation="horizontal">

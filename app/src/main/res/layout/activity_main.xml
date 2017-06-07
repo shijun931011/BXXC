@@ -33,11 +33,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
-            android:drawablePadding="3dp"
+            android:drawablePadding="1dp"
             android:gravity="center"
             android:text="首页"
             android:textColor="@drawable/navigation"
-            android:textSize="10sp"/>
+            android:textSize="12sp"/>
 
         <RadioButton
             android:id="@+id/radio_button_02"
@@ -47,11 +47,11 @@
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:clickable="true"
-            android:drawablePadding="3dp"
+            android:drawablePadding="1dp"
             android:gravity="center"
             android:text="报考"
             android:textColor="@drawable/navigation"
-            android:textSize="10sp"/>
+            android:textSize="12sp"/>
         <RadioButton
             android:id="@+id/radio_button_03"
             style="@style/RadioButton"
@@ -59,11 +59,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
-            android:drawablePadding="3dp"
+            android:drawablePadding="1dp"
             android:gravity="center"
             android:text="学习"
             android:textColor="@drawable/navigation"
-            android:textSize="10sp"/>
+            android:textSize="12sp"/>
         <RadioButton
             android:id="@+id/radio_button_04"
             style="@style/RadioButton"
@@ -71,11 +71,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
-            android:drawablePadding="3dp"
+            android:drawablePadding="1dp"
             android:gravity="center"
             android:text="我的"
             android:textColor="@drawable/navigation"
-            android:textSize="10sp"/>
+            android:textSize="12sp"/>
     </RadioGroup>
     <ScrollView
         android:id="@+id/scroll_bar"

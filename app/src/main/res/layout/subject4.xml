@@ -39,7 +39,8 @@
         android:orientation="horizontal">
         <LinearLayout
             android:id="@+id/linearlayout1"
-            android:layout_width="190dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:orientation="vertical"
         >
@@ -63,7 +64,8 @@
         />
         <LinearLayout
             android:id="@+id/linearlayout2"
-            android:layout_width="190dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <ImageView
@@ -91,7 +93,8 @@
         android:orientation="horizontal">
         <LinearLayout
             android:id="@+id/linearlayout3"
-            android:layout_width="190dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:orientation="vertical"
         >
@@ -117,7 +120,8 @@
         />
         <LinearLayout
             android:id="@+id/linearlayout4"
-            android:layout_width="190dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <ImageView
