@@ -36,7 +36,7 @@ public class UpdateManger {
     private Dialog noticeDialog;// 提示有软件更新的对话框
     private Dialog downloadDialog;// 下载对话框
     private static final String savePath = "/sdcard/BX/";// 保存apk的文件夹
-    private static final String saveFileName = savePath + "百信学车.apk";
+    private static final String saveFileName = savePath + "bxxc.apk";
     // 进度条与通知UI刷新的handler和msg常量
     private ProgressBar mProgress;
     private static final int DOWN_UPDATE = 1;
@@ -122,6 +122,7 @@ public class UpdateManger {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setDataAndType(Uri.parse("file://" + apkfile.toString()),
                 "application/vnd.android.package-archive");// File.toString()会返回路径信息
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(i);
     }
     private Runnable mdownApkRunnable = new Runnable() {
