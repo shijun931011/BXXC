@@ -97,6 +97,7 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
     private Coupon coupon;//优惠卷信息
     Dialog dia;
     private LinearLayout layout5;  //推荐人布局
+    private boolean flag_user_coupon = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,7 +144,9 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                         if (coupon.getCode() == 200) {
                             List<Coupon.Result> results = coupon.getResult();
                             list.addAll(results);
-                            showDialog(list);
+                            if (results.get(0).getInvitestate().equals("0")){
+                                showDialog(list);
+                            }
                         }
 
                     }
@@ -166,11 +169,11 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
 
             @Override
             public void showPrice(String getCouponPrice) {
+                flag_user_coupon = true;
                 coach_Price.setText("总金额：￥"+ (result.getPrice() - Double.parseDouble(getCouponPrice)));
                 yiyouhui_Tv.setText("已优惠:￥" + getCouponPrice);
             }
         });
-
             list_cou = (ListView) buttonLayout.findViewById(R.id.coupon);
             list_cou.setAdapter(adapter);
             dia.show();
@@ -211,6 +214,7 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
             .addParams("cid", cid)
             .addParams("name", name)
             .addParams("phone", phone)
+            .addParams("invite", "1")
             .addParams("idcard", idcard)
             .addParams("tuijianren",tuijianren.getText().toString())
             .build()
@@ -292,6 +296,103 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
             });
 }
 
+    /**
+     * 支付宝支付
+     * @param uid 用户id
+     * @param cid 教练id
+     * @param name 用户姓名
+     * @param phone 用户手机号
+     * @param idcard 用户身份证号
+     */
+    private void sendaiPay2(String uid, String cid, String name, String phone, String idcard) {
+        OkHttpUtils
+                .post()
+                .url(payUrl)
+                .addParams("uid", uid)
+                .addParams("cid", cid)
+                .addParams("name", name)
+                .addParams("phone", phone)
+                .addParams("idcard", idcard)
+                .addParams("tuijianren",tuijianren.getText().toString())
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int i) {
+                        Toast.makeText(PayInfoActivity.this, "加载失败", Toast.LENGTH_LONG).show();
+                    }
+                    @Override
+                    public void onResponse(final String s, int i) {
+                        Log.d("shijun","ddd"+s);
+                        Gson gson = new Gson();
+                        final MyPayResult myPayResult = gson.fromJson(s,MyPayResult.class);
+                        if(myPayResult.getCode()==200){
+                            final int SDK_PAY_FLAG = 1;
+                            final Handler mHandler = new Handler() {
+                                @SuppressWarnings("unused")
+                                public void handleMessage(Message msg) {
+                                    switch (msg.what) {
+                                        case SDK_PAY_FLAG: {
+                                            PayResult payResult = new PayResult((String) msg.obj);
+                                            /**
+                                             * 同步返回的结果必须放置到服务端进行验证（验证的规则请看https://doc.open.alipay.com/doc2/
+                                             * detail.htm?spm=0.0.0.0.xdvAU6&treeId=59&articleId=103665&
+                                             * docType=1) 建议商户依赖异步通知
+                                             */
+                                            String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+                                            String resultStatus = payResult.getResultStatus();
+                                            Intent intent = new Intent();
+                                            intent.setClass(PayInfoActivity.this,PayResultActivity.class);
+                                            // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
+                                            if (TextUtils.equals(resultStatus, "9000")) {
+                                                Toast.makeText(PayInfoActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                                                intent.putExtra("result",1);
+                                                intent.putExtra("uid",useResult.getUid());
+                                                intent.putExtra("price",result.getPrice());
+                                                startActivity(intent);
+                                                finish();
+                                            } else {
+                                                // 判断resultStatus 为非"9000"则代表可能支付失败
+                                                // "8000"代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
+                                                if (TextUtils.equals(resultStatus, "8000")) {
+                                                    Toast.makeText(PayInfoActivity.this, "支付结果确认中,请勿重新付款", Toast.LENGTH_SHORT).show();
+                                                    finish();
+                                                } else {
+                                                    // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
+                                                    Toast.makeText(PayInfoActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+                                                    intent.putExtra("result",0);
+                                                    intent.putExtra("uid",useResult.getUid());
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    }
+                                }
+                            };
+                            Runnable payRunnable = new Runnable() {
+                                @Override
+                                public void run() {
+                                    // 构造PayTask 对象
+                                    PayTask  alipay = new PayTask(PayInfoActivity.this);
+                                    // 调用支付接口，获取支付结果
+                                    String result = alipay.pay(myPayResult.getResult(), true);
+                                    Message msg = new Message();
+                                    msg.what = SDK_PAY_FLAG;
+                                    msg.obj = result;
+                                    mHandler.sendMessage(msg);
+                                }
+                            };
+                            // 必须异步调用
+                            Thread payThread = new Thread(payRunnable);
+                            payThread.start();
+                        }else if(myPayResult.getCode() ==400){
+                            Toast.makeText(PayInfoActivity.this, myPayResult.getReason(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
 
     //微信支付
 
@@ -299,6 +400,64 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
      * uid  name  idcard  cid  phone  invite 邀请（选填）    tuijianren
      */
     private void weixinpay(String uid, String cid, String name, String phone, String idcard){
+        OkHttpUtils
+                .post()
+                .url(weipayUrl)
+                .addParams("uid", uid)
+                .addParams("cid", cid)
+                .addParams("name", name)
+                .addParams("invite", "1")
+                .addParams("phone", phone)
+                .addParams("idcard", idcard)
+                .addParams("tuijianren",tuijianren.getText().toString())
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int i) {
+                        Toast.makeText(PayInfoActivity.this, "加载失败", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onResponse(String s, int i) {
+                        Log.d("BXXC","微信支付"+s);
+                        Gson gson = new Gson();
+                        WXEntity wxEntity = gson.fromJson(s, WXEntity.class);
+                        if(wxEntity.getErrorCode() == 0){
+                            WXPay wxpay = new WXPay(PayInfoActivity.this, wxEntity.getResponseData().getApp_response().getAppid());
+                            wxpay.doPay(s, new WXPay.WXPayResultCallBack() {
+                                @Override
+                                public void onSuccess() {
+                                    Toast.makeText(PayInfoActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                                    //支付成功跳转到提交个人信息照片页面
+                                    Intent successIntent = new Intent();
+                                    successIntent.setClass(PayInfoActivity.this,RegisterDetailActivity2.class);
+                                    //successIntent.putExtra("uid",uid);
+                                    startActivity(successIntent);
+                                }
+
+                                @Override
+                                public void onError(int error_code) {
+                                    Toast.makeText(PayInfoActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onCancel() {
+                                    Toast.makeText(PayInfoActivity.this, "支付取消", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }else{
+                            Toast.makeText(PayInfoActivity.this, wxEntity.getErrorMsg(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
+    //微信支付
+
+    /**
+     * uid  name  idcard  cid  phone  invite 邀请（选填）    tuijianren
+     */
+    private void weixinpay2(String uid, String cid, String name, String phone, String idcard){
         OkHttpUtils
                 .post()
                 .url(weipayUrl)
@@ -453,18 +612,34 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                         Toast.makeText(PayInfoActivity.this, "请选择支付方式",Toast.LENGTH_SHORT).show();
                     }else{
                         if (weixinFlag){
-                            weixinpay(useResult.getUid()+"",
-                                      result.getCid()+"",
-                                      username.getText().toString().trim(),
-                                      phoneNo.getText().toString().trim(),
-                                      userId.getText().toString().trim());
-
+                            if(flag_user_coupon == true){
+                                weixinpay(useResult.getUid()+"",
+                                        result.getCid()+"",
+                                        username.getText().toString().trim(),
+                                        phoneNo.getText().toString().trim(),
+                                        userId.getText().toString().trim());
+                            }else{
+                                weixinpay2(useResult.getUid()+"",
+                                        result.getCid()+"",
+                                        username.getText().toString().trim(),
+                                        phoneNo.getText().toString().trim(),
+                                        userId.getText().toString().trim());
+                            }
                         }else{
-                            sendaiPay(useResult.getUid()+"",
-                                    result.getCid()+"",
-                                    username.getText().toString().trim(),
-                                    phoneNo.getText().toString().trim(),
-                                    userId.getText().toString().trim());
+                            if(flag_user_coupon == true){
+                                sendaiPay(useResult.getUid()+"",
+                                        result.getCid()+"",
+                                        username.getText().toString().trim(),
+                                        phoneNo.getText().toString().trim(),
+                                        userId.getText().toString().trim());
+                            }else{
+                                sendaiPay2(useResult.getUid()+"",
+                                        result.getCid()+"",
+                                        username.getText().toString().trim(),
+                                        phoneNo.getText().toString().trim(),
+                                        userId.getText().toString().trim());
+                            }
+
                         }
 
                     }

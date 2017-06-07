@@ -8,8 +8,8 @@ android {
         applicationId "com.jgkj.bxxc"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 12
-        versionName "2.2.2"
+        versionCode 18
+        versionName '3.0.3'
         testInstrumentationRunner "android.support.reservation_item.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -19,6 +19,8 @@ android {
             debuggable true
         }
 
+    }
+    productFlavors {
     }
 }
 
@@ -31,11 +33,8 @@ dependencies {
     compile project(':mypwdinputlibrary')
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support:design:25.0.0'
-    compile 'junit:junit:4.12'
     compile 'com.android.support:support-v4:25.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
     compile 'com.facebook.fresco:fresco:0.9.0'
-    compile project(':mypwdinputlibrary')
     testCompile 'junit:junit:4.12'
-    compile project(':mypwdinputlibrary')
 }
