@@ -52,7 +52,8 @@ public class StudyFragment extends Fragment {
         tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
         //设置可以滑动
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        //tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
     }
 
 }
