@@ -81,10 +81,10 @@ public class RemindDialog implements View.OnClickListener{
         switch (view.getId()){
             case R.id.dialog_sure:
                 getDataForReservation(uid, token, cid , day, time_slot, url);
-                dialog.hide();
+                dialog.dismiss();
                 break;
             case R.id.dialog_cancel:
-                dialog.hide();
+                dialog.dismiss();
                 break;
 
         }

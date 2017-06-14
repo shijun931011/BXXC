@@ -2,7 +2,6 @@ package com.jgkj.bxxc.tools;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,34 +10,33 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.jgkj.bxxc.R;
-import com.jgkj.bxxc.activity.AddBankCardActivity;
 
 /**
- * Created by shijun on 2017/5/23.
+ * Created by Administrator on 2017/6/13.
  */
 
-public class BindCardDialog implements View.OnClickListener{
+public class ReceivedInvitedDialog implements View.OnClickListener{
     private Context context;
     private String content;
-    private Dialog dialog, sureDialog;
-    private View inflate, sureView;
-    private TextView dialog_textView, dialog_sure, dialog_cancel;
+    private Dialog dialog;
+    private View inflate;
+    private TextView dialog_textView, dialog_sure;
 
-    public BindCardDialog(Context context, String content){
+
+    public ReceivedInvitedDialog(Context context, String content){
         this.content = content;
         this.context = context;
     }
-    public void Bindcard(){
+
+    public void call(){
         dialog = new Dialog(context, R.style.ActionSheetDialogStyle);
         // 填充对话框的布局
         inflate = LayoutInflater.from(context).inflate(
-                R.layout.sure_cancel_dialog, null);
+                R.layout.sure_cancel_dialog2, null);
         // 初始化控件
         dialog_textView = (TextView) inflate.findViewById(R.id.dialog_textView);
         dialog_sure = (TextView) inflate.findViewById(R.id.dialog_sure);
-        dialog_cancel = (TextView) inflate.findViewById(R.id.dialog_cancel);
         dialog_sure.setOnClickListener(this);
-        dialog_cancel.setOnClickListener(this);
         dialog_textView.setText(content);
         // 将布局设置给Dialog
         dialog.setContentView(inflate);
@@ -53,16 +51,13 @@ public class BindCardDialog implements View.OnClickListener{
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(View view){
         switch (view.getId()){
-            case R.id.dialog_sure:
-                Intent intent = new Intent(context, AddBankCardActivity.class);
-                context.startActivity(intent);
-                dialog.dismiss();
-                break;
-            case R.id.dialog_cancel:
-                dialog.dismiss();
-                break;
+           case R.id.dialog_sure:
+               dialog.dismiss();
+               break;
         }
     }
+
+
 }

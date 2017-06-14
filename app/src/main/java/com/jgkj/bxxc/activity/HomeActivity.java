@@ -41,6 +41,7 @@ import com.jgkj.bxxc.fragment.My_Setting_Fragment;
 import com.jgkj.bxxc.fragment.StudyFragment;
 import com.jgkj.bxxc.tools.CallDialog;
 import com.jgkj.bxxc.tools.GetVersion;
+import com.jgkj.bxxc.tools.InvitedCouponDialog;
 import com.jgkj.bxxc.tools.JPushDataUitl;
 import com.jgkj.bxxc.tools.RemainBaseDialog;
 import com.jgkj.bxxc.tools.SelectPopupWindow;
@@ -89,6 +90,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
     private UserInfo userInfo;
     private UserInfo.Result result;
     private String token;
+    private int uid;
     private String versionUrl = "http://www.baixinxueche.com/index.php/Home/Apitoken/versionandroid";
     private Drawable rbImg1;
     private Drawable rbImg2;
@@ -103,11 +105,21 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         init();
         //.getApplicationContext（）取的是这个应 用程序的Context，Activity.this取的是这个Activity的Context
         JPushInterface.init(getApplicationContext());
-
         isClearLoginSession();
         checkSoftInfo();
         registerMessageReceiver();
+        isCouponDialog();
+
     }
+
+    private void isCouponDialog(){
+        SharedPreferences sp1 = getSharedPreferences("ReceivedCoupon", Activity.MODE_PRIVATE);
+        int isFirst = sp1.getInt("InvitedCoupon", 0);
+        if (isFirst != 1){
+            new InvitedCouponDialog(this).call();
+        }
+    }
+
 
     /**
      * 做本地判断，如果上次运行app是三天前，将会清空登录状态
@@ -320,7 +332,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                     mCurrentFragment = my_set;
                 }
                 break;
-
             case R.id.remind:
                 new CallDialog(HomeActivity.this, "0551-65555744").call();
                 break;

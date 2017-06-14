@@ -5,9 +5,12 @@
     <corners android:radius="100dip"/>
     <!-- padding: Button 里面的文字与Button边界的间隔 -->
     <!--边框的宽度及颜色-->
-    <stroke android:width="2px" android:color="#3bbaff" />
+    <stroke android:width="2px" android:color="@color/gray" />
+    <solid android:color="@color/gray" />
     <padding
         android:left="10dp"
         android:right="10dp"
+        android:top="5dp"
+        android:bottom="5dp"
     />
 </shape>

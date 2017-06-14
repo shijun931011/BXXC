@@ -1,6 +1,7 @@
 package com.jgkj.bxxc.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ public class ManageBankCardAdapter extends BaseAdapter {
     private Context context;
     private List<ManageBankCardEntity> list;
     private LayoutInflater inflater;
+    private int length;
 
     public ManageBankCardAdapter(Context context, List<ManageBankCardEntity> list){
         this.context = context;
@@ -50,12 +52,25 @@ public class ManageBankCardAdapter extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.tv_bank_name.setText(list.get(position).getBank_type().substring(0,4)+"("+list.get(position).getAccount().substring(18,23)+")");
+        length = list.get(position).getAccount().length();
+        Log.d("BXXC","银行卡："+list.get(position).getBank_type()+"HHHHHHH:"+list.get(position).getAccount());
+        viewHolder.tv_bank_name.setText(subString(list.get(position).getBank_type()) +"("+list.get(position).getAccount().substring(length-5,length).replace(" ", "")+")");
+
         return convertView;
     }
 
     class ViewHolder {
         public TextView tv_bank_name;
+    }
+
+    public String subString(String ss){
+        char [] stringArr = ss.toCharArray();
+        for(int i=0;i<stringArr.length;i++){
+            if(stringArr[i] == '.' || stringArr[i] == '·'){
+                return ss.substring(0,i);
+            }
+        }
+        return "";
     }
 
 }

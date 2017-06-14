@@ -70,7 +70,7 @@ public class Urls {
     public static String tixian = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/tixian";
 
     //首页轮播图
-    public static String bannerpicsands = "http://www.baixinxueche.com/index.php/Home/Apitoken/bannerpicsands";
+    public static String bannerpicsands = "http://www.baixinxueche.com/index.php/Home/Apitoken/bannerpicsandsfx";
 
     //陪驾
     public static String peijia = "http://www.baixinxueche.com/index.php/Home/Apitokenpj/peijia";

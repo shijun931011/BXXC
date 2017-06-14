@@ -23,6 +23,7 @@ public class UserInfo {
     }
 
     public class Result{
+        private int uid;
         private String phone;
         private String pic;
         private String state;
@@ -50,9 +51,6 @@ public class UserInfo {
         public void setPaypwd(String paypwd) {
             this.paypwd = paypwd;
         }
-
-        private int uid;
-
 
         public String getAccount() {
             return useraccount;

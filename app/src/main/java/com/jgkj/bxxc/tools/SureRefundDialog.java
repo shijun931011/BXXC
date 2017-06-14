@@ -27,6 +27,7 @@ public class SureRefundDialog implements View.OnClickListener{
     private String content;
     private Dialog dialog, sureDialog;
     private View inflate, sureView;
+    private int length;
     private int uid;
     private String token;
     private String account;
@@ -94,7 +95,8 @@ public class SureRefundDialog implements View.OnClickListener{
         dialog_cancel.setText("再想想");
         dialog_bind = (TextView) inflate.findViewById(R.id.dialog_card_imfo);
         dialog_bind.setVisibility(View.VISIBLE);
-        dialog_bind.setText("银行卡信息："+account.substring(18,23));
+        length = account.length();
+        dialog_bind.setText("银行卡信息："+account.substring(length-5,length).replace(" ", ""));
         dialog_sure.setOnClickListener(this);
         dialog_cancel.setOnClickListener(this);
         dialog_textView.setText(content);
@@ -114,6 +116,7 @@ public class SureRefundDialog implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.dialog_sure:
+
                 getBalanceRefund(uid+"", token, account);
                 dialog.dismiss();
                 break;

@@ -39,6 +39,7 @@ public class MyOrderActivity extends Activity implements View.OnClickListener {
     private BuKaoOrder order;
     private String token;
 
+
     //报名费订单
     private String url = "http://www.baixinxueche.com/index.php/Home/Apialltoken/order";
     //补考订单
@@ -171,7 +172,6 @@ public class MyOrderActivity extends Activity implements View.OnClickListener {
                 radio_btn01.setTextColor(getResources().getColor(R.color.redTheme));
                 radio_btn02.setBackgroundResource(R.color.white);
                 radio_btn02.setTextColor(getResources().getColor(R.color.right_bg));
-
                 getOrder(uid+"");
                 break;
             case R.id.radio_btn02:

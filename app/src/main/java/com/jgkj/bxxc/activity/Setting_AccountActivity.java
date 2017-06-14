@@ -196,6 +196,8 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
                 dialog_sure.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        SharedPreferences sp = getSharedPreferences("useraccount",Activity.MODE_PRIVATE);
+                        account = sp.getString("useraccount", null);
                         if (account.equals("")) {
                             balance_diolog.dismiss();
                             new BindCardDialog(Setting_AccountActivity.this, "系统检测到您还没有绑定任何银行卡信息，" + "暂不能退款。是否去绑定？").Bindcard();
@@ -250,5 +252,11 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
         IntentFilter filter = new IntentFilter();
         filter.addAction("updataBalance");
         registerReceiver(this.broadcastReceiver, filter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(this.broadcastReceiver);
     }
 }

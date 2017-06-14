@@ -24,37 +24,37 @@
                 android:id="@+id/image_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/selector"/>
+                android:src="@drawable/skip_selector"/>
 
             <ImageView
                 android:id="@+id/image_two"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/selector"/>
+                android:src="@drawable/skip_selector"/>
 
             <ImageView
                 android:id="@+id/image_three"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/selector"/>
+                android:src="@drawable/skip_selector"/>
 
             <ImageView
                 android:id="@+id/image_four"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/selector"/>
+                android:src="@drawable/skip_selector"/>
 
             <ImageView
                 android:id="@+id/image_five"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/selector"/>
+                android:src="@drawable/skip_selector"/>
 
             <ImageView
                 android:id="@+id/image_six"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/selector"/>
+                android:src="@drawable/skip_selector"/>
         </LinearLayout>
     </RelativeLayout>
 

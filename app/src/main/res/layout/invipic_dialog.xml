@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="50dp">
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/invipic"
+        />
+        <ImageView android:id="@+id/quxiao"
+                   android:layout_width="25dp"
+                   android:layout_height="25dp"
+                   android:layout_alignParentEnd="true"
+                   android:src="@drawable/quxiao"
+        />
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_below="@id/imageView1"
+                      android:layout_marginTop="3dp"
+                      android:gravity="center"
+
+                      android:id="@+id/linearLayout">
+            <ImageView
+                android:id="@+id/fangkuang"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/fang"
+            />
+            <TextView android:id="@+id/textView1"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="不再提醒"
+                      android:textColor="@color/white"
+                      android:layout_marginLeft="10dp"
+            />
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/recerve_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="点击领取"
+            android:textColor="@color/yellow"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_marginBottom="43dp"
+            android:layout_above="@+id/linearLayout"
+            android:layout_alignParentStart="true"/>
+
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>
+
+
+
+

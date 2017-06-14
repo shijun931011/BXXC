@@ -46,6 +46,7 @@ import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.bean.entity.BannerEntity.BannerEntity;
 import com.jgkj.bxxc.bean.entity.BannerEntity.BannerResult;
 import com.jgkj.bxxc.tools.AutoTextView;
+import com.jgkj.bxxc.tools.InvitedCouponDialog;
 import com.jgkj.bxxc.tools.SecondToDate;
 import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -177,7 +178,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
         int isFirstRun = sp.getInt("isfirst", 0);
         if (isFirstRun != 0) {
             String str = sp.getString("userInfo", null);
-            Log.d("11111", "init: " + str);
             Gson gson = new Gson();
             userInfo = gson.fromJson(str, UserInfo.class);
             result = userInfo.getResult();
@@ -230,6 +230,10 @@ public class IndexFragment extends Fragment implements OnClickListener {
                                     startActivity(intent);
                                 }
                             }
+                            if (bannerEntitylist.get(itemPosition).getKey().equals("4")){
+                                new InvitedCouponDialog(getActivity()).call();
+                                Log.d("BXXC","领取优惠劵："+uid+":::::"+userInfo.getResult().getPhone());
+                            }
 
                         }catch(Exception e){
                             e.printStackTrace();
@@ -240,6 +244,9 @@ public class IndexFragment extends Fragment implements OnClickListener {
             return false;
         }
     };
+
+
+
     /**
      * 百信头条轮播文字
      */
@@ -304,7 +311,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
 
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.i("百姓学车","轮播图"+s);
+                        Log.i("BXXC","轮播图"+s);
                         Gson gson = new Gson();
                         BannerResult pic = gson.fromJson(s, BannerResult.class);
                         if (pic.getCode() == 200) {

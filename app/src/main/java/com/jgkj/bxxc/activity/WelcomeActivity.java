@@ -1,20 +1,18 @@
 package com.jgkj.bxxc.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.Advertising;
 import com.jgkj.bxxc.tools.PictureOptimization;
-import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -30,7 +28,7 @@ import okhttp3.Call;
 public class WelcomeActivity extends InstrumentedActivity implements View.OnClickListener {
     private ImageView welcome_imageview;
     private PictureOptimization po;
-    private Button skip;
+    private TextView skip;
     private Advertising ad;
     private Runnable delayRunable;
     private Handler handler = new Handler();
@@ -41,15 +39,17 @@ public class WelcomeActivity extends InstrumentedActivity implements View.OnClic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome);
-        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         init();
+
     }
 
     //初始化控件，并请求广告页地址
     private void init() {
-        skip = (Button) findViewById(R.id.skip);
-        skip.getBackground().setAlpha(100);
+        skip = (TextView) findViewById(R.id.skip);
         welcome_imageview = (ImageView) findViewById(R.id.welcome_imageview);
+        skip.setVisibility(View.GONE);
+        skip.setOnClickListener(this);
+        welcome_imageview.setOnClickListener(this);
         //防止图片内存溢出
         po = new PictureOptimization();
         getAD();
@@ -57,15 +57,12 @@ public class WelcomeActivity extends InstrumentedActivity implements View.OnClic
 
     private void isOpenAD() {
         String str = skip.getTag().toString();
-        Gson gson = new Gson();//为什么为会用到Gson
+        Gson gson = new Gson();
         ad = gson.fromJson(str, Advertising.class);
         if (ad.getCode() == 200) {
             //延迟跳转
             new Handler().postDelayed(new Runnable() {
                 public void run() {
-                    skip.setVisibility(View.VISIBLE);
-                    skip.setOnClickListener(WelcomeActivity.this);
-                    welcome_imageview.setOnClickListener(WelcomeActivity.this);
                     Glide.with(WelcomeActivity.this).load(ad.getResult().getContent()).into(welcome_imageview);
                     handler.postDelayed(
                             delayRunable = new Runnable() {
@@ -103,6 +100,7 @@ public class WelcomeActivity extends InstrumentedActivity implements View.OnClic
                                 finish();
                             }
                         }, 3000); //延迟3秒跳转
+
                     }
 
                     @Override
@@ -140,6 +138,12 @@ public class WelcomeActivity extends InstrumentedActivity implements View.OnClic
                 break;
         }
     }
+
+
+
+
+
+
 
 }
 

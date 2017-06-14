@@ -159,6 +159,8 @@ public class RehourActivity extends Activity implements View.OnClickListener{
                         if (rehour.getCode() == 200){
                             List<Rehour.Result> results = rehour.getResult();
                             list.addAll(results);
+                            img_cry.setVisibility(View.GONE);
+                            prompt.setVisibility(View.GONE);
                         }
                         RehourAdapter adapter = new RehourAdapter(RehourActivity.this,list);
                         list_hour.setAdapter(adapter);
@@ -181,6 +183,9 @@ public class RehourActivity extends Activity implements View.OnClickListener{
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(RehourActivity.this,BuyClassHoursActivity.class);
+            intent.putExtra("uid",uid);
+            intent.putExtra("cid",cid);//token
+            intent.putExtra("token",token);
             startActivity(intent);
         }
     };
@@ -323,6 +328,7 @@ public class RehourActivity extends Activity implements View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.immediate_bug:
+
                 intent.setClass(this,  BuyClassHoursActivity.class);
                 intent.putExtra("uid",uid);
                 intent.putExtra("cid",cid);//token

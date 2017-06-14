@@ -36,4 +36,5 @@
     <color name="btn_blue">#3bbaff</color>
     <color name="btn_orange">#FF8000</color>
     <color name="btn_gray">#777777</color>
+    <color name="yellow">#FFE6E334</color>
 </resources>

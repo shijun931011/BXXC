@@ -89,7 +89,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.i("BXXC","1111"+s);
                         dialog.dismiss();
                         Gson gson = new Gson();
                         UserInfo userInfo = gson.fromJson(s, UserInfo.class);

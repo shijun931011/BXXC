@@ -56,7 +56,7 @@ public class RemainBaseDialog implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.dialog_sure:
-                dialog.hide();
+                dialog.dismiss();
                 break;
         }
     }

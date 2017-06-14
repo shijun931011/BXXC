@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +57,7 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
         StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         Intent intent = getIntent();
         uid = intent.getIntExtra("uid",uid);
+
         cid = intent.getStringExtra("cid");
         token = intent.getStringExtra("token");
 

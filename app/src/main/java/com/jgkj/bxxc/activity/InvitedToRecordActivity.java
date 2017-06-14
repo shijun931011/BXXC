@@ -21,7 +21,6 @@ import com.jgkj.bxxc.adapter.InvitedToRecordAdapter;
 import com.jgkj.bxxc.bean.Invite;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.tools.StatusBarCompat;
-import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -165,7 +164,6 @@ public class InvitedToRecordActivity extends Activity  {
                     }
                 });
     }
-
     @Override
     protected void onResume() {
         super.onResume();

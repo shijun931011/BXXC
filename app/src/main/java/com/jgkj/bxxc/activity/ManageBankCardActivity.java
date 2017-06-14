@@ -50,7 +50,6 @@ public class ManageBankCardActivity extends Activity{
         String str = sp.getString("userInfo", null);
         Gson gson = new Gson();
         userInfo = gson.fromJson(str, UserInfo.class);
-
         SharedPreferences sp1 = getSharedPreferences("token", Activity.MODE_PRIVATE);
         token = sp1.getString("token", null);
 
