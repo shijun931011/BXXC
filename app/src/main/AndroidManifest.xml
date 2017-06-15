@@ -264,6 +264,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.HomeActivity"
+            android:launchMode="singleTask"
             android:label="首页"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
