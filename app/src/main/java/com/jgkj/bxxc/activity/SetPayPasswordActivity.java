@@ -60,7 +60,6 @@ public class SetPayPasswordActivity extends Activity{
                 finish();
             }
         });
-
         again_paypswd_pet = (PasswordInputView)findViewById(R.id.again_paypswd_pet);
         tv_remain = (TextView)findViewById(R.id.tv_remain);
 

@@ -28,6 +28,7 @@ import com.jgkj.bxxc.tools.BindCardDialog;
 import com.jgkj.bxxc.tools.RemainBaseDialog;
 import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.jgkj.bxxc.tools.SureRefundDialog;
+import com.lmj.mypwdinputlibrary.MyInputPwdUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -57,6 +58,8 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
     private int uid;
     private String token;
     private String account;
+
+    private MyInputPwdUtil myInputPwdUtil;
     private String balanceUrl="http://www.baixinxueche.com/index.php/Home/Apitokenpt/balance";
 
     //广播接收更新数据
@@ -82,6 +85,7 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
         token = intent.getStringExtra("token");
         SharedPreferences sp = getSharedPreferences("useraccount",Activity.MODE_PRIVATE);
         account = sp.getString("useraccount", null);
+        myInputPwdUtil = new MyInputPwdUtil(this);
     }
     private void getBalance(String uid, String token){
         OkHttpUtils.post()
@@ -209,7 +213,7 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
                             }else{
                                 balance_diolog.dismiss();
                                 new SureRefundDialog(Setting_AccountActivity.this,
-                                        "退款将在2-5个工作日退还到您所在的平台上绑定的银行卡。", uid, token, account).SureRefund();
+                                        "退款将在2-5个工作日退还到您所在的平台上绑定的银行卡。", uid, token, account, myInputPwdUtil).SureRefund();
                             }
                         }
                         }

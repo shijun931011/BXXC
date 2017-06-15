@@ -57,7 +57,6 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
         StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         Intent intent = getIntent();
         uid = intent.getIntExtra("uid",uid);
-
         cid = intent.getStringExtra("cid");
         token = intent.getStringExtra("token");
 
@@ -78,8 +77,8 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
         remind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new RemainBaseDialog(BuyClassHoursActivity.this,"这里展示的是百信学车为您提供的的学时套餐，优惠，方便。 学时套餐用于预约私教班教练练车时候，" +
-                        "且以两个学时为起步，购买后的套餐，如有多余是可以申请退款的。").call();
+                new RemainBaseDialog(BuyClassHoursActivity.this,"百信学车为您提供学时套餐，优惠，方便。您可以使用该套餐来预约私教班教练以及陪练教练的学习时间，且以3个学时为起步" +
+                        "，套餐购买后不给予退款，请您按照实际需求购买套餐").call();
             }
         });
 
