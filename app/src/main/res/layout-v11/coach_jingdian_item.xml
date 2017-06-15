@@ -141,17 +141,15 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="0.5"
         >
         <ImageView
             android:id="@+id/kemu"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:src="@drawable/kemu"
-
             />
-
     </LinearLayout>
 
 </LinearLayout>
