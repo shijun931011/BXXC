@@ -101,7 +101,7 @@ public class DrivingHisAdapter extends BaseAdapter implements View.OnClickListen
         Intent intent = new Intent();
         if(btn.getText().toString().equals("评价")){
             intent.setClass(context, AppraiseActivity.class);
-            intent.putExtra("timeid",result.getCid());
+            intent.putExtra("timeid",result.getTimeid());
             intent.putExtra("token",token);
             intent.putExtra("uid",uid);
         }

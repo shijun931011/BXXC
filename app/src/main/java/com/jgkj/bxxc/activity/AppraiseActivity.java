@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -121,6 +122,7 @@ public class AppraiseActivity extends Activity implements View.OnClickListener, 
 
                     @Override
                     public void onResponse(String s, int i) {
+                        Log.i("百信学车","评价结果" + s);
                         Gson gson = new Gson();
                         PingJia pj = gson.fromJson(s, PingJia.class);
                         if (pj.getCode() == 200) {

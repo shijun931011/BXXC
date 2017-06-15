@@ -106,7 +106,7 @@ public class LearnHisAdapter extends BaseAdapter implements View.OnClickListener
 
         if(btn.getText().toString().equals("评价")){
             intent.setClass(context, AppraiseActivity.class);
-            intent.putExtra("timeid",result.getCid());
+            intent.putExtra("timeid",result.getTimeid());
             intent.putExtra("token",token);
             intent.putExtra("uid",uid);
         }
