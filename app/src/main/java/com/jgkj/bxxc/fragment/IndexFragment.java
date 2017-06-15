@@ -446,14 +446,14 @@ public class IndexFragment extends Fragment implements OnClickListener {
                 }
                 break;
             case R.id.linear_driving_companion:            //陪驾
-                if (userInfo == null){
-                    intent.setClass(getActivity(), LoginActivity.class);
-                    intent.putExtra("message","drivingCompanion");
-                    startActivity(intent);
-                }else{
+//                if (userInfo == null){
+//                    intent.setClass(getActivity(), LoginActivity.class);
+//                    intent.putExtra("message","drivingCompanion");
+//                    startActivity(intent);
+//                }else{
                     intent.setClass(getActivity(),DrivingCompanionActivity.class);
                     startActivity(intent);
-                }
+//                }
                 break;
             case R.id.classic_coach:       //经典班报名
                 intent.setClass(getActivity(), ClassicActivity.class);

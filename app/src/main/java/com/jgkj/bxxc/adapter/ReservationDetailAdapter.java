@@ -1,6 +1,7 @@
 package com.jgkj.bxxc.adapter;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.activity.BuyClassHoursActivity;
+import com.jgkj.bxxc.activity.ReservationDetailActivity;
 import com.jgkj.bxxc.bean.entity.ConfirmReservationEntity.ConfirmReservationResult;
 import com.jgkj.bxxc.bean.entity.MenuEntity.MenuEntitys;
 import com.jgkj.bxxc.bean.entity.MenuEntity.MenuResults;
@@ -29,8 +31,12 @@ import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.Call;
@@ -55,6 +61,8 @@ public class ReservationDetailAdapter extends BaseAdapter {
     private String cid;
     private String flag_class;
     private ListView listView;
+
+    private ProgressDialog progressDialog;
 
     //时间段
     private String time_slot;
@@ -124,43 +132,97 @@ public class ReservationDetailAdapter extends BaseAdapter {
         viewHolder.tv_subjectName.setText(flag_class);
 
         if(list.get(position).getCount() == 0){
-            if(!checkPosition(positionList,position)){
-                viewHolder.btn_reservation.setText("可预约");
-                viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_blue));
-                viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_blue);
-            }else{
-                if(!checkPosition(positionCancelList,position)){
-                    viewHolder.btn_reservation.setText("取消预约");
-                    viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_orange));
-                    viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_oragen);
+            if(getTempDay().equals(list.get(position).getTimeone())){
+                if(Integer.parseInt(getH()) > Integer.parseInt(list.get(position).getTimeslot().substring(0,2))){
+                    viewHolder.btn_reservation.setText("时间已过");
+                    viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_gray));
+                    viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_gray);
                 }else{
-                    if(!viewHolder.btn_reservation.getText().toString().equals("取消预约")){
+                    if(!checkPosition(positionList,position)){
                         viewHolder.btn_reservation.setText("可预约");
                         viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_blue));
                         viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_blue);
                     }else{
+                        if(!checkPosition(positionCancelList,position)){
+                            viewHolder.btn_reservation.setText("取消预约");
+                            viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_orange));
+                            viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_oragen);
+                        }else{
+                            if(!viewHolder.btn_reservation.getText().toString().equals("取消预约")){
+                                viewHolder.btn_reservation.setText("可预约");
+                                viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_blue));
+                                viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_blue);
+                            }else{
+                                viewHolder.btn_reservation.setText("取消预约");
+                                viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_orange));
+                                viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_oragen);
+                            }
+                        }
+                    }
+                }
+            }else{
+                if(!checkPosition(positionList,position)){
+                    viewHolder.btn_reservation.setText("可预约");
+                    viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_blue));
+                    viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_blue);
+                }else{
+                    if(!checkPosition(positionCancelList,position)){
                         viewHolder.btn_reservation.setText("取消预约");
                         viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_orange));
                         viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_oragen);
+                    }else{
+                        if(!viewHolder.btn_reservation.getText().toString().equals("取消预约")){
+                            viewHolder.btn_reservation.setText("可预约");
+                            viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_blue));
+                            viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_blue);
+                        }else{
+                            viewHolder.btn_reservation.setText("取消预约");
+                            viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_orange));
+                            viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_oragen);
+                        }
                     }
                 }
             }
         }
         if(list.get(position).getCount() == 1){
             if(check(list.get(position).getTimeslot())){
-                if(!checkPosition(positionCancelList,position)){
-                    viewHolder.btn_reservation.setText("取消预约");
-                    viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_orange));
-                    viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_oragen);
-                }else{
-                    if(!viewHolder.btn_reservation.getText().toString().equals("取消预约")){
-                        viewHolder.btn_reservation.setText("可预约");
-                        viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_blue));
-                        viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_blue);
+                if(getTempDay().equals(list.get(position).getTimeone())){
+                    if(Integer.parseInt(getH()) > Integer.parseInt(list.get(position).getTimeslot().substring(0,2))){
+                        viewHolder.btn_reservation.setText("时间已过");
+                        viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_gray));
+                        viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_gray);
                     }else{
+                        if(!checkPosition(positionCancelList,position)){
+                            viewHolder.btn_reservation.setText("取消预约");
+                            viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_orange));
+                            viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_oragen);
+                        }else{
+                            if(!viewHolder.btn_reservation.getText().toString().equals("取消预约")){
+                                viewHolder.btn_reservation.setText("可预约");
+                                viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_blue));
+                                viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_blue);
+                            }else{
+                                viewHolder.btn_reservation.setText("取消预约");
+                                viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_orange));
+                                viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_oragen);
+                            }
+                        }
+                    }
+                }else{
+                    if(!checkPosition(positionCancelList,position)){
                         viewHolder.btn_reservation.setText("取消预约");
                         viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_orange));
                         viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_oragen);
+                    }else{
+                        if(!viewHolder.btn_reservation.getText().toString().equals("取消预约")){
+                            viewHolder.btn_reservation.setText("可预约");
+                            viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_blue));
+                            viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_blue);
+                        }else{
+                            viewHolder.btn_reservation.setText("取消预约");
+                            viewHolder.btn_reservation.setTextColor(context.getResources().getColor(R.color.btn_orange));
+                            viewHolder.btn_reservation.setBackgroundResource(R.drawable.btn_style_oragen);
+                        }
                     }
                 }
             }else{
@@ -175,6 +237,8 @@ public class ReservationDetailAdapter extends BaseAdapter {
                 if(viewHolder.btn_reservation.getText().toString().equals("可预约")){
                     time_slot = list.get(position).getTimeslot();
                     timeone = list.get(position).getTimeone();
+                    //显示ProgressDialog
+                    progressDialog = ProgressDialog.show(context, "加载中...", "请等待...", true, false);
                     getData(uid,token, Urls.Hours,viewHolder.btn_reservation,position);
                 }
                 if(viewHolder.btn_reservation.getText().toString().equals("取消预约")){
@@ -285,9 +349,11 @@ public class ReservationDetailAdapter extends BaseAdapter {
                     @Override
                     public void onError(Call call, Exception e, int i) {
                         Toast.makeText(context, "加载失败", Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
                     }
                     @Override
                     public void onResponse(String s, int i) {
+                        progressDialog.dismiss();
                         Gson gson = new Gson();
                         MenuResults menuResult = gson.fromJson(s, MenuResults.class);
                         List<MenuEntitys> result = menuResult.getResult();
@@ -349,6 +415,24 @@ public class ReservationDetailAdapter extends BaseAdapter {
         context.sendBroadcast(intent);
     }
 
+    //获取时间
+    public String getTempDay(){
+//        SimpleDateFormat sf = new SimpleDateFormat("yyyy年MM月dd日");
+//        Calendar c = Calendar.getInstance();
+//        c.add(Calendar.DAY_OF_MONTH, 0);
+//        String dd = sf.format(c.getTime()).toString();
+//        return dd;
 
+        Date date=new Date();
+        DateFormat format=new SimpleDateFormat("yyyy年MM月dd日");
+        return format.format(date).toString();
+    }
+
+    //获取时间
+    public String getH(){
+        Date date=new Date();
+        DateFormat format=new SimpleDateFormat("HH");
+        return format.format(date).toString();
+    }
 
 }

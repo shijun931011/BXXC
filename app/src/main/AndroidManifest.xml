@@ -266,7 +266,7 @@
             android:name=".activity.HomeActivity"
             android:label="首页"
             android:screenOrientation="portrait"
-            android:theme="@style/Base.AppTheme">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
                 <action android:name="jpush.testAction" />
@@ -541,6 +541,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SettingActivity"
+            android:theme="@style/AppTheme"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.RehourActivity"
@@ -623,6 +624,15 @@
             android:name=".activity.DrivingHisActivity"
             android:screenOrientation="portrait" />
 
-    </application>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.jgkj.bxxc.fileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
 
+    </application>
 </manifest>

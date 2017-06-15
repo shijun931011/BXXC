@@ -64,6 +64,8 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
     private String applyUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/applySubjectTestAgain";
     private String sub4Url = "http://www.baixinxueche.com/index.php/Home/Apialltoken/applyFour";
 
+    private TextView tv_look;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +113,8 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
         listView = (ListView) findViewById(R.id.listView);
         Intent intent = getIntent();
         token = intent.getStringExtra("token");
+
+        tv_look = (TextView)findViewById(R.id.tv_look);
     }
 
     //初始化布局
@@ -124,6 +128,14 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
         username.setText(name);
 
         progress.setText("当前状态：" + state);
+        //现实查看失败按钮
+        if(state.equals("完善信息审核失败")){
+            tv_look.setVisibility(View.VISIBLE);
+        }else{
+            tv_look.setVisibility(View.GONE);
+        }
+        tv_look.setOnClickListener(this);
+
         list = new ArrayList<>();
         textTitle.setText("学成进程");
         //初始化时间轴
@@ -338,6 +350,13 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
             case R.id.dialog_cancel:
                 dialog.dismiss();
                 break;
+            case R.id.tv_look:
+                Intent intent = new Intent();
+                intent.setClass(this,WebViewActivity.class);
+                intent.putExtra("url","http://www.baixinxueche.com/webshow/thing/file.html");
+                intent.putExtra("title","审核失败的原因");
+                startActivity(intent);
+                break;
         }
     }
 
@@ -472,9 +491,9 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
                         UserInfo userInfo = gson.fromJson(s, UserInfo.class);
                         if (userInfo.getCode() == 200) {
                             gotoComplete.setText("准备考试中");
+                        }else{
+                            Toast.makeText(LearnProActivity.this, userInfo.getReason(), Toast.LENGTH_SHORT).show();
                         }
-                        Toast.makeText(LearnProActivity.this, userInfo.getReason(), Toast.LENGTH_SHORT).show();
-
                     }
                 });
     }
@@ -496,7 +515,10 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
                     public void onResponse(String s, int i) {
                         Gson gson = new Gson();
                         UserInfo userInfo = gson.fromJson(s, UserInfo.class);
-                        Toast.makeText(LearnProActivity.this, userInfo.getReason(), Toast.LENGTH_SHORT).show();
+                        if (userInfo.getCode() == 200) {
+                        }else{
+                            Toast.makeText(LearnProActivity.this, userInfo.getReason(), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
     }

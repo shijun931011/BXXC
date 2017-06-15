@@ -11,8 +11,12 @@ import android.widget.TextView;
 
 import com.jgkj.bxxc.activity.AppraiseActivity;
 import com.jgkj.bxxc.R;
+import com.jgkj.bxxc.activity.ReservationActivity;
+import com.jgkj.bxxc.activity.ReservationForDrivingActivity;
+import com.jgkj.bxxc.activity.ReservationForPrivateActivity;
 import com.jgkj.bxxc.bean.LearnHisAction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -76,7 +80,7 @@ public class LearnHisAdapter extends BaseAdapter implements View.OnClickListener
             result = list.get(position);
             viewHolder.day.setText(result.getDay());
             viewHolder.time.setText(result.getTime_slot());
-            viewHolder.appraise.setTag(result.getTimeid());
+            viewHolder.appraise.setTag(result);
             viewHolder.appraise.setOnClickListener(this);
 
             if(isCome==0){
@@ -84,8 +88,7 @@ public class LearnHisAdapter extends BaseAdapter implements View.OnClickListener
                 viewHolder.appraise.setEnabled(false);
             }else{
                 if(result.getState()!=0){
-                    viewHolder.appraise.setText("已评价");
-                    viewHolder.appraise.setEnabled(false);
+                    viewHolder.appraise.setText("查看");
                 }else{
                     viewHolder.appraise.setText("评价");
                     viewHolder.appraise.setEnabled(true);
@@ -98,12 +101,28 @@ public class LearnHisAdapter extends BaseAdapter implements View.OnClickListener
     @Override
     public void onClick(View view) {
         Button btn = (Button) view;
-        String timeid = btn.getTag().toString();
+        result = (LearnHisAction.Result)btn.getTag();
         Intent intent = new Intent();
-        intent.setClass(context, AppraiseActivity.class);
-        intent.putExtra("timeid",timeid);
-        intent.putExtra("token",token);
-        intent.putExtra("uid",uid);
+
+        if(btn.getText().toString().equals("评价")){
+            intent.setClass(context, AppraiseActivity.class);
+            intent.putExtra("timeid",result.getCid());
+            intent.putExtra("token",token);
+            intent.putExtra("uid",uid);
+        }
+        if(btn.getText().toString().equals("查看")){
+            if(result.getClass_type().equals("私教班")){
+                intent.setClass(context, ReservationForPrivateActivity.class);
+                intent.putExtra("coachId",result.getCid());
+                intent.putExtra("uid", uid);
+                intent.putExtra("token", token);
+            }else{
+                intent.setClass(context, ReservationActivity.class);
+                intent.putExtra("coachId",result.getCid());
+                intent.putExtra("uid", uid);
+                intent.putExtra("token", token);
+            }
+        }
         context.startActivity(intent);
     }
 

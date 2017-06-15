@@ -97,19 +97,25 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
     private Drawable rbImg3;
     private Drawable rbImg4;
 
+    private Context context;
+    private boolean flag_dialog = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         StatusBarCompat.compat(this, Color.parseColor("#37363C"));
+        context = this;
         init();
         //.getApplicationContext（）取的是这个应 用程序的Context，Activity.this取的是这个Activity的Context
         JPushInterface.init(getApplicationContext());
         isClearLoginSession();
-        checkSoftInfo();
         registerMessageReceiver();
-        isCouponDialog();
-
+        //判断
+        if(flag_dialog != true){
+            isCouponDialog();
+            checkSoftInfo();
+        }
     }
 
     private void isCouponDialog(){
@@ -156,9 +162,8 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                 Gson gson = new Gson();
                 Version version = gson.fromJson(s, Version.class);
                 if (version.getCode() == 200) {
-                    if (version.getResult().get(0).getVersionCode() > GetVersion.getVersionCode(HomeActivity.this)) {
-
-                        UpdateManger updateManger = new UpdateManger(HomeActivity.this, version.getResult().get(0).getPath(), version.getResult().get(0).getVersionName());
+                    if (version.getResult().get(0).getVersionCode() > GetVersion.getVersionCode(context)) {
+                        UpdateManger updateManger = new UpdateManger(context, version.getResult().get(0).getPath(), version.getResult().get(0).getVersionName());
                         updateManger.checkUpdateInfo();
                     }
                 }
@@ -169,13 +174,13 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
     // 初始化控件及部分方法
     private void init() {
         rbImg1 = getResources().getDrawable(R.drawable.selector_home_bottom);
-        rbImg1.setBounds(0, 0, 40, 40);
+        rbImg1.setBounds(0, 0, 55, 55);
         rbImg2 = getResources().getDrawable(R.drawable.selector_coach_bottom);
-        rbImg2.setBounds(0, 0, 40, 40);
+        rbImg2.setBounds(0, 0, 55, 55);
         rbImg3 = getResources().getDrawable(R.drawable.selector_study_bottom);
-        rbImg3.setBounds(0, 0, 40, 40);
+        rbImg3.setBounds(0, 0, 55, 55);
         rbImg4 = getResources().getDrawable(R.drawable.selector_me_bottom);
-        rbImg4.setBounds(0, 0, 40, 40);
+        rbImg4.setBounds(0, 0, 55, 55);
         titlebar = (RelativeLayout) findViewById(R.id.title_bar);
         //地区
         place = (TextView) findViewById(R.id.txt_place);
@@ -224,8 +229,9 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
             scroll_bar.setVisibility(View.GONE);
             car_frameLayout.setVisibility(View.VISIBLE);
             transaction.add(R.id.car_send_map, my_set);
+            radioButton4.setChecked(true);
         } else {
-            if (fromActivity.equals("WelcomeActivity") || fromActivity.equals("LoginActivity")) {
+            if (fromActivity.equals("WelcomeActivity")) {
                 transaction.add(R.id.index_fragment_layout, indexFragment);
                 kefu.setImageResource(R.drawable.kefu_phone);
                 place.setText("合肥");
@@ -234,11 +240,14 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                 im_title.setVisibility(View.VISIBLE);
                 place.setVisibility(View.VISIBLE);
                 kefu.setVisibility(View.VISIBLE);
+                radioButton1.setChecked(true);
             } else if (fromActivity.equals("SimpleCoachActivity") || fromActivity.equals("IndexFragment")) {
                 titlebar.setVisibility(View.GONE);
                 radioButton2.setChecked(true);
                 car_frameLayout.setVisibility(View.VISIBLE);
                 transaction.add(R.id.car_send_map, coach);
+                //不弹框标识
+                flag_dialog = true;
             } else if (fromActivity.equals("MySetting")) {
                 text_title.setText("我的资料");
                 text_title.setVisibility(View.VISIBLE);
@@ -247,6 +256,20 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                 scroll_bar.setVisibility(View.GONE);
                 car_frameLayout.setVisibility(View.VISIBLE);
                 transaction.add(R.id.car_send_map, my_set);
+                //不弹框标识
+                flag_dialog = true;
+            }else if(fromActivity.equals("LoginActivity")){
+                transaction.add(R.id.index_fragment_layout, indexFragment);
+                kefu.setImageResource(R.drawable.kefu_phone);
+                place.setText("合肥");
+                text_title.setText("百信学车");
+                text_title.setVisibility(View.GONE);
+                im_title.setVisibility(View.VISIBLE);
+                place.setVisibility(View.VISIBLE);
+                kefu.setVisibility(View.VISIBLE);
+                radioButton1.setChecked(true);
+                //不弹框标识
+                flag_dialog = true;
             }
         }
         transaction.addToBackStack(null);
@@ -292,8 +315,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
                     transaction.replace(R.id.car_send_map, coach).addToBackStack(null).commit();
                     mCurrentFragment = coach;
                 }
-
-
                 break;
             case R.id.radio_button_03:
                 text_title.setVisibility(View.VISIBLE);

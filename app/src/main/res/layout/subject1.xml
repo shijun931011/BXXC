@@ -28,8 +28,8 @@
             <LinearLayout
                 android:id="@+id/linearlayout1"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <ImageView
@@ -55,8 +55,8 @@
             <LinearLayout
                 android:id="@+id/linearlayout2"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <ImageView
@@ -89,8 +89,8 @@
             <LinearLayout
                 android:id="@+id/linearlayout3"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <ImageView
@@ -119,8 +119,8 @@
             <LinearLayout
                 android:id="@+id/linearlayout4"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <ImageView
@@ -295,5 +295,14 @@
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:background="@color/lightgray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#FFFFFF"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
     </LinearLayout>
 </ScrollView>

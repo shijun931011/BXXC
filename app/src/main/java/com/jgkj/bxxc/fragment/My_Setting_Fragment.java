@@ -500,9 +500,13 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
      */
     @Override
     public void onResume() {
+        //Toast.makeText(getActivity(),"啦啦啦！", Toast.LENGTH_SHORT).show();
         isLogin();
+        init();
         super.onResume();
     }
+
+
     /**
      * 刷新个人信息
      * @param uid 用户uid

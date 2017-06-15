@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/title_bar"
-        android:layout_marginBottom="55dp"
+        android:layout_marginBottom="50dp"
         android:visibility="gone"/>
     <!-- 导航栏 -->
 
@@ -21,61 +21,62 @@
         android:id="@+id/bottom_bar"
         style="@style/RadioButton"
         android:layout_width="wrap_content"
-        android:layout_height="55dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:padding="5dp">
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/radio_button_01"
             style="@style/RadioButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
-            android:drawablePadding="1dp"
             android:gravity="center"
             android:text="首页"
             android:textColor="@drawable/navigation"
-            android:textSize="12sp"/>
-
+            android:textSize="9sp"
+            android:layout_marginTop="5dp"
+            android:paddingTop="3dp"/>
         <RadioButton
             android:id="@+id/radio_button_02"
             style="@style/RadioButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
-            android:drawablePadding="1dp"
             android:gravity="center"
             android:text="报考"
             android:textColor="@drawable/navigation"
-            android:textSize="12sp"/>
+            android:textSize="9sp"
+            android:layout_marginTop="5dp"
+            android:paddingTop="3dp"/>
         <RadioButton
             android:id="@+id/radio_button_03"
             style="@style/RadioButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
-            android:drawablePadding="1dp"
             android:gravity="center"
             android:text="学习"
             android:textColor="@drawable/navigation"
-            android:textSize="12sp"/>
+            android:textSize="9sp"
+            android:layout_marginTop="5dp"
+            android:paddingTop="3dp"/>
         <RadioButton
             android:id="@+id/radio_button_04"
             style="@style/RadioButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
-            android:drawablePadding="1dp"
             android:gravity="center"
             android:text="我的"
             android:textColor="@drawable/navigation"
-            android:textSize="12sp"/>
+            android:textSize="9sp"
+            android:layout_marginTop="5dp"
+            android:paddingTop="3dp"/>
     </RadioGroup>
     <ScrollView
         android:id="@+id/scroll_bar"

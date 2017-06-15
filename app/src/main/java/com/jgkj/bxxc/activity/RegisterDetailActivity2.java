@@ -167,6 +167,7 @@ public class RegisterDetailActivity2 extends Activity implements View.OnClickLis
         title = (TextView) findViewById(R.id.text_title);
         title.setText("完善信息");
         back_forward = (Button) findViewById(R.id.button_backward);
+        back_forward.setVisibility(View.VISIBLE);
         submit = (Button) findViewById(R.id.submit);
         submit.setOnClickListener(this);
         //上传imageView实例化
@@ -228,7 +229,7 @@ public class RegisterDetailActivity2 extends Activity implements View.OnClickLis
                     File file3 = new File(filepath3);
                     File file4 = new File(filepath4);
                     if (!file1.exists() || !file2.exists() || !file3.exists() || !file4.exists()) {
-                        Log.i("错误", "文件不存在");
+                        Toast.makeText(RegisterDetailActivity2.this, "文件不存在", Toast.LENGTH_SHORT).show();
                     }
 
                     HttpClient client = new DefaultHttpClient();
@@ -387,6 +388,12 @@ public class RegisterDetailActivity2 extends Activity implements View.OnClickLis
         intent.putExtra("noFaceDetection", true);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, corpnewUri);
         intent.putExtra("scale", true);
+        //裁剪框比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1.3);
+        //图片输出大小
+        intent.putExtra("outputX", 600);
+        intent.putExtra("outputY", 700);
         startActivityForResult(intent, CROP_REQUEST_CODE);
     }
 

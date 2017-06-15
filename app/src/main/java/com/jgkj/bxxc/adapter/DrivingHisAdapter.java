@@ -77,7 +77,7 @@ public class DrivingHisAdapter extends BaseAdapter implements View.OnClickListen
             result = list.get(position);
             viewHolder.day.setText(result.getDay());
             viewHolder.time.setHint(result.getTime_slot());
-            viewHolder.appraise.setTag(result.getTimeid());
+            viewHolder.appraise.setTag(result);
             viewHolder.appraise.setOnClickListener(this);
 
             if(isCome==0){
@@ -97,11 +97,11 @@ public class DrivingHisAdapter extends BaseAdapter implements View.OnClickListen
     @Override
     public void onClick(View view) {
         Button btn = (Button) view;
-        String timeid = btn.getTag().toString();
+        result = (LearnHisAction.Result)btn.getTag();
         Intent intent = new Intent();
         if(btn.getText().toString().equals("评价")){
             intent.setClass(context, AppraiseActivity.class);
-            intent.putExtra("timeid",timeid);
+            intent.putExtra("timeid",result.getCid());
             intent.putExtra("token",token);
             intent.putExtra("uid",uid);
         }

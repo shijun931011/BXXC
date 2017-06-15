@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +55,7 @@ public class LearnHisActivity extends Activity implements View.OnClickListener,
     private RadioButton radio_btn01, radio_btn02;
     private Button back_btn, baoming;
     private List<LearnHisAction.Result> list = new ArrayList();
-    private String learnUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/commentShowApplyTest";
+    private String learnUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/commentShowApplyTesttype";
     private String notComeUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/commentNotTo";
     private String applyTest = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/applySubjectTestAgain";
     private int page = 1;
@@ -121,6 +122,7 @@ public class LearnHisActivity extends Activity implements View.OnClickListener,
                     }
                     @Override
                     public void onResponse(String s, int i) {
+                        Log.i("百信学车","学车记录结果" + s);
                         listView.setTag(s);
                         if (listView.getTag() != null) {
                             setAdapter();

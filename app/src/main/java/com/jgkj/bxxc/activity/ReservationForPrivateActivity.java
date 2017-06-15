@@ -440,12 +440,17 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                             zhiliangfen.setText(result.getTeach() + ".0分");
                             fuwufen.setText(result.getWait() + ".0分");
 
-                            listStu = result.getComment();
-                            if(listStu.size() == 0){
-                                linear_list_noData.setVisibility(View.VISIBLE);
-                            }
-                            adapter = new CoachFullDetailAdapter(ReservationForPrivateActivity.this, listStu);
-                            listView.setAdapter(adapter);
+                            getCommentFirst(commentUrl);
+
+//                            String str = listView.getTag().toString();
+//                            gson = new Gson();
+//                            CommentResult coachInfos = gson.fromJson(str, CommentResult.class);
+//                            listStu = coachInfos.getResult();
+//                            if(listStu.size() == 0){
+//                                linear_list_noData.setVisibility(View.VISIBLE);
+//                            }
+//                            adapter = new CoachFullDetailAdapter(ReservationForPrivateActivity.this, listStu);
+//                            listView.setAdapter(adapter);
                             falg = true;
                             initMap(result.getLatitude(),result.getLongitude());
 
@@ -707,6 +712,39 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                         if (listView.getTag() != null) {
                             setCom();
                         }
+                    }
+                });
+    }
+
+    private void getCommentFirst(String comment) {
+        OkHttpUtils
+                .post()
+                .url(comment)
+                .addParams("page","1")
+                .addParams("cid", coachId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int i) {
+                        Toast.makeText(ReservationForPrivateActivity.this, "加载失败", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onResponse(String s, int i) {
+                        //String str = listView.getTag().toString();
+                        Gson gson = new Gson();
+                        CommentResult coachInfos = gson.fromJson(s, CommentResult.class);
+                        if(coachInfos.getCode() == 200){
+                            listStu = coachInfos.getResult();
+                            if(listStu.size() == 0){
+                                linear_list_noData.setVisibility(View.VISIBLE);
+                            }
+                            adapter = new CoachFullDetailAdapter(ReservationForPrivateActivity.this, listStu);
+                            listView.setAdapter(adapter);
+                        }else{
+                            Toast.makeText(ReservationForPrivateActivity.this, coachInfos.getReason(), Toast.LENGTH_LONG).show();
+                        }
+
                     }
                 });
     }

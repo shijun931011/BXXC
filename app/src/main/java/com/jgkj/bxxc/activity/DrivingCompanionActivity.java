@@ -83,7 +83,7 @@ public class DrivingCompanionActivity extends Activity implements View.OnClickLi
 
     private void initView(){
         title = (TextView)  findViewById(R.id.text_title);
-        title.setText("私教班");
+        title.setText("新手陪练");
         button_backward = (Button) findViewById(R.id.button_backward);
         button_backward.setVisibility(View.VISIBLE);
         button_backward.setOnClickListener(this);
@@ -338,9 +338,10 @@ public class DrivingCompanionActivity extends Activity implements View.OnClickLi
             String string = sort_btn3.getText().toString().trim();
             if (string.equals("综合排序")) {
                 sortString = "zonghe";
-                  sortString = "praise";
             }else if (string.equals("累计所带学员数")) {
                 sortString = "leiji";
+            }else if (string.equals("好评率")) {
+                sortString = "praise";
             }
         }
     }

@@ -2,6 +2,7 @@ package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -45,6 +46,7 @@ public class SettingActivity extends Activity implements View.OnClickListener {
     private String token;
     private UserInfo userInfo;
     private UserInfo.Result result;
+    private Context context;
 
     //账户安全
     private LinearLayout linearLayout_account_security;
@@ -57,6 +59,7 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         StatusBarCompat.compat(this, Color.parseColor("#37363C"));
+        context = this;
         initView();
     }
 
@@ -104,8 +107,8 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         dialog_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GlideCacheUtil.getInstance().clearImageAllCache(getApplicationContext());
-                String str = GlideCacheUtil.getInstance().getCacheSize(getApplicationContext());
+                GlideCacheUtil.getInstance().clearImageAllCache(context);
+                String str = GlideCacheUtil.getInstance().getCacheSize(context);
                 cleanUp.setText(str);
                 sureDialog.dismiss();
             }
@@ -144,9 +147,8 @@ public class SettingActivity extends Activity implements View.OnClickListener {
                         Gson gson = new Gson();
                         Version version = gson.fromJson(s, Version.class);
                         if (version.getCode() == 200) {
-                            if (version.getResult().get(0).getVersionCode() > GetVersion.getVersionCode(getApplicationContext())) {
-                                UpdateManger updateManger = new UpdateManger(getApplicationContext(),
-                                        version.getResult().get(0).getPath(),version.getResult().get(0).getVersionName());
+                            if (version.getResult().get(0).getVersionCode() > GetVersion.getVersionCode(context)) {
+                                UpdateManger updateManger = new UpdateManger(context, version.getResult().get(0).getPath(),version.getResult().get(0).getVersionName());
                                 updateManger.checkUpdateInfo();
                             } else {
                                 Toast.makeText(SettingActivity.this, "已是最新版本", Toast.LENGTH_SHORT).show();
@@ -188,8 +190,8 @@ public class SettingActivity extends Activity implements View.OnClickListener {
                 SharedPreferences.Editor editor = sp.edit();
                 editor.clear();
                 editor.commit();
-                intent.setClass(this,HomeActivity.class);
-                startActivity(intent);
+//                intent.setClass(this,HomeActivity.class);
+//                startActivity(intent);
                 finish();
                 break;
         }

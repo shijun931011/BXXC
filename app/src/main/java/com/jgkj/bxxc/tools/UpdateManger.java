@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -71,8 +73,7 @@ public class UpdateManger {
         showNoticeDialog();
     }
     private void showNoticeDialog() {
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(
-                mContext);// Builder，可以通过此builder设置改变AleartDialog的默认的主题样式及属性相关信息
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(mContext);// Builder，可以通过此builder设置改变AleartDialog的默认的主题样式及属性相关信息
         builder.setCancelable(false);
         builder.setTitle("检查到有版本"+mCurrentVersionName);
         builder.setMessage(updateMsg);
@@ -120,9 +121,21 @@ public class UpdateManger {
             return;
         }
         Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setDataAndType(Uri.parse("file://" + apkfile.toString()),
-                "application/vnd.android.package-archive");// File.toString()会返回路径信息
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        //判断是否是AndroidN以及更高的版本
+        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.N) {
+            File apkfiles = new File("file://" + saveFileName);
+            if (!apkfiles.exists()) {
+                return;
+            }
+            Uri contentUri = FileProvider.getUriForFile(mContext,"com.jgkj.bxxc.fileProvider",apkfiles);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            i.setDataAndType(contentUri,"application/vnd.android.package-archive");
+        }else{
+            i.setDataAndType(Uri.parse("file://" + apkfile.toString()),"application/vnd.android.package-archive");// File.toString()会返回路径信息
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
         mContext.startActivity(i);
     }
     private Runnable mdownApkRunnable = new Runnable() {
