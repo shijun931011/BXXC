@@ -502,6 +502,12 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
         registerReceiver(this.broadcastReceiver, filter);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(this.broadcastReceiver);
+    }
+
     public String checkClass(String ss){
         if(ss != null && !"".equals(ss)){
             return ss.substring(0,3) + "训练（一对一）";
@@ -509,6 +515,5 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
             return "陪练（一对一）";
         }
     }
-
 
 }
