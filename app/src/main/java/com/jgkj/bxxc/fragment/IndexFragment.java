@@ -398,11 +398,15 @@ public class IndexFragment extends Fragment implements OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.select_coach:           //教练
-                intent.setClass(getActivity(), HomeActivity.class);
-                intent.putExtra("FromActivity", "IndexFragment");
-                startActivity(intent);
-                getActivity().finish();
-                mCurrentFragment = coach;
+//                intent.setClass(getActivity(), HomeActivity.class);
+//                intent.putExtra("FromActivity", "IndexFragment");
+//                startActivity(intent);
+//                HomeActivity.radioButton2.setChecked(true);
+//                mCurrentFragment = coach;
+
+                //发送广播
+                intent.setAction("tiaozhuang");
+                getActivity().sendBroadcast(intent);
                 break;
             case R.id.select_place:          //场地
                 intent.setClass(getActivity(), PlaceChooseActivity.class);

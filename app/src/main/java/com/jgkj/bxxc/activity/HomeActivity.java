@@ -1,6 +1,7 @@
 package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -47,6 +48,7 @@ import com.jgkj.bxxc.tools.RemainBaseDialog;
 import com.jgkj.bxxc.tools.SelectPopupWindow;
 import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.jgkj.bxxc.tools.UpdateManger;
+import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -58,7 +60,7 @@ import okhttp3.Call;
 public class HomeActivity extends FragmentActivity implements OnClickListener {
     private FragmentManager fragmentManager;
     private FragmentTransaction transaction;
-    private RadioButton radioButton1, radioButton2, radioButton3, radioButton4;
+    public static RadioButton radioButton1, radioButton2, radioButton3, radioButton4;
     private Fragment mCurrentFragment, per, index, my_set, coach, map, study;
     private TextView text_title, place;
     private ImageView kefu,im_title;
@@ -397,9 +399,21 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         }
     }
 
+    //广播接收更新数据
+    protected BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            //设置报考按钮触发事件
+            radioButton2.performClick();
+        }
+    };
+
     @Override
     protected void onResume() {
         isForeground = true;
+        // 在当前的activity中注册广播
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("tiaozhuang");
+        registerReceiver(this.broadcastReceiver, filter);
         super.onResume();
     }
 

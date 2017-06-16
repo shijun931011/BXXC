@@ -132,11 +132,13 @@ public class Sub1 extends Fragment implements View.OnClickListener {
                             int itemPosition = viewpager.getCurrentItem();
                             Log.d("BXXXC", "科目"+list.get(itemPosition).getKey());
                             if (list.get(itemPosition).getKey()==2){
-                                intent.setClass(getActivity(), HomeActivity.class);
-                                intent.putExtra("FromActivity", "IndexFragment");
-                                startActivity(intent);
-                                getActivity().finish();
-                                mCurrentFragment = coach;
+//                                intent.setClass(getActivity(), HomeActivity.class);
+//                                intent.putExtra("FromActivity", "IndexFragment");
+//                                startActivity(intent);
+//                                mCurrentFragment = coach;
+                                //发送广播
+                                intent.setAction("tiaozhuang");
+                                getActivity().sendBroadcast(intent);
                             }
                         }catch(Exception e){
                            e.printStackTrace();
