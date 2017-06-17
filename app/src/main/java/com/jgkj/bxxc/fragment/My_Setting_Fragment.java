@@ -1,6 +1,7 @@
 package com.jgkj.bxxc.fragment;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -9,10 +10,12 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Gravity;
@@ -43,6 +46,7 @@ import com.jgkj.bxxc.activity.SettingActivity;
 import com.jgkj.bxxc.activity.Setting_AccountActivity;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.tools.CallDialog;
+import com.jgkj.bxxc.tools.OnBooleanListener;
 import com.jgkj.bxxc.tools.RefreshLayout;
 import com.lidroid.xutils.http.client.multipart.MultipartEntity;
 import com.lidroid.xutils.http.client.multipart.content.FileBody;
@@ -301,8 +305,12 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
      */
     private void startImgZoom(Uri uri) {
         random1 = System.currentTimeMillis();
-        corpnewUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory()
-                + "/baixinxueche/image/"+random1 + ".png"));
+        File fileTemp = new File(Environment.getExternalStorageDirectory() + "/baixinxueche/image/"+random1 + ".png");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //高版本一定要加上这两句话，做一下临时的Uri
+            FileProvider.getUriForFile(getActivity(), "com.jgkj.bxxc.fileProvider", fileTemp);
+        }
+        corpnewUri = Uri.fromFile(fileTemp);
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
@@ -310,6 +318,7 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true);
         intent.putExtra(MediaStore.EXTRA_OUTPUT,corpnewUri);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.putExtra("scale", true);
         startActivityForResult(intent, CROP_REQUEST_CODE);
     }
@@ -408,11 +417,22 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
                 }
                 break;
             case R.id.takePhoto:
-                corpUri = Uri.fromFile(getImageStoragePath(getActivity()));
-                Intent intent_takePhoto = new Intent(
-                        MediaStore.ACTION_IMAGE_CAPTURE);
-                intent_takePhoto.putExtra(MediaStore.EXTRA_OUTPUT, corpUri);
-                startActivityForResult(intent_takePhoto, CAMERA_REQUEST_CODE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    /*
+                    * 这里就是高版本需要注意的，需用使用FileProvider来获取Uri，同时需要注意getUriForFile
+                    * 方法第二个参数要与AndroidManifest.xml中provider的里面的属性authorities的值一致
+                    * */
+                    corpUri = FileProvider.getUriForFile(getActivity(), "com.jgkj.bxxc.fileProvider", getImageStoragePath(getActivity()));
+                    Intent intent_takePhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent_takePhoto.putExtra(MediaStore.EXTRA_OUTPUT, corpUri);
+                    intent_takePhoto.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    startActivityForResult(intent_takePhoto, CAMERA_REQUEST_CODE);
+                }else{
+                    corpUri = Uri.fromFile(getImageStoragePath(getActivity()));
+                    Intent intent_takePhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent_takePhoto.putExtra(MediaStore.EXTRA_OUTPUT, corpUri);
+                    startActivityForResult(intent_takePhoto, CAMERA_REQUEST_CODE);
+                }
                 headDialog.dismiss();
                 break;
             case R.id.choosePhoto:
@@ -435,7 +455,6 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
                     startActivity(intent);
                 }
                 break;
-
             case R.id.learn_record:
                 if (!isLogined) {
                     intent.setClass(getActivity(),LoginActivity.class);

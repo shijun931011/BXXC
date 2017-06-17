@@ -121,21 +121,24 @@ public class UpdateManger {
             return;
         }
         Intent i = new Intent(Intent.ACTION_VIEW);
-
+        Uri uri;
         //判断是否是AndroidN以及更高的版本
         if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.N) {
-            File apkfiles = new File("file://" + saveFileName);
-            if (!apkfiles.exists()) {
-                return;
-            }
-            Uri contentUri = FileProvider.getUriForFile(mContext,"com.jgkj.bxxc.fileProvider",apkfiles);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            i.setDataAndType(contentUri,"application/vnd.android.package-archive");
+//            File apkfiles = new File("file://" + saveFileName);
+//            if (!apkfiles.exists()) {
+//                return;
+//            }
+            uri = FileProvider.getUriForFile(mContext,"com.jgkj.bxxc.fileProvider",apkfile);
+            //Uri uri = FileProvider.getUriForFile(mContext,"com.jgkj.bxxc.fileProvider",apkfiles);
+            //i.setDataAndType(contentUri,"application/vnd.android.package-archive");
         }else{
-            i.setDataAndType(Uri.parse("file://" + apkfile.toString()),"application/vnd.android.package-archive");// File.toString()会返回路径信息
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            uri = Uri.fromFile(apkfile);
+            //uri = Uri.parse("file://" + apkfile.toString());
+            //i.setDataAndType(Uri.parse("file://" + apkfile.toString()),"application/vnd.android.package-archive");// File.toString()会返回路径信息
         }
+        i.setDataAndType(uri,"application/vnd.android.package-archive");
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         mContext.startActivity(i);
     }
     private Runnable mdownApkRunnable = new Runnable() {
