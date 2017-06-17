@@ -45,7 +45,7 @@
     <string name="balance_recharge">余额充值:</string>
     <string name="weixin_zhifu">微信支付</string>
     <string name="alipay">支付宝支付</string>
-    <string name="alipay_user">仅支持有有支付宝账号的用户</string>
+    <string name="alipay_user">仅支持有支付宝账号的用户</string>
     <string name="weixin_user">请在微信6.0.2及以上版本使用</string>
     <string name="recharge_protocol">点击去充值， 即表示已阅读并同意</string>
     <string name="recharge_protocol_txt">充值协议</string>

@@ -453,4 +453,5 @@ public class CoachFragment2 extends Fragment implements OnClickListener, Adapter
         filter.addAction("updataAppCoachFragment2");
         getActivity().registerReceiver(this.broadcastReceiver, filter);
     }
+
 }

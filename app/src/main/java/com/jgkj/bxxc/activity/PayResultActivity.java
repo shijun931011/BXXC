@@ -43,7 +43,7 @@ public class PayResultActivity extends Activity implements View.OnClickListener{
             button_forward.setTag(0);
         }else{
             if(payResult==1){
-                double count = intent.getDoubleExtra("price",3688.00);
+                int count = intent.getIntExtra("price",3080);
                 price.setText(count+"");
                 success.setVisibility(View.VISIBLE);
                 failure.setVisibility(View.GONE);

@@ -53,12 +53,13 @@ public class BuKaoActivity extends Activity implements View.OnClickListener {
      * uid  baixin_state  refee
      */
     private String payUrl = "http://www.baixinxueche.com/index.php/Home/Aliappretext/retestPay";
-    /*  微信支付  补考支付
-     uid  baixin_state  refee
+    /*
+     * 微信支付  补考支付
+     * uid  baixin_state  refee
      */
     private String weixinPayUrl="http://www.baixinxueche.com/index.php/Home/Aliappretext/wxretestPay";
-
     private String NewOrderUrl="http://www.baixinxueche.com/index.php/Home/Apitokenupdata/retest";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

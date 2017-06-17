@@ -1,270 +1,343 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
 >
     <include
         android:id="@+id/title"
         layout="@layout/title"/>
-
-    <LinearLayout
-        android:id="@+id/orderDetail"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
         android:layout_below="@+id/title"
-        android:gravity="center_vertical"
-        android:background="@drawable/num_text"
-        android:orientation="horizontal"
+    >
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:background="@color/white"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
         android:layout_marginTop="5dp"
-        >
-        <ImageView
-            android:layout_width="87dp"
-            android:layout_height="match_parent"
-            android:padding="10dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/privateclass_image"
-            />
+        android:background="@drawable/num_text"
+        android:gravity="center"
+        android:orientation="vertical"
+    >
         <LinearLayout
+            android:id="@+id/orderDetail"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:orientation="vertical"
-        >
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:text="@string/person_percar"
-                      android:layout_marginTop="12dp"
-                      android:textSize="18sp"
+            android:layout_height="80dp"
+            android:background="@drawable/num_text"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="87dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:padding="10dp"
+                android:src="@drawable/privateclass_image"
             />
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:text="@string/priclass_fuwu"
-                      android:layout_marginTop="10dp"
-                      android:textColor="@color/gray"
-                      android:textSize="15sp"
-            />
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="12dp"
+                          android:text="@string/person_percar"
+                          android:textSize="18sp"
+                />
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="10dp"
+                          android:text="@string/priclass_fuwu"
+                          android:textColor="@color/gray"
+                          android:textSize="15sp"/>
+            </LinearLayout>
         </LinearLayout>
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/messageDetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/orderDetail"
-        android:background="@color/white"
-        android:padding="5dp"
-        />
-    <LinearLayout
-        android:id="@+id/layout1"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@id/messageDetail"
-        android:layout_marginTop="1dp"
-        android:background="@drawable/num_text"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        >
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:src="@drawable/username"/>
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:background="@color/themeColor"/>
-        <EditText
-            android:id="@+id/signUpName"
-            style="?android:attr/textViewStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:hint="请输入姓名"
-            android:paddingLeft="12dp"
-            android:textColorHint="@color/gray"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/layout2"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@+id/layout1"
-        android:background="@drawable/num_text"
-        android:orientation="horizontal"
-        android:padding="10dp">
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:src="@drawable/phone"/>
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:background="@color/redTheme"/>
         <TextView
-            android:id="@+id/signUpPhone"
-            style="?android:attr/textViewStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:text="15210233318"
-            android:paddingLeft="12dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/layout3"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@+id/layout2"
-        android:background="@drawable/num_text"
-        android:orientation="horizontal"
-        android:padding="10dp">
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:src="@drawable/idcard"/>
-        <View
-            android:layout_width="0.5dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:background="@color/themeColor"/>
-        <EditText
-            android:id="@+id/idCard"
-            style="?android:attr/textViewStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:hint="请输入身份证号码"
-            android:maxLength="18"
-            android:paddingLeft="12dp"
-            android:textColorHint="@color/gray"/>
-    </LinearLayout>
-    <TextView
-        android:id="@+id/zhifu_style"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="支付方式"
-        android:textSize="10dp"
-        android:background="@color/white"
-        android:layout_below="@id/layout3"
-        android:padding="5dp"
-        />
-    <LinearLayout
-        android:id="@+id/payMethod1"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@id/zhifu_style"
-        android:background="@drawable/num_text"
-        android:orientation="horizontal"
-        android:paddingLeft="12dp">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:layout_weight="0"
-            android:src="@drawable/pay"/>
-        <RelativeLayout
+            android:id="@+id/messageDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_below="@+id/orderDetail"
+            android:background="@color/white"
+            android:padding="5dp"
+        />
+        <LinearLayout
+            android:id="@+id/layout1"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/messageDetail"
+            android:background="@drawable/num_text"
+            android:orientation="horizontal"
+            android:padding="10dp">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:src="@drawable/username"/>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:background="@color/themeColor"/>
+            <EditText
+                android:id="@+id/signUpName"
+                style="?android:attr/textViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="请输入姓名"
+                android:paddingLeft="12dp"
+                android:textColorHint="@color/gray"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout2"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/layout1"
+            android:background="@drawable/num_text"
+            android:orientation="horizontal"
+            android:padding="10dp">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:src="@drawable/phone"/>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:background="@color/redTheme"/>
+            <TextView
+                android:id="@+id/signUpPhone"
+                style="?android:attr/textViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:paddingLeft="12dp"
+                android:text="15210233318"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout3"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/layout2"
+            android:background="@drawable/num_text"
+            android:orientation="horizontal"
+            android:padding="10dp">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:src="@drawable/idcard"/>
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:background="@color/themeColor"/>
+            <EditText
+                android:id="@+id/idCard"
+                style="?android:attr/textViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="请输入身份证号码"
+                android:maxLength="18"
+                android:paddingLeft="12dp"
+                android:textColorHint="@color/gray"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout4"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/layout3"
+            android:background="@drawable/num_text"
+            android:orientation="horizontal"
+            android:padding="10dp">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:src="@drawable/tuijianren_img"/>
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:background="@color/themeColor"/>
+            <EditText
+                android:id="@+id/tuijianren"
+                style="?android:attr/textViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="请填写推荐人（选填）"
+                android:paddingLeft="12dp"
+                android:textColorHint="@color/gray"/>
+        </LinearLayout>
+        <View android:layout_width="match_parent"
+              android:layout_height="10dp"
+              android:background="@color/white"
+        />
+        <LinearLayout
+            android:id="@+id/layout5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout3"
+            android:background="@drawable/num_text"
+            android:orientation="horizontal"
             android:padding="10dp"
             >
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:text="支付宝支付"/>
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:text="是否拥有摩托车证"
+                android:textColor="@color/black"
+            />
             <TextView
+                android:id="@+id/choose"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="请选择"
+                android:textColor="@color/gray"
+                android:gravity="right"
+                android:drawableRight="@drawable/right_arrow"
+                android:drawablePadding="10dp"
+                android:paddingRight="15dp"
+
+            />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/zhifu_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="5dp"
+            android:text="支付方式"
+            android:textSize="10dp"
+        />
+        <LinearLayout
+            android:id="@+id/payMethod1"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@id/zhifu_style"
+            android:background="@drawable/num_text"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:layout_weight="0"
+                android:src="@drawable/pay"/>
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:hint="仅支持有有支付宝账号的用户"
-                android:singleLine="true"/>
-        </RelativeLayout>
-        <LinearLayout
-            android:id="@+id/aipay_layout"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
-            android:gravity="center">
-            <ImageView
-                android:id="@+id/aipay_isCheck"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@drawable/check_background"/>
+                android:layout_weight="1"
+                android:padding="10dp"
+            >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="支付宝支付"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:hint="仅支持有支付宝账号的用户"
+                    android:singleLine="true"/>
+            </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/aipay_layout"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:gravity="center">
+                <ImageView
+                    android:id="@+id/aipay_isCheck"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/check_background"/>
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_below="@+id/payMethod1"
-        android:background="@color/white" >
-        <View
+        <LinearLayout
+            android:id="@+id/line"
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
-            android:layout_marginLeft="20dp"
-            android:background="@color/white"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/payMethod2"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@+id/line"
-        android:background="@drawable/num_text"
-        android:orientation="horizontal"
-        android:paddingLeft="12dp">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:layout_weight="0"
-            android:src="@drawable/weixin_zhifu"/>
-       <RelativeLayout
+            android:layout_below="@+id/payMethod1"
+            android:background="@color/white">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="20dp"
+                android:background="@color/white"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/payMethod2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="10dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:text="微信支付"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:hint="暂未开通微信支付哦，请耐心等待"
-            android:singleLine="true"/>
-       </RelativeLayout>
-       <LinearLayout
-            android:id="@+id/weixin_layout"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
-            android:gravity="center">
-           <ImageView
-              android:id="@+id/weixin_isCheck"
-              android:layout_width="18dp"
-              android:layout_height="18dp"
-              android:src="@drawable/check_background"/>
-       </LinearLayout>
+            android:layout_height="60dp"
+            android:layout_below="@+id/line"
+            android:background="@drawable/num_text"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:layout_weight="0"
+                android:src="@drawable/weixin_zhifu"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="10dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="微信支付"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:hint="请在微信6.0.2及以上版本使用"
+                    android:singleLine="true"/>
+            </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/weixin_layout"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:gravity="center">
+                <ImageView
+                    android:id="@+id/weixin_isCheck"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/check_background"/>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="bottom"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical"
         android:background="@drawable/num_text"
-        >
+        android:gravity="bottom"
+        android:orientation="vertical">
         <LinearLayout
             android:id="@+id/fuwutiaokuan"
             android:layout_width="match_parent"
@@ -274,19 +347,21 @@
                 android:id="@+id/isCheck"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/check_background"/>
+                android:src="@drawable/check_background"
+                android:enabled="false"
+            />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="我已阅读并同意《"
-                android:textSize="15sp"
                 android:textColor="@color/gray"
-                />
+                android:textSize="15sp"
+            />
             <TextView
+                android:id="@+id/tiaokuan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tiaokuan"
                 android:text="@string/underline_text"
                 android:textColor="@color/orange"/>
             <TextView
@@ -306,9 +381,9 @@
             android:layout_height="50dp"
             android:orientation="horizontal">
             <TextView
+                android:id="@+id/coach_Price"
                 android:layout_width="147dp"
                 android:layout_height="match_parent"
-                android:id="@+id/coach_Price"
                 android:gravity="center"
                 android:text="总金额:￥3299"
                 android:textColor="@color/redTheme"
@@ -316,10 +391,10 @@
             <View
                 android:layout_width="0.1dp"
                 android:layout_height="match_parent"
-                android:background="@color/themeColor"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                />
+                android:layout_marginTop="10dp"
+                android:background="@color/themeColor"
+            />
             <TextView
                 android:id="@+id/yiyouhui"
                 android:layout_width="100dp"
@@ -340,4 +415,6 @@
                 android:textSize="15sp"/>
         </LinearLayout>
     </LinearLayout>
+    </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

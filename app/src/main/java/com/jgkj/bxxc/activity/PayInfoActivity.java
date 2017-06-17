@@ -14,8 +14,10 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -62,7 +64,7 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
     //服务条款
     private ImageView isCheck;
     private TextView tiaokuan;
-    private boolean aipayflag = false, weixinFlag = false, aserFlg = false;
+    private boolean aipayflag = false, weixinFlag = false, aserFlg = false, chooseFlag = false;
     private ImageView weixin_isCheck, aipay_isCheck;
     private LinearLayout fuwutiaokuan;
     //支付宝
@@ -72,7 +74,10 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
     private TextView phoneNo;
     private EditText username, userId;
     private LinearLayout weixin_layout, aipay_layout;
-
+    private Dialog dialog;
+    private View inflate;
+    private TextView dialog_yes,dialog_no,dialog_cancel;
+    private TextView chooseTv;
 
     //教练信息
     private TextView coachname, place, cx, banxing, jiage;
@@ -87,9 +92,14 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
     private TextView coach_Price;
     private EditText tuijianren;
     private TextView yiyouhui_Tv;
+    //正式接口
     private String payUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/payInviter";
     private String weipayUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/wxpay";
     private String CouponUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/inviteInfo";
+    //测试接口
+//    private String pripayUrlExam="http://www.baixinxueche.com/index.php/Home/Aliapppay/payInviterExam";
+//    private String weipayUrlExam="http://www.baixinxueche.com/index.php/Home/Aliapppay/wxpayExam ";
+
     private int uid;
     private String token;
     private SharedPreferences sp;
@@ -558,6 +568,8 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
         messageDeatil.setTextSize(12);
         username.addTextChangedListener(this);
         userId.addTextChangedListener(this);
+        chooseTv = (TextView) findViewById(R.id.choose);
+        chooseTv.setOnClickListener(this);
         coach_Price = (TextView) findViewById(R.id.coach_Price);
         yiyouhui_Tv = (TextView) findViewById(R.id.yiyouhui);
         tuijianren = (EditText) findViewById(R.id.tuijianren);
@@ -588,21 +600,63 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
         name = username.getText().toString().trim();
         idCard = userId.getText().toString().trim();
         boolean isSuccess = false;
-        if (name.equals("") || name == null || idCard.equals("") || idCard == null) { // || serFlag == false
-            payInfo.setBackgroundColor(getResources().getColor(R.color.right_bg));
-            payInfo.setClickable(false);
+        if (name.equals("") || name == null || idCard.equals("") || idCard == null || chooseFlag == false) { // || serFlag == false
+            payInfo.setBackgroundColor(getResources().getColor(R.color.gray));
+            payInfo.setEnabled(false);
             isSuccess = false;
             Toast.makeText(PayInfoActivity.this, "填写信息不完整！",Toast.LENGTH_SHORT).show();
-        } else if (name != null && idCard != null && idCard.length() == 18 ) {  //&& serFlag == true
-            payInfo.setClickable(true);
+        } else if (name != null && idCard != null && idCard.length() == 18 && chooseFlag == true) {  //&& serFlag == true
+            payInfo.setEnabled(true);
             payInfo.setBackgroundColor(getResources().getColor(R.color.themeColor));
             isSuccess = true;
             isCheck.setImageResource(R.drawable.right);
-
         }
         return isSuccess;
     }
-
+    public void choose(){
+        dialog = new Dialog(this, R.style.ActionSheetDialogStyle);
+        // 填充对话框的布局
+        inflate = LayoutInflater.from(this).inflate(R.layout.sure_choose_dialog, null);
+        //控件
+        dialog_yes = (TextView) inflate.findViewById(R.id.dialog_yes);
+        dialog_no = (TextView) inflate.findViewById(R.id.dialog_no);
+        dialog_cancel = (TextView) inflate.findViewById(R.id.dialog_cancel);
+        dialog_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chooseTv.setText("是");
+                dialog.dismiss();
+            }
+        });
+        dialog_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chooseTv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        chooseTv.setText("否");
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+        dialog_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        // 将布局设置给Dialog
+        dialog.setContentView(inflate);
+        // 获取当前Activity所在的窗体
+        Window dialogWindow = dialog.getWindow();
+        // 设置dialog宽度
+        dialogWindow.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+        // 设置Dialog从窗体中间弹出
+        dialogWindow.setGravity(Gravity.CENTER);
+        dialog.show();// 显示对话框
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -649,15 +703,16 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                 finish();
                 break;
             case R.id.isCheck:
-                if (!aserFlg) {
-                    isCheck.setImageResource(R.drawable.right);
-                    aserFlg = true;
-                    check();
-                } else {
+                name = username.getText().toString().trim();
+                idCard = userId.getText().toString().trim();
+                if (name.equals("") || name == null || idCard.equals("") || idCard == null || chooseFlag == false) { // || serFlag == false
+                    Toast.makeText(PayInfoActivity.this, "填写信息不完整！", Toast.LENGTH_SHORT).show();
                     isCheck.setImageResource(R.drawable.check_background);
                     aserFlg = false;
+                }else{
+                    isCheck.setImageResource(R.drawable.right);
+                    aserFlg = true;
                 }
-
                 break;
             case R.id.tiaokuan:
                 Intent intent = new Intent();
@@ -696,6 +751,14 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                         weixin_isCheck.setImageResource(R.drawable.check_background);
                         weixinFlag = false;
                     }
+                }
+                break;
+            case R.id.choose:
+                if (!chooseFlag) {
+                    choose();
+                    chooseFlag = true;
+                } else {
+                    chooseFlag = false;
                 }
                 break;
 

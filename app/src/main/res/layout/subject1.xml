@@ -140,36 +140,6 @@
             </LinearLayout>
         </LinearLayout>
 
-
-        <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="0.5dp"-->
-        <!--android:orientation="horizontal">-->
-
-        <!--<Button-->
-        <!--android:id="@+id/examTest"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_weight="1"-->
-        <!--android:background="@color/white"-->
-        <!--android:drawablePadding="5dp"-->
-        <!--android:drawableTop="@drawable/license_text3"-->
-        <!--android:padding="15dp"-->
-        <!--android:text="模拟考试"/>-->
-
-        <!--<Button-->
-        <!--android:id="@+id/error_Sub"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_marginLeft="0.5dp"-->
-        <!--android:layout_weight="1"-->
-        <!--android:background="@color/white"-->
-        <!--android:drawablePadding="5dp"-->
-        <!--android:drawableTop="@drawable/license_text2"-->
-        <!--android:padding="15dp"-->
-        <!--android:text="我的题库"/>-->
-        <!--</LinearLayout>-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

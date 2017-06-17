@@ -21,8 +21,8 @@ import com.jgkj.bxxc.R;
 public class CallDialog implements View.OnClickListener{
     private Context context;
     private String content;
-    private Dialog dialog, sureDialog;
-    private View inflate, sureView;
+    private Dialog dialog;
+    private View inflate;
     private TextView dialog_textView, dialog_sure, dialog_cancel,diolog_prompt;
 
     public CallDialog(Context context, String content){
@@ -39,11 +39,9 @@ public class CallDialog implements View.OnClickListener{
         dialog_sure = (TextView) inflate.findViewById(R.id.dialog_sure);
         dialog_cancel = (TextView) inflate.findViewById(R.id.dialog_cancel);
         diolog_prompt = (TextView) inflate.findViewById(R.id.diolog_prompt);
-        //diolog_prompt.setText("是否拨打客服电话");
         dialog_sure.setOnClickListener(this);
         dialog_cancel.setOnClickListener(this);
         dialog_textView.setText(content);
-
         // 将布局设置给Dialog
         dialog.setContentView(inflate);
         // 获取当前Activity所在的窗体

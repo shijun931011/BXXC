@@ -32,7 +32,6 @@ import com.jgkj.bxxc.activity.ClassTypeActivity;
 import com.jgkj.bxxc.activity.ClassicActivity;
 import com.jgkj.bxxc.activity.DrivingCompanionActivity;
 import com.jgkj.bxxc.activity.HeadlinesActivity;
-import com.jgkj.bxxc.activity.HomeActivity;
 import com.jgkj.bxxc.activity.InviteFriendsActivity;
 import com.jgkj.bxxc.activity.LoginActivity;
 import com.jgkj.bxxc.activity.PlaceChooseActivity;
@@ -96,7 +95,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
     private Runnable runnable;
     private Handler handler = new Handler();
     private String headlinesUrl = "http://www.baixinxueche.com/index.php/Home/Apitoken/nowLinesTitleAndroid";
-    private List<HeadlinesAction.Result> headlinesList;
+    private List<HeadlinesAction.Result> headlinesList = new ArrayList<HeadlinesAction.Result>();;
     private int headlinesCount = 0;
     private ImageView bxhead;
     private HeadlinesAction action;
@@ -119,7 +118,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
         init();
         getImage();
         getheadlines();
-        headlinesList = new ArrayList<HeadlinesAction.Result>();
         return view;
     }
 

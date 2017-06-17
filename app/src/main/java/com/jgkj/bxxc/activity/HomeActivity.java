@@ -1,7 +1,6 @@
 package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -48,7 +47,6 @@ import com.jgkj.bxxc.tools.RemainBaseDialog;
 import com.jgkj.bxxc.tools.SelectPopupWindow;
 import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.jgkj.bxxc.tools.UpdateManger;
-import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -231,7 +229,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
             scroll_bar.setVisibility(View.GONE);
             car_frameLayout.setVisibility(View.VISIBLE);
             transaction.add(R.id.car_send_map, my_set);
-            radioButton4.setChecked(true);
         } else {
             if (fromActivity.equals("WelcomeActivity")) {
                 transaction.add(R.id.index_fragment_layout, indexFragment);
@@ -426,6 +423,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
     @Override
     protected void onDestroy() {
         unregisterReceiver(mMessageReceiver);
+        unregisterReceiver(broadcastReceiver);
         super.onDestroy();
     }
 
