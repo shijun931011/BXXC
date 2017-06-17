@@ -1,6 +1,7 @@
 package com.jgkj.bxxc.activity;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -10,11 +11,13 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,6 +32,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.UserInfo;
+import com.jgkj.bxxc.tools.BaseActivity;
+import com.jgkj.bxxc.tools.OnBooleanListener;
 import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.lidroid.xutils.http.client.multipart.MultipartEntity;
 import com.lidroid.xutils.http.client.multipart.content.FileBody;
@@ -49,8 +54,9 @@ import java.nio.charset.Charset;
  * 提交个人信息照片
  * 上传身份证正反面，上半身，和五指健全照片
  */
-public class RegisterDetailActivity2 extends Activity implements View.OnClickListener {
+public class RegisterDetailActivity2 extends BaseActivity implements View.OnClickListener {
     private TextView title;
+    private Button remind;
     private Button back_forward;
     //上传imageView
     private ImageView pic1, pic2, pic3, pic4;
@@ -66,6 +72,7 @@ public class RegisterDetailActivity2 extends Activity implements View.OnClickLis
 
     private UserInfo.Result result;
     private Uri corpUri;
+    private Context context;
 
     // 拍照
     private static int CAMERA_REQUEST_CODE = 1001;
@@ -88,7 +95,8 @@ public class RegisterDetailActivity2 extends Activity implements View.OnClickLis
     private Uri nowUri;
     private String token = "";
     private String oldupLoadUrls = "http://www.baixinxueche.com/index.php/Home/Api/get_files";
-    private String upLoadUrls = "http://www.baixinxueche.com/index.php/Home/Api/get_filesAgain";
+    private String upLoadUrl = "http://www.baixinxueche.com/index.php/Home/Api/get_filesAgain";
+    private String upLoadUrls = "http://www.baixinxueche.com/index.php/Home/Api/get_filesAgainThree";
 
     //内部类，用来解析无result的json
     private class Result {
@@ -126,6 +134,7 @@ public class RegisterDetailActivity2 extends Activity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registerdetail);
         StatusBarCompat.compat(this, Color.parseColor("#37363C"));
+        context = this;
         init();
         initData();
     }
@@ -164,8 +173,14 @@ public class RegisterDetailActivity2 extends Activity implements View.OnClickLis
         if (!tmpDir.exists()) {
             tmpDir.mkdirs();
         }
+
         title = (TextView) findViewById(R.id.text_title);
         title.setText("完善信息");
+        remind = (Button) findViewById(R.id.button_forward);
+        remind.setOnClickListener(this);
+        remind.setVisibility(View.VISIBLE);
+        remind.setText("上传须知");
+
         back_forward = (Button) findViewById(R.id.button_backward);
         back_forward.setVisibility(View.VISIBLE);
         submit = (Button) findViewById(R.id.submit);
@@ -227,8 +242,8 @@ public class RegisterDetailActivity2 extends Activity implements View.OnClickLis
                     File file1 = new File(filepath1);
                     File file2 = new File(filepath2);
                     File file3 = new File(filepath3);
-                    File file4 = new File(filepath4);
-                    if (!file1.exists() || !file2.exists() || !file3.exists() || !file4.exists()) {
+                    //File file4 = new File(filepath4);
+                    if (!file1.exists() || !file2.exists() || !file3.exists()) {
                         Toast.makeText(RegisterDetailActivity2.this, "文件不存在", Toast.LENGTH_SHORT).show();
                     }
 
@@ -238,13 +253,13 @@ public class RegisterDetailActivity2 extends Activity implements View.OnClickLis
                     FileBody fileBody1 = new FileBody(file1, "image/png");
                     FileBody fileBody2 = new FileBody(file2, "image/png");
                     FileBody fileBody3 = new FileBody(file3, "image/png");
-                    FileBody fileBody4 = new FileBody(file4, "image/png");
+                    //FileBody fileBody4 = new FileBody(file4, "image/png");
                     MultipartEntity entity = new MultipartEntity();
 
                     entity.addPart("idCard1", fileBody1);//uploadedfile是图片上传的键值名
                     entity.addPart("idCard2", fileBody2);
                     entity.addPart("upbody", fileBody3);
-                    entity.addPart("finger", fileBody4);
+                    //entity.addPart("finger", fileBody4);
                     entity.addPart("uid", new StringBody(uid, Charset.forName("UTF-8")));//设置要传入的参数，key_app是键值名,此外传参时候需要指定编码格式
                     entity.addPart("token", new StringBody(token, Charset.forName("UTF-8")));//设置要传入的参数，key_app是键值名,此外传参时候需要指定编码格式
                     post.setEntity(entity);
@@ -297,8 +312,13 @@ public class RegisterDetailActivity2 extends Activity implements View.OnClickLis
         } else if (pic4.getTag().toString().equals("CHICK")) {
             imageName = uid + ""+ newrandom4 ;
         }
-        corpnewUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory()
-                + "/baixinxueche/image/" + imageName + ".png"));
+
+        File fileTemp = new File(Environment.getExternalStorageDirectory() + "/baixinxueche/image/" + imageName + ".png");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //高版本一定要加上这两句话，做一下临时的Uri
+            FileProvider.getUriForFile(this, "com.jgkj.bxxc.fileProvider",fileTemp);
+        }
+        corpnewUri = Uri.fromFile(fileTemp);
     }
 
     /**
@@ -340,11 +360,13 @@ public class RegisterDetailActivity2 extends Activity implements View.OnClickLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Bitmap bitmap = null;
-        if (requestCode == CAMERA_REQUEST_CODE) {
+        if (requestCode == CAMERA_REQUEST_CODE) {//照相
+            Toast.makeText(this,"1",Toast.LENGTH_SHORT).show();
             if (nowUri != null) {
                 startImgZoom(nowUri);
             }
-        } else if (requestCode == CHOOSE_PICTIRE) {
+        } else if (requestCode == CHOOSE_PICTIRE) {//选择照片
+            Toast.makeText(this,"2",Toast.LENGTH_SHORT).show();
             if (data == null) {
                 return;
             } else {
@@ -353,14 +375,13 @@ public class RegisterDetailActivity2 extends Activity implements View.OnClickLis
                 startImgZoom(uri);
             }
         } else if (requestCode == CROP_REQUEST_CODE) {
+            Toast.makeText(this,"3",Toast.LENGTH_SHORT).show();
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver()
-                        , corpnewUri);
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), corpnewUri);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            File tmpDir = new File(Environment.getExternalStorageDirectory()
-                    + "/baixinxueche/image/"+imageName + ".png");
+            File tmpDir = new File(Environment.getExternalStorageDirectory() + "/baixinxueche/image/"+imageName + ".png");
             if (pic1.getTag().toString().equals("CHICK") &&tmpDir.exists()) {
                 pic1.setImageBitmap(bitmap);
             } else if (pic2.getTag().toString().equals("CHICK") &&tmpDir.exists()) {
@@ -381,6 +402,7 @@ public class RegisterDetailActivity2 extends Activity implements View.OnClickLis
     private void startImgZoom(Uri uri) {
         getTag2();
         Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
         intent.putExtra("return-data", false);
@@ -404,8 +426,7 @@ public class RegisterDetailActivity2 extends Activity implements View.OnClickLis
      * @return
      */
     private File getImageStoragePath(Context context) {
-        File tmpDir = new File(Environment.getExternalStorageDirectory()
-                + "/baixinxueche/image/");
+        File tmpDir = new File(Environment.getExternalStorageDirectory() + "/baixinxueche/image/");
         if (!tmpDir.exists()) {
             tmpDir.mkdirs();
         }
@@ -427,11 +448,34 @@ public class RegisterDetailActivity2 extends Activity implements View.OnClickLis
                 finish();
                 break;
             case R.id.takePhoto:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    onPermissionRequests(Manifest.permission.CAMERA, new OnBooleanListener() {
+                        @Override
+                        public void onClick(boolean bln) {
 
-                nowUri = Uri.fromFile(getImageStoragePath(this));
-                Intent intent_takePhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent_takePhoto.putExtra(MediaStore.EXTRA_OUTPUT, nowUri);
-                startActivityForResult(intent_takePhoto, CAMERA_REQUEST_CODE);
+//                                /*
+//                                * 这里就是高版本需要注意的，需用使用FileProvider来获取Uri，同时需要注意getUriForFile
+//                                * 方法第二个参数要与AndroidManifest.xml中provider的里面的属性authorities的值一致
+//                                * */
+//                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                            imageUriFromCamera = FileProvider.getUriForFile(MainActivity.this,
+//                                    "com.xuezj.fileproviderdemo.fileprovider", photoFile);
+//                            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUriFromCamera);
+//                            startActivityForResult(intent, GET_IMAGE_BY_CAMERA_U);
+
+                            nowUri = FileProvider.getUriForFile(context, "com.jgkj.bxxc.fileProvider", getImageStoragePath(context));
+                            Intent intent_takePhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            intent_takePhoto.putExtra(MediaStore.EXTRA_OUTPUT, nowUri);
+                            intent_takePhoto.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            startActivityForResult(intent_takePhoto, CAMERA_REQUEST_CODE);
+                        }
+                    });
+                }else{
+                    nowUri = Uri.fromFile(getImageStoragePath(this));
+                    Intent intent_takePhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent_takePhoto.putExtra(MediaStore.EXTRA_OUTPUT, nowUri);
+                    startActivityForResult(intent_takePhoto, CAMERA_REQUEST_CODE);
+                }
                 dialog.dismiss();
                 break;
             case R.id.choosePhoto:
@@ -449,10 +493,16 @@ public class RegisterDetailActivity2 extends Activity implements View.OnClickLis
                         Environment.getExternalStorageDirectory() + "/baixinxueche/image/" + uid  + ""+ newrandom1 + ".png",
                         Environment.getExternalStorageDirectory() + "/baixinxueche/image/" + uid  + ""+ newrandom2 + ".png",
                         Environment.getExternalStorageDirectory() + "/baixinxueche/image/" + uid  + ""+ newrandom3 + ".png",
-                        Environment.getExternalStorageDirectory() + "/baixinxueche/image/" + uid  + ""+ newrandom4 + ".png",
+                        "",
                         uid + "");
                 break;
-
+            case R.id.button_forward:
+                Intent intent = new Intent();
+                intent.setClass(this,WebViewActivity.class);
+                intent.putExtra("url","http://www.baixinxueche.com/webshow/thing/pic.html");
+                intent.putExtra("title","上传须知");
+                startActivity(intent);
+                break;
         }
     }
 }

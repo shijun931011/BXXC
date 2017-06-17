@@ -1,5 +1,7 @@
 package com.jgkj.bxxc.tools;
 import android.app.Application;
+import android.os.Build;
+import android.os.StrictMode;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -25,6 +27,13 @@ public class MyApplication extends Application {
         JPushInterface.init(this);     		// 初始化 JPush
         //创建队列
         queue = Volley.newRequestQueue(getApplicationContext());
+
+        // 置入一个不设防的VmPolicy（不设置的话 7.0以上一调用拍照功能就崩溃了）
+        // 还有一种方式：manifest中加入provider然后修改intent代码
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy(builder.build());
+        }
     }
     {
         //QQ

@@ -181,6 +181,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.RegisterDetailActivity2"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.RegisterDetailActivity"
