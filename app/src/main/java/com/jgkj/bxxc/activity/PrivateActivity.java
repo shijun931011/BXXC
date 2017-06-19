@@ -34,8 +34,6 @@ import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.bean.entity.WXEntity.WXEntity;
 import com.jgkj.bxxc.tools.PayResult;
 import com.jgkj.bxxc.tools.RemainBaseDialog;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -56,7 +54,6 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
     private LinearLayout fuwutiaokuan;
     private LinearLayout layout4;  //推荐人布局
     private EditText tuijianren;
-
     private Dialog dialog;
     private View inflate;
     private TextView dialog_yes, dialog_no, dialog_cancel;
@@ -66,7 +63,6 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
     private EditText username, userId;
     private LinearLayout weixin_layout, aipay_layout;
     private TextView messageDeatil;
-
     //微信支付
     private IWXAPI api;
     private UserInfo userInfo;
@@ -74,20 +70,21 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
     private PriBaokao coachInfo;
     private TextView coach_Price;
     //正式接口
-    private String PripayUrl = "http://www.baixinxueche.com/index.php/Home/Aliapppay/payInviter";
-    private String weipayUrl = "http://www.baixinxueche.com/index.php/Home/Aliapppay/wxpay";
+//    private String PripayUrl = "http://www.baixinxueche.com/index.php/Home/Aliapppay/payInviter";
+//    private String weipayUrl = "http://www.baixinxueche.com/index.php/Home/Aliapppay/wxpay";
     private String privateUrl = "http://www.baixinxueche.com/index.php/Home/Aliapppay/sijiaomoney";
 
     //测试接口
-//    private String PripayUrl="http://www.baixinxueche.com/index
-// .php/Home/Aliapppay/payInviterExam";
-//    private String weipayUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/wxpayExam ";
+    private String PripayUrl = "http://www.baixinxueche.com/index" +
+            ".php/Home/Aliapppay/payInviterExam";
+    private String weipayUrl = "http://www.baixinxueche.com/index.php/Home/Aliapppay/wxpayExam ";
     private int uid;
     private String token;
     private int pack = 1;
     private SharedPreferences sp;
     private CoachInfo.Result result;
     private String coach;
+    private String mtcar;
 
     class PriBaokao {
         private int money;
@@ -129,7 +126,6 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
         weixin_layout = (LinearLayout) findViewById(R.id.weixin_layout);
         weixin_isCheck = (ImageView) findViewById(R.id.weixin_isCheck);
         weixin_layout.setOnClickListener(this);
-
         chooseTv = (TextView) findViewById(R.id.choose);
         chooseTv.setOnClickListener(this);
         messageDeatil = (TextView) findViewById(R.id.messageDetail);
@@ -158,7 +154,6 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
         SharedPreferences sp1 = getApplication().getSharedPreferences("token", Activity
                 .MODE_PRIVATE);
         token = sp1.getString("token", null);
-
         if (str == null || sp == null) {
             Intent login = new Intent(PrivateActivity.this, LoginActivity.class);
             login.putExtra("message", "payInfo");
@@ -194,12 +189,14 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
         name = username.getText().toString().trim();
         idCard = userId.getText().toString().trim();
         boolean isSuccess = false;
-        if (name.equals("") || name == null || idCard.equals("") || idCard == null || chooseFlag == false) { // || serFlag == false
+        if (name.equals("") || name == null || idCard.equals("") || idCard == null || chooseFlag
+                == false) { // || serFlag == false
             payInfo.setBackgroundColor(getResources().getColor(R.color.gray));
             payInfo.setEnabled(false);
             isSuccess = false;
             Toast.makeText(PrivateActivity.this, "填写信息不完整！", Toast.LENGTH_SHORT).show();
-        }else if(name != null && idCard != null && idCard.length() == 18 && chooseFlag == true){  //&& serFlag == true
+        } else if (name != null && idCard != null && idCard.length() == 18 && chooseFlag == true)
+        {  //&& serFlag == true
             payInfo.setEnabled(true);
             payInfo.setBackgroundColor(getResources().getColor(R.color.themeColor));
             isSuccess = true;
@@ -216,10 +213,15 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
      * @param phone  用户手机号
      * @param idcard 用户身份证号
      */
-    private void sendaiPay(String uid, String name, String phone, String idcard, int pack) {
+    private void sendaiPay(String uid, String name, String phone, String idcard, int pack, String
+            mtcar) {
+        Log.d("BXXC", "百信学车支付宝:" + uid + "::::" + name + "::::" + phone + "::::" + idcard +
+                "::::" + "1" + chooseTv.getText().toString() + "::::" + tuijianren.getText()
+                .toString());
         OkHttpUtils.post().url(PripayUrl).addParams("uid", uid).addParams("name", name).addParams
                 ("phone", phone).addParams("idcard", idcard).addParams("pt", "1").addParams
-                ("tuijianren", tuijianren.getText().toString()).build().execute(new StringCallback() {
+                ("mtcar", chooseTv.getText().toString()).addParams("tuijianren", tuijianren
+                .getText().toString()).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int i) {
                 Toast.makeText(PrivateActivity.this, "加载失败", Toast.LENGTH_LONG).show();
@@ -307,10 +309,14 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
     /**
      * uid  name  idcard  cid  phone  invite 邀请（选填）    tuijianren
      */
-    private void weixinpay(String uid, String name, String phone, String idcard, int pack) {
+    private void weixinpay(String uid, String name, String phone, String idcard, int pack, String
+            mtcar) {
+        Log.d("BXXC", "百信学车微信:" + uid + "::::" + name + "::::" + phone + "::::" + idcard + "::::"
+                + "1" + chooseTv.getText().toString() + "::::" + tuijianren.getText().toString());
         OkHttpUtils.post().url(weipayUrl).addParams("uid", uid).addParams("name", name).addParams
                 ("phone", phone).addParams("idcard", idcard).addParams("pt", "1").addParams
-                ("tuijianren", tuijianren.getText().toString()).build().execute(new StringCallback() {
+                ("mtcar", chooseTv.getText().toString()).addParams("tuijianren", tuijianren
+                .getText().toString()).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int i) {
                 Toast.makeText(PrivateActivity.this, "加载失败", Toast.LENGTH_LONG).show();
@@ -404,18 +410,18 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.payInfo:
-                if(check() == true) {
+                if (check() == true) {
                     if (aipayflag == false && weixinFlag == false) {
                         Toast.makeText(PrivateActivity.this, "请选择支付方式", Toast.LENGTH_SHORT).show();
                     } else {
                         if (weixinFlag) {
                             weixinpay(useResult.getUid() + "", username.getText().toString().trim
                                     (), phoneNo.getText().toString().trim(), userId.getText()
-                                    .toString().trim(), pack);
+                                    .toString().trim(), pack, chooseTv.getText().toString().trim());
                         } else {
                             sendaiPay(useResult.getUid() + "", username.getText().toString().trim
                                     (), phoneNo.getText().toString().trim(), userId.getText()
-                                    .toString().trim(), pack);
+                                    .toString().trim(), pack, chooseTv.getText().toString().trim());
                         }
                     }
                 }
@@ -425,17 +431,21 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
                 break;
             case R.id.button_forward:
                 new RemainBaseDialog(PrivateActivity.this,
-                        "报名费仅为当地车管事所收取的各科目考试费用和平台为您提供服务的基本服务费，不包括" +
-                                "科目二、科目三的练车费用，车辆接送费，挂科补考费，体检费用，学时卡费。该条例的最终解释权归平台所有").call();
+                         "此报名费用包括当地车管所收取的各科目考试费用和平台为您提供服务的基本服务费、" +
+                         "体检费、学时卡费，考试车辆接送费用等" +
+                         "不包括科目二、科目三的私教训练费用及挂科补考费。" +
+                         "如需平台提供科二、科三的训练，在底部栏“我的”— “我的钱包”—“剩余学时”"+
+                        "前往购买相应的私教训练套餐即可,该条例的最终解释权归平台所有").call();
                 break;
             case R.id.isCheck:
                 name = username.getText().toString().trim();
                 idCard = userId.getText().toString().trim();
-                if (name.equals("") || name == null || idCard.equals("") || idCard == null || chooseFlag == false) { // || serFlag == false
+                if (name.equals("") || name == null || idCard.equals("") || idCard == null ||
+                        chooseFlag == false) { // || serFlag == false
                     Toast.makeText(PrivateActivity.this, "填写信息不完整！", Toast.LENGTH_SHORT).show();
                     isCheck.setImageResource(R.drawable.check_background);
                     aserFlg = false;
-                }else{
+                } else {
                     isCheck.setImageResource(R.drawable.right);
                     aserFlg = true;
                 }

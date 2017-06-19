@@ -9,9 +9,9 @@
         android:background="@drawable/actionsheet_top_selector"
         android:gravity="center"
         android:text="男"
-        android:textColor="#0000ff"
+        android:textColor="@color/color_bule"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        />
     <TextView
         android:id="@+id/choose_sex_woman"
         android:layout_width="match_parent"
@@ -19,9 +19,17 @@
         android:background="@drawable/actionsheet_top_selector"
         android:gravity="center"
         android:text="女"
-        android:textColor="#0000ff"
+        android:textColor="@color/color_bule"
         android:textSize="18sp"
-        android:textStyle="bold" />
-
-
+        />
+    <TextView
+        android:id="@+id/choose_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/actionsheet_top_selector"
+        android:gravity="center"
+        android:text="取 消"
+        android:textColor="@color/color_bule"
+        android:textSize="18sp"
+    />
 </LinearLayout>

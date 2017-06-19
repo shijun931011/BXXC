@@ -93,12 +93,12 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
     private EditText tuijianren;
     private TextView yiyouhui_Tv;
     //正式接口
-    private String payUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/payInviter";
-    private String weipayUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/wxpay";
+//    private String payUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/payInviter";
+//    private String weipayUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/wxpay";
     private String CouponUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/inviteInfo";
     //测试接口
-//    private String pripayUrlExam="http://www.baixinxueche.com/index.php/Home/Aliapppay/payInviterExam";
-//    private String weipayUrlExam="http://www.baixinxueche.com/index.php/Home/Aliapppay/wxpayExam ";
+    private String payUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/payInviterExam";
+    private String weipayUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/wxpayExam ";
 
     private int uid;
     private String token;
@@ -215,8 +215,10 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
      * @param name 用户姓名
      * @param phone 用户手机号
      * @param idcard 用户身份证号
+     * @param mtcar  是否有摩托车证  有 / 无
      */
-    private void sendaiPay(String uid, String cid, String name, String phone, String idcard) {
+    private void sendaiPay(String uid, String cid, String name, String phone, String idcard, String mtcar) {
+        Log.d("BXXC","百信学车支付宝:"+uid+":::"+cid+"::::"+name+"::::"+phone+"::::"+idcard+"::::"+"1"+chooseTv.getText().toString()+"::::"+tuijianren.getText().toString());
     OkHttpUtils
             .post()
             .url(payUrl)
@@ -226,6 +228,7 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
             .addParams("phone", phone)
             .addParams("invite", "1")
             .addParams("idcard", idcard)
+            .addParams("mtcar", chooseTv.getText().toString())
             .addParams("tuijianren",tuijianren.getText().toString())
             .build()
             .execute(new StringCallback() {
@@ -313,8 +316,10 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
      * @param name 用户姓名
      * @param phone 用户手机号
      * @param idcard 用户身份证号
+     * @param mtcar  是否有摩托车证  有 / 无
      */
-    private void sendaiPay2(String uid, String cid, String name, String phone, String idcard) {
+    private void sendaiPay2(String uid, String cid, String name, String phone, String idcard, String mtcar) {
+        Log.d("BXXC","百信学车支付宝:"+uid+":::"+cid+"::::"+name+"::::"+phone+"::::"+idcard+"::::"+"1"+chooseTv.getText().toString()+"::::"+tuijianren.getText().toString());
         OkHttpUtils
                 .post()
                 .url(payUrl)
@@ -323,6 +328,7 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                 .addParams("name", name)
                 .addParams("phone", phone)
                 .addParams("idcard", idcard)
+                .addParams("mtcar", chooseTv.getText().toString())
                 .addParams("tuijianren",tuijianren.getText().toString())
                 .build()
                 .execute(new StringCallback() {
@@ -407,9 +413,10 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
     //微信支付
 
     /**
-     * uid  name  idcard  cid  phone  invite 邀请（选填）    tuijianren
+     * uid  name  idcard  cid  phone  invite 邀请（选填）    tuijianren   mtcar  是否有摩托车证  有 / 无
      */
-    private void weixinpay(String uid, String cid, String name, String phone, String idcard){
+    private void weixinpay(String uid, String cid, String name, String phone, String idcard, String mtcar){
+        Log.d("BXXC","百信学车:"+uid+":::"+cid+"::::"+name+"::::"+phone+"::::"+idcard+"::::"+"1"+chooseTv.getText().toString()+"::::"+tuijianren.getText().toString());
         OkHttpUtils
                 .post()
                 .url(weipayUrl)
@@ -419,6 +426,7 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                 .addParams("invite", "1")
                 .addParams("phone", phone)
                 .addParams("idcard", idcard)
+                .addParams("mtcar", chooseTv.getText().toString())
                 .addParams("tuijianren",tuijianren.getText().toString())
                 .build()
                 .execute(new StringCallback() {
@@ -465,9 +473,10 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
     //微信支付
 
     /**
-     * uid  name  idcard  cid  phone  invite 邀请（选填）    tuijianren
+     * uid  name  idcard  cid  phone  invite 邀请（选填）    tuijianren   mtcar  是否有摩托车证  有 / 无
      */
-    private void weixinpay2(String uid, String cid, String name, String phone, String idcard){
+    private void weixinpay2(String uid, String cid, String name, String phone, String idcard, String mtcar){
+        Log.d("BXXC","百信学车微信:"+uid+":::"+cid+"::::"+name+"::::"+phone+"::::"+idcard+"::::"+"1"+chooseTv.getText().toString()+"::::"+tuijianren.getText().toString());
         OkHttpUtils
                 .post()
                 .url(weipayUrl)
@@ -476,6 +485,7 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                 .addParams("name", name)
                 .addParams("phone", phone)
                 .addParams("idcard", idcard)
+                .addParams("mtcar", chooseTv.getText().toString())
                 .addParams("tuijianren",tuijianren.getText().toString())
                 .build()
                 .execute(new StringCallback() {
@@ -671,13 +681,15 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                                         result.getCid()+"",
                                         username.getText().toString().trim(),
                                         phoneNo.getText().toString().trim(),
-                                        userId.getText().toString().trim());
+                                        userId.getText().toString().trim(),
+                                        chooseTv.getText().toString().trim());
                             }else{
                                 weixinpay2(useResult.getUid()+"",
                                         result.getCid()+"",
                                         username.getText().toString().trim(),
                                         phoneNo.getText().toString().trim(),
-                                        userId.getText().toString().trim());
+                                        userId.getText().toString().trim(),
+                                        chooseTv.getText().toString().trim());
                             }
                         }else{
                             if(flag_user_coupon == true){
@@ -685,13 +697,15 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                                         result.getCid()+"",
                                         username.getText().toString().trim(),
                                         phoneNo.getText().toString().trim(),
-                                        userId.getText().toString().trim());
+                                        userId.getText().toString().trim(),
+                                        chooseTv.getText().toString().trim());
                             }else{
                                 sendaiPay2(useResult.getUid()+"",
                                         result.getCid()+"",
                                         username.getText().toString().trim(),
                                         phoneNo.getText().toString().trim(),
-                                        userId.getText().toString().trim());
+                                        userId.getText().toString().trim(),
+                                        chooseTv.getText().toString().trim());
                             }
 
                         }

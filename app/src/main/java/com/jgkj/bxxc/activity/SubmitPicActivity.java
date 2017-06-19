@@ -1,12 +1,10 @@
 package com.jgkj.bxxc.activity;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.jgkj.bxxc.R;
-import com.jgkj.bxxc.tools.StatusBarCompat;
 
 /**
  * Created by fangzhou on 2016/11/19.
@@ -19,7 +17,6 @@ public class SubmitPicActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.submitpic);
-        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         init();
     }
     private void init() {

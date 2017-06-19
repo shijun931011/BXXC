@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,7 +23,6 @@ import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.tools.PictureOptimization;
-import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -40,9 +38,9 @@ public class PersonalInfoActivity extends Activity implements OnClickListener {
     private RelativeLayout head_background;
     private PictureOptimization po;
     private ImageView back_up;
-    private TextView edit, choose_sex_man, choose_sex_woman, sex_id_textView;
-    private TextView edit_personal_info, profile_textView, realName;
-    private EditText nameEdit;
+    private TextView edit, choose_sex_man, choose_sex_woman, sex_id_textView,choose_cancel;
+    private TextView edit_personal_info, profile_textView, nick_name,true_name;
+    private EditText nick_nameEdit, true_name_Edit;
     private Dialog sex_dialog;
     private LinearLayout sex_id;
     private EditText profile_editText;
@@ -79,7 +77,6 @@ public class PersonalInfoActivity extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.personalinfo);
-        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         getData();
         initView();
     }
@@ -94,23 +91,26 @@ public class PersonalInfoActivity extends Activity implements OnClickListener {
         text_title = (TextView) findViewById(R.id.text_title);
         button_backward.setOnClickListener(this);
         button_forward.setOnClickListener(this);
-
         //更改标题栏
         text_title.setText("个人信息");
         button_forward.setVisibility(View.VISIBLE);
         button_backward.setVisibility(View.VISIBLE);
-        //真是姓名
-        realName = (TextView) findViewById(R.id.realName);
-//		个人信息
+        //真实姓名
+        true_name = (TextView) findViewById(R.id.true_name);
+        true_name_Edit = (EditText) findViewById(R.id.true_name_Edit);
+        //昵称
+        nick_name = (TextView) findViewById(R.id.nick_name);
+        nick_nameEdit = (EditText) findViewById(R.id.nick_nameEdit);
+        //性别
         sex_id_textView = (TextView) findViewById(R.id.sex_id_textView);
         //简介
         profile_textView = (TextView) findViewById(R.id.profile_textView);
         profile_editText = (EditText) findViewById(R.id.profile_editText);
         //读取本地个人信息并设置
-        realName.setText(result.getName());
+        nick_name.setText(result.getName());
         sex_id_textView.setText(result.getSex());
         profile_textView.setText(result.getIntroduce());
-        nameEdit = (EditText) findViewById(R.id.nameEdit);
+
     }
 
     private void getData(){
@@ -120,22 +120,19 @@ public class PersonalInfoActivity extends Activity implements OnClickListener {
         Gson gson = new Gson();
         UserInfo userInfo = gson.fromJson(str,UserInfo.class);
         result = userInfo.getResult();
-
         Intent intent = getIntent();
         token = intent.getStringExtra("token");
     }
-
     //性别dialog
     public void sexChoose(View view) {
         sex_dialog = new Dialog(this, R.style.ActionSheetDialogStyle);
         // 填充对话框的布局
-        inflate = LayoutInflater.from(this).inflate(R.layout.sex_dialog,
-                null);
+        inflate = LayoutInflater.from(this).inflate(R.layout.sex_dialog, null);
         // 初始化控件
-        choose_sex_man = (TextView) inflate
-                .findViewById(R.id.choose_sex_man);
-        choose_sex_woman = (TextView) inflate
-                .findViewById(R.id.choose_sex_woman);
+        choose_sex_man = (TextView) inflate.findViewById(R.id.choose_sex_man);
+        choose_sex_woman = (TextView) inflate.findViewById(R.id.choose_sex_woman);
+        choose_cancel = (TextView) inflate.findViewById(R.id.choose_cancel);
+        choose_cancel.setOnClickListener(this);
         choose_sex_man.setOnClickListener(this);
         choose_sex_woman.setOnClickListener(this);
         // 将布局设置给Dialog
@@ -232,41 +229,50 @@ public class PersonalInfoActivity extends Activity implements OnClickListener {
             case R.id.button_forward:
                 String text = button_forward.getText().toString();
                 if (text.equals("编辑")) {
+                    true_name.setVisibility(View.GONE);
+                    nick_name.setVisibility(View.GONE);
                     profile_textView.setVisibility(View.GONE);
+                    true_name_Edit.setVisibility(View.VISIBLE);
+                    nick_nameEdit.setVisibility(View.VISIBLE);
                     profile_editText.setVisibility(View.VISIBLE);
-                    realName.setVisibility(View.GONE);
-                    nameEdit.setVisibility(View.VISIBLE);
+                    true_name.setText(true_name.getText().toString().trim());
+                    nick_nameEdit.setText(nick_name.getText().toString().trim());
                     profile_editText.setText(profile_textView.getText().toString().trim());
-                    nameEdit.setText(realName.getText().toString().trim());
-
                     button_forward.setText("提交");
-                } else if (text.equals("提交")) {
+                } else if (text.equals("提交")){
+                    true_name_Edit.setVisibility(View.VISIBLE);
+                    nick_name.setVisibility(View.VISIBLE);
                     profile_textView.setVisibility(View.VISIBLE);
+                    true_name.setVisibility(View.GONE);
+                    nick_nameEdit.setVisibility(View.GONE);
                     profile_editText.setVisibility(View.GONE);
-                    realName.setVisibility(View.VISIBLE);
-                    nameEdit.setVisibility(View.GONE);
-
                     //修改框值
-                    String name = nameEdit.getText().toString().trim();
-                    String jianjie = profile_editText.getText().toString().trim();
+                    String real_name = true_name_Edit.getText().toString().trim();
+                    String name = nick_nameEdit.getText().toString().trim();
                     String sex = sex_id_textView.getText().toString().trim();
+                    String jianjie = profile_editText.getText().toString().trim();
 
-                    profile_textView.setText(profile_editText.getText().toString().trim());
-                    realName.setText(nameEdit.getText().toString().trim());
+                    true_name.setText(real_name);
+                    nick_name.setText(name);
+                    profile_textView.setText(jianjie);
+
                     editInfo(result.getUid()+"",name,jianjie,sex);
                     button_forward.setText("编辑");
                 }
                 break;
             case R.id.choose_sex_man:
-                editInfo(result.getUid()+"",realName.getText().toString().trim(),
+                editInfo(result.getUid()+"",nick_name.getText().toString().trim(),
                         profile_textView.getText().toString().trim(),"男");
                 sex_id_textView.setText(choose_sex_man.getText().toString());
                 sex_dialog.dismiss();
                 break;
             case R.id.choose_sex_woman:
-                editInfo(result.getUid()+"",realName.getText().toString().trim(),
+                editInfo(result.getUid()+"",nick_name.getText().toString().trim(),
                         profile_textView.getText().toString().trim(),"女");
                 sex_id_textView.setText(choose_sex_woman.getText().toString());
+                sex_dialog.dismiss();
+                break;
+            case R.id.choose_cancel:
                 sex_dialog.dismiss();
                 break;
         }

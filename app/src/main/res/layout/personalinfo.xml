@@ -10,20 +10,56 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/personal_title_bar"
-        android:background="@color/white"
         android:orientation="vertical" >
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/background"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/background"/>
+        <View android:layout_width="match_parent"
+              android:layout_height="0.5dp"
+              android:background="@color/background"
+              android:layout_marginTop="5dp"
+        />
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:orientation="horizontal" >
+            <TextView
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="真实姓名"
+                android:textSize="17sp" />
+            <TextView
+                android:padding="10dp"
+                android:id="@+id/true_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="未设置"
+                android:textColor="@color/gray"
+                android:textSize="17sp" />
+            <EditText
+                android:background="@drawable/rounded_edit"
+                android:id="@+id/true_name_Edit"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textColor="@color/gray"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/background"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="#FFFFFF"
             android:orientation="horizontal" >
             <TextView
                 android:padding="10dp"
@@ -35,22 +71,23 @@
                 android:textSize="17sp" />
             <TextView
                 android:padding="10dp"
-                android:id="@+id/realName"
+                android:id="@+id/nick_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="1"
                 android:gravity="right"
-                android:text="百信学车"
+                android:text="未设置"
+                android:textColor="@color/gray"
                 android:textSize="17sp" />
             <EditText
                 android:background="@drawable/rounded_edit"
-                android:id="@+id/nameEdit"
+                android:id="@+id/nick_nameEdit"
                 android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_weight="1"
+                android:textColor="@color/gray"
                 android:textSize="17sp" />
-
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -63,8 +100,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:textSize="17sp" >
-
+            android:background="#FFFFFF"
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,17 +109,15 @@
                 android:gravity="left"
                 android:text="性别"
                 android:textSize="17sp" />
-
             <TextView
                 android:id="@+id/sex_id_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="1"
                 android:gravity="right"
+                android:textColor="@color/gray"
                 android:textSize="17sp" />
-
         </LinearLayout>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
@@ -91,6 +126,7 @@
             android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#FFFFFF"
             android:orientation="horizontal" >
             <TextView
                 android:layout_width="100dp"
@@ -99,13 +135,13 @@
                 android:gravity="top"
                 android:text="简介"
                 android:textSize="17sp" />
-
             <TextView
                 android:id="@+id/profile_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="1"
                 android:gravity="right"
+                android:textColor="@color/gray"
                 android:text="科技改变生活百信引领学车"
                 android:textSize="17sp" />
             <EditText
@@ -116,7 +152,8 @@
                 android:visibility="gone"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="3"
+                android:layout_weight="1"
+                android:textColor="@color/gray"
                 android:textSize="17sp" />
         </LinearLayout>
     </LinearLayout>
