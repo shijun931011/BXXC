@@ -361,12 +361,10 @@ public class RegisterDetailActivity2 extends BaseActivity implements View.OnClic
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Bitmap bitmap = null;
         if (requestCode == CAMERA_REQUEST_CODE) {//照相
-            Toast.makeText(this,"1",Toast.LENGTH_SHORT).show();
             if (nowUri != null) {
                 startImgZoom(nowUri);
             }
         } else if (requestCode == CHOOSE_PICTIRE) {//选择照片
-            Toast.makeText(this,"2",Toast.LENGTH_SHORT).show();
             if (data == null) {
                 return;
             } else {
@@ -375,7 +373,6 @@ public class RegisterDetailActivity2 extends BaseActivity implements View.OnClic
                 startImgZoom(uri);
             }
         } else if (requestCode == CROP_REQUEST_CODE) {
-            Toast.makeText(this,"3",Toast.LENGTH_SHORT).show();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), corpnewUri);
             } catch (IOException e) {

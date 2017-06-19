@@ -31,7 +31,7 @@ import com.umeng.socialize.media.UMWeb;
 public class InviteFriendsActivity extends Activity implements View.OnClickListener {
     private TextView title;
     private Button button_back, button_forward;
-    private TextView sina, weChat, wxCircle, activityRules,inviteCode,tv_qq;//新浪微博， 微信好友， 微信朋友圈， 活动规则，邀请码
+    private TextView sina, weChat, wxCircle, activityRules,inviteCode,tv_qq;//新浪微博， 微信好友， 微信朋友圈， 活动规则，邀请码, qq好友
     UMImage image;
     private SharedPreferences sp;
     private UserInfo userInfo;

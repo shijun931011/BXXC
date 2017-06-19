@@ -155,11 +155,11 @@ public class CarPickUpActivity extends Activity implements View.OnClickListener,
         for(int i = 1;i<cityTemp.length;i++){
             citys[i-1] = cityTemp[i];
         }
-        datialPlaces = new String[4][1];
+        datialPlaces = new String[citys.length][];
         for(int i = 0;i<datialPlaceTemp.length;i++){
             for(int j = 0;j<datialPlaceTemp[i].length;j++){
                 if(i!=0){
-                    //datialPlaces[i-1] = new String[datialPlaceTemp[i].length-1];
+                    datialPlaces[i-1] = new String[datialPlaceTemp[i].length];
                     datialPlaces[i-1][j] = datialPlaceTemp[i][j];
                 }
             }
