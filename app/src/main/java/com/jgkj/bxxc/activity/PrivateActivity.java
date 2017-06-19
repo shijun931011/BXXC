@@ -35,6 +35,8 @@ import com.jgkj.bxxc.bean.entity.WXEntity.WXEntity;
 import com.jgkj.bxxc.tools.PayResult;
 import com.jgkj.bxxc.tools.RemainBaseDialog;
 import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.jgkj.bxxc.tools.StatusBarCompat;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 

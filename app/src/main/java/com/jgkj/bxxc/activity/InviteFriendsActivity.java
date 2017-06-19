@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 /**
  * Created by fangzhou on 2017/3/25.
@@ -29,7 +31,7 @@ import com.umeng.socialize.media.UMImage;
 public class InviteFriendsActivity extends Activity implements View.OnClickListener {
     private TextView title;
     private Button button_back, button_forward;
-    private TextView sina, weChat, wxCircle, activityRules,inviteCode;//新浪微博， 微信好友， 微信朋友圈， 活动规则，邀请码
+    private TextView sina, weChat, wxCircle, activityRules,inviteCode,tv_qq;//新浪微博， 微信好友， 微信朋友圈， 活动规则，邀请码
     UMImage image;
     private SharedPreferences sp;
     private UserInfo userInfo;
@@ -54,6 +56,8 @@ public class InviteFriendsActivity extends Activity implements View.OnClickListe
     }
 
     private void initView() {
+        Drawable qq = getResources().getDrawable(R.drawable.share_qq);
+        qq.setBounds(0, 0, 100, 100);
         Drawable xinlang = getResources().getDrawable(R.drawable.share_sina);
         xinlang.setBounds(0, 0, 100, 100);
         Drawable weixin = getResources().getDrawable(R.drawable.share_weixin);
@@ -72,9 +76,12 @@ public class InviteFriendsActivity extends Activity implements View.OnClickListe
         sina = (TextView) findViewById(R.id.sina);
         weChat = (TextView) findViewById(R.id.weChat);
         wxCircle = (TextView) findViewById(R.id.wxCircle);
+        tv_qq = (TextView) findViewById(R.id.tv_qq);
+        tv_qq.setOnClickListener(this);
         sina.setOnClickListener(this);
         weChat.setOnClickListener(this);
         wxCircle.setOnClickListener(this);
+        tv_qq.setCompoundDrawables(null, qq, null, null);
         sina.setCompoundDrawables(null, xinlang, null, null);
         weChat.setCompoundDrawables(null, weixin, null, null);
         wxCircle.setCompoundDrawables(null, pengyouquan, null, null);
@@ -89,21 +96,29 @@ public class InviteFriendsActivity extends Activity implements View.OnClickListe
         inviteCode.setText(result.getPhone());
     }
 
-    //分享后回调方法
-    private UMShareListener shareListener = new UMShareListener() {
+    private UMShareListener umShareListener = new UMShareListener() {
         @Override
-        public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(InviteFriendsActivity.this, platform + " 分享成功", Toast.LENGTH_SHORT).show();
+        public void onStart(SHARE_MEDIA platform) {
+            //分享开始的回调
+        }
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            Log.d("plat","platform"+platform);
+            Toast.makeText(InviteFriendsActivity.this, platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(InviteFriendsActivity.this, platform + " 分享失败", Toast.LENGTH_SHORT).show();
+            Toast.makeText(InviteFriendsActivity.this,platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+            if(t!=null){
+                Log.d("throw","throw:"+t.getMessage());
+            }
         }
 
         @Override
-        public void onResult(SHARE_MEDIA platform) {
-            Toast.makeText(InviteFriendsActivity.this, platform + " 分享取消", Toast.LENGTH_SHORT).show();
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(InviteFriendsActivity.this,platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -111,6 +126,10 @@ public class InviteFriendsActivity extends Activity implements View.OnClickListe
     public void onClick(View view) {
         userInfo = new Gson().fromJson(sp.getString("userInfo",null),UserInfo.class);
         image = new UMImage(InviteFriendsActivity.this, "http://www.baixinxueche.com/webshow/img/gift.png");
+        UMWeb web = new UMWeb(shareUrl+userInfo.getResult().getUid());
+        web.setTitle("和我一起来学车,更优惠!");//标题
+        web.setThumb(image);  //缩略图
+        web.setDescription("科技改变生活，百信引领学车。学驾驶就用百信学车，方便快捷，更优惠！");//描述
         switch (view.getId()) {
             case R.id.button_backward:
                 finish();
@@ -136,7 +155,6 @@ public class InviteFriendsActivity extends Activity implements View.OnClickListe
                         });
                 dialog.create().show();
                 break;
-
             case R.id.sina:
                 /**
                  * setDisplayList方法是友盟内部封装好的，我们拿来调用就好了，
@@ -151,29 +169,26 @@ public class InviteFriendsActivity extends Activity implements View.OnClickListe
                  *       请在各大平台上注册并完善debug和正式版本的信息填写，然后更换此项目的appkey
                  */
                 new ShareAction(InviteFriendsActivity.this).setPlatform(SHARE_MEDIA.SINA)
-                    .withText("科技改变生活，百信引领学车。学驾驶就用百信学车，方便快捷，更优惠！")
-                    .withMedia(image)
-                    .withTitle("和我一起来学车,更优惠!")
-                    .withTargetUrl(shareUrl+userInfo.getResult().getUid())
-                    .setCallback(shareListener)
+                    .withMedia(web)
+                    .setCallback(umShareListener)
                     .share();
                 break;
             case R.id.weChat:
                 new ShareAction(InviteFriendsActivity.this).setPlatform(SHARE_MEDIA.WEIXIN)
-                        .withText("科技改变生活，百信引领学车。学驾驶就用百信学车，方便快捷，更优惠！")
-                        .withMedia(image)
-                        .withTargetUrl(shareUrl+userInfo.getResult().getUid())
-                        .withTitle("和我一起来学车,更优惠!")
-                        .setCallback(shareListener)
+                        .withMedia(web)
+                        .setCallback(umShareListener)
                         .share();
                 break;
             case R.id.wxCircle:
                 new ShareAction(InviteFriendsActivity.this).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
-                        .withText("和我一起来学车,更优惠!")
-                        .withMedia(image)
-                        .withTitle("科技改变生活，百信引领学车。学驾驶就用百信学车，方便快捷，更优惠！")
-                        .withTargetUrl(shareUrl+userInfo.getResult().getUid())
-                        .setCallback(shareListener)
+                        .withMedia(web)
+                        .setCallback(umShareListener)
+                        .share();
+                break;
+            case R.id.tv_qq:
+                new ShareAction(InviteFriendsActivity.this).setPlatform(SHARE_MEDIA.QQ)
+                        .withMedia(web)
+                        .setCallback(umShareListener)
                         .share();
                 break;
         }

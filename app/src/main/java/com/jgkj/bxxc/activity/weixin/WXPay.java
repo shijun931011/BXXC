@@ -3,10 +3,11 @@ package com.jgkj.bxxc.activity.weixin;
 import android.content.Context;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.bean.entity.WXEntity.WXEntity;
-import com.tencent.mm.sdk.constants.Build;
-import com.tencent.mm.sdk.modelpay.PayReq;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.tencent.mm.opensdk.constants.Build;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;

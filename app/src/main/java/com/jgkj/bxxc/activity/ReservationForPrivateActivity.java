@@ -63,6 +63,7 @@ import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -613,14 +614,16 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                  *       请在各大平台上注册并完善debug和正式版本的信息填写，然后更换此项目的appkey
                  *
                  */
-                image = new UMImage(ReservationForPrivateActivity.this, coach_head.getTag().toString());
 
-                new ShareAction(this).setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
-                        .withText("科技改变生活，百信引领学车！百信学车在这里向您分享我们这里最优秀的教练"+coach_name.getText().toString())
-                        .withMedia(image)
-                        .withTitle("百信学车向您分享")
-                        .withTargetUrl(url + share.getTag().toString())
-                        .setCallback(shareListener)
+                image = new UMImage(ReservationForPrivateActivity.this, coach_head.getTag().toString());
+                UMWeb web = new UMWeb(url + share.getTag().toString());
+                web.setTitle("百信学车向您分享");//标题
+                web.setThumb(image);  //缩略图
+                web.setDescription("科技改变生活，百信引领学车！百信学车在这里向您分享我们这里最优秀的教练" + coach_name.getText().toString());//描述
+
+                new ShareAction(this).setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
+                        .withMedia(web)
+                        .setCallback(umShareListener)
                         .open();
                 break;
         }
@@ -664,21 +667,30 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
         dialog.show();// 显示对话框
     }
 
-    //分享后回调方法
-    private UMShareListener shareListener = new UMShareListener() {
+    private UMShareListener umShareListener = new UMShareListener() {
         @Override
-        public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(ReservationForPrivateActivity.this, platform + " 分享成功", Toast.LENGTH_SHORT).show();
+        public void onStart(SHARE_MEDIA platform) {
+            //分享开始的回调
+        }
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            Log.d("plat","platform"+platform);
+
+            Toast.makeText(ReservationForPrivateActivity.this, platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(ReservationForPrivateActivity.this, platform + " 分享失败", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ReservationForPrivateActivity.this,platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+            if(t!=null){
+                Log.d("throw","throw:"+t.getMessage());
+            }
         }
 
         @Override
-        public void onResult(SHARE_MEDIA platform) {
-            Toast.makeText(ReservationForPrivateActivity.this, platform + " 分享取消", Toast.LENGTH_SHORT).show();
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(ReservationForPrivateActivity.this,platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     };
 

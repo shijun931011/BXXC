@@ -1,106 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <include
-        layout="@layout/title"/>
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:orientation="vertical">
-            <ImageView android:layout_width="match_parent"
-                       android:layout_height="180dp"
-                       android:scaleType="centerCrop"
-                       android:src="@drawable/pai"
-            />
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:gravity="center"
-                      android:padding="10dp"
-                      android:text="邀请好友一起来学车"
-                      android:textSize="18sp"/>
+        android:id="@+id/include"
+        layout="@layout/title" />
 
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:gravity="center"
-                      android:hint="好友用您的邀请码成功报名,\n您就可以获得礼品哦！"
-                      android:textSize="16sp"/>
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:gravity="center"
-                      android:layout_marginTop="10dp"
-                      android:hint="您的邀请码为："
-                      android:textSize="16sp"
-                      android:padding="5dp"/>
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:id="@+id/inviteCode"
-                      android:gravity="center"
-                      android:textSize="20sp"
-                      android:textStyle="bold"
-                      android:textColor="@color/black"
-                      android:text="18133224378"/>
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:id="@+id/activity_rules"
-                      android:gravity="center"
-                      android:textSize="15sp"
-                      android:hint="活动规则 >"
-                      android:layout_marginTop="10dp"/>
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_marginTop="15dp"
-                          android:orientation="horizontal">
-                <View android:layout_width="150dp"
-                      android:layout_height="0.8dp"
-                      android:background="@color/background"
-                      android:layout_gravity="center_vertical"
-                      android:layout_marginLeft="5dp"
-                />
-                <TextView
-                    android:layout_width="65dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="16sp"
-                    android:hint="分享到"  />
-                <View android:layout_width="152dp"
-                      android:layout_height="0.8dp"
-                      android:background="@color/background"
-                      android:layout_gravity="center_vertical"
-                      android:layout_marginRight="5dp"
-                />
+    <LinearLayout
+        android:layout_below="@+id/include"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-            </LinearLayout>
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_marginBottom="10dp"
-                          android:layout_marginTop="10dp"
-                          android:orientation="horizontal"
-                          android:paddingTop="5dp">
-                <TextView android:id="@+id/wxCircle"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_weight="1"
-                          android:drawablePadding="5dp"
-                          android:gravity="center_horizontal|bottom"
-                          android:text="微信朋友圈"/>
-                <TextView android:id="@+id/weChat"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_weight="1"
-                          android:drawablePadding="5dp"
-                          android:gravity="center_horizontal|bottom"
-                          android:text="微信好友"/>
-                <TextView android:id="@+id/sina"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_weight="1"
-                          android:drawablePadding="5dp"
-                          android:gravity="center_horizontal|bottom"
-                          android:text="新浪微博"/>
-            </LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/pai" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="邀请好友一起来学车"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="好友用您的邀请码成功报名,\n您就可以获得礼品哦！"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:hint="您的邀请码为："
+            android:padding="5dp"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/inviteCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="18133224378"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/activity_rules"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:hint="活动规则 >"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center_horizontal|bottom"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0.8dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:background="@color/background" />
+
+            <TextView
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="分享到"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0.8dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/background" />
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal|bottom"
+            android:paddingTop="5dp">
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/tv_qq"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:gravity="center|bottom"
+                android:text="QQ好友" />
+
+            <TextView
+                android:id="@+id/wxCircle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:gravity="center_horizontal|bottom"
+                android:text="微信朋友圈" />
+
+            <TextView
+                android:id="@+id/weChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:gravity="center_horizontal|bottom"
+                android:text="微信好友" />
+
+            <TextView
+                android:id="@+id/sina"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:gravity="center_horizontal|bottom"
+                android:text="新浪微博" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

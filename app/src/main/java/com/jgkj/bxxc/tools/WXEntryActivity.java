@@ -3,8 +3,8 @@ package com.jgkj.bxxc.tools;
 import android.app.AlertDialog;
 import android.util.Log;
 
-import com.tencent.mm.sdk.constants.ConstantsAPI;
-import com.tencent.mm.sdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.constants.ConstantsAPI;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.umeng.socialize.weixin.view.WXCallbackActivity;
 
 /**
