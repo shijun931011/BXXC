@@ -40,6 +40,8 @@ public class BuyClassPackagesActivity extends Activity implements View.OnClickLi
     private boolean aipayflag = false, weixinFlag = false, balanceFlg = false;
     private ImageView weixin_isCheck, aipay_isCheck, balance_isCheck;
     private int uid;
+    private EditText username;
+    private String name;
 
 
 
@@ -73,6 +75,8 @@ public class BuyClassPackagesActivity extends Activity implements View.OnClickLi
         weixin_isCheck.setOnClickListener(this);
         balance_isCheck=(ImageView) findViewById(R.id.balance_isCheck);
         balance_isCheck.setOnClickListener(this);
+        username = (EditText) findViewById(R.id.signUpName);
+        name=username.getText().toString().trim();
     }
 
 
@@ -185,6 +189,7 @@ public class BuyClassPackagesActivity extends Activity implements View.OnClickLi
             case R.id.button_backward:
                 finish();
                 break;
+//            case R.id.
             case R.id.aipay_isCheck:
                 if (weixinFlag&&balanceFlg) {
                     weixin_isCheck.setImageResource(R.drawable.check_background);
