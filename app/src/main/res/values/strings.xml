@@ -20,7 +20,7 @@
     </string>
     <string name="version_unknown">请求异常</string>
     <string name="line">
-        <hr />
+        <hr/>
     </string>
     <string name="gotonext">前往完成下一步</string>
     <string name="gotobaoming">前去报名</string>
@@ -48,8 +48,11 @@
     <string name="alipay_user">仅支持有支付宝账号的用户</string>
     <string name="weixin_user">请在微信6.0.2及以上版本使用</string>
     <string name="recharge_protocol">点击去充值， 即表示已阅读并同意</string>
+    <string name="payment_protocol">点击立即支付， 即表示已阅读并同意</string>
+    <string name="payment_protocol_txt">支付协议</string>
     <string name="recharge_protocol_txt">充值协议</string>
     <string name="go_recharge">去充值</string>
+    <string name="go_payment">立即支付</string>
     <string name="balance_deal">余额用不完怎么办？</string>
     <string name="refund_record">退款记录</string>
     <string name="person_percar">一人一车</string>

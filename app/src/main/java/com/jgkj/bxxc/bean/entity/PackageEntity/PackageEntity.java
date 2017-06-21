@@ -20,6 +20,12 @@ public class PackageEntity {
 
     private String song;
 
+    private String tishi;
+
+    public String getTishi() {
+        return tishi;
+    }
+
     public String getSong() {
         return song;
     }

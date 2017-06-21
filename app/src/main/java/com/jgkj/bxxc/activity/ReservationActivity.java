@@ -24,10 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -40,7 +37,6 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
-import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.bumptech.glide.Glide;
@@ -49,7 +45,6 @@ import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.adapter.CoachFullDetailAdapter;
 import com.jgkj.bxxc.bean.CoachInfo;
 import com.jgkj.bxxc.bean.SchoolPlaceTotal;
-import com.jgkj.bxxc.bean.StuEvaluation;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.bean.entity.CommentEntity.CommentEntity;
 import com.jgkj.bxxc.bean.entity.CommentEntity.CommentResult;
@@ -541,10 +536,8 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                     SharedPreferences sp = getSharedPreferences("USER", Activity.MODE_PRIVATE);
                     String str = sp.getString("userInfo", null);
                     Gson gson = new Gson();
-
                     SharedPreferences sp1 = getSharedPreferences("token", Activity.MODE_PRIVATE);
                     token = sp1.getString("token", null);
-
                     userInfo = gson.fromJson(str, UserInfo.class);
                     if (userInfo == null) {
                         Intent intent = new Intent();

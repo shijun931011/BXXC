@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jgkj.bxxc.R;
-import com.jgkj.bxxc.bean.entity.MenuEntity.MenuEntitys;
 import com.jgkj.bxxc.bean.entity.PackageEntity.PackageEntity;
 
 import java.util.List;
@@ -66,9 +65,8 @@ public class PackageAdapter extends BaseAdapter {
         Glide.with(context).load(list.get(position).getPic()).placeholder(R.drawable.package_image).error(R.drawable.package_image).into(viewHolder.im_pic);
         viewHolder.tv_pakage.setText(list.get(position).getPackagename());
         viewHolder.tv_buy.setText("￥" + list.get(position).getCountmoney());
-        viewHolder.tv_buy_old.setText("原价：￥" + Calculation(list.get(position).getClasshour(),list.get(position).getClassmoney()));
+        viewHolder.tv_buy_old.setText("原价：￥" + Calculation(list.get(position).getClasshour(), list.get(position).getClassmoney()));
         viewHolder.tv_time.setText("所含课时数" + list.get(position).getClasshour() + list.get(position).getSong());
-
         return convertView;
     }
 
@@ -82,7 +80,7 @@ public class PackageAdapter extends BaseAdapter {
     }
 
     public String Calculation(String s1,String s2){
-        return Integer.toString(Integer.parseInt(s1)*Integer.parseInt(s2));
+        return Integer.toString(Integer.parseInt(s1) * Integer.parseInt(s2));
     }
 
 }
