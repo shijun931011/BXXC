@@ -20,9 +20,11 @@
 
     <ImageView
         android:id="@+id/im_title"
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
         android:layout_centerInParent="true"
         android:src="@drawable/title_image"
         android:visibility="gone"

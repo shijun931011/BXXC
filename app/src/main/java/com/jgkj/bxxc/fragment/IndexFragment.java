@@ -321,6 +321,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
                                     imageView = new ImageView(getActivity());
                                     Glide.with(getActivity()).load(bannerEntitylist.get(k).getPic().toString()).into(imageView);
                                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
                                     listView.add(imageView);
                                 }
                                 adapter = new MyAdapter(getActivity(), listView);

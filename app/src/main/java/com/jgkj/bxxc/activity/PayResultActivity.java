@@ -54,6 +54,12 @@ public class PayResultActivity extends Activity implements View.OnClickListener{
                 chenggong.setVisibility(View.GONE);
                 shibai.setVisibility(View.VISIBLE);
                 button_forward.setTag(0);
+            }else if(payResult==2){
+                int count = intent.getIntExtra("moneyId",3080);
+                price.setText(count+"");
+                success.setVisibility(View.VISIBLE);
+                failure.setVisibility(View.GONE);
+                button_forward.setTag(0);
             }
         }
     }

@@ -8,7 +8,7 @@
     <!-- ViewPage轮播图设置 -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp">
+        android:layout_height="200dp">
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPage"
             android:layout_width="match_parent"
@@ -27,6 +27,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
+        android:layout_marginTop="5dp"
         android:background="@color/white"
         android:orientation="horizontal">
         <ImageView
@@ -350,8 +351,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:paddingTop="5dp"
+        android:layout_marginTop="5dp"
         android:background="@color/white"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal">

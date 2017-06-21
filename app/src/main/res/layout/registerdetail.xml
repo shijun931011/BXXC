@@ -45,18 +45,22 @@
             <ImageView
                 android:id="@+id/style1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
                 android:layout_weight="1"
                 android:src="@drawable/stylepic1" />
 
             <ImageView
                 android:id="@+id/pic1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:onClick="showPic"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
                 android:src="@drawable/addpic" />
         </LinearLayout>
 
@@ -94,18 +98,22 @@
             <ImageView
                 android:id="@+id/style2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
                 android:layout_weight="1"
                 android:src="@drawable/stylepic2" />
 
             <ImageView
                 android:id="@+id/pic2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:onClick="showPic"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
                 android:src="@drawable/addpic" />
         </LinearLayout>
 
@@ -145,15 +153,19 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
                 android:src="@drawable/stylepic3" />
 
             <ImageView
                 android:id="@+id/pic3"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:onClick="showPic"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
                 android:src="@drawable/addpic" />
         </LinearLayout>
 
@@ -195,16 +207,19 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
+                android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
                 android:src="@drawable/stylepic4" />
 
             <ImageView
                 android:id="@+id/pic4"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:onClick="showPic"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
                 android:src="@drawable/addpic" />
         </LinearLayout>
 

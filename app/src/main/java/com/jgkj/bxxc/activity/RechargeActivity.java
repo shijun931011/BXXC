@@ -162,7 +162,7 @@ public class RechargeActivity extends Activity implements View.OnClickListener{
                                             // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                                             if (TextUtils.equals(resultStatus, "9000")) {
                                                 Toast.makeText(RechargeActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
-                                                //intent.putExtra("result",1);
+                                                intent.putExtra("result",2);
                                                 intent.putExtra("uid", uid);
                                                 intent.putExtra("moneyId", RechargeAdapter.positionIndex);
                                                 RechargeAdapter.positionIndex=1001;
