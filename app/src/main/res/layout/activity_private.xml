@@ -191,6 +191,7 @@
             android:layout_below="@+id/layout3"
             android:background="@drawable/num_text"
             android:orientation="horizontal"
+            android:onClick="choose"
             android:padding="10dp"
             >
             <TextView

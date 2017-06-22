@@ -77,6 +77,7 @@ public class BuyClassHoDialog implements View.OnClickListener{
                 intent2.putExtra("uid",uid);
                 intent2.putExtra("cid",cid);//token
                 intent2.putExtra("token",token);
+                intent2.putExtra("yuyue","2222");
                 context.startActivity(intent2);
                 dialog.hide();
                 break;

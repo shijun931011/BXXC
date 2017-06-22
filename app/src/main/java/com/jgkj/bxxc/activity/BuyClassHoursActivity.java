@@ -44,6 +44,8 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
     private List<PackageEntity> list;
     //套餐类型
     private String packageId;
+    private String tiaozhuan;
+    private String yuyue,jingpin;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +54,9 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
         uid = intent.getIntExtra("uid",uid);
         cid = intent.getStringExtra("cid");
         token = intent.getStringExtra("token");
+        tiaozhuan=intent.getStringExtra("tiaozhuan");
+        yuyue=intent.getStringExtra("yuyue");
+        jingpin=intent.getStringExtra("jingpin");
         //标题
         title = (TextView) findViewById(R.id.text_title);
         title.setText("购买学时套餐");
@@ -78,31 +83,6 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
         listView = (ListView)findViewById(R.id.listView);
         getData(Urls.packages);
         listView.setOnItemClickListener(this);
-
-//        myInputPwdUtil = new MyInputPwdUtil(BuyClassHoursActivity.this);
-//        myInputPwdUtil.getMyInputDialogBuilder().setAnimStyle(R.style.dialog_anim);
-//        myInputPwdUtil.setListener(new InputPwdView.InputPwdListener() {
-//            @Override
-//            public void hide() {
-//                myInputPwdUtil.hide();
-//            }
-//
-//            @Override
-//            public void forgetPwd() {
-//                //设置支付密码
-//                Intent intent = new Intent();
-//                intent.setClass(BuyClassHoursActivity.this,ForgetPayPasswordActivity.class);
-//                startActivity(intent);
-//            }
-//
-//            @Override
-//            public void finishPwd(String pwd) {
-//                //uid,  classhour 套餐类型  paypwd 支付密码
-//                //Toast.makeText(BuyClassHoursActivity.this, pwd, Toast.LENGTH_SHORT).show();
-//                getClassHoData(uid,pacckageId, Md5.md5(pwd),Urls.buyClassHour);
-//            }
-//        });
-
     }
 
     public void show(View view){
@@ -135,44 +115,8 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
                     }
                 });
     }
-
-//    private void getClassHoData(int uid_,String classhour,String paypwd,String url) {
-//        Log.i("百信学车","购买学时套餐参数" + "uid=" + uid_ + "   classhour=" + classhour + "   paypwd=" + paypwd + "   url=" + url);
-//        OkHttpUtils
-//                .post()
-//                .url(url)
-//                .addParams("paypwd", paypwd)
-//                .addParams("classhour", classhour)
-//                .addParams("uid", Integer.toString(uid_))
-//                .build()
-//                .execute(new StringCallback() {
-//                    @Override
-//                    public void onError(Call call, Exception e, int i) {
-//                        Toast.makeText(BuyClassHoursActivity.this, "加载失败", Toast.LENGTH_LONG).show();
-//                    }
-//                    @Override
-//                    public void onResponse(String s, int i) {
-//                        Log.i("百信学车","购买学时套餐结果" + s);
-//                        Gson gson = new Gson();
-//                        BaseEntity buyClassHoureEntity = gson.fromJson(s, BaseEntity.class);
-//                        if (buyClassHoureEntity.getCode() == 200) {
-//                            Toast.makeText(BuyClassHoursActivity.this, "学时购买成功", Toast.LENGTH_LONG).show();
-//                            myInputPwdUtil.hide();
-//                        }
-//                        if (buyClassHoureEntity.getCode() == 700) {
-//                            new RemainBaseDialog(BuyClassHoursActivity.this,"余额不足，请充值!").call();
-//                            myInputPwdUtil.hide();
-//                        }
-//                        if (buyClassHoureEntity.getCode() == 600) {
-//                            Toast.makeText(BuyClassHoursActivity.this, "支付密码错误!", Toast.LENGTH_LONG).show();
-//                        }
-//                    }
-//                });
-//    }
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
         Intent intent = new Intent();
         intent.setClass(this, BuyClassPackagesActivity.class);
         intent.putExtra("tv_pakage",list.get(position).getPackagename());
@@ -182,22 +126,14 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
         intent.putExtra("class_money",list.get(position).getClassmoney());
         intent.putExtra("im_pic",list.get(position).getPic());
         intent.putExtra("uid",uid);
-        intent.putExtra("packageId",packageId);
+        intent.putExtra("cid",cid);
+        intent.putExtra("token",token);
+        intent.putExtra("tiaozhuan","1111");
+        intent.putExtra("yuyue","2222");
+        intent.putExtra("jingpin","3333");
+        intent.putExtra("packageId",list.get(position).getPackageid());
+        intent.putExtra("ti_shi",list.get(position).getTishi());
         startActivity(intent);
-
-//        pacckageId = list.get(position).getPackageid();
-//        SharedPreferences sharedPreferences= getSharedPreferences("paypwd", Activity.MODE_PRIVATE);
-//        // 使用getString方法获得value，注意第2个参数是value的默认值
-//        String paypwd = sharedPreferences.getString("paypwd", "");
-//        //判断是否设置支付密码
-//        if(paypwd != null && !"".equals(paypwd)){
-//            myInputPwdUtil.show();
-//        }else{
-//            //设置支付密码
-//            Intent intent = new Intent();
-//            intent.setClass(BuyClassHoursActivity.this,SetPayPasswordActivity.class);
-//            startActivity(intent);
-//        }
-
+        finish();
     }
 }

@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -40,7 +39,6 @@ import com.jgkj.bxxc.bean.MyPayResult;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.bean.entity.WXEntity.WXEntity;
 import com.jgkj.bxxc.tools.PayResult;
-import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -93,12 +91,12 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
     private EditText tuijianren;
     private TextView yiyouhui_Tv;
     //正式接口
-//    private String payUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/payInviter";
-//    private String weipayUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/wxpay";
+    private String payUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/payInviter";
+    private String weipayUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/wxpay";
     private String CouponUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/inviteInfo";
     //测试接口
-    private String payUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/payInviterExam";
-    private String weipayUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/wxpayExam ";
+//    private String payUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/payInviterExam";
+//    private String weipayUrl="http://www.baixinxueche.com/index.php/Home/Aliapppay/wxpayExam ";
 
     private int uid;
     private String token;
@@ -112,7 +110,7 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payinfo);
-        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         init();
         getIntentData();
         Intent intent = getIntent();
@@ -623,7 +621,7 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
         }
         return isSuccess;
     }
-    public void choose(){
+    public void choose(View view){
         dialog = new Dialog(this, R.style.ActionSheetDialogStyle);
         // 填充对话框的布局
         inflate = LayoutInflater.from(this).inflate(R.layout.sure_choose_dialog, null);
@@ -631,31 +629,9 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
         dialog_yes = (TextView) inflate.findViewById(R.id.dialog_yes);
         dialog_no = (TextView) inflate.findViewById(R.id.dialog_no);
         dialog_cancel = (TextView) inflate.findViewById(R.id.dialog_cancel);
-        dialog_yes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseTv.setText("是");
-                dialog.dismiss();
-            }
-        });
-        dialog_no.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseTv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        chooseTv.setText("否");
-                        dialog.dismiss();
-                    }
-                });
-            }
-        });
-        dialog_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+        dialog_yes.setOnClickListener(this);
+        dialog_no.setOnClickListener(this);
+        dialog_cancel.setOnClickListener(this);
         // 将布局设置给Dialog
         dialog.setContentView(inflate);
         // 获取当前Activity所在的窗体
@@ -767,13 +743,18 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                     }
                 }
                 break;
-            case R.id.choose:
-                if (!chooseFlag) {
-                    choose();
-                    chooseFlag = true;
-                } else {
-                    chooseFlag = false;
-                }
+            case R.id.dialog_yes:
+                chooseFlag=true;
+                chooseTv.setText(dialog_yes.getText().toString());
+                dialog.dismiss();
+                break;
+            case R.id.dialog_no:
+                chooseFlag=true;
+                chooseTv.setText(dialog_no.getText().toString());
+                dialog.dismiss();
+                break;
+            case R.id.dialog_cancel:
+                dialog.dismiss();
                 break;
 
         }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,6 +23,8 @@ public class PayResultActivity extends Activity implements View.OnClickListener{
     private ImageView success,failure;
     private Intent intent;
     private TextView price;
+    private String token,tiaozhaun,yuyue,jingpin;
+    private String cid;
     private LinearLayout shibai,chenggong;
 
     @Override
@@ -35,6 +38,12 @@ public class PayResultActivity extends Activity implements View.OnClickListener{
     private void data() {
         intent = getIntent();
         int payResult = intent.getIntExtra("result",-1);
+        token = intent.getStringExtra("token");
+        tiaozhaun = intent.getStringExtra("tiaozhaun");
+        yuyue = intent.getStringExtra("yuyue");
+        jingpin=intent.getStringExtra("jingpin");
+        cid = intent.getStringExtra("cid");
+        Log.d("BXXC","百信学车CID:"+cid);
         if(payResult == -1){
             failure.setVisibility(View.VISIBLE);
             success.setVisibility(View.GONE);
@@ -60,6 +69,12 @@ public class PayResultActivity extends Activity implements View.OnClickListener{
                 success.setVisibility(View.VISIBLE);
                 failure.setVisibility(View.GONE);
                 button_forward.setTag(0);
+            }else if (payResult == 3){
+                String count = intent.getStringExtra("price");
+                price.setText(count+"");
+                success.setVisibility(View.VISIBLE);
+                failure.setVisibility(View.GONE);
+                button_forward.setTag(3);
             }
         }
     }
@@ -82,6 +97,7 @@ public class PayResultActivity extends Activity implements View.OnClickListener{
             case R.id.button_forward:
                 int tag = Integer.parseInt(button_forward.getTag().toString());
                 int uid = intent.getIntExtra("uid",-1);
+
                 switch (tag){
                     case 0:
 //                        Intent login = new Intent();
@@ -96,6 +112,31 @@ public class PayResultActivity extends Activity implements View.OnClickListener{
                         successIntent.putExtra("uid",uid);
                         startActivity(successIntent);
                         finish();
+                        break;
+                    case 3:
+                        Intent intent = new Intent();
+                        if (tiaozhaun.equals("1111")){
+                            intent.setClass(PayResultActivity.this,RehourActivity.class);
+                            intent.putExtra("uid",uid);
+                            intent.putExtra("token",token);
+                            startActivity(intent);
+                            finish();
+                        }else if (yuyue.equals("2222")){
+                            intent.setClass(PayResultActivity.this,ReservationDetailActivity.class);
+                            intent.putExtra("uid",uid);
+                            intent.putExtra("token",token);
+                            intent.putExtra("cid",cid);
+                            startActivity(intent);
+                            finish();
+                        }else if (jingpin.equals("3333")){
+                            intent.setClass(PayResultActivity.this,ReservationDetailActivity.class);
+                            intent.putExtra("uid",uid);
+                            intent.putExtra("token",token);
+                            intent.putExtra("cid",cid);
+                            startActivity(intent);
+                            finish();
+                        }
+
                         break;
                 }
                 break;

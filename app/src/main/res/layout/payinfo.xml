@@ -228,6 +228,7 @@
                 android:background="@drawable/num_text"
                 android:orientation="horizontal"
                 android:padding="10dp"
+                android:onClick="choose"
             >
                 <TextView
                     android:layout_width="0dp"

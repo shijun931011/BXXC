@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -70,14 +71,14 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
     private PriBaokao coachInfo;
     private TextView coach_Price;
     //正式接口
-//    private String PripayUrl = "http://www.baixinxueche.com/index.php/Home/Aliapppay/payInviter";
-//    private String weipayUrl = "http://www.baixinxueche.com/index.php/Home/Aliapppay/wxpay";
+    private String PripayUrl = "http://www.baixinxueche.com/index.php/Home/Aliapppay/payInviter";
+    private String weipayUrl = "http://www.baixinxueche.com/index.php/Home/Aliapppay/wxpay";
     private String privateUrl = "http://www.baixinxueche.com/index.php/Home/Aliapppay/sijiaomoney";
 
     //测试接口
-    private String PripayUrl = "http://www.baixinxueche.com/index" +
-            ".php/Home/Aliapppay/payInviterExam";
-    private String weipayUrl = "http://www.baixinxueche.com/index.php/Home/Aliapppay/wxpayExam ";
+//    private String PripayUrl = "http://www.baixinxueche.com/index" +
+//            ".php/Home/Aliapppay/payInviterExam";
+//    private String weipayUrl = "http://www.baixinxueche.com/index.php/Home/Aliapppay/wxpayExam ";
     private int uid;
     private String token;
     private int pack = 1;
@@ -98,6 +99,7 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         InitView();
         getData();
         getPriData(uid + "", token);
@@ -218,10 +220,17 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
         Log.d("BXXC", "百信学车支付宝:" + uid + "::::" + name + "::::" + phone + "::::" + idcard +
                 "::::" + "1" + chooseTv.getText().toString() + "::::" + tuijianren.getText()
                 .toString());
-        OkHttpUtils.post().url(PripayUrl).addParams("uid", uid).addParams("name", name).addParams
-                ("phone", phone).addParams("idcard", idcard).addParams("pt", "1").addParams
-                ("mtcar", chooseTv.getText().toString()).addParams("tuijianren", tuijianren
-                .getText().toString()).build().execute(new StringCallback() {
+        OkHttpUtils.post()
+                .url(PripayUrl)
+                .addParams("uid", uid)
+                .addParams("name", name)
+                .addParams("phone", phone)
+                .addParams("idcard", idcard)
+                .addParams("pt", "1")
+                .addParams("mtcar", chooseTv.getText().toString())
+                .addParams("tuijianren", tuijianren.getText().toString())
+                .build()
+                .execute(new StringCallback(){
             @Override
             public void onError(Call call, Exception e, int i) {
                 Toast.makeText(PrivateActivity.this, "加载失败", Toast.LENGTH_LONG).show();
@@ -359,8 +368,7 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
             }
         });
     }
-
-    public void choose() {
+    public void choose(View view) {
         dialog = new Dialog(this, R.style.ActionSheetDialogStyle);
         // 填充对话框的布局
         inflate = LayoutInflater.from(this).inflate(R.layout.sure_choose_dialog, null);
@@ -368,32 +376,9 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
         dialog_yes = (TextView) inflate.findViewById(R.id.dialog_yes);
         dialog_no = (TextView) inflate.findViewById(R.id.dialog_no);
         dialog_cancel = (TextView) inflate.findViewById(R.id.dialog_cancel);
-        dialog_yes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseTv.setText("是");
-                dialog.dismiss();
-            }
-        });
-        dialog_no.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseTv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        chooseTv.setText("否");
-                        dialog.dismiss();
-                    }
-                });
-            }
-        });
-        dialog_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-
-            }
-        });
+        dialog_yes.setOnClickListener(this);
+        dialog_no.setOnClickListener(this);
+        dialog_cancel.setOnClickListener(this);
         // 将布局设置给Dialog
         dialog.setContentView(inflate);
         // 获取当前Activity所在的窗体
@@ -440,8 +425,9 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
             case R.id.isCheck:
                 name = username.getText().toString().trim();
                 idCard = userId.getText().toString().trim();
+
                 if (name.equals("") || name == null || idCard.equals("") || idCard == null ||
-                        chooseFlag == false) { // || serFlag == false
+                        chooseFlag==false) { // || serFlag == false
                     Toast.makeText(PrivateActivity.this, "填写信息不完整！", Toast.LENGTH_SHORT).show();
                     isCheck.setImageResource(R.drawable.check_background);
                     aserFlg = false;
@@ -455,7 +441,7 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
                 intent.setClass(PrivateActivity.this, WebViewActivity.class);
                 intent.putExtra("url", "http://www.baixinxueche" + "" +
                         ".com/webshow/chongzhi/sijiaoPayAgreement.html ");
-                intent.putExtra("title", "百信学车补考支付协议");
+                intent.putExtra("title", "百信学车服务条款");
                 startActivity(intent);
                 break;
             case R.id.aipay_layout:
@@ -490,16 +476,19 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
                     }
                 }
                 break;
-            case R.id.choose:
-                if (!chooseFlag) {
-                    choose();
-                    chooseFlag = true;
-                } else {
-                    chooseFlag = false;
-                }
+            case R.id.dialog_yes:
+                chooseFlag=true;
+                chooseTv.setText(dialog_yes.getText().toString());
+                dialog.dismiss();
                 break;
-
-
+            case R.id.dialog_no:
+                chooseFlag=true;
+                chooseTv.setText(dialog_no.getText().toString());
+                dialog.dismiss();
+                break;
+            case R.id.dialog_cancel:
+                dialog.dismiss();
+                break;
         }
     }
 

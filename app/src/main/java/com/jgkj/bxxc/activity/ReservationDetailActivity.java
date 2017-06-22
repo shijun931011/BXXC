@@ -124,7 +124,6 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
         StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         //显示ProgressDialog
         progressDialog = ProgressDialog.show(ReservationDetailActivity.this, "加载中...", "请等待...", true, false);
-
         //标题
         title = (TextView) findViewById(R.id.text_title);
         title.setText(getDate());
@@ -135,7 +134,6 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
         remind.setOnClickListener(this);
         remind.setVisibility(View.VISIBLE);
         remind.setText("预约须知");
-
         im_coachPic = (ImageView)findViewById(R.id.im_coachPic);
         tv_coachName = (TextView)findViewById(R.id.tv_coachName);
         tv_total_stu = (TextView)findViewById(R.id.tv_total_stu);
@@ -143,7 +141,6 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
         listView = (ListView)findViewById(R.id.listView);
         noSmsData = (TextView)findViewById(R.id.noSmsData);
         listView.setEmptyView(noSmsData);
-
         Intent intent = getIntent();
         uid = intent.getIntExtra("uid",uid);
         flag = intent.getStringExtra("flag");
@@ -291,7 +288,6 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                 tv_bg_05.setBackgroundResource(R.color.white);
                 tv_bg_06.setBackgroundResource(R.color.white);
                 tv_bg_07.setBackgroundResource(R.color.white);
-
                 subjectListResult = subjectList(tv4_number.getText().toString());
                 adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv4_number.getText().toString(),uid,token,cid,flag_class);
                 listView.setAdapter(adapter);

@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.activity.BuyClassHoursActivity;
-import com.jgkj.bxxc.activity.ReservationDetailActivity;
 import com.jgkj.bxxc.bean.entity.ConfirmReservationEntity.ConfirmReservationResult;
 import com.jgkj.bxxc.bean.entity.MenuEntity.MenuEntitys;
 import com.jgkj.bxxc.bean.entity.MenuEntity.MenuResults;
@@ -35,7 +34,6 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -325,6 +323,7 @@ public class ReservationDetailAdapter extends BaseAdapter {
                 intent2.putExtra("uid",uid);
                 intent2.putExtra("cid",cid);//token
                 intent2.putExtra("token",token);
+                intent2.putExtra("jingpin","3333");
                 context.startActivity(intent2);
                 dlg.cancel();
             }
