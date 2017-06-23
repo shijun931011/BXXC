@@ -248,6 +248,11 @@
                 android:paddingTop="10dp"
                 android:text="设置"/>
 
+            <View android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/background"/>
+
         </LinearLayout>
     </ScrollView>
 </com.jgkj.bxxc.tools.RefreshLayout>

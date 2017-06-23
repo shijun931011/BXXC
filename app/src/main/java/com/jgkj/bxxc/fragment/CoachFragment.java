@@ -72,7 +72,7 @@ public class CoachFragment extends Fragment implements View.OnClickListener{
         fragmentList = new ArrayList<Fragment>();
         fragmentList.add(new PrivateFragment());
         fragmentList.add(new CoachFragment2());
-        viewPager.setOffscreenPageLimit(2);
+        viewPager.setOffscreenPageLimit(1);
         viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
 
             public int getCount() {

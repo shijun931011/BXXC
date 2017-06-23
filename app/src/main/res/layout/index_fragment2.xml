@@ -5,25 +5,16 @@
               android:background="@color/background"
               android:orientation="vertical">
 
-    <!-- ViewPage轮播图设置 -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp">
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewPage"
+        <com.bigkoo.convenientbanner.ConvenientBanner
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/cb_convenientBanner"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:focusable="true"
-            android:layout_centerHorizontal="true" />
-        <LinearLayout
-            android:id="@+id/linearlayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/viewPage"
-            android:layout_marginBottom="5dp"
-            android:gravity="center"
-            android:orientation="horizontal"/>
-    </RelativeLayout>
+            android:layout_height="200dp"
+            app:canLoop="true"
+            >
+        </com.bigkoo.convenientbanner.ConvenientBanner>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"

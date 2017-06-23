@@ -441,19 +441,10 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                             zhiliangfen.setText(result.getTeach() + ".0分");
                             fuwufen.setText(result.getWait() + ".0分");
 
-                            getCommentFirst(commentUrl);
-
-//                            String str = listView.getTag().toString();
-//                            gson = new Gson();
-//                            CommentResult coachInfos = gson.fromJson(str, CommentResult.class);
-//                            listStu = coachInfos.getResult();
-//                            if(listStu.size() == 0){
-//                                linear_list_noData.setVisibility(View.VISIBLE);
-//                            }
-//                            adapter = new CoachFullDetailAdapter(ReservationForPrivateActivity.this, listStu);
-//                            listView.setAdapter(adapter);
                             falg = true;
                             initMap(result.getLatitude(),result.getLongitude());
+
+                            getCommentFirst(commentUrl);
 
                         } else {
                             Toast.makeText(ReservationForPrivateActivity.this, "没有更多的！", Toast.LENGTH_SHORT).show();
@@ -787,10 +778,18 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
             @Override
             public void run() {
                 if(falg == true){
-                    commentPage = 2;
+                    if(linear_list_noData.getVisibility() == View.VISIBLE){
+                        commentPage = 1;
+                    }else{
+                        commentPage = 2;
+                    }
                     falg = false;
                 }else{
-                    commentPage++;
+                    if(linear_list_noData.getVisibility() == View.VISIBLE){
+                        commentPage = 1;
+                    }else{
+                        commentPage++;
+                    }
                 }
                 getComment(commentUrl);
                 swipeLayout.setLoading(false);

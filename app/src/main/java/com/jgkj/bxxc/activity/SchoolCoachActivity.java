@@ -68,8 +68,14 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
         setContentView(R.layout.school_coach);
         StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
-        sendRequest(page+"",schId);
-        //sort(class_type, sortString, page+"", class_class);
+        coachList.clear();
+        swipeLayout.setTag("REFRESH");
+        page = 1;
+        sort_btn1.setText("科目");
+        sort_btn3.setText("综合排序");
+        sort_btn4.setText("班型");
+        check();
+        sort(class_type, sortString, page+"", class_class);
     }
 
     /**
@@ -80,7 +86,7 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
     private void sendRequest(String page, String schId) {
         OkHttpUtils
                 .post()
-                .url(schoolPath)
+                .url(sortPath)
                 .addParams("page", page)
                 .addParams("school_id", schId)
                 .build()
@@ -211,7 +217,7 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
                 sort(class_type, sortString, page+"", class_class);
                 //sendRequest(page+"",schId);
                 swipeLayout.setRefreshing(false);
-                adapter.notifyDataSetChanged();
+                //adapter.notifyDataSetChanged();
             }
         }, 2000);
     }
@@ -228,7 +234,7 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
                 check();
                 sort(class_type, sortString, page+"", class_class);
                 swipeLayout.setLoading(false);
-                adapter.notifyDataSetChanged();
+                //adapter.notifyDataSetChanged();
             }
         }, 2000);
     }

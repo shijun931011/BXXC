@@ -118,7 +118,6 @@ public class ClassTypeActivity extends Activity implements View.OnClickListener{
                 break;
             case R.id.button_forward:
                 classtypeDialog();
-
                 break;
             case R.id.pri_class:
                 intent.setClass(this, PrivateClassActivity.class);

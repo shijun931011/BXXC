@@ -327,7 +327,7 @@ public class PrivateClassActivity extends Activity implements View.OnClickListen
             @Override
             public void run() {
                 page = 1;
-                swipeLayout.setTag("ONFRESH");
+                swipeLayout.setTag("REFRESH");
                 sort_btn1.setText("全城");
                 sort_btn2.setText("科目");
                 sort_btn3.setText("综合排序");

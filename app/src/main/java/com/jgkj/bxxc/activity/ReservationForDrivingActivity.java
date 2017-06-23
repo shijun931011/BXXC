@@ -435,14 +435,10 @@ public class ReservationForDrivingActivity extends Activity implements OnClickLi
                             zhiliangfen.setText(result.getTeach() + ".0分");
                             fuwufen.setText(result.getWait() + ".0分");
 
-                            listStu = result.getComment();
-                            if(listStu.size() == 0){
-                                linear_list_noData.setVisibility(View.VISIBLE);
-                            }
-                            adapter = new CoachFullDetailAdapter(ReservationForDrivingActivity.this, listStu);
-                            listView.setAdapter(adapter);
                             falg = true;
                             initMap(result.getLatitude(),result.getLongitude());
+
+                            getCommentFirst(commentUrl);
 
                         } else {
                             Toast.makeText(ReservationForDrivingActivity.this, "没有更多的！", Toast.LENGTH_SHORT).show();
@@ -499,6 +495,7 @@ public class ReservationForDrivingActivity extends Activity implements OnClickLi
         listView = (ListView) findViewById(R.id.student_evaluate_listView);
         listView.setFocusable(false);
         listView.addHeaderView(headView, null, false);
+        listView.setEmptyView(linear_list_noData);
         //上拉刷新
         swipeLayout = (RefreshLayout) findViewById(R.id.swipe_container);
         swipeLayout.setColorSchemeResources(R.color.color_bule2, R.color.color_bule, R.color.color_bule2, R.color.color_bule3);
@@ -530,7 +527,7 @@ public class ReservationForDrivingActivity extends Activity implements OnClickLi
                                  progressDialog.dismiss();
                                  Gson gson = new Gson();
                                  Result result = gson.fromJson(s, Result.class);
-                                 Toast.makeText(ReservationForDrivingActivity.this, result.getReason(), Toast.LENGTH_LONG).show();
+//                                 Toast.makeText(ReservationForDrivingActivity.this, result.getReason(), Toast.LENGTH_LONG).show();
                                  if (result.getCode() == 200) {
                                      Toast.makeText(ReservationForDrivingActivity.this, result.getReason(), Toast.LENGTH_SHORT).show();
                                      finish();
@@ -719,6 +716,39 @@ public class ReservationForDrivingActivity extends Activity implements OnClickLi
                 });
     }
 
+    private void getCommentFirst(String comment) {
+        OkHttpUtils
+                .post()
+                .url(comment)
+                .addParams("page","1")
+                .addParams("cid", coachId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int i) {
+                        Toast.makeText(ReservationForDrivingActivity.this, "加载失败", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onResponse(String s, int i) {
+                        Log.i("百信学车","评论结果" + s);
+                        Gson gson = new Gson();
+                        CommentResult coachInfos = gson.fromJson(s, CommentResult.class);
+                        if(coachInfos.getCode() == 200){
+                            listStu = coachInfos.getResult();
+                            if(listStu.size() == 0){
+                                linear_list_noData.setVisibility(View.VISIBLE);
+                            }
+                            adapter = new CoachFullDetailAdapter(ReservationForDrivingActivity.this, listStu);
+                            listView.setAdapter(adapter);
+                        }else{
+                            Toast.makeText(ReservationForDrivingActivity.this, coachInfos.getReason(), Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
+    }
+
     private void setCom() {
         String str = listView.getTag().toString();
         Gson gson = new Gson();
@@ -742,10 +772,18 @@ public class ReservationForDrivingActivity extends Activity implements OnClickLi
             @Override
             public void run() {
                 if(falg == true){
-                    commentPage = 2;
+                    if(linear_list_noData.getVisibility() == View.VISIBLE){
+                        commentPage = 1;
+                    }else{
+                        commentPage = 2;
+                    }
                     falg = false;
                 }else{
-                    commentPage++;
+                    if(linear_list_noData.getVisibility() == View.VISIBLE){
+                        commentPage = 1;
+                    }else{
+                        commentPage++;
+                    }
                 }
                 getComment(commentUrl);
                 swipeLayout.setLoading(false);

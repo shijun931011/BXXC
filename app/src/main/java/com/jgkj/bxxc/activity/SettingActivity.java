@@ -129,6 +129,48 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         dialogWindow.setGravity(Gravity.CENTER);
         sureDialog.show();
     }
+
+    /**
+     * 确定退出dialog
+     */
+    private void createQuitDialog() {
+        sureDialog = new Dialog(SettingActivity.this, R.style.ActionSheetDialogStyle);
+        // 填充对话框的布局
+        sureView = LayoutInflater.from(SettingActivity.this).inflate(R.layout.sure_cancel_dialog, null);
+        // 初始化控件
+        dialog_textView = (TextView) sureView.findViewById(R.id.dialog_textView);
+        dialog_textView.setText("确定退出当前帐号吗？");
+        dialog_sure = (TextView) sureView.findViewById(R.id.dialog_sure);
+        dialog_cancel = (TextView) sureView.findViewById(R.id.dialog_cancel);
+        dialog_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isLogined = false;
+                SharedPreferences sp = getApplication().getSharedPreferences("USER", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.clear();
+                editor.commit();
+                sureDialog.dismiss();
+                finish();
+            }
+        });
+        dialog_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sureDialog.dismiss();
+            }
+        });
+        // 将布局设置给Dialog
+        sureDialog.setContentView(sureView);
+        // 获取当前Activity所在的窗体
+        Window dialogWindow = sureDialog.getWindow();
+        // 设置dialog宽度
+        dialogWindow.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+        // 设置Dialog从窗体中间弹出
+        dialogWindow.setGravity(Gravity.CENTER);
+        sureDialog.show();
+    }
+
     /**
      * 检查更新
      */
@@ -185,14 +227,7 @@ public class SettingActivity extends Activity implements View.OnClickListener {
                 createSureDialog();
                 break;
             case R.id.exit:
-                isLogined = false;
-                SharedPreferences sp = getApplication().getSharedPreferences("USER", Activity.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sp.edit();
-                editor.clear();
-                editor.commit();
-//                intent.setClass(this,HomeActivity.class);
-//                startActivity(intent);
-                finish();
+                createQuitDialog();
                 break;
         }
     }

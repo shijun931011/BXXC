@@ -23,6 +23,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
@@ -45,9 +47,16 @@ import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.bean.entity.BannerEntity.BannerEntity;
 import com.jgkj.bxxc.bean.entity.BannerEntity.BannerResult;
 import com.jgkj.bxxc.tools.AutoTextView;
+import com.jgkj.bxxc.tools.BannerPage;
 import com.jgkj.bxxc.tools.InvitedCouponDialog;
+import com.jgkj.bxxc.tools.NetworkImageHolderView;
 import com.jgkj.bxxc.tools.SecondToDate;
 import com.jgkj.bxxc.tools.Urls;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -62,11 +71,7 @@ import okhttp3.Call;
  * 首页布局
  */
 public class IndexFragment extends Fragment implements OnClickListener {
-    // LinearLayout
-    private LinearLayout linearlayout;
     private View view, view1;
-    // viewpager
-    private ViewPager viewpager;
     // 集合list
     private List<View> list;
     // 适配器
@@ -110,14 +115,21 @@ public class IndexFragment extends Fragment implements OnClickListener {
     private int uid;
     private List<BannerEntity> bannerEntitylist;
 
+    private ConvenientBanner cb_convenientBanner;
+    private List<BannerPage> page = new ArrayList<>();  //数据集合
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.index_fragment2, container, false);
-        view.scrollBy(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-        init();
-        getImage();
-        getheadlines();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if(container.getTag()==null){
+            view = inflater.inflate(R.layout.index_fragment2, container, false);
+            //view.scrollBy(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.MATCH_PARENT);
+            init();
+            getImage();
+            getheadlines();
+            container.setTag(view);
+        }else{
+            view = (View) container.getTag();
+        }
         return view;
     }
 
@@ -142,11 +154,9 @@ public class IndexFragment extends Fragment implements OnClickListener {
         select_class = (RelativeLayout) view.findViewById(R.id.select_class);
         headlines.setText("科技改变生活，百信引领学车!");
         // 实例化控件
-        linearlayout = (LinearLayout) view.findViewById(R.id.linearlayout);
         coach = new CoachFragment();
         fragmentManager = getFragmentManager();
-        viewpager = (ViewPager) view.findViewById(R.id.viewPage);
-        viewpager.setOnTouchListener(mOnTouchListener);
+        cb_convenientBanner = (ConvenientBanner)view.findViewById(R.id.cb_convenientBanner);
         quesAns = (TextView) view.findViewById(R.id.quesAns);
         bxCenter = (TextView) view.findViewById(R.id.bxCenter);
         yQfirend = (LinearLayout) view.findViewById(R.id.yQfirend);
@@ -180,70 +190,9 @@ public class IndexFragment extends Fragment implements OnClickListener {
             userInfo = gson.fromJson(str, UserInfo.class);
             result = userInfo.getResult();
         }
+
+
     }
-
-    View.OnTouchListener mOnTouchListener = new View.OnTouchListener() {
-        private int startX;
-        private int startY;
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            int action = event.getAction();
-            switch (action){
-                case MotionEvent.ACTION_DOWN:
-                    startX = (int) event.getX();
-                    startY = (int) event.getY();
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    break;
-                case MotionEvent.ACTION_UP:
-                    int endX = (int) event.getX();
-                    int endY = (int) event.getY();
-                    if (Math.abs(endX - startX) < 50 && Math.abs(endY - startY) < 50){
-                        Intent intent = new Intent();
-                        try{
-                            int itemPosition = viewpager.getCurrentItem();
-                            if(bannerEntitylist.get(itemPosition).getKey().equals("1")){
-                                intent.setClass(getActivity(),WebViewActivity.class);
-                                intent.putExtra("url",bannerEntitylist.get(itemPosition).getUrl());
-                                intent.putExtra("title",bannerEntitylist.get(itemPosition).getTitle());
-                                startActivity(intent);
-                            }
-                            if(bannerEntitylist.get(itemPosition).getKey().equals("2")){
-                                if (userInfo == null){
-                                    intent.setClass(getActivity(), LoginActivity.class);
-                                    intent.putExtra("message","lunbotu");
-                                    startActivity(intent);
-                                }else{
-                                    intent.setClass(getActivity(),InviteFriendsActivity.class);
-                                    startActivity(intent);
-                                }
-                            }
-                            if(bannerEntitylist.get(itemPosition).getKey().equals("3")){
-                                if (userInfo == null){
-                                    intent.setClass(getActivity(), LoginActivity.class);
-                                    intent.putExtra("message","privateCoach");
-                                    startActivity(intent);
-                                }else{
-                                    intent.setClass(getActivity(), PrivateActivity.class);
-                                    startActivity(intent);
-                                }
-                            }
-                            if (bannerEntitylist.get(itemPosition).getKey().equals("4")){
-                                new InvitedCouponDialog(getActivity()).call();
-                                Log.d("BXXC","领取优惠劵："+uid+":::::"+userInfo.getResult().getPhone());
-                            }
-
-                        }catch(Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-                    break;
-            }
-            return false;
-        }
-    };
-
-
 
     /**
      * 百信头条轮播文字
@@ -315,71 +264,16 @@ public class IndexFragment extends Fragment implements OnClickListener {
                         if (pic.getCode() == 200) {
                             bannerEntitylist = pic.getResult();
                             if (bannerEntitylist != null) {
-                                // 实例化listView
-                                List<View> listView = new ArrayList<View>();
                                 for (int k = 0; k < bannerEntitylist.size(); k++) {
-                                    imageView = new ImageView(getActivity());
-                                    Glide.with(getActivity()).load(bannerEntitylist.get(k).getPic().toString()).into(imageView);
-                                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-
-                                    listView.add(imageView);
+                                    page.add(new BannerPage(bannerEntitylist.get(k).getPic().toString()));
                                 }
-                                adapter = new MyAdapter(getActivity(), listView);
-                                SharedPreferences sp = getActivity().getSharedPreferences("PicCount", Activity.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sp.edit();
-                                editor.putInt("Count", bannerEntitylist.size());
-                                editor.commit();
-                                viewpager.setAdapter(adapter);
+                                initImageLoader();
                             }
-                            scrollView();
                         }
                     }
                 });
     }
 
-    //自动轮播
-    private void scrollView() {
-        SharedPreferences sp = getActivity().getSharedPreferences("PicCount", Activity.MODE_PRIVATE);
-        final int count = sp.getInt("Count", -1);
-        if (count != -1) {
-            final ImageView[] dots = new ImageView[count];
-            for (int k = 0; k < count; k++) {
-                ImageView image = new ImageView(getActivity());
-                image.setImageDrawable(getResources().getDrawable(R.drawable.selector));
-                image.setId(k);
-                wrapParams = new LinearLayout.LayoutParams(ViewPager.LayoutParams.WRAP_CONTENT, ViewPager.LayoutParams.WRAP_CONTENT);
-                wrapParams.leftMargin = 5;
-                image.setLayoutParams(wrapParams);
-                linearlayout.addView(image);
-                dots[k] = (ImageView) linearlayout.getChildAt(k);
-                dots[k].setEnabled(true);
-            }
-            final Handler mHandler = new Handler() {
-                @Override
-                public void handleMessage(Message msg) {
-                    super.handleMessage(msg);
-                    if (currentItem < (count - 1)) {
-                        currentItem++;
-                        viewpager.setCurrentItem(currentItem);
-                    } else if (currentItem == (count - 1)) {
-                        currentItem = 0;
-                        viewpager.setCurrentItem(currentItem);
-                    }
-                    for (int j = 0; j < count; j++) {
-                        dots[j].setEnabled(false);
-                    }
-                    dots[currentItem].setEnabled(true);
-                }
-            };
-            TimerTask timerTask = new TimerTask() {
-                @Override
-                public void run() {
-                    mHandler.sendEmptyMessage(0);
-                }
-            };
-            timer.schedule(timerTask, 1000, 3000);
-        }
-    }
     @Override
     public void onClick(View v) {
         fragmentManager = getFragmentManager();
@@ -397,12 +291,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.select_coach:           //教练
-//                intent.setClass(getActivity(), HomeActivity.class);
-//                intent.putExtra("FromActivity", "IndexFragment");
-//                startActivity(intent);
-//                HomeActivity.radioButton2.setChecked(true);
-//                mCurrentFragment = coach;
-
                 //发送广播
                 intent.setAction("tiaozhuang");
                 getActivity().sendBroadcast(intent);
@@ -449,14 +337,8 @@ public class IndexFragment extends Fragment implements OnClickListener {
                 }
                 break;
             case R.id.linear_driving_companion:            //陪驾
-//                if (userInfo == null){
-//                    intent.setClass(getActivity(), LoginActivity.class);
-//                    intent.putExtra("message","drivingCompanion");
-//                    startActivity(intent);
-//                }else{
-                    intent.setClass(getActivity(),DrivingCompanionActivity.class);
-                    startActivity(intent);
-//                }
+                intent.setClass(getActivity(),DrivingCompanionActivity.class);
+                startActivity(intent);
                 break;
             case R.id.classic_coach:       //经典班报名
                 intent.setClass(getActivity(), ClassicActivity.class);
@@ -492,5 +374,30 @@ public class IndexFragment extends Fragment implements OnClickListener {
             userInfo = gson.fromJson(str, UserInfo.class);
             result = userInfo.getResult();
         }
+    }
+
+    //初始化网络图片缓存库
+    private void initImageLoader(){
+        //网络图片例子,结合常用的图片缓存库UIL,你可以根据自己需求自己换其他网络图片库
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().
+                showImageForEmptyUri(R.mipmap.ic_launcher)
+                .cacheInMemory(true).cacheOnDisk(true).build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getActivity()).defaultDisplayImageOptions(defaultOptions)
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .denyCacheImageMultipleSizesInMemory()
+                .diskCacheFileNameGenerator(new Md5FileNameGenerator())
+                .tasksProcessingOrder(QueueProcessingType.LIFO).build();
+        ImageLoader.getInstance().init(config);
+
+        cb_convenientBanner.setPages(new CBViewHolderCreator<NetworkImageHolderView>() {
+            @Override
+            public NetworkImageHolderView createHolder() {
+                return new NetworkImageHolderView();
+            }
+        },bannerEntitylist)
+        .setPageIndicator(new int[]{R.drawable.ic_page_indicator, R.drawable.ic_page_indicator_focused})
+        //设置翻页的效果，不需要翻页效果可用不设，这里有十几种翻页效果
+        .startTurning(2000);
     }
 }

@@ -16,7 +16,7 @@
         <TextView
             android:id="@+id/diolog_prompt"
             android:layout_width="fill_parent"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             android:gravity="center"
             android:text="提示"
             android:textSize="20sp"
@@ -33,11 +33,12 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:text="测试"
                 android:lineSpacingMultiplier="1.5"
                 android:paddingBottom="15dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:paddingTop="15dp"
+                android:paddingTop="10dp"
                 android:textSize="15sp" />
 
         </LinearLayout>

@@ -468,17 +468,10 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                             zhiliangfen.setText(result.getTeach() + ".0分");
                             fuwufen.setText(result.getWait() + ".0分");
 
-                            getCommentFirst(commentUrl);
-
-//                            //List<CommentEntity> listStu = new ArrayList<CommentEntity>();
-//                            listStu = result.getComment();
-//                            if(listStu.size() == 0){
-//                                linear_list_noData.setVisibility(View.VISIBLE);
-//                            }
-//                            adapter = new CoachFullDetailAdapter(ReservationActivity.this, listStu);
-//                            listView.setAdapter(adapter);
                             falg = true;
                             initMap(result.getLatitude(),result.getLongitude());
+
+                            getCommentFirst(commentUrl);
 
                         } else {
                             Toast.makeText(ReservationActivity.this, "没有更多的！", Toast.LENGTH_SHORT).show();
@@ -719,7 +712,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
 
                     @Override
                     public void onResponse(String s, int i) {
-                        //String str = listView.getTag().toString();
+                        Log.i("百信学车","评论结果" + s);
                         Gson gson = new Gson();
                         CommentResult coachInfos = gson.fromJson(s, CommentResult.class);
                         if(coachInfos.getCode() == 200){
@@ -730,7 +723,13 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                             adapter = new CoachFullDetailAdapter(ReservationActivity.this, listStu);
                             listView.setAdapter(adapter);
                         }else{
-                            Toast.makeText(ReservationActivity.this, coachInfos.getReason(), Toast.LENGTH_LONG).show();
+                            listStu = coachInfos.getResult();
+                            if(listStu.size() == 0){
+                                linear_list_noData.setVisibility(View.VISIBLE);
+                            }
+                            adapter = new CoachFullDetailAdapter(ReservationActivity.this, listStu);
+                            listView.setAdapter(adapter);
+                            //Toast.makeText(ReservationActivity.this, coachInfos.getReason(), Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -748,10 +747,12 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
             listStu.addAll(coachInfo.getResult());
             if(listStu.size() == 0){
                 linear_list_noData.setVisibility(View.VISIBLE);
+            }else{
+                linear_list_noData.setVisibility(View.GONE);
             }
             adapter.notifyDataSetChanged();
         } else {
-//            Toast.makeText(ReservationActivity.this, coachInfo.getReason(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(ReservationActivity.this, coachInfo.getReason(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -761,10 +762,18 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
             @Override
             public void run() {
                 if(falg == true){
-                    commentPage = 2;
+                    if(linear_list_noData.getVisibility() == View.VISIBLE){
+                        commentPage = 1;
+                    }else{
+                        commentPage = 2;
+                    }
                     falg = false;
                 }else{
-                    commentPage++;
+                    if(linear_list_noData.getVisibility() == View.VISIBLE){
+                        commentPage = 1;
+                    }else{
+                        commentPage++;
+                    }
                 }
                 getComment(commentUrl);
                 swipeLayout.setLoading(false);
