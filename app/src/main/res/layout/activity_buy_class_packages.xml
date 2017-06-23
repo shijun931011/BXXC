@@ -176,7 +176,7 @@
         <ImageView
             android:id="@+id/aipay_isCheck"
             android:layout_width="0dp"
-            android:layout_height="15dp"
+            android:layout_height="18dp"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:src="@drawable/check_background"/>
@@ -213,7 +213,7 @@
         <ImageView
             android:id="@+id/weixin_isCheck"
             android:layout_width="0dp"
-            android:layout_height="15dp"
+            android:layout_height="18dp"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:src="@drawable/check_background"/>
@@ -249,7 +249,7 @@
         <ImageView
             android:id="@+id/balance_isCheck"
             android:layout_width="0dp"
-            android:layout_height="15dp"
+            android:layout_height="18dp"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:src="@drawable/check_background"

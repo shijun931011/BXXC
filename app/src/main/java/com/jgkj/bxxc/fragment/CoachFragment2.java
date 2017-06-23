@@ -454,4 +454,9 @@ public class CoachFragment2 extends Fragment implements OnClickListener, Adapter
         getActivity().registerReceiver(this.broadcastReceiver, filter);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(this.broadcastReceiver);
+    }
 }

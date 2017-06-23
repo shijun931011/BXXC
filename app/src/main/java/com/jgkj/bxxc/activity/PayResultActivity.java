@@ -115,20 +115,20 @@ public class PayResultActivity extends Activity implements View.OnClickListener{
                         break;
                     case 3:
                         Intent intent = new Intent();
-                        if (tiaozhaun.equals("1111")){
+                        if ("1111".equals(tiaozhaun)){
                             intent.setClass(PayResultActivity.this,RehourActivity.class);
                             intent.putExtra("uid",uid);
                             intent.putExtra("token",token);
                             startActivity(intent);
                             finish();
-                        }else if (yuyue.equals("2222")){
+                        }else if ("2222".equals(yuyue)){
                             intent.setClass(PayResultActivity.this,ReservationDetailActivity.class);
                             intent.putExtra("uid",uid);
                             intent.putExtra("token",token);
                             intent.putExtra("cid",cid);
                             startActivity(intent);
                             finish();
-                        }else if (jingpin.equals("3333")){
+                        }else if ("3333".equals(jingpin)){
                             intent.setClass(PayResultActivity.this,ReservationDetailActivity.class);
                             intent.putExtra("uid",uid);
                             intent.putExtra("token",token);

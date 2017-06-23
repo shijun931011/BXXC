@@ -378,4 +378,9 @@ public class RehourActivity extends Activity implements View.OnClickListener{
         registerReceiver(this.broadcastReceiver, filter);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(this.broadcastReceiver);
+    }
 }

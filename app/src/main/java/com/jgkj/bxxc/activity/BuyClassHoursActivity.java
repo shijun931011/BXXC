@@ -44,7 +44,7 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
     private List<PackageEntity> list;
     //套餐类型
     private String packageId;
-    private String tiaozhuan;
+    private String tiaozhaun;
     private String yuyue,jingpin;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
         uid = intent.getIntExtra("uid",uid);
         cid = intent.getStringExtra("cid");
         token = intent.getStringExtra("token");
-        tiaozhuan=intent.getStringExtra("tiaozhuan");
+        tiaozhaun=intent.getStringExtra("tiaozhaun");
         yuyue=intent.getStringExtra("yuyue");
         jingpin=intent.getStringExtra("jingpin");
         //标题
@@ -128,7 +128,7 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
         intent.putExtra("uid",uid);
         intent.putExtra("cid",cid);
         intent.putExtra("token",token);
-        intent.putExtra("tiaozhuan","1111");
+        intent.putExtra("tiaozhaun","1111");
         intent.putExtra("yuyue","2222");
         intent.putExtra("jingpin","3333");
         intent.putExtra("packageId",list.get(position).getPackageid());

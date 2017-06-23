@@ -39,8 +39,8 @@ public class PersonalInfoActivity extends Activity implements OnClickListener {
     private PictureOptimization po;
     private ImageView back_up;
     private TextView edit, choose_sex_man, choose_sex_woman, sex_id_textView,choose_cancel;
-    private TextView edit_personal_info, profile_textView, nick_name,true_name;
-    private EditText nick_nameEdit, true_name_Edit;
+    private TextView edit_personal_info, profile_textView, nick_name;
+    private EditText nick_nameEdit;
     private Dialog sex_dialog;
     private LinearLayout sex_id;
     private EditText profile_editText;
@@ -95,9 +95,6 @@ public class PersonalInfoActivity extends Activity implements OnClickListener {
         text_title.setText("个人信息");
         button_forward.setVisibility(View.VISIBLE);
         button_backward.setVisibility(View.VISIBLE);
-        //真实姓名
-        true_name = (TextView) findViewById(R.id.true_name);
-        true_name_Edit = (EditText) findViewById(R.id.true_name_Edit);
         //昵称
         nick_name = (TextView) findViewById(R.id.nick_name);
         nick_nameEdit = (EditText) findViewById(R.id.nick_nameEdit);
@@ -229,30 +226,23 @@ public class PersonalInfoActivity extends Activity implements OnClickListener {
             case R.id.button_forward:
                 String text = button_forward.getText().toString();
                 if (text.equals("编辑")) {
-                    true_name.setVisibility(View.GONE);
                     nick_name.setVisibility(View.GONE);
                     profile_textView.setVisibility(View.GONE);
-                    true_name_Edit.setVisibility(View.VISIBLE);
                     nick_nameEdit.setVisibility(View.VISIBLE);
                     profile_editText.setVisibility(View.VISIBLE);
-                    true_name.setText(true_name.getText().toString().trim());
                     nick_nameEdit.setText(nick_name.getText().toString().trim());
                     profile_editText.setText(profile_textView.getText().toString().trim());
                     button_forward.setText("提交");
                 } else if (text.equals("提交")){
-                    true_name_Edit.setVisibility(View.VISIBLE);
                     nick_name.setVisibility(View.VISIBLE);
                     profile_textView.setVisibility(View.VISIBLE);
-                    true_name.setVisibility(View.GONE);
                     nick_nameEdit.setVisibility(View.GONE);
                     profile_editText.setVisibility(View.GONE);
                     //修改框值
-                    String real_name = true_name_Edit.getText().toString().trim();
                     String name = nick_nameEdit.getText().toString().trim();
                     String sex = sex_id_textView.getText().toString().trim();
                     String jianjie = profile_editText.getText().toString().trim();
 
-                    true_name.setText(real_name);
                     nick_name.setText(name);
                     profile_textView.setText(jianjie);
 

@@ -414,4 +414,10 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
         filter.addAction("updataAppPrivateFragment");
         getActivity().registerReceiver(this.broadcastReceiver, filter);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(this.broadcastReceiver);
+    }
 }

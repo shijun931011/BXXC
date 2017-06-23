@@ -172,4 +172,10 @@ public class InvitedToRecordActivity extends Activity  {
         filter.addAction("updataInvationApp");
         registerReceiver(this.broadcastReceiver, filter);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(this.broadcastReceiver);
+    }
 }

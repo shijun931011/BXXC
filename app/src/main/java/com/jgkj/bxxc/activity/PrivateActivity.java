@@ -191,8 +191,7 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
         name = username.getText().toString().trim();
         idCard = userId.getText().toString().trim();
         boolean isSuccess = false;
-        if (name.equals("") || name == null || idCard.equals("") || idCard == null || chooseFlag
-                == false) { // || serFlag == false
+        if (name.equals("") || name == null || idCard.equals("") || idCard == null || chooseFlag == false) { // || serFlag == false
             payInfo.setBackgroundColor(getResources().getColor(R.color.gray));
             payInfo.setEnabled(false);
             isSuccess = false;
@@ -425,7 +424,6 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
             case R.id.isCheck:
                 name = username.getText().toString().trim();
                 idCard = userId.getText().toString().trim();
-
                 if (name.equals("") || name == null || idCard.equals("") || idCard == null ||
                         chooseFlag==false) { // || serFlag == false
                     Toast.makeText(PrivateActivity.this, "填写信息不完整！", Toast.LENGTH_SHORT).show();
