@@ -375,6 +375,11 @@ public class MyCoachActivity extends Activity implements View.OnClickListener , 
 //            intent.putExtra("token",token);
 //            startActivity(intent);
 //        }
+
+        //经典班
+        if("1".equals(classType)){
+            init();
+        }
     }
 
     /**

@@ -177,6 +177,8 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.reservation);
         StatusBarCompat.compat(this, Color.parseColor("#37363C"));
+        //显示ProgressDialog
+        progressDialog = ProgressDialog.show(ReservationForPrivateActivity.this, "加载中...", "请等待...", true, false);
         headView = getLayoutInflater().inflate(R.layout.coach_head_private, null);
         init();
         //initMap();
@@ -730,10 +732,12 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                     @Override
                     public void onError(Call call, Exception e, int i) {
                         Toast.makeText(ReservationForPrivateActivity.this, "加载失败", Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
                     }
 
                     @Override
                     public void onResponse(String s, int i) {
+                        progressDialog.dismiss();
                         //String str = listView.getTag().toString();
                         Gson gson = new Gson();
                         CommentResult coachInfos = gson.fromJson(s, CommentResult.class);

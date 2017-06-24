@@ -1,6 +1,7 @@
 package com.jgkj.bxxc.fragment;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -55,6 +56,8 @@ public class Sub1 extends Fragment implements View.OnClickListener {
     private String picmoniUrl="http://www.baixinxueche.com/Public/App/img/picmoni.png";
     private String piccuotiUrl="http://www.baixinxueche.com/Public/App/img/piccuoti.png";
 
+    private ProgressDialog dialog;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.subject1, container, false);
@@ -67,6 +70,8 @@ public class Sub1 extends Fragment implements View.OnClickListener {
      * 初始化布局
      */
     private void init() {
+        dialog = ProgressDialog.show(getActivity(), null, "数据加载中...");
+
         linearLayout1 = (LinearLayout) view.findViewById(R.id.linearlayout1);
         linearLayout1.setOnClickListener(this);
         linearLayout2 = (LinearLayout) view.findViewById(R.id.linearlayout2);
@@ -163,10 +168,12 @@ public class Sub1 extends Fragment implements View.OnClickListener {
                     @Override
                     public void onError(Call call, Exception e, int i) {
                         Toast.makeText(getActivity(), "网络状态不佳,请稍后再试！", Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
                     }
 
                     @Override
                     public void onResponse(String s, int i) {
+                        dialog.dismiss();
                         Gson gson = new Gson();
                         SubPicture pic = gson.fromJson(s, SubPicture.class);
                         if (pic.getCode() == 200) {
@@ -176,7 +183,7 @@ public class Sub1 extends Fragment implements View.OnClickListener {
                                 List<View> listView = new ArrayList<View>();
                                 for (int k = 0; k <  list.size(); k++) {
                                     imageView = new ImageView(getActivity());
-                                    Glide.with(getActivity()).load( list.get(k).getPic()).into(imageView);
+                                    Glide.with(getActivity()).load( list.get(k).getPic().toString()).into(imageView);
                                     imageView.setTag(list.get(k));
                                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                                     listView.add(imageView);

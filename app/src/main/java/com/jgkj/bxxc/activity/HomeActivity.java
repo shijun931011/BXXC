@@ -24,6 +24,7 @@ import android.view.View.OnTouchListener;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -63,6 +64,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
     private TextView text_title, place;
     private ImageView kefu,im_title;
     private ScrollView scroll_bar;
+    private LinearLayout linear;
     private RelativeLayout titlebar;
     private FrameLayout frame, car_frameLayout;
     private static String[] school = {"越达驾校(新周谷堆校区)", "越达驾校(包河区第一校区)", "越达驾校(大学城中心校区)", "越达驾校(蜀山区新华校区)", "越达驾校(庐阳区总校区)"};
@@ -199,6 +201,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         radioButton3 = (RadioButton) findViewById(R.id.radio_button_03);
         text_title = (TextView) findViewById(R.id.text_title);
         scroll_bar = (ScrollView) findViewById(R.id.scroll_bar);
+        linear = (LinearLayout) findViewById(R.id.linear);
         //smoothScrollTo类似于scrollTo，但是滚动的时候是平缓的而不是立即滚动到某处。
         // 另外，smoothScrollTo()方法可以打断滑动动画。
         scroll_bar.smoothScrollTo(0, 0);
@@ -213,71 +216,97 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         radioButton3.setCompoundDrawables(null, rbImg3, null, null);
         radioButton4.setCompoundDrawables(null, rbImg4, null, null);
         // 初始化一个fragment填充首页
-        IndexFragment indexFragment = new IndexFragment();
+        index = new IndexFragment();
         fragmentManager = getSupportFragmentManager();
         transaction = fragmentManager.beginTransaction();
-        CoachFragment coach = new CoachFragment();
+        coach = new CoachFragment();
         my_set = new My_Setting_Fragment();
         study = new StudyFragment();
         Intent intent = getIntent();
         fromActivity = intent.getStringExtra("FromActivity");
         if (fromActivity == null) {
-            text_title.setText("我的资料");
-            text_title.setVisibility(View.VISIBLE);
-            im_title.setVisibility(View.GONE);
-            radioButton4.setChecked(true);
-            scroll_bar.setVisibility(View.GONE);
-            car_frameLayout.setVisibility(View.VISIBLE);
-            transaction.add(R.id.car_send_map, my_set);
+//            text_title.setText("我的资料");
+//            text_title.setVisibility(View.VISIBLE);
+//            im_title.setVisibility(View.GONE);
+//            radioButton4.setChecked(true);
+//            scroll_bar.setVisibility(View.GONE);
+//            car_frameLayout.setVisibility(View.VISIBLE);
+//            transaction.add(R.id.car_send_map, my_set);
+            if(!my_set.isAdded()){
+                transaction.add(R.id.car_send_map, my_set);
+                transaction.show(my_set).hide(index).hide(coach).hide(study);
+            }else{
+                transaction.show(my_set).hide(index).hide(coach).hide(study);
+            }
         } else {
             if (fromActivity.equals("WelcomeActivity")) {
-                transaction.add(R.id.index_fragment_layout, indexFragment);
-                kefu.setImageResource(R.drawable.kefu_phone);
-                place.setText("合肥");
-                text_title.setText("百信学车");
-                text_title.setVisibility(View.GONE);
-                im_title.setVisibility(View.VISIBLE);
-                place.setVisibility(View.VISIBLE);
-                kefu.setVisibility(View.VISIBLE);
+//                transaction.add(R.id.car_send_map, index);
+//                kefu.setImageResource(R.drawable.kefu_phone);
+//                place.setText("合肥");
+//                text_title.setText("百信学车");
+//                text_title.setVisibility(View.GONE);
+//                im_title.setVisibility(View.VISIBLE);
+//                place.setVisibility(View.VISIBLE);
+//                kefu.setVisibility(View.VISIBLE);
                 radioButton1.setChecked(true);
+                if(!index.isAdded()){
+                    transaction.add(R.id.car_send_map, index);
+                    transaction.show(index).hide(coach).hide(study).hide(my_set);
+                }else{
+                    transaction.show(index).hide(coach).hide(study).hide(my_set);
+                }
             } else if (fromActivity.equals("SimpleCoachActivity") || fromActivity.equals("IndexFragment")) {
-                titlebar.setVisibility(View.GONE);
                 radioButton2.setChecked(true);
-                car_frameLayout.setVisibility(View.VISIBLE);
-                transaction.add(R.id.car_send_map, coach);
+                if(!coach.isAdded()){
+                    transaction.add(R.id.car_send_map, coach);
+                    transaction.show(coach).hide(index).hide(study).hide(my_set);
+                }else{
+                    transaction.show(coach).hide(index).hide(study).hide(my_set);
+                }
                 //不弹框标识
                 flag_dialog = true;
             } else if (fromActivity.equals("MySetting")) {
-                text_title.setText("我的资料");
-                text_title.setVisibility(View.VISIBLE);
-                im_title.setVisibility(View.GONE);
-                radioButton4.setChecked(true);
-                scroll_bar.setVisibility(View.GONE);
-                car_frameLayout.setVisibility(View.VISIBLE);
-                transaction.add(R.id.car_send_map, my_set);
+//                text_title.setText("我的资料");
+//                text_title.setVisibility(View.VISIBLE);
+//                im_title.setVisibility(View.GONE);
+//                radioButton4.setChecked(true);
+//                scroll_bar.setVisibility(View.GONE);
+//                car_frameLayout.setVisibility(View.VISIBLE);
+//                transaction.add(R.id.car_send_map, my_set);
+                if(!my_set.isAdded()){
+                    transaction.add(R.id.car_send_map, my_set);
+                    transaction.show(my_set).hide(index).hide(coach).hide(study);
+                }else{
+                    transaction.show(my_set).hide(index).hide(coach).hide(study);
+                }
                 //不弹框标识
                 flag_dialog = true;
             }else if(fromActivity.equals("LoginActivity")){
-                transaction.add(R.id.index_fragment_layout, indexFragment);
-                kefu.setImageResource(R.drawable.kefu_phone);
-                place.setText("合肥");
-                text_title.setText("百信学车");
-                text_title.setVisibility(View.GONE);
-                im_title.setVisibility(View.VISIBLE);
-                place.setVisibility(View.VISIBLE);
-                kefu.setVisibility(View.VISIBLE);
+//                transaction.add(R.id.index_fragment_layout, index);
+//                kefu.setImageResource(R.drawable.kefu_phone);
+//                place.setText("合肥");
+//                text_title.setText("百信学车");
+//                text_title.setVisibility(View.GONE);
+//                im_title.setVisibility(View.VISIBLE);
+//                place.setVisibility(View.VISIBLE);
+//                kefu.setVisibility(View.VISIBLE);
+                if(!index.isAdded()){
+                    transaction.add(R.id.car_send_map, index);
+                    transaction.show(index).hide(coach).hide(study).hide(my_set);
+                }else{
+                    transaction.show(index).hide(coach).hide(study).hide(my_set);
+                }
                 radioButton1.setChecked(true);
                 //不弹框标识
                 flag_dialog = true;
             }
         }
-        transaction.addToBackStack(null);
+        //transaction.addToBackStack(null);
         transaction.commit();
     }
 
     /**
      * 点击监听事件
-     *
      * @param v 当前视图
      */
     @Override
@@ -287,76 +316,126 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         switch (v.getId()) {
             // 底部导航栏监听
             case R.id.radio_button_01:
-                titlebar.setVisibility(View.VISIBLE);
-                place.setVisibility(View.VISIBLE);
-                kefu.setVisibility(View.VISIBLE);
-                index = new IndexFragment();
-                if (mCurrentFragment != index) {
-                    scroll_bar.setVisibility(View.VISIBLE);
-                    car_frameLayout.setVisibility(View.GONE);
-                    text_title.setText("百信学车");
-                    text_title.setVisibility(View.GONE);
-                    im_title.setVisibility(View.VISIBLE);
-                    text_title.setVisibility(View.GONE);
-                    im_title.setVisibility(View.VISIBLE);
-                    place.setText("合肥");
-                    kefu.setImageResource(R.drawable.kefu_phone);
-                    transaction.replace(R.id.index_fragment_layout, index).addToBackStack(null).commit();
-                    mCurrentFragment = index;
+//                titlebar.setVisibility(View.VISIBLE);
+//                place.setVisibility(View.VISIBLE);
+//                kefu.setVisibility(View.VISIBLE);
+//                if (mCurrentFragment != index) {
+//                    scroll_bar.setVisibility(View.VISIBLE);
+//                    car_frameLayout.setVisibility(View.GONE);
+//                    text_title.setText("百信学车");
+//                    text_title.setVisibility(View.GONE);
+//                    im_title.setVisibility(View.VISIBLE);
+//                    text_title.setVisibility(View.GONE);
+//                    im_title.setVisibility(View.VISIBLE);
+//                    place.setText("合肥");
+//                    kefu.setImageResource(R.drawable.kefu_phone);
+//                    transaction.replace(R.id.index_fragment_layout, index).addToBackStack(null).commit();
+//                    mCurrentFragment = index;
+//                }
+//                scroll_bar.setVisibility(View.VISIBLE);
+//                car_frameLayout.setVisibility(View.VISIBLE);
+//                text_title.setText("百信学车");
+//                text_title.setVisibility(View.GONE);
+//                im_title.setVisibility(View.VISIBLE);
+//                linear.setVisibility(View.GONE);
+//                text_title.setVisibility(View.GONE);
+//                im_title.setVisibility(View.VISIBLE);
+//                place.setText("合肥");
+//                kefu.setImageResource(R.drawable.kefu_phone);
+                if(!index.isAdded()){
+                    transaction.add(R.id.car_send_map, index);
+                    transaction.show(index).hide(coach).hide(study).hide(my_set);
+                }else{
+                    transaction.show(index).hide(coach).hide(study).hide(my_set);
                 }
+                transaction.commit();
                 break;
             case R.id.radio_button_02:
-                titlebar.setVisibility(View.GONE);
-                coach = new CoachFragment();
-                if (mCurrentFragment != coach) {
-                    scroll_bar.setVisibility(View.GONE);
-                    car_frameLayout.setVisibility(View.VISIBLE);
-                    transaction.replace(R.id.car_send_map, coach).addToBackStack(null).commit();
-                    mCurrentFragment = coach;
+                //titlebar.setVisibility(View.GONE);
+//                if (mCurrentFragment != coach) {
+//                    scroll_bar.setVisibility(View.GONE);
+//                    car_frameLayout.setVisibility(View.VISIBLE);
+//                    transaction.replace(R.id.car_send_map, coach).addToBackStack(null).commit();
+//                    mCurrentFragment = coach;
+//                }
+//                kefu.setVisibility(View.VISIBLE);
+//                kefu.setImageResource(R.drawable.search);
+//                im_title.setVisibility(View.GONE);
+//                text_title.setVisibility(View.GONE);
+//                linear.setVisibility(View.VISIBLE);
+//                scroll_bar.setVisibility(View.GONE);
+//                car_frameLayout.setVisibility(View.VISIBLE);
+                if(!coach.isAdded()){
+                    transaction.add(R.id.car_send_map, coach);
+                    transaction.show(coach).hide(index).hide(study).hide(my_set);
+                }else{
+                    transaction.show(coach).hide(index).hide(study).hide(my_set);
                 }
+                transaction.commit();
                 break;
             case R.id.radio_button_03:
-                text_title.setVisibility(View.VISIBLE);
-                im_title.setVisibility(View.GONE);
-                titlebar.setVisibility(View.VISIBLE);
-                kefu.setVisibility(View.GONE);
-                place.setVisibility(View.GONE);
-                study = new StudyFragment();
-                if (mCurrentFragment != study) {
-                    scroll_bar.setVisibility(View.GONE);
-                    car_frameLayout.setVisibility(View.VISIBLE);
-                    text_title.setText("学习");
-                    transaction.replace(R.id.car_send_map, study).addToBackStack(null).commit();
-                    mCurrentFragment = study;
+//                text_title.setVisibility(View.VISIBLE);
+//                im_title.setVisibility(View.GONE);
+//                titlebar.setVisibility(View.VISIBLE);
+//                kefu.setVisibility(View.GONE);
+//                linear.setVisibility(View.GONE);
+//                place.setVisibility(View.GONE);
+//                if (mCurrentFragment != study) {
+//                    scroll_bar.setVisibility(View.GONE);
+//                    car_frameLayout.setVisibility(View.VISIBLE);
+//                    text_title.setText("学习");
+//                    transaction.replace(R.id.car_send_map, study).addToBackStack(null).commit();
+//                    mCurrentFragment = study;
+//                }
+//                scroll_bar.setVisibility(View.GONE);
+//                car_frameLayout.setVisibility(View.VISIBLE);
+//                text_title.setText("学习");
+                if(!study.isAdded()){
+                    transaction.add(R.id.car_send_map, study);
+                    transaction.show(study).hide(index).hide(coach).hide(my_set);
+                }else{
+                    transaction.show(study).hide(index).hide(coach).hide(my_set);
                 }
+                transaction.commit();
                 break;
             case R.id.radio_button_04:
-                text_title.setVisibility(View.VISIBLE);
-                im_title.setVisibility(View.GONE);
-                titlebar.setVisibility(View.VISIBLE);
-                kefu.setVisibility(View.GONE);
-                place.setVisibility(View.GONE);
-                my_set = new My_Setting_Fragment();
-                if (mCurrentFragment != my_set) {
-                    scroll_bar.setVisibility(View.GONE);
-                    car_frameLayout.setVisibility(View.VISIBLE);
-                    scroll_bar.setEnabled(false);
-                    scroll_bar.setOnTouchListener(new OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View arg0, MotionEvent arg1) {
-                            return true;
-                        }
-                    });
-                    text_title.setText("我的资料");
-                    transaction.replace(R.id.car_send_map, my_set).addToBackStack(null).commit();
-                    mCurrentFragment = my_set;
+//                text_title.setVisibility(View.VISIBLE);
+//                im_title.setVisibility(View.GONE);
+//                titlebar.setVisibility(View.VISIBLE);
+//                kefu.setVisibility(View.GONE);
+//                linear.setVisibility(View.GONE);
+//                place.setVisibility(View.GONE);
+//                if (mCurrentFragment != my_set) {
+//                    scroll_bar.setVisibility(View.GONE);
+//                    car_frameLayout.setVisibility(View.VISIBLE);
+//                    scroll_bar.setEnabled(false);
+//                    scroll_bar.setOnTouchListener(new OnTouchListener() {
+//                        @Override
+//                        public boolean onTouch(View arg0, MotionEvent arg1) {
+//                            return true;
+//                        }
+//                    });
+//                    text_title.setText("我的资料");
+//                    transaction.replace(R.id.car_send_map, my_set).addToBackStack(null).commit();
+//                    mCurrentFragment = my_set;
+//                }
+//                scroll_bar.setVisibility(View.GONE);
+//                car_frameLayout.setVisibility(View.VISIBLE);
+//                scroll_bar.setEnabled(false);
+//                scroll_bar.setOnTouchListener(new OnTouchListener() {
+//                    @Override
+//                    public boolean onTouch(View arg0, MotionEvent arg1) {
+//                        return true;
+//                    }
+//                });
+//                text_title.setText("我的资料");
+                if(!my_set.isAdded()){
+                    transaction.add(R.id.car_send_map, my_set);
+                    transaction.show(my_set).hide(index).hide(coach).hide(study);
+                }else{
+                    transaction.show(my_set).hide(index).hide(coach).hide(study);
                 }
-                break;
-            case R.id.remind:
-                new CallDialog(HomeActivity.this, "0551-65555744").call();
-                break;
-            case R.id.txt_place:
-                new RemainBaseDialog(HomeActivity.this, "目前仅支持合肥地区").call();
+                transaction.commit();
                 break;
         }
     }

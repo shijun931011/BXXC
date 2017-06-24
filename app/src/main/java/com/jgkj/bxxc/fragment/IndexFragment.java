@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ import com.jgkj.bxxc.activity.ClassTypeActivity;
 import com.jgkj.bxxc.activity.ClassicActivity;
 import com.jgkj.bxxc.activity.DrivingCompanionActivity;
 import com.jgkj.bxxc.activity.HeadlinesActivity;
+import com.jgkj.bxxc.activity.HomeActivity;
 import com.jgkj.bxxc.activity.InviteFriendsActivity;
 import com.jgkj.bxxc.activity.LoginActivity;
 import com.jgkj.bxxc.activity.PlaceChooseActivity;
@@ -48,8 +50,10 @@ import com.jgkj.bxxc.bean.entity.BannerEntity.BannerEntity;
 import com.jgkj.bxxc.bean.entity.BannerEntity.BannerResult;
 import com.jgkj.bxxc.tools.AutoTextView;
 import com.jgkj.bxxc.tools.BannerPage;
+import com.jgkj.bxxc.tools.CallDialog;
 import com.jgkj.bxxc.tools.InvitedCouponDialog;
 import com.jgkj.bxxc.tools.NetworkImageHolderView;
+import com.jgkj.bxxc.tools.RemainBaseDialog;
 import com.jgkj.bxxc.tools.SecondToDate;
 import com.jgkj.bxxc.tools.Urls;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -84,7 +88,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
             license_Text_Fragment2, coach;
     private FragmentManager fragmentManager;
     private FragmentTransaction transaction;
-    private TextView text_title;
     //毫秒数转化为天数
     private SecondToDate std;
     private TextView lookMore;
@@ -118,11 +121,13 @@ public class IndexFragment extends Fragment implements OnClickListener {
     private ConvenientBanner cb_convenientBanner;
     private List<BannerPage> page = new ArrayList<>();  //数据集合
 
+    private TextView text_title, place;
+    private ImageView kefu,im_title;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if(container.getTag()==null){
             view = inflater.inflate(R.layout.index_fragment2, container, false);
-            //view.scrollBy(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.MATCH_PARENT);
             init();
             getImage();
             getheadlines();
@@ -135,6 +140,24 @@ public class IndexFragment extends Fragment implements OnClickListener {
 
     //初始化布局
     private void init() {
+
+        text_title = (TextView) view.findViewById(R.id.text_title);
+        //地区
+        place = (TextView) view.findViewById(R.id.txt_place);
+        //客服电话
+        kefu = (ImageView) view.findViewById(R.id.remind);
+        im_title = (ImageView) view.findViewById(R.id.im_title);
+        place.setOnClickListener(this);
+        kefu.setOnClickListener(this);
+
+        text_title.setVisibility(View.GONE);
+        im_title.setVisibility(View.VISIBLE);
+        place.setVisibility(View.VISIBLE);
+        kefu.setVisibility(View.VISIBLE);
+        place.setText("合肥");
+        kefu.setImageResource(R.drawable.kefu_phone);
+
+
         Drawable carpick = getResources().getDrawable(R.drawable.chejiechesong_image);
         carpick.setBounds(0, 0, 100, 100);
         Drawable bxcenter = getResources().getDrawable(R.drawable.baixincenter_image);
@@ -353,6 +376,12 @@ public class IndexFragment extends Fragment implements OnClickListener {
                     intent.setClass(getActivity(), PrivateActivity.class);
                     startActivity(intent);
                 }
+                break;
+            case R.id.remind:
+                new CallDialog(getActivity(), "0551-65555744").call();
+                break;
+            case R.id.txt_place:
+                new RemainBaseDialog(getActivity(), "目前仅支持合肥地区").call();
                 break;
         }
     }

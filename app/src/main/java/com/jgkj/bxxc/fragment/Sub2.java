@@ -53,7 +53,7 @@ public class Sub2 extends Fragment implements View.OnClickListener {
      * 初始化控件
      */
     private void initView() {
-        dialog = ProgressDialog.show(getActivity(), null, "数据加载中...");
+        //dialog = ProgressDialog.show(getActivity(), null, "数据加载中...");
 
         learnSkills = (LinearLayout) view.findViewById(R.id.learnSkills);
         learnSkills.setOnClickListener(this);
@@ -115,9 +115,9 @@ public class Sub2 extends Fragment implements View.OnClickListener {
     }
 
     private void setData() {
-        if (dialog.isShowing()) {
-            dialog.dismiss();
-        }
+//        if (dialog.isShowing()) {
+//            dialog.dismiss();
+//        }
         String tag = view.getTag().toString();
         Gson gson = new Gson();
         videoMsg = gson.fromJson(tag, VideoMsg.class);

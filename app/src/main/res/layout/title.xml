@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/layout_titlebar"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:background="@color/themeColor">
 
     <TextView
@@ -27,8 +27,33 @@
         android:adjustViewBounds="true"
         android:layout_centerInParent="true"
         android:src="@drawable/title_image"
+        android:visibility="gone" />
+
+    <LinearLayout
         android:visibility="gone"
-        />
+        android:id="@+id/linear"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:paddingLeft="8.0dp"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true">
+        <Button android:layout_height="30dip"
+            android:layout_width="70dip"
+            android:background="@drawable/baike_btn_pink_left_f_96"
+            android:id="@+id/btn_private"
+            android:textSize="14sp"
+            android:textColor="@color/themeColor"
+            android:text="私教班"
+            android:gravity="center"/>
+        <Button android:layout_height="30dip"
+            android:layout_width="70dip"
+            android:background="@drawable/baike_btn_trans_right_f_96"
+            android:id="@+id/btn_coach"
+            android:textSize="14sp"
+            android:textColor="#ffffff"
+            android:text="经典班"
+            android:gravity="center"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/button_backward"

@@ -5,6 +5,7 @@
                 android:orientation="vertical">
 
     <include
+        android:visibility="gone"
         android:id="@+id/title_bar"
         layout="@layout/title"/>
 
@@ -13,8 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/title_bar"
-        android:layout_marginBottom="50dp"
-        android:visibility="gone"/>
+        android:layout_marginBottom="50dp" />
     <!-- 导航栏 -->
 
     <RadioGroup
@@ -84,6 +84,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
+        android:visibility="gone"
         android:layout_below="@+id/title_bar"
         android:layout_toEndOf="@+id/car_send_map">
 

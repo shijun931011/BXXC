@@ -171,6 +171,8 @@ public class ReservationForDrivingActivity extends Activity implements OnClickLi
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.reservation);
         StatusBarCompat.compat(this, Color.parseColor("#37363C"));
+        //显示ProgressDialog
+        progressDialog = ProgressDialog.show(ReservationForDrivingActivity.this, "加载中...", "请等待...", true, false);
         headView = getLayoutInflater().inflate(R.layout.coach_head_driving, null);
         init();
         //initMap();
@@ -726,11 +728,13 @@ public class ReservationForDrivingActivity extends Activity implements OnClickLi
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int i) {
+                        progressDialog.dismiss();
                         Toast.makeText(ReservationForDrivingActivity.this, "加载失败", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onResponse(String s, int i) {
+                        progressDialog.dismiss();
                         Log.i("百信学车","评论结果" + s);
                         Gson gson = new Gson();
                         CommentResult coachInfos = gson.fromJson(s, CommentResult.class);

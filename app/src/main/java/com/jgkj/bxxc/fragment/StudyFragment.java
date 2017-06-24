@@ -34,13 +34,15 @@ public class StudyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        if(container.getTag()==null){
-            view = inflater.inflate(R.layout.study, container, false);
-            init();
-            container.setTag(view);
-        }else{
-            view = (View) container.getTag();
-        }
+//        if(container.getTag()==null){
+//            view = inflater.inflate(R.layout.study, container, false);
+//            init();
+//            container.setTag(view);
+//        }else{
+//            view = (View) container.getTag();
+//        }
+        view = inflater.inflate(R.layout.study, container, false);
+        init();
         return view;
     }
 
@@ -48,6 +50,7 @@ public class StudyFragment extends Fragment {
     private void init() {
         pagerAdapter = new SimpleFragmentPagerAdapter(getFragmentManager(),getActivity());
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(pagerAdapter);
         tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);

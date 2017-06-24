@@ -170,6 +170,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.reservation);
         StatusBarCompat.compat(this, Color.parseColor("#37363C"));
+        progressDialog = ProgressDialog.show(ReservationActivity.this, "加载中...", "请等待...", true, false);
         headView = getLayoutInflater().inflate(R.layout.coach_head, null);
         init();
         //initMap();
@@ -707,11 +708,13 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int i) {
+                        progressDialog.dismiss();
                         Toast.makeText(ReservationActivity.this, "加载失败", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onResponse(String s, int i) {
+                        progressDialog.dismiss();
                         Log.i("百信学车","评论结果" + s);
                         Gson gson = new Gson();
                         CommentResult coachInfos = gson.fromJson(s, CommentResult.class);

@@ -49,7 +49,7 @@ public class Sub3 extends Fragment implements View.OnClickListener{
     }
 
     private void initView() {
-        dialog = ProgressDialog.show(getActivity(), null, "数据加载中...");
+        //dialog = ProgressDialog.show(getActivity(), null, "数据加载中...");
 
         videoview1 = (ImageView) view.findViewById(R.id.videoview1);
         videoview1.setOnClickListener(this);
@@ -111,9 +111,9 @@ public class Sub3 extends Fragment implements View.OnClickListener{
     }
 
     private void setData() {
-        if (dialog.isShowing()) {
-            dialog.dismiss();
-        }
+//        if (dialog.isShowing()) {
+//            dialog.dismiss();
+//        }
         String tag = view.getTag().toString();
         Gson gson = new Gson();
         videoMsg = gson.fromJson(tag, VideoMsg.class);
