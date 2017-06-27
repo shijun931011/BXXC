@@ -329,11 +329,11 @@ public class RehourActivity extends Activity implements View.OnClickListener{
                 startActivity(intent);
                 break;
             case R.id.immediate_bug:
-
                 intent.setClass(this,  BuyClassHoursActivity.class);
                 intent.putExtra("uid",uid);
                 intent.putExtra("cid",cid);//token
                 intent.putExtra("token",token);
+                intent.putExtra("tiaozhaun","1111");
                 startActivity(intent);
                 break;
             case R.id.extra_hours:

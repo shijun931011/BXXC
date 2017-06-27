@@ -128,12 +128,11 @@ public class BuyClassHoursActivity extends Activity implements AdapterView.OnIte
         intent.putExtra("uid",uid);
         intent.putExtra("cid",cid);
         intent.putExtra("token",token);
-        intent.putExtra("tiaozhaun","1111");
-        intent.putExtra("yuyue","2222");
-        intent.putExtra("jingpin","3333");
+        intent.putExtra("tiaozhaun",tiaozhaun);
+        intent.putExtra("yuyue",yuyue);
+        intent.putExtra("jingpin", jingpin);
         intent.putExtra("packageId",list.get(position).getPackageid());
         intent.putExtra("ti_shi",list.get(position).getTishi());
         startActivity(intent);
-        finish();
     }
 }

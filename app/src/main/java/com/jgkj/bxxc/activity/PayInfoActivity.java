@@ -693,14 +693,14 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                 finish();
                 break;
             case R.id.isCheck:
-                name = username.getText().toString().trim();
-                idCard = userId.getText().toString().trim();
-                if (name.equals("") || name == null || idCard.equals("") || idCard == null || chooseFlag == false) { // || serFlag == false
-                    Toast.makeText(PayInfoActivity.this, "填写信息不完整！", Toast.LENGTH_SHORT).show();
+                if (aserFlg){
                     isCheck.setImageResource(R.drawable.check_background);
+                    payInfo.setBackgroundColor(getResources().getColor(R.color.gray));
                     aserFlg = false;
-                }else{
+                }else {
+                    check();
                     isCheck.setImageResource(R.drawable.right);
+                    payInfo.setBackgroundColor(getResources().getColor(R.color.themeColor));
                     aserFlg = true;
                 }
                 break;
@@ -717,13 +717,16 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                     weixinFlag = false;
                     aipay_isCheck.setImageResource(R.drawable.right);
                     aipayflag = true;
+
                 }else{
                     if (!aipayflag) {
                         aipay_isCheck.setImageResource(R.drawable.right);
                         aipayflag = true;
+
                     } else {
                         aipay_isCheck.setImageResource(R.drawable.check_background);
                         aipayflag = false;
+
                     }
                 }
                 break;
@@ -733,13 +736,16 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                     aipayflag = false;
                     weixin_isCheck.setImageResource(R.drawable.right);
                     weixinFlag = true;
+
                 } else {
                     if (!weixinFlag) {
                         weixin_isCheck.setImageResource(R.drawable.right);
                         weixinFlag = true;
+
                     } else {
                         weixin_isCheck.setImageResource(R.drawable.check_background);
                         weixinFlag = false;
+
                     }
                 }
                 break;

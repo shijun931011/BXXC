@@ -5,7 +5,7 @@ android {
         app {
             keyAlias 'bxxc'
             keyPassword '65555744'
-            storeFile file('C:/Users/Administrator/Desktop/baixinxueche.jks')
+            storeFile file('D:/keyStore/baixinxueche.jks')
             storePassword '65555744'
         }
     }
@@ -16,8 +16,8 @@ android {
         applicationId "com.jgkj.bxxc"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 12
-        versionName "3.0.1"
+        versionCode 22
+        versionName '3.1.0'
         testInstrumentationRunner "android.support.reservation_item.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -31,6 +31,8 @@ android {
         debug {
             signingConfig signingConfigs.app
         }
+    }
+    productFlavors {
     }
 }
 

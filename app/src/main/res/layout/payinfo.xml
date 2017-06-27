@@ -299,8 +299,8 @@
                     android:gravity="center">
                     <ImageView
                         android:id="@+id/aipay_isCheck"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:src="@drawable/check_background"/>
                 </LinearLayout>
             </LinearLayout>
@@ -356,8 +356,8 @@
                     android:gravity="center">
                     <ImageView
                         android:id="@+id/weixin_isCheck"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:src="@drawable/check_background"/>
                 </LinearLayout>
             </LinearLayout>
@@ -375,8 +375,8 @@
                     android:padding="10dp">
                     <ImageView
                         android:id="@+id/isCheck"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/check_background"/>
                     <TextView
                         android:layout_width="wrap_content"

@@ -172,9 +172,9 @@ public class BuyClassPackagesActivity extends Activity implements View.OnClickLi
                                         intent.putExtra("uid", uid);
                                         intent.putExtra("cid",cid);
                                         intent.putExtra("price", buy_tv);
-                                        intent.putExtra("tiaozhaun","1111");
-                                        intent.putExtra("yuyue","2222");
-                                        intent.putExtra("jingpin","3333");
+                                        intent.putExtra("tiaozhaun",tiaozhaun);
+                                        intent.putExtra("yuyue",yuyue);
+                                        intent.putExtra("jingpin",jingpin);
                                         startActivity(intent);
                                     } else {
                                         // 判断resultStatus 为非"9000"则代表可能支付失败
@@ -245,24 +245,10 @@ public class BuyClassPackagesActivity extends Activity implements View.OnClickLi
                                     .LENGTH_SHORT).show();
                             Intent intent = new Intent();
                             if ("1111".equals(tiaozhaun)){
-                                intent.setClass(BuyClassPackagesActivity.this,RehourActivity.class);
-                                intent.putExtra("uid",uid);
-                                intent.putExtra("token",token);
-                                startActivity(intent);
                                 finish();
                             }else if ("2222".equals(yuyue)){
-                                intent.setClass(BuyClassPackagesActivity.this,ReservationDetailActivity.class);
-                                intent.putExtra("uid",uid);
-                                intent.putExtra("token",token);
-                                intent.putExtra("cid",cid);
-                                startActivity(intent);
                                 finish();
                             }else if ("3333".equals(jingpin)){
-                                intent.setClass(BuyClassPackagesActivity.this,ReservationDetailActivity.class);
-                                intent.putExtra("uid",uid);
-                                intent.putExtra("token",token);
-                                intent.putExtra("cid",cid);
-                                startActivity(intent);
                                 finish();
                             }
 //                            finish();
@@ -315,24 +301,10 @@ public class BuyClassPackagesActivity extends Activity implements View.OnClickLi
                     Toast.makeText(BuyClassPackagesActivity.this, "学时购买成功", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent();
                     if ("1111".equals(tiaozhaun)){
-                        intent.setClass(BuyClassPackagesActivity.this,RehourActivity.class);
-                        intent.putExtra("uid",uid);
-                        intent.putExtra("token",token);
-                        startActivity(intent);
                         finish();
                     }else if ("2222".equals(yuyue)){
-                        intent.setClass(BuyClassPackagesActivity.this,ReservationDetailActivity.class);
-                        intent.putExtra("uid",uid);
-                        intent.putExtra("token",token);
-                        intent.putExtra("cid",cid);
-                        startActivity(intent);
                         finish();
                     }else if ("3333".equals(jingpin)){
-                        intent.setClass(BuyClassPackagesActivity.this,ReservationDetailActivity.class);
-                        intent.putExtra("uid",uid);
-                        intent.putExtra("token",token);
-                        intent.putExtra("cid",cid);
-                        startActivity(intent);
                         finish();
                     }
                 }

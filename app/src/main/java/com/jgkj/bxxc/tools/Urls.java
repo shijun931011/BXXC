@@ -80,17 +80,15 @@ public class Urls {
 
     //陪驾记录
     public static String pjShowApply = "http://www.baixinxueche.com/index.php/Home/Apitokenpj/pjShowApply";
-
     //未陪驾记录
     public static String pjShowApplyNotTo = "http://www.baixinxueche.com/index.php/Home/Apitokenpj/pjShowApplyNotTo";
     //支付宝直接购买学时
-//    public static String alibuyclass = "http://www.baixinxueche.com/index.php/Home/wxapppay/alibuyclass";
-
+    public static String alibuyclass = "http://www.baixinxueche.com/index.php/Home/wxapppay/alibuyclass";
     //微信直接购买学时
-//    public static String wxbuyclass = "http://www.baixinxueche.com/index.php/Home/wxapppay/wxbuyclass";
+    public static String wxbuyclass = "http://www.baixinxueche.com/index.php/Home/wxapppay/wxbuyclass";
 
     //测试
-    public static String alibuyclass="http://www.baixinxueche.com/index.php/Home/wxapppay/alibuyclassExam";
-    public static String wxbuyclass="http://www.baixinxueche.com/index.php/Home/wxapppay/wxbuyclassExam";
+//    public static String alibuyclass="http://www.baixinxueche.com/index.php/Home/wxapppay/alibuyclassExam";
+//    public static String wxbuyclass="http://www.baixinxueche.com/index.php/Home/wxapppay/wxbuyclassExam";
 
 }

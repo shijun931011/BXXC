@@ -50,7 +50,8 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
     //服务条款
     private ImageView isCheck;
     private TextView tiaokuan;
-    private boolean aipayflag = false, weixinFlag = false, aserFlg = false, chooseFlag = false;
+    private boolean aipayflag = false, weixinFlag = false, aserFlg = false, chooseFlag = false,
+            isSuccess = false;
     private ImageView weixin_isCheck, aipay_isCheck;
     private LinearLayout fuwutiaokuan;
     private LinearLayout layout4;  //推荐人布局
@@ -190,18 +191,16 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
     private boolean check() {
         name = username.getText().toString().trim();
         idCard = userId.getText().toString().trim();
-        boolean isSuccess = false;
-        if (name.equals("") || name == null || idCard.equals("") || idCard == null || chooseFlag == false) { // || serFlag == false
-            payInfo.setBackgroundColor(getResources().getColor(R.color.gray));
+        if (name.equals("") || name == null || idCard.equals("") || idCard == null || chooseFlag == false) {
             payInfo.setEnabled(false);
-            isSuccess = false;
+            payInfo.setBackgroundColor(getResources().getColor(R.color.gray));
             Toast.makeText(PrivateActivity.this, "填写信息不完整！", Toast.LENGTH_SHORT).show();
-        } else if (name != null && idCard != null && idCard.length() == 18 && chooseFlag == true)
-        {  //&& serFlag == true
-            payInfo.setEnabled(true);
+            isSuccess = false;
+        } else {
             payInfo.setBackgroundColor(getResources().getColor(R.color.themeColor));
-            isSuccess = true;
+            payInfo.setEnabled(true);
             isCheck.setImageResource(R.drawable.right);
+            isSuccess = true;
         }
         return isSuccess;
     }
@@ -219,17 +218,10 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
         Log.d("BXXC", "百信学车支付宝:" + uid + "::::" + name + "::::" + phone + "::::" + idcard +
                 "::::" + "1" + chooseTv.getText().toString() + "::::" + tuijianren.getText()
                 .toString());
-        OkHttpUtils.post()
-                .url(PripayUrl)
-                .addParams("uid", uid)
-                .addParams("name", name)
-                .addParams("phone", phone)
-                .addParams("idcard", idcard)
-                .addParams("pt", "1")
-                .addParams("mtcar", chooseTv.getText().toString())
-                .addParams("tuijianren", tuijianren.getText().toString())
-                .build()
-                .execute(new StringCallback(){
+        OkHttpUtils.post().url(PripayUrl).addParams("uid", uid).addParams("name", name).addParams
+                ("phone", phone).addParams("idcard", idcard).addParams("pt", "1").addParams
+                ("mtcar", chooseTv.getText().toString()).addParams("tuijianren", tuijianren
+                .getText().toString()).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int i) {
                 Toast.makeText(PrivateActivity.this, "加载失败", Toast.LENGTH_LONG).show();
@@ -367,6 +359,7 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
             }
         });
     }
+
     public void choose(View view) {
         dialog = new Dialog(this, R.style.ActionSheetDialogStyle);
         // 填充对话框的布局
@@ -394,7 +387,7 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.payInfo:
-                if (check() == true) {
+                if (check()==true) {
                     if (aipayflag == false && weixinFlag == false) {
                         Toast.makeText(PrivateActivity.this, "请选择支付方式", Toast.LENGTH_SHORT).show();
                     } else {
@@ -415,29 +408,28 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
                 break;
             case R.id.button_forward:
                 new RemainBaseDialog(PrivateActivity.this,
-                         "此报名费用包括当地车管所收取的各科目考试费用和平台为您提供服务的基本服务费、" +
-                         "体检费、学时卡费，考试车辆接送费用等" +
-                         "不包括科目二、科目三的私教训练费用及挂科补考费。" +
-                         "如需平台提供科二、科三的训练，在底部栏“我的”— “我的钱包”—“剩余学时”"+
+                        "此报名费用包括当地车管所收取的各科目考试费用和平台为您提供服务的基本服务费、" +
+                        "体检费、学时卡费，考试车辆接送费用等" +
+                        "不包括科目二、科目三的私教训练费用及挂科补考费。" +
+                        "如需平台提供科二、科三的训练，在底部栏“我的”— “我的钱包”—“剩余学时”" +
                         "前往购买相应的私教训练套餐即可,该条例的最终解释权归平台所有").call();
                 break;
             case R.id.isCheck:
-                name = username.getText().toString().trim();
-                idCard = userId.getText().toString().trim();
-                if (name.equals("") || name == null || idCard.equals("") || idCard == null ||
-                        chooseFlag==false) { // || serFlag == false
-                    Toast.makeText(PrivateActivity.this, "填写信息不完整！", Toast.LENGTH_SHORT).show();
+                if (aserFlg){
                     isCheck.setImageResource(R.drawable.check_background);
+                    payInfo.setBackgroundColor(getResources().getColor(R.color.gray));
                     aserFlg = false;
-                } else {
+                }else {
+                    check();
                     isCheck.setImageResource(R.drawable.right);
+                    payInfo.setBackgroundColor(getResources().getColor(R.color.themeColor));
                     aserFlg = true;
                 }
                 break;
             case R.id.tiaokuan:
                 Intent intent = new Intent();
                 intent.setClass(PrivateActivity.this, WebViewActivity.class);
-                intent.putExtra("url", "http://www.baixinxueche" + "" +
+                intent.putExtra("url", "http://www.baixinxueche" +
                         ".com/webshow/chongzhi/sijiaoPayAgreement.html ");
                 intent.putExtra("title", "百信学车服务条款");
                 startActivity(intent);
@@ -448,13 +440,16 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
                     weixinFlag = false;
                     aipay_isCheck.setImageResource(R.drawable.right);
                     aipayflag = true;
+
                 } else {
                     if (!aipayflag) {
                         aipay_isCheck.setImageResource(R.drawable.right);
                         aipayflag = true;
+
                     } else {
                         aipay_isCheck.setImageResource(R.drawable.check_background);
                         aipayflag = false;
+
                     }
                 }
                 break;
@@ -464,23 +459,26 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
                     aipayflag = false;
                     weixin_isCheck.setImageResource(R.drawable.right);
                     weixinFlag = true;
+
                 } else {
                     if (!weixinFlag) {
                         weixin_isCheck.setImageResource(R.drawable.right);
                         weixinFlag = true;
+
                     } else {
                         weixin_isCheck.setImageResource(R.drawable.check_background);
                         weixinFlag = false;
+
                     }
                 }
                 break;
             case R.id.dialog_yes:
-                chooseFlag=true;
+                chooseFlag = true;
                 chooseTv.setText(dialog_yes.getText().toString());
                 dialog.dismiss();
                 break;
             case R.id.dialog_no:
-                chooseFlag=true;
+                chooseFlag = true;
                 chooseTv.setText(dialog_no.getText().toString());
                 dialog.dismiss();
                 break;
