@@ -89,8 +89,15 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <!-- 允许使用PowerManager的WakeLocks在进程休眠时能够后台保持 -->
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <!-- 允许请求访问使用照相设备(如果使用视频通话则必选配置) -->
-    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <!--百度导航-->
+    <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
+    <uses-permission android:name="android.permission.ACCES_MOCK_LOCATION" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <!-- 来电消音 -->
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
 
     <application
         android:name=".tools.MyApplication"
@@ -120,7 +127,7 @@
                 <action android:name="com.baidu.location.service_v4.0"/>
             </intent-filter>
         </service>
-
+        <!--5eHsktStZH0RKioxUKa3ojcMYEjhK98V-->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="5eHsktStZH0RKioxUKa3ojcMYEjhK98V"/>
@@ -641,6 +648,31 @@
 
         <activity android:name=".activity.BuyClassPackagesActivity">
         </activity>
+
+        <activity
+            android:name="com.jgkj.bxxc.activity.BNDemoGuideActivity"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:label="1. GPS导航(RouteGuideDemo)" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.jgkj.bxxc.activity.BNDemoGuide2Activity"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:label="1. GPS导航(RouteGuideDemo)" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

@@ -5,7 +5,7 @@ android {
         app {
             keyAlias 'bxxc'
             keyPassword '65555744'
-            storeFile file('D:/keyStore/baixinxueche.jks')
+            storeFile file('C:/Users/Administrator/Desktop/baixinxueche.jks')
             storePassword '65555744'
         }
     }
@@ -14,12 +14,20 @@ android {
     useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.jgkj.bxxc"
-        minSdkVersion 19
-        targetSdkVersion 25
+        minSdkVersion 15
+        //targetSdkVersion 25
         versionCode 22
         versionName '3.1.0'
         testInstrumentationRunner "android.support.reservation_item.runner.AndroidJUnitRunner"
         multiDexEnabled true
+
+        ndk {
+            abiFilters "armeabi"
+        }
+
+        packagingOptions {
+            exclude "lib/libgnustl_shared.so"
+        }
     }
     buildTypes {
         release {
@@ -33,6 +41,11 @@ android {
         }
     }
     productFlavors {
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
     }
 }
 
