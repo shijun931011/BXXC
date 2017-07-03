@@ -436,7 +436,17 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
                 headDialog.dismiss();
                 break;
             case R.id.choosePhoto:
-                Intent action_getPhoto = new Intent(Intent.ACTION_GET_CONTENT);
+//                Intent action_getPhoto = new Intent(Intent.ACTION_GET_CONTENT);
+//                action_getPhoto.setType("image/*");
+//                startActivityForResult(action_getPhoto, CHOOSE_PICTIRE);
+
+                Intent action_getPhoto;
+                //当sdk版本低于19时使用此方法
+                if (Build.VERSION.SDK_INT < 19) {
+                    action_getPhoto = new Intent(Intent.ACTION_GET_CONTENT);
+                } else {
+                    action_getPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                }
                 action_getPhoto.setType("image/*");
                 startActivityForResult(action_getPhoto, CHOOSE_PICTIRE);
                 headDialog.dismiss();
