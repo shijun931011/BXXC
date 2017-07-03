@@ -157,8 +157,8 @@ public class BDMAPActivity extends Activity {
         mMapView = (MapView) findViewById(R.id.placeMap);
         mBaiduMap = mMapView.getMap();
 
-        // 开启定位图层
-        mBaiduMap.setMyLocationEnabled(true);
+//        // 开启定位图层
+//        mBaiduMap.setMyLocationEnabled(true);
 
         // 定位初始化
         mLocClient = new LocationClient(this);
@@ -187,10 +187,19 @@ public class BDMAPActivity extends Activity {
         option.setCoorType("bd09ll"); // 设置坐标类型
         option.setScanSpan(1000);
         mLocClient.setLocOption(option);
-        mCurrentMode = MyLocationConfiguration.LocationMode.FOLLOWING;
-        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(15).build()));
-        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(mCurrentMode, true, mCurrentMarker));
-        mLocClient.start();
+//        mCurrentMode = MyLocationConfiguration.LocationMode.FOLLOWING;
+//        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(15).build()));
+//        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(mCurrentMode, true, mCurrentMarker));
+
+
+        // 开启定位图层
+        mBaiduMap.setMyLocationEnabled(true);
+
+        if (!mLocClient.isStarted()) {
+            mLocClient.start();
+        }
+        // 开启方向传感器
+        myOrientationListener.start();
     }
 
     /**
@@ -240,8 +249,9 @@ public class BDMAPActivity extends Activity {
         //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
 
         MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-        //改变地图状态
         mBaiduMap.setMapStatus(mMapStatusUpdate);
+        //改变地图状态
+        mBaiduMap.animateMapStatus(mMapStatusUpdate,500);
 
     }
 
@@ -251,12 +261,12 @@ public class BDMAPActivity extends Activity {
         latitudes = it.getDoubleExtra("lantitude",1.1);
         longitudes = it.getDoubleExtra("longitude",1.1);
         // 开启图层定位
-        mBaiduMap.setMyLocationEnabled(true);
-        if (!mLocClient.isStarted()) {
-            mLocClient.start();
-        }
-        // 开启方向传感器
-        myOrientationListener.start();
+        //mBaiduMap.setMyLocationEnabled(true);
+//        if (!mLocClient.isStarted()) {
+//            mLocClient.start();
+//        }
+//        // 开启方向传感器
+//        myOrientationListener.start();
         super.onStart();
     }
 
