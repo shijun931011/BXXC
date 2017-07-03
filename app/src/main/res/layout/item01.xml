@@ -5,8 +5,8 @@
               android:orientation="horizontal"
               android:gravity="center"
 >
-
     <ImageView
+        android:id="@+id/item"
         android:layout_width="250dp"
         android:layout_height="400dp"
         android:src="@drawable/private_description"

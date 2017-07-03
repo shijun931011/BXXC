@@ -48,7 +48,9 @@ public class SureRefundDialog implements View.OnClickListener{
     //余额退款   uid token   account 到账的银行卡号
     private String balanceRefundUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/refund";
     //余额退款   uid  token  paypwd   account 到账的银行卡号   200, 400, 600
-    private String balanceRefundNewUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/refundpwd";
+//    private String balanceRefundNewUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/refundpwd";
+    //余额退款    uid  token  paypwd  200, 400, 600
+    private String balanceRefundNewUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenptchoose/refundpwdwp";
 
     private class Result {
         private int code;
@@ -72,14 +74,13 @@ public class SureRefundDialog implements View.OnClickListener{
         this.myInputPwdUtil = myInputPwdUtil;
     }
 
-    private void getBalanceRefund(String uid, String paypwd_, String token,String account){
+    private void getBalanceRefund(String uid, String paypwd_, String token){
         Log.d("BXXC","百信学车："+uid+""+":::::::"+paypwd_+":::::::"+"::::"+token+"::::"+account+"::::"+Md5.md5(paypwd_)+"::::");
         OkHttpUtils.post()
                 .url(balanceRefundNewUrl)
                 .addParams("uid",uid)
                 .addParams("token",token)
                 .addParams("paypwd",Md5.md5(paypwd_))
-                .addParams("account",account)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -118,9 +119,9 @@ public class SureRefundDialog implements View.OnClickListener{
         dialog_cancel = (TextView) inflate.findViewById(R.id.dialog_cancel);
         dialog_cancel.setText("再想想");
         dialog_bind = (TextView) inflate.findViewById(R.id.dialog_card_imfo);
-        dialog_bind.setVisibility(View.VISIBLE);
-        length = account.length();
-        dialog_bind.setText("银行卡信息："+account.substring(length-5,length).replace(" ", ""));
+        dialog_bind.setVisibility(View.GONE);
+//        length = account.length();
+//        dialog_bind.setText("银行卡信息："+account.substring(length-5,length).replace(" ", ""));
         dialog_sure.setOnClickListener(this);
         dialog_cancel.setOnClickListener(this);
         dialog_textView.setText(content);
@@ -165,7 +166,7 @@ public class SureRefundDialog implements View.OnClickListener{
                     @Override
                     public void finishPwd(String pwd) {
 //                        Toast.makeText(context, pwd, Toast.LENGTH_SHORT).show();
-                        getBalanceRefund(uid+"", pwd, token, account);
+                        getBalanceRefund(uid+"", pwd, token);
                     }
                 });
                 //判断是否设置支付密码

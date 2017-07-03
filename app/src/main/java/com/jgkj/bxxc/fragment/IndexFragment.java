@@ -6,27 +6,22 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.activity.BXCenterActivity;
@@ -35,7 +30,6 @@ import com.jgkj.bxxc.activity.ClassTypeActivity;
 import com.jgkj.bxxc.activity.ClassicActivity;
 import com.jgkj.bxxc.activity.DrivingCompanionActivity;
 import com.jgkj.bxxc.activity.HeadlinesActivity;
-import com.jgkj.bxxc.activity.HomeActivity;
 import com.jgkj.bxxc.activity.InviteFriendsActivity;
 import com.jgkj.bxxc.activity.LoginActivity;
 import com.jgkj.bxxc.activity.PlaceChooseActivity;
@@ -51,7 +45,6 @@ import com.jgkj.bxxc.bean.entity.BannerEntity.BannerResult;
 import com.jgkj.bxxc.tools.AutoTextView;
 import com.jgkj.bxxc.tools.BannerPage;
 import com.jgkj.bxxc.tools.CallDialog;
-import com.jgkj.bxxc.tools.InvitedCouponDialog;
 import com.jgkj.bxxc.tools.NetworkImageHolderView;
 import com.jgkj.bxxc.tools.RemainBaseDialog;
 import com.jgkj.bxxc.tools.SecondToDate;
@@ -67,7 +60,6 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import okhttp3.Call;
 
@@ -213,8 +205,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
             userInfo = gson.fromJson(str, UserInfo.class);
             result = userInfo.getResult();
         }
-
-
     }
 
     /**

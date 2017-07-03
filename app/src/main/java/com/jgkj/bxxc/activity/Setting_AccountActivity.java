@@ -24,7 +24,6 @@ import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.Balance;
 import com.jgkj.bxxc.tools.ActivityRuleDialog;
-import com.jgkj.bxxc.tools.BindCardDialog;
 import com.jgkj.bxxc.tools.RemainBaseDialog;
 import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.jgkj.bxxc.tools.SureRefundDialog;
@@ -202,10 +201,10 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
                     public void onClick(View view) {
                         SharedPreferences sp = getSharedPreferences("useraccount",Activity.MODE_PRIVATE);
                         account = sp.getString("useraccount", null);
-                        if (account.equals("")) {
-                            balance_diolog.dismiss();
-                            new BindCardDialog(Setting_AccountActivity.this, "系统检测到您还没有绑定任何银行卡信息，" + "暂不能退款。是否去绑定？").Bindcard();
-                        }else{
+//                        if (account.equals("")) {
+//                            balance_diolog.dismiss();
+//                            new BindCardDialog(Setting_AccountActivity.this, "系统检测到您还没有绑定任何银行卡信息，" + "暂不能退款。是否去绑定？").Bindcard();
+//                        }else{
                             if (balance_money.getText().toString().equals("￥0.00")) {
                                 balance_diolog.dismiss();
                                 new RemainBaseDialog(Setting_AccountActivity.this, "抱歉， " +
@@ -213,9 +212,9 @@ public class Setting_AccountActivity extends Activity implements View.OnClickLis
                             }else{
                                 balance_diolog.dismiss();
                                 new SureRefundDialog(Setting_AccountActivity.this,
-                                        "退款将在2-5个工作日退还到您所在的平台上绑定的银行卡。", uid, token, account, myInputPwdUtil).SureRefund();
+                                        "退款将在1-7个工作日内退还到您充值时使用的账户上。", uid, token, account, myInputPwdUtil).SureRefund();
                             }
-                        }
+//                        }
                         }
 
                 });

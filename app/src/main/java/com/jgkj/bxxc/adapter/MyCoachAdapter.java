@@ -1,6 +1,7 @@
 package com.jgkj.bxxc.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,22 +69,102 @@ public class MyCoachAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         coachDetailAction = list.get(position);
-        int totalPrise = Integer.parseInt(coachDetailAction.getZonghe());
+        Double totalPrise = Double.parseDouble(coachDetailAction.getZonghe());
+        Log.d("BXXC","综合评价："+totalPrise);
         viewHolder.totalPriseText1.removeAllViews();
 
-        for (int i = 0; i < totalPrise; i++) {
-            ImageView image = new ImageView(this.context);
-            image.setBackgroundResource(R.drawable.star1);
-            wrapParams = new LinearLayout.LayoutParams(18,18);
+//        for (int i = 0; i < totalPrise; i++) {
+//            ImageView image = new ImageView(this.context);
+//            image.setBackgroundResource(R.drawable.star1);
+//            wrapParams = new LinearLayout.LayoutParams(30,30);
+//            image.setLayoutParams(wrapParams);
+//            viewHolder.totalPriseText1.addView(image);
+//        }
+        if (totalPrise < 1){
+            ImageView image = new ImageView(context);
+            image.setBackgroundResource(R.drawable.star0);
+            wrapParams = new LinearLayout.LayoutParams(150,30);
             image.setLayoutParams(wrapParams);
             viewHolder.totalPriseText1.addView(image);
         }
+        if (totalPrise  == 1){
+            ImageView image = new ImageView(context);
+            image.setBackgroundResource(R.drawable.star1);
+            wrapParams = new LinearLayout.LayoutParams(30,30);
+            image.setLayoutParams(wrapParams);
+            viewHolder.totalPriseText1.addView(image);
+        }
+        if (totalPrise > 1  && totalPrise < 2){
+            ImageView image = new ImageView(context);
+            image.setBackgroundResource(R.drawable.star2);
+            wrapParams = new LinearLayout.LayoutParams(150,30);
+            image.setLayoutParams(wrapParams);
+            viewHolder.totalPriseText1.addView(image);
+        }
+        if (totalPrise == 2){
+            for (float i = 0; i < 2; i++){
+                ImageView image = new ImageView(context);
+                image.setBackgroundResource(R.drawable.star1);
+                wrapParams = new LinearLayout.LayoutParams(30,30);
+                image.setLayoutParams(wrapParams);
+                viewHolder.totalPriseText1.addView(image);
+            }
+        }
+        if (totalPrise > 2 && totalPrise < 3){
+            ImageView image = new ImageView(context);
+            image.setBackgroundResource(R.drawable.star3);
+            wrapParams = new LinearLayout.LayoutParams(150,30);
+            image.setLayoutParams(wrapParams);
+            viewHolder.totalPriseText1.addView(image);
+        }
+        if (totalPrise == 3){
+            for (float i = 0; i < 3; i++){
+                ImageView image = new ImageView(context);
+                image.setBackgroundResource(R.drawable.star1);
+                wrapParams = new LinearLayout.LayoutParams(30,30);
+                image.setLayoutParams(wrapParams);
+                viewHolder.totalPriseText1.addView(image);
+            }
+        }
+        if (totalPrise > 3 && totalPrise < 4){
+            ImageView image = new ImageView(context);
+            image.setBackgroundResource(R.drawable.star4);
+            wrapParams = new LinearLayout.LayoutParams(150,30);
+            image.setLayoutParams(wrapParams);
+            viewHolder.totalPriseText1.addView(image);
+        }
+        if (totalPrise == 4){
+            for (float i = 0; i < 4; i++){
+                ImageView image = new ImageView(context);
+                image.setBackgroundResource(R.drawable.star1);
+                wrapParams = new LinearLayout.LayoutParams(30,30);
+                image.setLayoutParams(wrapParams);
+                viewHolder.totalPriseText1.addView(image);
+            }
+        }
+        if (totalPrise > 4 && totalPrise < 5){
+            ImageView image = new ImageView(context);
+            image.setBackgroundResource(R.drawable.star5);
+            wrapParams = new LinearLayout.LayoutParams(150,30);
+            image.setLayoutParams(wrapParams);
+            viewHolder.totalPriseText1.addView(image);
+        }
+        if (totalPrise == 5){
+            for (float i = 0; i < 5; i++){
+                ImageView image = new ImageView(context);
+                image.setBackgroundResource(R.drawable.star1);
+                wrapParams = new LinearLayout.LayoutParams(30,30);
+                image.setLayoutParams(wrapParams);
+                viewHolder.totalPriseText1.addView(image);
+            }
+        }
+
         Glide.with(context).load(coachDetailAction.getFile()).placeholder(R.drawable.head1).error(R.drawable.head1).into(viewHolder.coachPic);
         viewHolder.coachPic.setTag(R.id.imageloader_uri,coachDetailAction.getFile());
         viewHolder.coachName.setText(coachDetailAction.getCoachname());
         viewHolder.place.setText(coachDetailAction.getFaddress());
         viewHolder.classType.setText("班级:"+coachDetailAction.getClass_class());
-        viewHolder.totalPriseText2.setHint(coachDetailAction.getZonghe()+".0分");
+        viewHolder.totalPriseText2.setHint(coachDetailAction.getZonghe()+ "分");
         viewHolder.goodPrise.setHint("好评率:"+coachDetailAction.getPraise()+"%");
         viewHolder.adopt.setHint("通过率:"+coachDetailAction.getPass()+"%");
         viewHolder.coachId.setText(coachDetailAction.getCid()+"");

@@ -13,9 +13,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.jgkj.bxxc.R;
-import com.jgkj.bxxc.activity.ReservationActivity;
 import com.jgkj.bxxc.activity.ReservationDetailActivity;
-import com.jgkj.bxxc.activity.ReservationForPrivateActivity;
 import com.jgkj.bxxc.bean.entity.MyCoachForPrivateEntity.MyCoachPrivaetEntity;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -28,7 +26,9 @@ import okhttp3.Call;
 public class MyCoachPrivateAdapter extends BaseAdapter {
     private Context context;
     private List<MyCoachPrivaetEntity> list;
+    private MyCoachPrivaetEntity coachDetailAction;
     private LayoutInflater inflater;
+    private LinearLayout.LayoutParams wrapParams;
     private String coachUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/CoachinfoAgain";
     private int uid;
     private String token;
@@ -75,14 +75,93 @@ public class MyCoachPrivateAdapter extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
+        coachDetailAction = list.get(position);
+        Double totalPrise = Double.parseDouble(coachDetailAction.getZonghe());
         viewHolder.totalPriseText1.removeAllViews();
-        for (int k = 0; k < Integer.parseInt(list.get(position).getZonghe()); k++) {
+//        for (int k = 0; k < Integer.parseInt(list.get(position).getZonghe()); k++) {
+//            ImageView image = new ImageView(context);
+//            image.setBackgroundResource(R.drawable.star1);
+//            LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
+//            image.setLayoutParams(wrapParams);
+//            viewHolder.totalPriseText1.addView(image);
+//        }
+        if (totalPrise < 1){
             ImageView image = new ImageView(context);
-            image.setBackgroundResource(R.drawable.star1);
-            LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
+            image.setBackgroundResource(R.drawable.star0);
+            wrapParams = new LinearLayout.LayoutParams(150,30);
             image.setLayoutParams(wrapParams);
             viewHolder.totalPriseText1.addView(image);
+        }
+        if (totalPrise  == 1){
+            ImageView image = new ImageView(context);
+            image.setBackgroundResource(R.drawable.star1);
+            wrapParams = new LinearLayout.LayoutParams(30,30);
+            image.setLayoutParams(wrapParams);
+            viewHolder.totalPriseText1.addView(image);
+        }
+        if (totalPrise > 1  && totalPrise < 2){
+            ImageView image = new ImageView(context);
+            image.setBackgroundResource(R.drawable.star2);
+            wrapParams = new LinearLayout.LayoutParams(150,30);
+            image.setLayoutParams(wrapParams);
+            viewHolder.totalPriseText1.addView(image);
+        }
+        if (totalPrise == 2){
+            for (float i = 0; i < 2; i++){
+                ImageView image = new ImageView(context);
+                image.setBackgroundResource(R.drawable.star1);
+                wrapParams = new LinearLayout.LayoutParams(30,30);
+                image.setLayoutParams(wrapParams);
+                viewHolder.totalPriseText1.addView(image);
+            }
+        }
+        if (totalPrise > 2 && totalPrise < 3){
+            ImageView image = new ImageView(context);
+            image.setBackgroundResource(R.drawable.star3);
+            wrapParams = new LinearLayout.LayoutParams(150,30);
+            image.setLayoutParams(wrapParams);
+            viewHolder.totalPriseText1.addView(image);
+        }
+        if (totalPrise == 3){
+            for (float i = 0; i < 3; i++){
+                ImageView image = new ImageView(context);
+                image.setBackgroundResource(R.drawable.star1);
+                wrapParams = new LinearLayout.LayoutParams(30,30);
+                image.setLayoutParams(wrapParams);
+                viewHolder.totalPriseText1.addView(image);
+            }
+        }
+        if (totalPrise > 3 && totalPrise < 4){
+            ImageView image = new ImageView(context);
+            image.setBackgroundResource(R.drawable.star4);
+            wrapParams = new LinearLayout.LayoutParams(150,30);
+            image.setLayoutParams(wrapParams);
+            viewHolder.totalPriseText1.addView(image);
+        }
+        if (totalPrise == 4){
+            for (float i = 0; i < 4; i++){
+                ImageView image = new ImageView(context);
+                image.setBackgroundResource(R.drawable.star1);
+                wrapParams = new LinearLayout.LayoutParams(30,30);
+                image.setLayoutParams(wrapParams);
+                viewHolder.totalPriseText1.addView(image);
+            }
+        }
+        if (totalPrise > 4 && totalPrise < 5){
+            ImageView image = new ImageView(context);
+            image.setBackgroundResource(R.drawable.star5);
+            wrapParams = new LinearLayout.LayoutParams(150,30);
+            image.setLayoutParams(wrapParams);
+            viewHolder.totalPriseText1.addView(image);
+        }
+        if (totalPrise == 5){
+            for (float i = 0; i < 5; i++){
+                ImageView image = new ImageView(context);
+                image.setBackgroundResource(R.drawable.star1);
+                wrapParams = new LinearLayout.LayoutParams(30,30);
+                image.setLayoutParams(wrapParams);
+                viewHolder.totalPriseText1.addView(image);
+            }
         }
 
         if (list.get(position).getClass_type().equals("科目二教练") ){
@@ -94,7 +173,7 @@ public class MyCoachPrivateAdapter extends BaseAdapter {
         Glide.with(context).load(list.get(position).getFile()).placeholder(R.drawable.head1).error(R.drawable.head1).into(viewHolder.coachPic);
 
         viewHolder.tv_total_stu.setText("累计所带学员" + list.get(position).getNowstudent() + "人");
-        viewHolder.totalPriseText2.setText(list.get(position).getZonghe() + ".0分");
+        viewHolder.totalPriseText2.setText(list.get(position).getZonghe() + "分");
         viewHolder.coachName.setText(list.get(position).getCoachname());
         viewHolder.place.setText(list.get(position).getFaddress());
         viewHolder.goodPrise.setText(list.get(position).getPraise() + "%");

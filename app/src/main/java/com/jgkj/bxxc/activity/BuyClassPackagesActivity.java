@@ -38,6 +38,7 @@ import okhttp3.Call;
 public class BuyClassPackagesActivity extends Activity implements View.OnClickListener {
     private TextView title;
     private Button button_backward;
+    private Button button_forward;
     public TextView tv_pakage;
     public TextView tv_time;
     public TextView tv_buy_old;
@@ -78,6 +79,10 @@ public class BuyClassPackagesActivity extends Activity implements View.OnClickLi
         button_backward = (Button) findViewById(R.id.button_backward);
         button_backward.setVisibility(View.VISIBLE);
         button_backward.setOnClickListener(this);
+        button_forward = (Button) findViewById(R.id.button_forward);
+        button_forward.setVisibility(View.VISIBLE);
+        button_forward.setText("套餐说明");
+        button_forward.setOnClickListener(this);
         tv_pakage = (TextView) findViewById(R.id.tv_pakage);
         tv_time = (TextView) findViewById(R.id.tv_time);
         tv_buy_old = (TextView) findViewById(R.id.tv_buy_old);
@@ -340,6 +345,13 @@ public class BuyClassPackagesActivity extends Activity implements View.OnClickLi
             case R.id.button_backward:
                 finish();
                 break;
+            case R.id.button_forward:
+               intent.setClass(BuyClassPackagesActivity.this,WebViewActivity.class);
+               intent.putExtra("url", "http://www.baixinxueche.com/webshow/keer/baixin.html");
+               intent.putExtra("title", "套餐说明");
+               startActivity(intent);
+               break;
+
             case R.id.payment_protocol_txt:
                 intent.setClass(BuyClassPackagesActivity.this,WebViewActivity.class);
                 intent.putExtra("url","http://www.baixinxueche.com/webshow/chongzhi/recharge.html");

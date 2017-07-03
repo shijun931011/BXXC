@@ -380,7 +380,7 @@
                         android:layout_marginBottom="20dp"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="· 一人学车  两人畅想"
+                        android:text="· 一人学车  两人畅享"
                         android:textColor="@color/gray" />
                 </LinearLayout>
             </LinearLayout>
