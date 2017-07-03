@@ -27,8 +27,7 @@
                     android:text="我的资料"
                     android:textColor="#FFFFFF"
                     android:textSize="20dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true" />
+                    android:layout_alignParentTop="true" />
             </RelativeLayout>
             <TextView
                 android:id="@+id/un_login"

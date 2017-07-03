@@ -400,8 +400,7 @@ public class PlaceChooseActivity extends Activity implements OnClickListener, Ad
 
             MapStatus.Builder builder = new MapStatus.Builder();
             builder.target(point).zoom(17.0f);
-            mBaiduMap.animateMapStatus(MapStatusUpdateFactory
-                    .newMapStatus(builder.build()));
+            mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
             mBaiduMap.setOnMarkerClickListener(new markerClickListener());
         }
     }

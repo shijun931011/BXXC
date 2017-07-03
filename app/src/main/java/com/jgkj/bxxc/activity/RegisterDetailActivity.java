@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -350,7 +351,14 @@ public class RegisterDetailActivity extends Activity implements View.OnClickList
      * @param uri 图片uri
      */
     private void startImgZoom(Uri uri) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
+        Intent intent;
+
+//        //当sdk版本低于19时使用此方法
+//        if (Build.VERSION.SDK_INT < 19) {
+            intent = new Intent("com.android.camera.action.CROP");
+//        } else {
+//            intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        }
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
         intent.putExtra("return-data", false);//设置为不返回数据
@@ -435,7 +443,17 @@ public class RegisterDetailActivity extends Activity implements View.OnClickList
                 dialog.dismiss();
                 break;
             case R.id.choosePhoto:
-                Intent action_getPhoto = new Intent(Intent.ACTION_GET_CONTENT);
+//                Intent action_getPhoto = new Intent(Intent.ACTION_GET_CONTENT);
+//                action_getPhoto.setType("image/*");
+//                startActivityForResult(action_getPhoto, CHOOSE_PICTIRE);
+
+                Intent action_getPhoto;
+                //当sdk版本低于19时使用此方法
+                if (Build.VERSION.SDK_INT < 19) {
+                    action_getPhoto = new Intent(Intent.ACTION_GET_CONTENT);
+                } else {
+                    action_getPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                }
                 action_getPhoto.setType("image/*");
                 startActivityForResult(action_getPhoto, CHOOSE_PICTIRE);
                 dialog.dismiss();

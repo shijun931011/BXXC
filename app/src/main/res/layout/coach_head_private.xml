@@ -157,8 +157,7 @@
             android:id="@+id/coach_map"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:layout_below="@id/line"
-            android:clickable="true" />
+            android:layout_below="@id/line" />
     </RelativeLayout>
 
     <View
