@@ -411,30 +411,267 @@ public class ReservationForDrivingActivity extends Activity implements OnClickLi
                             zhiliang.removeAllViews();
                             zhonghe.removeAllViews();
                             fuwu.removeAllViews();
-                            for (int k = 0; k < zhonghenum; k++) {
+//                            for (int k = 0; k < zhonghenum; k++) {
+//                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
+//                                image.setBackgroundResource(R.drawable.star1);
+//                                LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
+//                                image.setLayoutParams(wrapParams);
+//                                zhonghe.addView(image);
+//                            }
+//                            for (int k = 0; k < teachnum; k++) {
+//                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
+//                                image.setBackgroundResource(R.drawable.star1);
+//                                LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
+//                                image.setLayoutParams(wrapParams);
+//                                zhiliang.addView(image);
+//                            }
+//                            for (int k = 0; k < waitnum; k++) {
+//                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
+//                                image.setBackgroundResource(R.drawable.star1);
+//                                LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
+//                                image.setLayoutParams(wrapParams);
+//                                fuwu.addView(image);
+//                            }
+
+                            if (zhonghenum < 1){
                                 ImageView image = new ImageView(ReservationForDrivingActivity.this);
-                                image.setBackgroundResource(R.drawable.star1);
-                                LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                image.setBackgroundResource(R.drawable.star0);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
                                 image.setLayoutParams(wrapParams);
                                 zhonghe.addView(image);
                             }
-                            for (int k = 0; k < teachnum; k++) {
+                            if (zhonghenum == 1){
                                 ImageView image = new ImageView(ReservationForDrivingActivity.this);
                                 image.setBackgroundResource(R.drawable.star1);
-                                LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                wrapParams = new LinearLayout.LayoutParams(30,30);
+                                image.setLayoutParams(wrapParams);
+                                zhonghe.addView(image);
+                            }
+                            if (zhonghenum > 1  && zhonghenum < 2){
+                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                image.setBackgroundResource(R.drawable.star2);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
+                                image.setLayoutParams(wrapParams);
+                                zhonghe.addView(image);
+                            }
+                            if (zhonghenum == 2){
+                                for (double k = 0; k < 2; k++) {
+                                    ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                    image.setBackgroundResource(R.drawable.star1);
+                                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                    image.setLayoutParams(wrapParams);
+                                    zhonghe.addView(image);
+                                }
+                            }
+                            if (zhonghenum > 2  && zhonghenum < 3){
+                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                image.setBackgroundResource(R.drawable.star3);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
+                                image.setLayoutParams(wrapParams);
+                                zhonghe.addView(image);
+                            }
+                            if (zhonghenum == 3){
+                                for (double k = 0; k < 3; k++) {
+                                    ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                    image.setBackgroundResource(R.drawable.star1);
+                                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                    image.setLayoutParams(wrapParams);
+                                    zhonghe.addView(image);
+                                }
+                            }
+                            if (zhonghenum> 3  && zhonghenum < 4){
+                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                image.setBackgroundResource(R.drawable.star4);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
+                                image.setLayoutParams(wrapParams);
+                                zhonghe.addView(image);
+                            }
+                            if (zhonghenum == 4){
+                                for (double k = 0; k < 4; k++) {
+                                    ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                    image.setBackgroundResource(R.drawable.star1);
+                                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                    image.setLayoutParams(wrapParams);
+                                    zhonghe.addView(image);
+                                }
+                            }
+                            if (zhonghenum > 4  && zhonghenum < 5){
+                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                image.setBackgroundResource(R.drawable.star5);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
+                                image.setLayoutParams(wrapParams);
+                                zhonghe.addView(image);
+                            }
+                            if (zhonghenum == 5){
+                                for (double k = 0; k < 5; k++) {
+                                    ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                    image.setBackgroundResource(R.drawable.star1);
+                                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                    image.setLayoutParams(wrapParams);
+                                    zhonghe.addView(image);
+                                }
+                            }
+
+                            if (teachnum < 1){
+                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                image.setBackgroundResource(R.drawable.star0);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
                                 image.setLayoutParams(wrapParams);
                                 zhiliang.addView(image);
                             }
-                            for (int k = 0; k < waitnum; k++) {
+                            if (teachnum == 1){
                                 ImageView image = new ImageView(ReservationForDrivingActivity.this);
                                 image.setBackgroundResource(R.drawable.star1);
-                                LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                wrapParams = new LinearLayout.LayoutParams(30,30);
+                                image.setLayoutParams(wrapParams);
+                                zhiliang.addView(image);
+                            }
+                            if (teachnum > 1  && teachnum < 2){
+                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                image.setBackgroundResource(R.drawable.star2);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
+                                image.setLayoutParams(wrapParams);
+                                zhiliang.addView(image);
+                            }
+                            if (teachnum == 2){
+                                for (double k = 0; k < 2; k++) {
+                                    ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                    image.setBackgroundResource(R.drawable.star1);
+                                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                    image.setLayoutParams(wrapParams);
+                                    zhiliang.addView(image);
+                                }
+                            }
+                            if (teachnum > 2  && teachnum < 3){
+                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                image.setBackgroundResource(R.drawable.star3);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
+                                image.setLayoutParams(wrapParams);
+                                zhiliang.addView(image);
+                            }
+                            if (teachnum == 3){
+                                for (double k = 0; k < 3; k++) {
+                                    ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                    image.setBackgroundResource(R.drawable.star1);
+                                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                    image.setLayoutParams(wrapParams);
+                                    zhiliang.addView(image);
+                                }
+                            }
+                            if (teachnum > 3  && teachnum < 4){
+                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                image.setBackgroundResource(R.drawable.star4);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
+                                image.setLayoutParams(wrapParams);
+                                zhiliang.addView(image);
+                            }
+                            if (teachnum == 4){
+                                for (double k = 0; k < 4; k++) {
+                                    ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                    image.setBackgroundResource(R.drawable.star1);
+                                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                    image.setLayoutParams(wrapParams);
+                                    zhiliang.addView(image);
+                                }
+                            }
+                            if (teachnum > 4  && teachnum < 5){
+                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                image.setBackgroundResource(R.drawable.star5);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
+                                image.setLayoutParams(wrapParams);
+                                zhiliang.addView(image);
+                            }
+                            if (teachnum == 5){
+                                for (double k = 0; k < 5; k++) {
+                                    ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                    image.setBackgroundResource(R.drawable.star1);
+                                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                    image.setLayoutParams(wrapParams);
+                                    zhiliang.addView(image);
+                                }
+                            }
+
+                            if (waitnum < 1){
+                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                image.setBackgroundResource(R.drawable.star0);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
                                 image.setLayoutParams(wrapParams);
                                 fuwu.addView(image);
                             }
-                            zhonghefen.setText(result.getZonghe()+".0分");
-                            zhiliangfen.setText(result.getTeach() + ".0分");
-                            fuwufen.setText(result.getWait() + ".0分");
+                            if (waitnum == 1){
+                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                image.setBackgroundResource(R.drawable.star1);
+                                wrapParams = new LinearLayout.LayoutParams(30,30);
+                                image.setLayoutParams(wrapParams);
+                                fuwu.addView(image);
+                            }
+                            if (waitnum > 1  && waitnum < 2){
+                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                image.setBackgroundResource(R.drawable.star2);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
+                                image.setLayoutParams(wrapParams);
+                                fuwu.addView(image);
+                            }
+                            if (waitnum == 2){
+                                for (double k = 0; k < 2; k++) {
+                                    ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                    image.setBackgroundResource(R.drawable.star1);
+                                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                    image.setLayoutParams(wrapParams);
+                                    fuwu.addView(image);
+                                }
+                            }
+                            if (waitnum > 2  && waitnum < 3){
+                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                image.setBackgroundResource(R.drawable.star3);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
+                                image.setLayoutParams(wrapParams);
+                                fuwu.addView(image);
+                            }
+                            if (waitnum == 3){
+                                for (double k = 0; k < 3; k++) {
+                                    ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                    image.setBackgroundResource(R.drawable.star1);
+                                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                    image.setLayoutParams(wrapParams);
+                                    fuwu.addView(image);
+                                }
+                            }
+                            if (waitnum > 3  && waitnum < 4){
+                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                image.setBackgroundResource(R.drawable.star4);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
+                                image.setLayoutParams(wrapParams);
+                                fuwu.addView(image);
+                            }
+                            if (waitnum == 4){
+                                for (double k = 0; k < 4; k++) {
+                                    ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                    image.setBackgroundResource(R.drawable.star1);
+                                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                    image.setLayoutParams(wrapParams);
+                                    fuwu.addView(image);
+                                }
+                            }
+                            if (waitnum > 4  && waitnum < 5){
+                                ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                image.setBackgroundResource(R.drawable.star5);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
+                                image.setLayoutParams(wrapParams);
+                                fuwu.addView(image);
+                            }
+                            if (waitnum== 5){
+                                for (double k = 0; k < 5; k++) {
+                                    ImageView image = new ImageView(ReservationForDrivingActivity.this);
+                                    image.setBackgroundResource(R.drawable.star1);
+                                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                    image.setLayoutParams(wrapParams);
+                                    fuwu.addView(image);
+                                }
+                            }
+                            zhonghefen.setText(result.getZonghe()+"分");
+                            zhiliangfen.setText(result.getTeach() + "分");
+                            fuwufen.setText(result.getWait() + "分");
 
                             falg = true;
                             initMap(result.getLatitude(),result.getLongitude());

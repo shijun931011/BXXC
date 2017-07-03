@@ -472,13 +472,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                             zhiliang.removeAllViews();
                             zhonghe.removeAllViews();
                             fuwu.removeAllViews();
-//                            for (int k = 0; k < zhonghenum; k++) {
-//                                ImageView image = new ImageView(ReservationForPrivateActivity.this);
-//                                image.setBackgroundResource(R.drawable.star1);
-//                                LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
-//                                image.setLayoutParams(wrapParams);
-//                                zhonghe.addView(image);
-//                            }
+
                             if (zhonghenum < 1){
                                 ImageView image = new ImageView(ReservationForPrivateActivity.this);
                                 image.setBackgroundResource(R.drawable.star0);
@@ -558,13 +552,6 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                                 }
                             }
 
-//                            for (int k = 0; k < teachnum; k++) {
-//                                ImageView image = new ImageView(ReservationForPrivateActivity.this);
-//                                image.setBackgroundResource(R.drawable.star1);
-//                                LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
-//                                image.setLayoutParams(wrapParams);
-//                                zhiliang.addView(image);
-//                            }
                             if (teachnum < 1){
                                 ImageView image = new ImageView(ReservationForPrivateActivity.this);
                                 image.setBackgroundResource(R.drawable.star0);
@@ -643,13 +630,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                                     zhiliang.addView(image);
                                 }
                             }
-//                            for (int k = 0; k < waitnum; k++) {
-//                                ImageView image = new ImageView(ReservationForPrivateActivity.this);
-//                                image.setBackgroundResource(R.drawable.star1);
-//                                LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
-//                                image.setLayoutParams(wrapParams);
-//                                fuwu.addView(image);
-//                            }
+
                             if (waitnum < 1){
                                 ImageView image = new ImageView(ReservationForPrivateActivity.this);
                                 image.setBackgroundResource(R.drawable.star0);

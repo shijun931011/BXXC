@@ -98,7 +98,7 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
     private LinearLayout linearLayout5;
     private LinearLayout linearLayout6;
     private LinearLayout linearLayout7;
-
+    private LinearLayout.LayoutParams wrapParams;
     //学生信息
     private List<Stusubject> stusubjectList;
     //教练信息
@@ -153,16 +153,95 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
         CoachInfo.Result result = list.get(0);
         tv_coachName.setText(result.getCoachname());
         tv_total_stu.setText(result.getCount_stu() + "");
-        teachnum = Integer.parseInt(result.getTeach());
-
-        //教学质量
-        for (int k = 0; k < teachnum; k++) {
+        Double teachnum = Double.parseDouble(result.getTeach());
+        if (teachnum < 1){
             ImageView image = new ImageView(ReservationDetailActivity.this);
-            image.setBackgroundResource(R.drawable.star1);
-            LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
+            image.setBackgroundResource(R.drawable.star0);
+            wrapParams = new LinearLayout.LayoutParams(150,30);
             image.setLayoutParams(wrapParams);
             zhiliang.addView(image);
         }
+        if (teachnum == 1){
+            ImageView image = new ImageView(ReservationDetailActivity.this);
+            image.setBackgroundResource(R.drawable.star1);
+            wrapParams = new LinearLayout.LayoutParams(30,30);
+            image.setLayoutParams(wrapParams);
+            zhiliang.addView(image);
+        }
+        if (teachnum > 1  && teachnum < 2){
+            ImageView image = new ImageView(ReservationDetailActivity.this);
+            image.setBackgroundResource(R.drawable.star2);
+            wrapParams = new LinearLayout.LayoutParams(150,30);
+            image.setLayoutParams(wrapParams);
+            zhiliang.addView(image);
+        }
+        if (teachnum == 2){
+            for (double k = 0; k < 2; k++) {
+                ImageView image = new ImageView(ReservationDetailActivity.this);
+                image.setBackgroundResource(R.drawable.star1);
+                wrapParams = new LinearLayout.LayoutParams(30, 30);
+                image.setLayoutParams(wrapParams);
+                zhiliang.addView(image);
+            }
+        }
+        if (teachnum > 2  && teachnum < 3){
+            ImageView image = new ImageView(ReservationDetailActivity.this);
+            image.setBackgroundResource(R.drawable.star3);
+            wrapParams = new LinearLayout.LayoutParams(150,30);
+            image.setLayoutParams(wrapParams);
+            zhiliang.addView(image);
+        }
+        if (teachnum == 3){
+            for (double k = 0; k < 3; k++) {
+                ImageView image = new ImageView(ReservationDetailActivity.this);
+                image.setBackgroundResource(R.drawable.star1);
+                wrapParams = new LinearLayout.LayoutParams(30, 30);
+                image.setLayoutParams(wrapParams);
+                zhiliang.addView(image);
+            }
+        }
+        if (teachnum > 3  && teachnum < 4){
+            ImageView image = new ImageView(ReservationDetailActivity.this);
+            image.setBackgroundResource(R.drawable.star4);
+            wrapParams = new LinearLayout.LayoutParams(150,30);
+            image.setLayoutParams(wrapParams);
+            zhiliang.addView(image);
+        }
+        if (teachnum == 4){
+            for (double k = 0; k < 4; k++) {
+                ImageView image = new ImageView(ReservationDetailActivity.this);
+                image.setBackgroundResource(R.drawable.star1);
+                wrapParams = new LinearLayout.LayoutParams(30, 30);
+                image.setLayoutParams(wrapParams);
+                zhiliang.addView(image);
+            }
+        }
+        if (teachnum > 4  && teachnum < 5){
+            ImageView image = new ImageView(ReservationDetailActivity.this);
+            image.setBackgroundResource(R.drawable.star5);
+            wrapParams = new LinearLayout.LayoutParams(150,30);
+            image.setLayoutParams(wrapParams);
+            zhiliang.addView(image);
+        }
+        if (teachnum == 5){
+            for (double k = 0; k < 5; k++) {
+                ImageView image = new ImageView(ReservationDetailActivity.this);
+                image.setBackgroundResource(R.drawable.star1);
+                wrapParams = new LinearLayout.LayoutParams(30, 30);
+                image.setLayoutParams(wrapParams);
+                zhiliang.addView(image);
+            }
+        }
+
+
+        //教学质量
+//        for (int k = 0; k < teachnum; k++) {
+//            ImageView image = new ImageView(ReservationDetailActivity.this);
+//            image.setBackgroundResource(R.drawable.star1);
+//            LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
+//            image.setLayoutParams(wrapParams);
+//            zhiliang.addView(image);
+//        }
 
         //头像
         Glide.with(this).load(result.getFile()).placeholder(R.drawable.head1).error(R.drawable.head1).into(im_coachPic);
