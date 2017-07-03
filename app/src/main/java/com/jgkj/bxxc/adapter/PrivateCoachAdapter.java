@@ -103,7 +103,7 @@ public class PrivateCoachAdapter extends BaseAdapter {
             viewHolder.totalPriseText1.addView(image);
         }
         if (totalPrise == 2){
-            for (float i = 0; i < 2; i++){
+            for (double i = 0; i < 2; i++){
                 ImageView image = new ImageView(context);
                 image.setBackgroundResource(R.drawable.star1);
                 wrapParams = new LinearLayout.LayoutParams(30,30);
@@ -119,7 +119,7 @@ public class PrivateCoachAdapter extends BaseAdapter {
             viewHolder.totalPriseText1.addView(image);
         }
         if (totalPrise == 3){
-            for (float i = 0; i < 3; i++){
+            for (double i = 0; i < 3; i++){
                 ImageView image = new ImageView(context);
                 image.setBackgroundResource(R.drawable.star1);
                 wrapParams = new LinearLayout.LayoutParams(30,30);
@@ -135,7 +135,7 @@ public class PrivateCoachAdapter extends BaseAdapter {
             viewHolder.totalPriseText1.addView(image);
         }
         if (totalPrise == 4){
-            for (float i = 0; i < 4; i++){
+            for (double i = 0; i < 4; i++){
                 ImageView image = new ImageView(context);
                 image.setBackgroundResource(R.drawable.star1);
                 wrapParams = new LinearLayout.LayoutParams(30,30);
@@ -151,7 +151,7 @@ public class PrivateCoachAdapter extends BaseAdapter {
             viewHolder.totalPriseText1.addView(image);
         }
         if (totalPrise == 5){
-            for (float i = 0; i < 5; i++){
+            for (double i = 0; i < 5; i++){
                 ImageView image = new ImageView(context);
                 image.setBackgroundResource(R.drawable.star1);
                 wrapParams = new LinearLayout.LayoutParams(30,30);

@@ -6,13 +6,9 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Display;
@@ -29,11 +25,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -48,12 +41,6 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.navisdk.adapter.BNCommonSettingParam;
-import com.baidu.navisdk.adapter.BNOuterLogUtil;
-import com.baidu.navisdk.adapter.BNOuterTTSPlayerCallback;
-import com.baidu.navisdk.adapter.BNRoutePlanNode;
-import com.baidu.navisdk.adapter.BNaviSettingManager;
-import com.baidu.navisdk.adapter.BaiduNaviManager;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
@@ -76,7 +63,6 @@ import com.umeng.socialize.media.UMWeb;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -511,8 +497,8 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                             coach_head.setTag(result.getFile());
                             share.setTag(result.getCid());
                             int credit = result.getCredit();
-                            int teachnum = Integer.parseInt(result.getTeach());
-                            int waitnum = Integer.parseInt(result.getWait());
+                            Double teachnum = Double.parseDouble(result.getTeach());
+                            Double waitnum = Double.parseDouble(result.getWait());
                             haopinglv.setText("好评率："+result.getHaopin()+"%");
                             zhiliang.removeAllViews();
                             xinyong.removeAllViews();
@@ -524,22 +510,180 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                                 image.setLayoutParams(wrapParams);
                                 xinyong.addView(image);
                             }
-                            for (int k = 0; k < teachnum; k++) {
+//                            for (int k = 0; k < teachnum; k++) {
+//                                ImageView image = new ImageView(ReservationActivity.this);
+//                                image.setBackgroundResource(R.drawable.star1);
+//                                LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
+//                                image.setLayoutParams(wrapParams);
+//                                zhiliang.addView(image);
+//                            }
+                            if (teachnum < 1){
                                 ImageView image = new ImageView(ReservationActivity.this);
-                                image.setBackgroundResource(R.drawable.star1);
-                                LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                image.setBackgroundResource(R.drawable.star0);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
                                 image.setLayoutParams(wrapParams);
                                 zhiliang.addView(image);
                             }
-                            for (int k = 0; k < waitnum; k++) {
+                            if (teachnum == 1){
                                 ImageView image = new ImageView(ReservationActivity.this);
                                 image.setBackgroundResource(R.drawable.star1);
-                                LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                wrapParams = new LinearLayout.LayoutParams(30,30);
+                                image.setLayoutParams(wrapParams);
+                                zhiliang.addView(image);
+                            }
+                            if (teachnum > 1  && teachnum < 2){
+                                ImageView image = new ImageView(ReservationActivity.this);
+                                image.setBackgroundResource(R.drawable.star2);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
+                                image.setLayoutParams(wrapParams);
+                                zhiliang.addView(image);
+                            }
+                            if (teachnum == 2){
+                                for (double k = 0; k < 2; k++) {
+                                    ImageView image = new ImageView(ReservationActivity.this);
+                                    image.setBackgroundResource(R.drawable.star1);
+                                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                    image.setLayoutParams(wrapParams);
+                                    zhiliang.addView(image);
+                                }
+                            }
+                            if (teachnum > 2  && teachnum < 3){
+                                ImageView image = new ImageView(ReservationActivity.this);
+                                image.setBackgroundResource(R.drawable.star3);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
+                                image.setLayoutParams(wrapParams);
+                                zhiliang.addView(image);
+                            }
+                            if (teachnum == 3){
+                                for (double k = 0; k < 3; k++) {
+                                    ImageView image = new ImageView(ReservationActivity.this);
+                                    image.setBackgroundResource(R.drawable.star1);
+                                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                    image.setLayoutParams(wrapParams);
+                                    zhiliang.addView(image);
+                                }
+                            }
+                            if (teachnum > 3  && teachnum < 4){
+                                ImageView image = new ImageView(ReservationActivity.this);
+                                image.setBackgroundResource(R.drawable.star4);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
+                                image.setLayoutParams(wrapParams);
+                                zhiliang.addView(image);
+                            }
+                            if (teachnum == 4){
+                                for (double k = 0; k < 4; k++) {
+                                    ImageView image = new ImageView(ReservationActivity.this);
+                                    image.setBackgroundResource(R.drawable.star1);
+                                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                    image.setLayoutParams(wrapParams);
+                                    zhiliang.addView(image);
+                                }
+                            }
+                            if (teachnum > 4  && teachnum < 5){
+                                ImageView image = new ImageView(ReservationActivity.this);
+                                image.setBackgroundResource(R.drawable.star5);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
+                                image.setLayoutParams(wrapParams);
+                                zhiliang.addView(image);
+                            }
+                            if (teachnum == 5){
+                                for (double k = 0; k < 5; k++) {
+                                    ImageView image = new ImageView(ReservationActivity.this);
+                                    image.setBackgroundResource(R.drawable.star1);
+                                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                    image.setLayoutParams(wrapParams);
+                                    zhiliang.addView(image);
+                                }
+                            }
+
+                            if (waitnum < 1){
+                                ImageView image = new ImageView(ReservationActivity.this);
+                                image.setBackgroundResource(R.drawable.star0);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
                                 image.setLayoutParams(wrapParams);
                                 fuwu.addView(image);
                             }
-                            zhiliangfen.setText(result.getTeach() + ".0分");
-                            fuwufen.setText(result.getWait() + ".0分");
+                            if (waitnum == 1){
+                                ImageView image = new ImageView(ReservationActivity.this);
+                                image.setBackgroundResource(R.drawable.star1);
+                                wrapParams = new LinearLayout.LayoutParams(30,30);
+                                image.setLayoutParams(wrapParams);
+                                fuwu.addView(image);
+                            }
+                            if (waitnum > 1  && waitnum < 2){
+                                ImageView image = new ImageView(ReservationActivity.this);
+                                image.setBackgroundResource(R.drawable.star2);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
+                                image.setLayoutParams(wrapParams);
+                                fuwu.addView(image);
+                            }
+                            if (waitnum == 2){
+                                for (double k = 0; k < 2; k++) {
+                                    ImageView image = new ImageView(ReservationActivity.this);
+                                    image.setBackgroundResource(R.drawable.star1);
+                                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                    image.setLayoutParams(wrapParams);
+                                    fuwu.addView(image);
+                                }
+                            }
+                            if (waitnum > 2  && waitnum < 3){
+                                ImageView image = new ImageView(ReservationActivity.this);
+                                image.setBackgroundResource(R.drawable.star3);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
+                                image.setLayoutParams(wrapParams);
+                                fuwu.addView(image);
+                            }
+                            if (waitnum == 3){
+                                for (double k = 0; k < 3; k++) {
+                                    ImageView image = new ImageView(ReservationActivity.this);
+                                    image.setBackgroundResource(R.drawable.star1);
+                                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                    image.setLayoutParams(wrapParams);
+                                    fuwu.addView(image);
+                                }
+                            }
+                            if (waitnum > 3  && waitnum < 4){
+                                ImageView image = new ImageView(ReservationActivity.this);
+                                image.setBackgroundResource(R.drawable.star4);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
+                                image.setLayoutParams(wrapParams);
+                                fuwu.addView(image);
+                            }
+                            if (waitnum == 4){
+                                for (double k = 0; k < 4; k++) {
+                                    ImageView image = new ImageView(ReservationActivity.this);
+                                    image.setBackgroundResource(R.drawable.star1);
+                                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                    image.setLayoutParams(wrapParams);
+                                    fuwu.addView(image);
+                                }
+                            }
+                            if (waitnum > 4  && waitnum < 5){
+                                ImageView image = new ImageView(ReservationActivity.this);
+                                image.setBackgroundResource(R.drawable.star5);
+                                wrapParams = new LinearLayout.LayoutParams(150,30);
+                                image.setLayoutParams(wrapParams);
+                                fuwu.addView(image);
+                            }
+                            if (waitnum == 5){
+                                for (double k = 0; k < 5; k++) {
+                                    ImageView image = new ImageView(ReservationActivity.this);
+                                    image.setBackgroundResource(R.drawable.star1);
+                                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                                    image.setLayoutParams(wrapParams);
+                                    fuwu.addView(image);
+                                }
+                            }
+
+//                            for (int k = 0; k < waitnum; k++) {
+//                                ImageView image = new ImageView(ReservationActivity.this);
+//                                image.setBackgroundResource(R.drawable.star1);
+//                                LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
+//                                image.setLayoutParams(wrapParams);
+//                                fuwu.addView(image);
+//                            }
+                            zhiliangfen.setText(result.getTeach() + "分");
+                            fuwufen.setText(result.getWait() + "分");
 
                             falg = true;
                             latitude = result.getLatitude();

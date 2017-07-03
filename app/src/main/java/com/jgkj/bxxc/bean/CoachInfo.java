@@ -120,7 +120,7 @@ public class CoachInfo implements Serializable {
 		//通过率
 		private String tguo;
 		//综合率
-		private int zonghe;
+		private String zonghe;
 		//所带学员数
 		private int stunum;
 		//评价时间
@@ -220,7 +220,7 @@ public class CoachInfo implements Serializable {
 			return credit;
 		}
 
-		public int getZonghe() {
+		public String getZonghe() {
 			return zonghe;
 		}
 
