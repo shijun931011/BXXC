@@ -33,7 +33,7 @@ public class NetworkImageHolderView implements Holder<BannerEntity> {
 
     @Override
     public void UpdateUI(final Context context, final int position, final BannerEntity data) {
-        imageView.setImageResource(R.mipmap.ic_launcher);
+        //imageView.setImageResource(R.mipmap.ic_launcher);
         ImageLoader.getInstance().displayImage(data.getPic(),imageView);
 
         imageView.setOnClickListener(new View.OnClickListener() {

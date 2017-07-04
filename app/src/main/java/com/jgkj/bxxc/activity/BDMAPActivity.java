@@ -191,7 +191,6 @@ public class BDMAPActivity extends Activity {
 //        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(15).build()));
 //        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(mCurrentMode, true, mCurrentMarker));
 
-
         // 开启定位图层
         mBaiduMap.setMyLocationEnabled(true);
 
@@ -288,11 +287,11 @@ public class BDMAPActivity extends Activity {
 
     @Override
     protected void onStop() {
-        // 关闭图层定位
-        mBaiduMap.setMyLocationEnabled(false);
-        mLocClient.stop();
-        // 关闭方向传感器
-        myOrientationListener.stop();
+//        // 关闭图层定位
+//        mBaiduMap.setMyLocationEnabled(false);
+//        mLocClient.stop();
+//        // 关闭方向传感器
+//        myOrientationListener.stop();
         super.onStop();
     }
 
