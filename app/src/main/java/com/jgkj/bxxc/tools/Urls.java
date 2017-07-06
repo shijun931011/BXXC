@@ -80,12 +80,24 @@ public class Urls {
 
     //陪驾记录
     public static String pjShowApply = "http://www.baixinxueche.com/index.php/Home/Apitokenpj/pjShowApply";
+
     //未陪驾记录
     public static String pjShowApplyNotTo = "http://www.baixinxueche.com/index.php/Home/Apitokenpj/pjShowApplyNotTo";
+
     //支付宝直接购买学时
     public static String alibuyclass = "http://www.baixinxueche.com/index.php/Home/wxapppay/alibuyclass";
+
     //微信直接购买学时
     public static String wxbuyclass = "http://www.baixinxueche.com/index.php/Home/wxapppay/wxbuyclass";
+
+    //科目一题目
+    public static String sub = "http://www.baixinxueche.com/index.php/Home/Apitokenptchoose/sub";
+
+    //科目四题目
+    public static String subfour = "http://www.baixinxueche.com/index.php/Home/Apitokenptchoose/subfour";
+
+    //题库版本
+    public static String subjectVersion = "http://www.baixinxueche.com/index.php/Home/Apitokenptchoose/subjectVersion";
 
     //测试
 //    public static String alibuyclass="http://www.baixinxueche.com/index.php/Home/wxapppay/alibuyclassExam";

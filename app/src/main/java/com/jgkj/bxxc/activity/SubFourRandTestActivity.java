@@ -21,6 +21,8 @@ import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.adapter.OrderAdapter;
 import com.jgkj.bxxc.bean.ErrorMsg;
 import com.jgkj.bxxc.bean.SubTest;
+import com.jgkj.bxxc.bean.entity.Sub4ProjectEntity.Sub4ProjectEntity;
+import com.jgkj.bxxc.db.DBManager;
 import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -94,47 +96,78 @@ public class SubFourRandTestActivity extends Activity implements View.OnClickLis
         }
     }
 
+    private List<Sub4ProjectEntity> sub4ProjectEntity = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_test);
         StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
-        getCount();
+        //getCount();
+        getSubProject();
 
     }
 
-    private void getTotalCount() {
-        Gson gson = new Gson();
-        String jsonStr = title.getTag().toString();
-        Result result = gson.fromJson(jsonStr, Result.class);
-        num = result.getCount();
-        count = (int) (Math.random() * num);
-        getSub(count + "");
-    }
+//    private void getTotalCount() {
+//        Gson gson = new Gson();
+//        String jsonStr = title.getTag().toString();
+//        Result result = gson.fromJson(jsonStr, Result.class);
+//        num = result.getCount();
+//        count = (int) (Math.random() * num);
+//        getSub(count + "");
+//    }
+//
+//    //网络请求
+//    private void getCount() {
+//        OkHttpUtils
+//                .post()
+//                .url(totalCountUrl)
+//                .build()
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onError(Call call, Exception e, int i) {
+//                        Toast.makeText(SubFourRandTestActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onResponse(String s, int i) {
+//                        title.setTag(s);
+//                        if (title.getTag().toString() != null) {
+//                            getTotalCount();
+//                        } else {
+//                            Toast.makeText(SubFourRandTestActivity.this, "网络不佳请检查网络设置", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//    }
 
-    //网络请求
-    private void getCount() {
-        OkHttpUtils
-                .post()
-                .url(totalCountUrl)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int i) {
-                        Toast.makeText(SubFourRandTestActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onResponse(String s, int i) {
-                        title.setTag(s);
-                        if (title.getTag().toString() != null) {
-                            getTotalCount();
-                        } else {
-                            Toast.makeText(SubFourRandTestActivity.this, "网络不佳请检查网络设置", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+    //网络请求,根据题号加载题目内容
+    private void getSubProject() {
+        if(sub4ProjectEntity == null){
+            sub4ProjectEntity = DBManager.getInstance().getSub4Project();
+            num = sub4ProjectEntity.size();
+        }
+        Sub4ProjectEntity entity = null;
+        if(sub4ProjectEntity != null){
+            count = (int)(Math.random()*num);
+            for(int i=0;i<sub4ProjectEntity.size();i++){
+                if(sub4ProjectEntity.get(i).getId().equals(count + "")){
+                    entity = sub4ProjectEntity.get(i);
+                    break;
+                }
+            }
+            if(entity != null){
+                count = Integer.parseInt(entity.getId());
+                addView(entity);
+            }else {
+                count--;
+                Toast.makeText(SubFourRandTestActivity.this,"题号不存在", Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            count--;
+            Toast.makeText(SubFourRandTestActivity.this,"题号不存在", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initView() {
@@ -175,46 +208,46 @@ public class SubFourRandTestActivity extends Activity implements View.OnClickLis
         }
     }
 
-    //网络请求
-    private void getSub(String id) {
-        proDialog = ProgressDialog.show(SubFourRandTestActivity.this, null, "加载中...");
-        OkHttpUtils
-                .post()
-                .url(subUrl)
-                .addParams("id", id)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int i) {
-                        Toast.makeText(SubFourRandTestActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
-                    }
-                    @Override
-                    public void onResponse(String s, int i) {
-                        viewPager.setTag(s);
-                        if (viewPager.getTag().toString() != null) {
-                            getViewTag();
-                        } else {
-                            Toast.makeText(SubFourRandTestActivity.this, "网络不佳请稍后再试", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
+//    //网络请求
+//    private void getSub(String id) {
+//        proDialog = ProgressDialog.show(SubFourRandTestActivity.this, null, "加载中...");
+//        OkHttpUtils
+//                .post()
+//                .url(subUrl)
+//                .addParams("id", id)
+//                .build()
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onError(Call call, Exception e, int i) {
+//                        Toast.makeText(SubFourRandTestActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+//                    }
+//                    @Override
+//                    public void onResponse(String s, int i) {
+//                        viewPager.setTag(s);
+//                        if (viewPager.getTag().toString() != null) {
+//                            getViewTag();
+//                        } else {
+//                            Toast.makeText(SubFourRandTestActivity.this, "网络不佳请稍后再试", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//    }
 
-    private void getViewTag() {
-        String str = viewPager.getTag().toString();
-        Gson gson = new Gson();
-        subTest = gson.fromJson(str, SubTest.class);
-        proDialog.dismiss();
-        if (subTest.getCode() == 200) {
-            results = subTest.getResult();
-            addView(results);
-        } else {
-            Toast.makeText(SubFourRandTestActivity.this, subTest.getReason(), Toast.LENGTH_SHORT).show();
-        }
+//    private void getViewTag() {
+//        String str = viewPager.getTag().toString();
+//        Gson gson = new Gson();
+//        subTest = gson.fromJson(str, SubTest.class);
+//        proDialog.dismiss();
+//        if (subTest.getCode() == 200) {
+//            results = subTest.getResult();
+//            addView(results);
+//        } else {
+//            Toast.makeText(SubFourRandTestActivity.this, subTest.getReason(), Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
 
-    }
-
-    private void addView(SubTest.Result results) {
+    private void addView(Sub4ProjectEntity results) {
         list = new ArrayList<View>();
         userAnw.clear();
         String rightAnw = "";
@@ -322,7 +355,7 @@ public class SubFourRandTestActivity extends Activity implements View.OnClickLis
         //自动保存错题数据
         ErrorMsg result = new ErrorMsg();
         ErrorMsg.Result res = result.new Result();
-        res.setSubCount(results.getId());
+        res.setSubCount(count + "");
 
         if (countAns!= arr.size()) {
             str.add(res);
@@ -349,9 +382,10 @@ public class SubFourRandTestActivity extends Activity implements View.OnClickLis
                 sureAnswer.setVisibility(View.GONE);
                 break;
             case R.id.next_Question:
-                if(next_Question.getText().toString().equals("下一题")){
-                    getSub((int) (Math.random() * num) + "");
-                }
+//                if(next_Question.getText().toString().equals("下一题")){
+//                    getSub((int) (Math.random() * num) + "");
+//                }
+                getSubProject();
                 break;
             case R.id.answer_item1:
                 if (!anw1Flag) {

@@ -24,11 +24,14 @@ import com.jgkj.bxxc.adapter.OrderAdapter;
 import com.jgkj.bxxc.bean.ErrorMsg;
 import com.jgkj.bxxc.bean.HistoryView;
 import com.jgkj.bxxc.bean.SubTest;
+import com.jgkj.bxxc.bean.entity.SubProjectEntity.SubProjectEntity;
+import com.jgkj.bxxc.db.DBManager;
 import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import okhttp3.Call;
@@ -79,8 +82,13 @@ public class SubErrorTestActivity extends Activity implements View.OnClickListen
     /**
      * 自动保存错题
      */
-    private List<ErrorMsg.Result> str;
+    private List<ErrorMsg.Result> strTemp;
     private ErrorMsg errorSub;
+
+    //总题目
+    private List<SubProjectEntity> subProjectEntity = null;
+    private List<ErrorMsg.Result> str = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,57 +120,88 @@ public class SubErrorTestActivity extends Activity implements View.OnClickListen
         SharedPreferences sp = getSharedPreferences("error_test", Activity.MODE_PRIVATE);
         String jsonStr = sp.getString("error_code",null);
         if(jsonStr==null||jsonStr==""){
-            str = new ArrayList<>();
+            strTemp = new ArrayList<>();
             errorSub = new ErrorMsg();
-            Toast.makeText(SubErrorTestActivity.this,"暂无错题", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SubErrorTestActivity.this,"暂时没有错题哦", Toast.LENGTH_SHORT).show();
         }else{
             Gson gson = new Gson();
             errorSub = gson.fromJson(jsonStr,ErrorMsg.class);
-            str = errorSub.getResult();
-            getSub(str.get(count).getSubCount());
+            strTemp = errorSub.getResult();
+            //过滤掉重复题目
+            str = remove(strTemp);
+            //getSub(str.get(count).getSubCount());
+            if(!str.isEmpty()){
+                getSubProject(str.get(count).getSubCount());
+            }else{
+                Toast.makeText(SubErrorTestActivity.this, "暂时没有错题哦", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
-    //网络请求
-    private void getSub(String id) {
-        proDialog = ProgressDialog.show(SubErrorTestActivity.this, null, "加载中...");
-        OkHttpUtils
-                .post()
-                .url(subUrl)
-                .addParams("id", id)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int i) {
-                        Toast.makeText(SubErrorTestActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
-                    }
-                    @Override
-                    public void onResponse(String s, int i) {
-                        viewPager.setTag(s);
-                        if (viewPager.getTag().toString() != null) {
-                            getViewTag();
-                        } else {
-                            Toast.makeText(SubErrorTestActivity.this, "网络不佳请稍后再试", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
+//    //网络请求
+//    private void getSub(String id) {
+//        proDialog = ProgressDialog.show(SubErrorTestActivity.this, null, "加载中...");
+//        OkHttpUtils
+//                .post()
+//                .url(subUrl)
+//                .addParams("id", id)
+//                .build()
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onError(Call call, Exception e, int i) {
+//                        Toast.makeText(SubErrorTestActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+//                    }
+//                    @Override
+//                    public void onResponse(String s, int i) {
+//                        viewPager.setTag(s);
+//                        if (viewPager.getTag().toString() != null) {
+//                            getViewTag();
+//                        } else {
+//                            Toast.makeText(SubErrorTestActivity.this, "网络不佳请稍后再试", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//    }
 
-    private void getViewTag() {
-        String str = viewPager.getTag().toString();
-        Gson gson = new Gson();
-        subTest = gson.fromJson(str, SubTest.class);
-        proDialog.dismiss();
-        if (subTest.getCode() == 200) {
-            currentCount = subTest.getResult().getId();
-            addView(subTest.getResult());
-        } else {
-            Toast.makeText(SubErrorTestActivity.this, subTest.getReason(), Toast.LENGTH_SHORT).show();
+//    private void getViewTag() {
+//        String str = viewPager.getTag().toString();
+//        Gson gson = new Gson();
+//        subTest = gson.fromJson(str, SubTest.class);
+//        proDialog.dismiss();
+//        if (subTest.getCode() == 200) {
+//            currentCount = subTest.getResult().getId();
+//            addView(subTest.getResult());
+//        } else {
+//            Toast.makeText(SubErrorTestActivity.this, subTest.getReason(), Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
+
+    //网络请求,根据题号加载题目内容
+    private void getSubProject(String id) {
+        if(subProjectEntity == null){
+            subProjectEntity = DBManager.getInstance().getSubProject();
         }
-
+        SubProjectEntity entity = null;
+        if(subProjectEntity != null){
+            for(int i=0;i<subProjectEntity.size();i++){
+                if(subProjectEntity.get(i).getId().equals(id)){
+                    entity = subProjectEntity.get(i);
+                    break;
+                }
+            }
+            if(entity != null){
+                currentCount = entity.getId();
+                addView(entity);
+            }else {
+                Toast.makeText(SubErrorTestActivity.this,"题号不存在", Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            Toast.makeText(SubErrorTestActivity.this,"题号不存在", Toast.LENGTH_SHORT).show();
+        }
     }
 
-    private void addView(SubTest.Result results) {
+    private void addView(SubProjectEntity results) {
         list = new ArrayList<View>();
         title.setText("第" + results.getId() + "题");
 
@@ -279,9 +318,13 @@ public class SubErrorTestActivity extends Activity implements View.OnClickListen
                 finish();
                 break;
             case R.id.next_Question:
-                if((count+1)<str.size()){
-                    count++;
-                    getSub(str.get(count).getSubCount());
+                if(str != null){
+                    if((count+1)<str.size()){
+                        count++;
+                        getSubProject(str.get(count).getSubCount());
+                    }else{
+                        Toast.makeText(SubErrorTestActivity.this,"没有下一题了", Toast.LENGTH_SHORT).show();
+                    }
                 }else{
                     Toast.makeText(SubErrorTestActivity.this,"没有下一题了", Toast.LENGTH_SHORT).show();
                 }
@@ -289,11 +332,29 @@ public class SubErrorTestActivity extends Activity implements View.OnClickListen
             case R.id.above_Question:
                 if(count-1>=0){
                     count--;
-                    getSub(str.get(count).getSubCount());
+                    getSubProject(str.get(count).getSubCount());
                 }else{
                     Toast.makeText(SubErrorTestActivity.this,"没有上一题了", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
+    }
+
+    /**
+     * 去重复
+     * @param ss
+     * @return
+     */
+    private List<ErrorMsg.Result> remove(List<ErrorMsg.Result> ss){
+        for (int i=0;i<ss.size();i++){
+            for (int j = ss.size() - 1 ; j > i; j--)  //内循环是 外循环一次比较的次数
+            {
+                if (ss.get(i).getSubCount().equals(ss.get(j).getSubCount()))
+                {
+                    ss.remove(j);
+                }
+            }
+        }
+        return ss;
     }
 }

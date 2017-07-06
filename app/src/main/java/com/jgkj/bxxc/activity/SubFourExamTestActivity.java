@@ -24,12 +24,15 @@ import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.adapter.OrderAdapter;
 import com.jgkj.bxxc.bean.ErrorMsg;
 import com.jgkj.bxxc.bean.SubTest;
+import com.jgkj.bxxc.bean.entity.Sub4ProjectEntity.Sub4ProjectEntity;
+import com.jgkj.bxxc.db.DBManager;
 import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import okhttp3.Call;
 
@@ -104,13 +107,18 @@ public class SubFourExamTestActivity extends Activity implements View.OnClickLis
         }
     }
 
+    private List<Sub4ProjectEntity> sub4ProjectEntity = null;
+
+    private List<Integer> randList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_test);
         StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
-        getSub(panUrl);
+        //getSub(panUrl);
+        getSubProject("1");
     }
 
     private void initView() {
@@ -150,60 +158,100 @@ public class SubFourExamTestActivity extends Activity implements View.OnClickLis
         }
     }
 
+//    /**
+//     * 网络请求,
+//     * @param url 请求地址，这里传值是为了区别多选，单选和判断题
+//     */
+//    private void getSub(String url) {
+//        proDialog = ProgressDialog.show(SubFourExamTestActivity.this, null, "加载中...");
+//        OkHttpUtils
+//                .post()
+//                .url(url)
+//                .build()
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onError(Call call, Exception e, int i) {
+//                        Toast.makeText(SubFourExamTestActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onResponse(String s, int i) {
+//                        viewPager.setTag(s);
+//                        if (viewPager.getTag().toString() != null) {
+//                            getViewTag();
+//                        } else {
+//                            Toast.makeText(SubFourExamTestActivity.this, "网络不佳请稍后再试", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//    }
+
     /**
-     * 网络请求,
-     * @param url 请求地址，这里传值是为了区别多选，单选和判断题
+     * 1.判断题 2.单选题 3.多选题
+     * @param state
      */
-    private void getSub(String url) {
-        proDialog = ProgressDialog.show(SubFourExamTestActivity.this, null, "加载中...");
-        OkHttpUtils
-                .post()
-                .url(url)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int i) {
-                        Toast.makeText(SubFourExamTestActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+    private void getSubProject(String state) {
+        if(sub4ProjectEntity == null){
+            sub4ProjectEntity = DBManager.getInstance().getSub4Project();
+        }
+        Sub4ProjectEntity entity = null;
+        if(sub4ProjectEntity != null){
+            int random = new Random().nextInt(sub4ProjectEntity.size());
+            //random = 2;
+            for(int i=0;i<sub4ProjectEntity.size();i++){
+                if(!randList.contains(random)){
+                    if(sub4ProjectEntity.get(i).getId().equals(random + "") && state.equals(sub4ProjectEntity.get(i).getState())){
+                        entity = sub4ProjectEntity.get(i);
+                        randList.add(random);
+                        break;
                     }
-
-                    @Override
-                    public void onResponse(String s, int i) {
-                        viewPager.setTag(s);
-                        if (viewPager.getTag().toString() != null) {
-                            getViewTag();
-                        } else {
-                            Toast.makeText(SubFourExamTestActivity.this, "网络不佳请稍后再试", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
-    private void getViewTag() {
-        String str = viewPager.getTag().toString();
-        Gson gson = new Gson();
-        subTest = gson.fromJson(str, SubTest.class);
-        proDialog.dismiss();
-        if (subTest.getCode() == 200) {
-            count = Integer.parseInt(subTest.getResult().getId());
-            if(!countNum.contains(subTest.getResult().getId())){
-                addView(subTest.getResult());
-                countNum.add(subTest.getResult().getId());
-            }else{
-                if ((currentPage) < 21) {
-                    getSub(panUrl);
-                }else if ((currentPage) < 45&&(currentPage) >= 21) {
-                    getSub(singleUrl);
-                }else if ((currentPage) < 50&&(currentPage) >=45) {
-                    getSub(duoUrl);
                 }
             }
-        } else {
-            Toast.makeText(SubFourExamTestActivity.this, subTest.getReason(), Toast.LENGTH_SHORT).show();
-        }
 
+            if(entity != null){
+                addView(entity);
+                countNum.add(entity.getId());
+            }else {
+                if ((currentPage) < 21) {
+                    getSubProject("1");
+                }else if ((currentPage) < 45&&(currentPage) >= 21) {
+                    getSubProject("2");
+                }else if ((currentPage) <= 50&&(currentPage) >=45) {
+                    getSubProject("3");
+                }
+            }
+
+        }else {
+            Toast.makeText(SubFourExamTestActivity.this,"题号不存在", Toast.LENGTH_SHORT).show();
+        }
     }
 
-    private void addView(SubTest.Result results) {
+//    private void getViewTag() {
+//        String str = viewPager.getTag().toString();
+//        Gson gson = new Gson();
+//        subTest = gson.fromJson(str, SubTest.class);
+//        proDialog.dismiss();
+//        if (subTest.getCode() == 200) {
+//            count = Integer.parseInt(subTest.getResult().getId());
+//            if(!countNum.contains(subTest.getResult().getId())){
+//                addView(subTest.getResult());
+//                countNum.add(subTest.getResult().getId());
+//            }else{
+//                if ((currentPage) < 21) {
+//                    getSub(panUrl);
+//                }else if ((currentPage) < 45&&(currentPage) >= 21) {
+//                    getSub(singleUrl);
+//                }else if ((currentPage) < 50&&(currentPage) >=45) {
+//                    getSub(duoUrl);
+//                }
+//            }
+//        } else {
+//            Toast.makeText(SubFourExamTestActivity.this, subTest.getReason(), Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
+
+    private void addView(Sub4ProjectEntity results) {
         list = new ArrayList<View>();
         title.setText("第" + currentPage + "题");
         userAnw.clear();
@@ -235,7 +283,7 @@ public class SubFourExamTestActivity extends Activity implements View.OnClickLis
             title.setText("第" + currentPage + "题(判断题)");
         }else if ((currentPage) < 45&&(currentPage) >= 21) {
             title.setText("第" + currentPage + "题(单选题)");
-        }else if ((currentPage) < 50&&(currentPage) >=45) {
+        }else if ((currentPage) <= 50&&(currentPage) >=45) {
             title.setText("第" + currentPage + "题(多选题)");
         }
         if(arr.contains("A")){
@@ -336,24 +384,56 @@ public class SubFourExamTestActivity extends Activity implements View.OnClickLis
      * 计算分数
      */
     private void showScoreDialog() {
+//        dialog = new Dialog(this, R.style.ActionSheetDialogStyle);
+//        // 填充对话框的布局
+//        TextView textView = new TextView(this);
+//        textView.setBackgroundResource(R.drawable.dialog_round);
+//        textView.setTextColor(getResources().getColor(R.color.themeColor));
+//        textView.setTextSize(25);
+//        textView.setGravity(Gravity.CENTER);
+//        if (score >= 90) {
+//            textView.setText(score+"分！\n恭喜您，通过了测试！");
+//        } else if (score < 90) {
+//            textView.setText(score+"分！\n很遗憾，您还需要继续努力哦！");
+//        }
+//        // 将布局设置给Dialog
+//        dialog.setContentView(textView);
+//        // 获取当前Activity所在的窗体
+//        Window dialogWindow = dialog.getWindow();
+//        // 设置dialog
+//        dialogWindow.setLayout(500, 300);
+//        // 设置Dialog从窗体中间弹出
+//        dialogWindow.setGravity(Gravity.CENTER);
+//        dialog.show();/// 显示对话框
+
         dialog = new Dialog(this, R.style.ActionSheetDialogStyle);
         // 填充对话框的布局
-        TextView textView = new TextView(this);
-        textView.setBackgroundResource(R.drawable.dialog_round);
-        textView.setTextColor(getResources().getColor(R.color.themeColor));
-        textView.setTextSize(25);
-        textView.setGravity(Gravity.CENTER);
+        View inflate = LayoutInflater.from(this).inflate(R.layout.exam_result_dialog, null);
+        // 初始化控件
+        TextView tv_1 = (TextView) inflate.findViewById(R.id.tv_1);
+        TextView tv_2 = (TextView) inflate.findViewById(R.id.tv_2);
+        TextView tv_3 = (TextView) inflate.findViewById(R.id.tv_3);
+        ImageView im_pic = (ImageView)inflate.findViewById(R.id.im_pic);
+
         if (score >= 90) {
-            textView.setText(score+"分！\n恭喜您，通过了测试！");
+            im_pic.setImageResource(R.drawable.smile);
+            tv_1.setText("恭喜您，通过了测试！");
+            tv_2.setText("你得了" + score + "分。");
+            tv_3.setText("努力是有回报的！！！");
         } else if (score < 90) {
-            textView.setText(score+"分！\n很遗憾，您还需要继续努力哦！");
+            im_pic.setImageResource(R.drawable.cry);
+            tv_1.setText("很遗憾，没有过关！");
+            tv_2.setText("你得了" + score + "分。");
+            tv_3.setText("继续加油呦！！！");
         }
+
         // 将布局设置给Dialog
-        dialog.setContentView(textView);
+        dialog.setContentView(inflate);
         // 获取当前Activity所在的窗体
         Window dialogWindow = dialog.getWindow();
-        // 设置dialog
-        dialogWindow.setLayout(500, 300);
+        // 设置dialog横向充满
+        dialogWindow.setLayout(android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         // 设置Dialog从窗体中间弹出
         dialogWindow.setGravity(Gravity.CENTER);
         dialog.show();/// 显示对话框
@@ -373,13 +453,13 @@ public class SubFourExamTestActivity extends Activity implements View.OnClickLis
                 if (next_Question.getText().toString().equals("下一题")) {
                     if ((currentPage) < 21) {
                         currentPage++;
-                        getSub(panUrl);
+                        getSubProject("1");
                     }else if ((currentPage) < 45&&(currentPage) >= 21) {
                         currentPage++;
-                        getSub(singleUrl);
-                    }else if ((currentPage) < 50&&(currentPage) >=45) {
+                        getSubProject("2");
+                    }else if ((currentPage) <= 50&&(currentPage) >=45) {
                         currentPage++;
-                        getSub(duoUrl);
+                        getSubProject("3");
                     } else {
                         next_Question.setText("完成");
                     }

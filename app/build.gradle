@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     signingConfigs {
@@ -47,6 +48,12 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
+
+    greendao{
+        schemaVersion 1
+        targetGenDir 'src/main/java'
+        daoPackage 'com.jgkj.bxxc.db'
+    }
 }
 
 dependencies {
@@ -63,5 +70,8 @@ dependencies {
     compile 'com.facebook.fresco:fresco:0.9.0'
     testCompile 'junit:junit:4.12'
     compile 'com.bigkoo:convenientbanner:2.0.5'
+
+    //数据库
+    compile 'org.greenrobot:greendao:3.1.1'
     //compile files('libs/libammsdk.jar')
 }

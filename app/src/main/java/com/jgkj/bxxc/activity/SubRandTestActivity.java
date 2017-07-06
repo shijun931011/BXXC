@@ -24,6 +24,8 @@ import com.jgkj.bxxc.adapter.OrderAdapter;
 import com.jgkj.bxxc.bean.ErrorMsg;
 import com.jgkj.bxxc.bean.HistoryView;
 import com.jgkj.bxxc.bean.SubTest;
+import com.jgkj.bxxc.bean.entity.SubProjectEntity.SubProjectEntity;
+import com.jgkj.bxxc.db.DBManager;
 import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -95,44 +97,75 @@ public class SubRandTestActivity extends Activity implements View.OnClickListene
         }
     }
 
+    private List<SubProjectEntity> subProjectEntity = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_test);
         StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         initView();
-        getCount();
+        //getCount();
+        getSubProject();
 
     }
-    private void getTotalCount(){
-        Gson gson = new Gson();
-        String jsonStr = title.getTag().toString();
-        Result result = gson.fromJson(jsonStr,Result.class);
-        num = result.getCount();
-        count = (int)(Math.random()*num);
-        getSub(count + "");
-    }
-    //网络请求
-    private void getCount() {
-        OkHttpUtils
-                .post()
-                .url("http://www.baixinxueche.com/index.php/Home/Apiupdata/countsubject")
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int i) {
-                        Toast.makeText(SubRandTestActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
-                    }
-                    @Override
-                    public void onResponse(String s, int i) {
-                        title.setTag(s);
-                        if(title.getTag().toString()!=null){
-                            getTotalCount();
-                        }else{
-                            Toast.makeText(SubRandTestActivity.this,"网络不佳请检查网络设置", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+//    private void getTotalCount(){
+//        Gson gson = new Gson();
+//        String jsonStr = title.getTag().toString();
+//        Result result = gson.fromJson(jsonStr,Result.class);
+//        num = result.getCount();
+//        count = (int)(Math.random()*num);
+//        //getSub(count + "");
+//    }
+//    //网络请求
+//    private void getCount() {
+//        OkHttpUtils
+//                .post()
+//                .url("http://www.baixinxueche.com/index.php/Home/Apiupdata/countsubject")
+//                .build()
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onError(Call call, Exception e, int i) {
+//                        Toast.makeText(SubRandTestActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+//                    }
+//                    @Override
+//                    public void onResponse(String s, int i) {
+//                        title.setTag(s);
+//                        if(title.getTag().toString()!=null){
+//                            getTotalCount();
+//                        }else{
+//                            Toast.makeText(SubRandTestActivity.this,"网络不佳请检查网络设置", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//    }
+
+    //网络请求,根据题号加载题目内容
+    private void getSubProject() {
+        if(subProjectEntity == null){
+            subProjectEntity = DBManager.getInstance().getSubProject();
+            num = subProjectEntity.size();
+        }
+        SubProjectEntity entity = null;
+        if(subProjectEntity != null){
+            count = (int)(Math.random()*num);
+            for(int i=0;i<subProjectEntity.size();i++){
+                if(subProjectEntity.get(i).getId().equals(count + "")){
+                    entity = subProjectEntity.get(i);
+                    break;
+                }
+            }
+            if(entity != null){
+                count = Integer.parseInt(entity.getId());
+                addView(entity);
+            }else {
+                count--;
+                Toast.makeText(SubRandTestActivity.this,"题号不存在", Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            count--;
+            Toast.makeText(SubRandTestActivity.this,"题号不存在", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initView() {
@@ -169,46 +202,46 @@ public class SubRandTestActivity extends Activity implements View.OnClickListene
         }
     }
 
-    //网络请求
-    private void getSub(String id) {
-        proDialog = ProgressDialog.show(SubRandTestActivity.this, null, "加载中...");
-        OkHttpUtils
-                .post()
-                .url(subUrl)
-                .addParams("id", id)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int i) {
-                        Toast.makeText(SubRandTestActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
-                    }
-                    @Override
-                    public void onResponse(String s, int i) {
-                        viewPager.setTag(s);
-                        if (viewPager.getTag().toString() != null) {
-                            getViewTag();
-                        } else {
-                            Toast.makeText(SubRandTestActivity.this, "网络不佳请稍后再试", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
+//    //网络请求
+//    private void getSub(String id) {
+//        proDialog = ProgressDialog.show(SubRandTestActivity.this, null, "加载中...");
+//        OkHttpUtils
+//                .post()
+//                .url(subUrl)
+//                .addParams("id", id)
+//                .build()
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onError(Call call, Exception e, int i) {
+//                        Toast.makeText(SubRandTestActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+//                    }
+//                    @Override
+//                    public void onResponse(String s, int i) {
+//                        viewPager.setTag(s);
+//                        if (viewPager.getTag().toString() != null) {
+//                            getViewTag();
+//                        } else {
+//                            Toast.makeText(SubRandTestActivity.this, "网络不佳请稍后再试", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//    }
 
-    private void getViewTag() {
-        String str = viewPager.getTag().toString();
-        Gson gson = new Gson();
-        subTest = gson.fromJson(str, SubTest.class);
-        proDialog.dismiss();
-        if (subTest.getCode() == 200) {
-            count = Integer.parseInt(subTest.getResult().getId());
-            addView(subTest.getResult());
-        } else {
-            Toast.makeText(SubRandTestActivity.this, subTest.getReason(), Toast.LENGTH_SHORT).show();
-        }
+//    private void getViewTag() {
+//        String str = viewPager.getTag().toString();
+//        Gson gson = new Gson();
+//        subTest = gson.fromJson(str, SubTest.class);
+//        proDialog.dismiss();
+//        if (subTest.getCode() == 200) {
+//            count = Integer.parseInt(subTest.getResult().getId());
+//            addView(subTest.getResult());
+//        } else {
+//            Toast.makeText(SubRandTestActivity.this, subTest.getReason(), Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
 
-    }
-
-    private void addView(SubTest.Result results) {
+    private void addView(SubProjectEntity results) {
         list = new ArrayList<View>();
         title.setText("第" + results.getId() + "题");
 
@@ -321,7 +354,8 @@ public class SubRandTestActivity extends Activity implements View.OnClickListene
                 finish();
                 break;
             case R.id.next_Question:
-                getSub((int)(Math.random()*num)+ "");
+                //getSub((int)(Math.random()*num)+ "");
+                getSubProject();
                 break;
         }
     }

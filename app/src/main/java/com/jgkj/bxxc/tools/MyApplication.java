@@ -1,11 +1,15 @@
 package com.jgkj.bxxc.tools;
 import android.app.Application;
+import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.baidu.mapapi.SDKInitializer;
+import com.jgkj.bxxc.db.DBManager;
+import com.jgkj.bxxc.db.DaoMaster;
+import com.jgkj.bxxc.db.DaoSession;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
@@ -14,7 +18,13 @@ import com.umeng.socialize.utils.Log;
 import cn.jpush.android.api.JPushInterface;
 
 public class MyApplication extends Application {
+
     public static RequestQueue queue;
+    private final static String dbName = "sub_db1";
+    protected static MyApplication app;
+    static DaoMaster daoMaster;
+    static DaoSession daoSession;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -34,6 +44,9 @@ public class MyApplication extends Application {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());
         }
+
+        app = this;
+        DBManager.getInstance(app);
     }
     {
         //QQ
@@ -46,6 +59,33 @@ public class MyApplication extends Application {
     //暴漏一个方法返回请求队列
     public static RequestQueue getQueue() {
         return queue;
+    }
+
+    public static MyApplication getInstance() {
+        return app;
+    }
+
+    /**
+     * 取得DaoSession
+     * @param context
+     * @return
+     */
+    public static DaoSession getDaoSession(Context context) {
+        if (daoSession == null) {
+            if (daoMaster == null) {
+                daoMaster = getDaoMaster(context);
+            }
+            daoSession = daoMaster.newSession();
+        }
+        return daoSession;
+    }
+
+    public static DaoMaster getDaoMaster(Context context) {
+        if (daoMaster == null) {
+            DaoMaster.OpenHelper helper = new DaoMaster.DevOpenHelper(context,dbName, null);
+            daoMaster = new DaoMaster(helper.getWritableDatabase());
+        }
+        return daoMaster;
     }
 
 }

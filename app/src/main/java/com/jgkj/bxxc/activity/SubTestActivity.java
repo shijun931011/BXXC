@@ -29,6 +29,8 @@ import com.jgkj.bxxc.adapter.OrderAdapter;
 import com.jgkj.bxxc.bean.ErrorMsg;
 import com.jgkj.bxxc.bean.HistoryView;
 import com.jgkj.bxxc.bean.SubTest;
+import com.jgkj.bxxc.bean.entity.SubProjectEntity.SubProjectEntity;
+import com.jgkj.bxxc.db.DBManager;
 import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -89,6 +91,8 @@ public class SubTestActivity extends Activity implements View.OnClickListener {
 
     private List<View> viewList = null;
 
+    private List<SubProjectEntity> subProjectEntity = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +101,8 @@ public class SubTestActivity extends Activity implements View.OnClickListener {
         initView();
         SharedPreferences sp = getSharedPreferences("last_sub", Activity.MODE_PRIVATE);
         count = sp.getInt("LastSub",1);
-        getSub(count + "");
+        //getSub(count + "");
+        getSubProject(count);
     }
 
     private void initView() {
@@ -132,47 +137,73 @@ public class SubTestActivity extends Activity implements View.OnClickListener {
         }
     }
 
+//    //网络请求,根据题号加载题目内容
+//    private void getSub(String id) {
+//        proDialog = ProgressDialog.show(SubTestActivity.this, null, "加载中...");
+//        OkHttpUtils
+//                .post()
+//                .url(subUrl)
+//                .addParams("id", id)
+//                .build()
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onError(Call call, Exception e, int i) {
+//                        Toast.makeText(SubTestActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+//                    }
+//                    @Override
+//                    public void onResponse(String s, int i) {
+//                        viewPager.setTag(s);
+//                        if (viewPager.getTag().toString() != null) {
+//                            getViewTag();
+//                        } else {
+//                            Toast.makeText(SubTestActivity.this, "网络不佳请稍后再试", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//    }
+
     //网络请求,根据题号加载题目内容
-    private void getSub(String id) {
-        proDialog = ProgressDialog.show(SubTestActivity.this, null, "加载中...");
-        OkHttpUtils
-                .post()
-                .url(subUrl)
-                .addParams("id", id)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int i) {
-                        Toast.makeText(SubTestActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
-                    }
-                    @Override
-                    public void onResponse(String s, int i) {
-                        viewPager.setTag(s);
-                        if (viewPager.getTag().toString() != null) {
-                            getViewTag();
-                        } else {
-                            Toast.makeText(SubTestActivity.this, "网络不佳请稍后再试", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
-    private void getViewTag() {
-        String str = viewPager.getTag().toString();
-        Gson gson = new Gson();
-        subTest = gson.fromJson(str, SubTest.class);
-        proDialog.dismiss();
-        if (subTest.getCode() == 200) {
-            count = Integer.parseInt(subTest.getResult().getId());
-            addView(subTest.getResult());
-        } else {
-            Toast.makeText(SubTestActivity.this, subTest.getReason(), Toast.LENGTH_SHORT).show();
+    private void getSubProject(int id) {
+        if(subProjectEntity == null){
+            subProjectEntity = DBManager.getInstance().getSubProject();
         }
-
+        SubProjectEntity entity = null;
+        if(subProjectEntity != null){
+            for(int i=0;i<subProjectEntity.size();i++){
+                if(subProjectEntity.get(i).getId().equals(id + "")){
+                    entity = subProjectEntity.get(i);
+                    break;
+                }
+            }
+            if(entity != null){
+                count = Integer.parseInt(entity.getId());
+                addView(entity);
+            }else {
+                count--;
+                Toast.makeText(SubTestActivity.this,"题号不存在", Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            count--;
+            Toast.makeText(SubTestActivity.this,"题号不存在", Toast.LENGTH_SHORT).show();
+        }
     }
+
+//    private void getViewTag() {
+//        String str = viewPager.getTag().toString();
+//        Gson gson = new Gson();
+//        subTest = gson.fromJson(str, SubTest.class);
+//        proDialog.dismiss();
+//        if (subTest.getCode() == 200) {
+//            count = Integer.parseInt(subTest.getResult().getId());
+//            addView(subTest.getResult());
+//        } else {
+//            Toast.makeText(SubTestActivity.this, subTest.getReason(), Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
 
     //实例化每个viewPage的页面控件，并且填充数据
-    private void addView(SubTest.Result results) {
+    private void addView(SubProjectEntity results) {
         list = new ArrayList<View>();
         title.setText("第" + results.getId() + "题");
 
@@ -311,10 +342,16 @@ public class SubTestActivity extends Activity implements View.OnClickListener {
                 saveDialog();
                 break;
             case R.id.above_Question:
-                getSub(count -1+ "");
+                //getSub(count -1+ "");
+                if(count != 1){
+                    getSubProject(--count);
+                }else{
+                    Toast.makeText(SubTestActivity.this,"题号不存在", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.next_Question:
-                getSub(count +1+ "");
+                //getSub(count +1+ "");
+                getSubProject(++count);
                 break;
             case R.id.skipToPage:
                 dialog = new Dialog(this, R.style.ActionSheetDialogStyle);
@@ -340,10 +377,12 @@ public class SubTestActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.cancel:
                 dialog.dismiss();
+                break;
             case R.id.ok:
                 dialog.dismiss();
-                if(editText.getText().toString().trim()!=null||!editText.getText().toString().trim().equals("")){
-                    getSub(editText.getText().toString().trim());
+                if(editText.getText().toString()!=null && !editText.getText().toString().equals("")){
+                    //getSub(editText.getText().toString().trim());
+                    getSubProject(Integer.parseInt(editText.getText().toString().trim()));
                 }else{
                     Toast.makeText(SubTestActivity.this,"您输入题号有误", Toast.LENGTH_SHORT).show();
                 }
