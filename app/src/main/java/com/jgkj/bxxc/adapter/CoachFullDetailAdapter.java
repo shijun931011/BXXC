@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jgkj.bxxc.R;
-import com.jgkj.bxxc.bean.StuEvaluation;
 import com.jgkj.bxxc.bean.entity.CommentEntity.CommentEntity;
 
 import java.util.List;
@@ -60,7 +59,7 @@ public class CoachFullDetailAdapter extends BaseAdapter {
         }
         student = list.get(position);
         Glide.with(context).load(student.getDefault_file()).into(viewHolder.imageView);
-        viewHolder.textView2.setText(student.getComment_time());
+        viewHolder.textView2.setHint(student.getComment_time());
         viewHolder.textView3.setText(student.getComment());
         return convertView;
     }

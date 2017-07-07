@@ -16,7 +16,6 @@
         android:text="跳过"
         android:textColor="@color/white"
         android:visibility="gone"
-
     />
     <ImageView
         android:id="@+id/welcome_imageview"

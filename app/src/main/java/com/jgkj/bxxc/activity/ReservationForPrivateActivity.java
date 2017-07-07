@@ -302,12 +302,10 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                 .zoom(16)
                 .build();
         //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
-
         MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
         //改变地图状态
         mBaiduMap.setMapStatus(mMapStatusUpdate);
         mBaiduMap.setOnMarkerClickListener(new markerClickListener());
-
         mBaiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -317,7 +315,6 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                 intent.putExtra("longitude",Double.parseDouble(longitude));
                 startActivity(intent);
             }
-
             @Override
             public boolean onMapPoiClick(MapPoi mapPoi) {
                 return false;
@@ -472,7 +469,6 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                             zhiliang.removeAllViews();
                             zhonghe.removeAllViews();
                             fuwu.removeAllViews();
-
                             if (zhonghenum < 1){
                                 ImageView image = new ImageView(ReservationForPrivateActivity.this);
                                 image.setBackgroundResource(R.drawable.star0);
@@ -712,12 +708,10 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                             zhonghefen.setText(result.getZonghe()+"分");
                             zhiliangfen.setText(result.getTeach() + "分");
                             fuwufen.setText(result.getWait() + "分");
-
                             falg = true;
                             latitude = result.getLatitude();
                             longitude = result.getLongitude();
                             initMap(result.getLatitude(),result.getLongitude());
-
                             getCommentFirst(commentUrl);
 
                         } else {

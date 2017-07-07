@@ -26,7 +26,6 @@ import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
@@ -39,7 +38,6 @@ import com.baidu.navisdk.adapter.BNRoutePlanNode;
 import com.baidu.navisdk.adapter.BNaviSettingManager;
 import com.baidu.navisdk.adapter.BaiduNaviManager;
 import com.jgkj.bxxc.R;
-import com.jgkj.bxxc.bean.SchoolPlaceTotal;
 import com.jgkj.bxxc.tools.MyOrientationListener;
 import com.jgkj.bxxc.tools.SelectPopupWindow;
 import com.jgkj.bxxc.tools.StatusBarCompat;
@@ -50,9 +48,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class BDMAPActivity extends Activity {
-
     // 定位相关
-
     public LocationClient mLocClient;
     public MyLocationConfiguration.LocationMode mCurrentMode;
     public BitmapDescriptor mCurrentMarker;
@@ -68,31 +64,23 @@ public class BDMAPActivity extends Activity {
     private SelectPopupWindow mPopupWindow = null;
     // UI相关
     boolean isFirstLoc = true; // 是否首次定位
-
     //Marker地图标签
     private LatLng point;
-
     //标题
     private TextView title;
     private Button button_backward;
     private Button btn_go_there;
-
-
     public static List<Activity> activityList = new LinkedList<Activity>();
-
     private static final String APP_FOLDER_NAME = "BNSDKSimpleDemo";
-
     //	private Button mWgsNaviBtn = null;
 //	private Button mGcjNaviBtn = null;
 //	private Button mBdmcNaviBtn = null;
     private Button mDb06ll = null;
     private String mSDCardPath = null;
-
     public static final String ROUTE_PLAN_NODE = "routePlanNode";
     public static final String SHOW_CUSTOM_ITEM = "showCustomItem";
     public static final String RESET_END_NODE = "resetEndNode";
     public static final String VOID_MODE = "voidMode";
-
     private static final String[] authBaseArr = { Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_FINE_LOCATION };
     private static final String[] authComArr = { Manifest.permission.READ_PHONE_STATE };

@@ -143,13 +143,11 @@
             android:layout_height="wrap_content"
             android:hint="4999" />
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:orientation="horizontal">
-
         <TextView
             android:id="@+id/currentStu"
             android:layout_width="wrap_content"
@@ -157,7 +155,6 @@
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:hint="当前学员数12人" />
-
         <TextView
             android:id="@+id/totalStu"
             android:layout_width="wrap_content"
@@ -165,7 +162,6 @@
             android:layout_weight="1"
             android:gravity="center"
             android:hint="累计学员数12239人" />
-
         <TextView
             android:id="@+id/tongguo"
             android:layout_width="wrap_content"
@@ -174,15 +170,17 @@
             android:layout_weight="1"
             android:hint="通过率：90%" />
     </LinearLayout>
-
+    <View android:layout_width="match_parent"
+          android:layout_height="0.1dp"
+          android:layout_marginTop="5dp"
+          android:background="@color/background"
+    />
     <LinearLayout
         android:id="@+id/fourPromiselinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="40dp"
@@ -192,8 +190,8 @@
             android:gravity="center_vertical"
             android:padding="5dp"
             android:text="75天拿证"
+            android:textColor="@color/gray"
             android:textSize="12sp" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="40dp"
@@ -203,8 +201,8 @@
             android:gravity="center_vertical"
             android:padding="5dp"
             android:text="车接车送"
+            android:textColor="@color/gray"
             android:textSize="12sp" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="40dp"
@@ -214,8 +212,8 @@
             android:gravity="center_vertical"
             android:padding="5dp"
             android:text="预约学车"
+            android:textColor="@color/gray"
             android:textSize="12sp" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="40dp"
@@ -224,8 +222,8 @@
             android:gravity="center_vertical"
             android:padding="5dp"
             android:text="预约考试"
+            android:textColor="@color/gray"
             android:textSize="12sp" />
-
         <ImageView
             android:layout_width="20dp"
             android:layout_height="40dp"
@@ -233,7 +231,6 @@
             android:padding="5dp"
             android:src="@drawable/right_arrow" />
     </LinearLayout>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
@@ -242,7 +239,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="210dp">
-
         <TextView
             android:id="@+id/coach_address"
             android:layout_width="match_parent"
@@ -250,14 +246,12 @@
             android:gravity="center"
             android:text="莲花路与汤口路交口向西200米"
             android:textSize="15sp" />
-
         <View
             android:id="@+id/line"
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_below="@id/coach_address"
             android:background="@color/black" />
-
         <com.baidu.mapapi.map.MapView
             android:id="@+id/coach_map"
             android:layout_width="match_parent"
@@ -265,28 +259,23 @@
             android:layout_below="@id/line"
             android:clickable="true" />
     </RelativeLayout>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:background="@color/lightgray" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -295,7 +284,6 @@
                     android:paddingTop="10dp"
                     android:text="信用："
                     android:textColor="@color/gray" />
-
                 <LinearLayout
                     android:id="@+id/xinyong"
                     android:layout_width="wrap_content"
@@ -304,7 +292,6 @@
                     android:orientation="horizontal"
                     android:paddingBottom="5dp"
                     android:paddingTop="12dp" />
-
                 <TextView
                     android:id="@+id/haopinglv"
                     android:layout_width="wrap_content"
@@ -315,26 +302,22 @@
                     android:text="好评率："
                     android:textColor="@color/gray" />
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="15dp"
                     android:text="教学质量："
                     android:textColor="@color/gray" />
-
                 <LinearLayout
                     android:id="@+id/zhiliang"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:paddingBottom="5dp" />
-
                 <TextView
                     android:id="@+id/zhiliangfen"
                     android:layout_width="wrap_content"
@@ -344,14 +327,12 @@
                     android:textColor="@color/gray" />
             </LinearLayout>
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
-
             <ImageView
 
                 android:layout_width="wrap_content"

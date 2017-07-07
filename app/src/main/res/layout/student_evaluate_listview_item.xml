@@ -25,21 +25,24 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:textColor="@color/gray"
-            android:text="匿名评价"/>
+            android:text="匿名评价"
+            android:textSize="12sp"
+        />
         <TextView
             android:id="@+id/evaluate_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="3dp"
             android:hint="2016-11-23 12:08:26"
+            android:textColorHint="@color/gray"
             android:textSize="10sp"/>
 
         <TextView
             android:id="@+id/student_decribe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:text="教练温柔和善"
             android:paddingBottom="15dp"
             android:textSize="15sp"/>

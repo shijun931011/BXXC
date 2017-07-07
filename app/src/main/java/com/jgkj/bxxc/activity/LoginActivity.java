@@ -8,7 +8,9 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -39,7 +41,7 @@ import okhttp3.Call;
  * 登录
  */
 public class LoginActivity extends Activity implements View.OnClickListener {
-    private Button login_btn;
+    private Button login_btn,btn_clear_phone_text,btn_clear_pwd_text;
     private EditText username, password;
     private TextView register_id;
     private TextView morenew;
@@ -64,8 +66,67 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         callback.setOnClickListener(this);
         register_id = (TextView) findViewById(R.id.register_id);
         register_id.setOnClickListener(this);
+        btn_clear_phone_text = (Button) findViewById(R.id.btn_clear_phone_text);
+        btn_clear_phone_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                username.getText().clear();
+            }
+        });
+        btn_clear_pwd_text = (Button) findViewById(R.id.btn_clear_pwd_text);
+        btn_clear_pwd_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                password.getText().clear();
+            }
+        });
         username = (EditText) findViewById(R.id.username);
+        username.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                int textLength = username.getText().length();
+                if (textLength > 0){
+                    btn_clear_phone_text.setVisibility(View.VISIBLE);
+                    btn_clear_pwd_text.setVisibility(View.GONE);
+                }else{
+                    btn_clear_phone_text.setVisibility(View.GONE);
+                }
+            }
+        });
         password = (EditText) findViewById(R.id.password);
+        password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                int textLength = password.getText().length();
+                if (textLength > 0){
+                    btn_clear_pwd_text.setVisibility(View.VISIBLE);
+                    btn_clear_phone_text.setVisibility(View.GONE);
+                }else{
+                    btn_clear_pwd_text.setVisibility(View.GONE);
+                }
+            }
+        });
+
         login_btn = (Button) findViewById(R.id.login_button_id);
         login_btn.setOnClickListener(this);
         morenew = (TextView) findViewById(R.id.morenews_id);

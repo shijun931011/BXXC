@@ -10,7 +10,6 @@
         android:layout_marginRight="12dp"
         android:background="@drawable/shape_search_app_bg_yj"
         android:orientation="horizontal">
-
         <!-- 输入的搜索信息 -->
         <EditText
             android:id="@+id/et_search"
@@ -27,15 +26,13 @@
             android:gravity="center_vertical"
             android:drawableLeft="@drawable/ic_search_app_left"
             android:background="@null"/>
-
-
         <!-- 清空搜索文字按钮 -->
         <LinearLayout
             android:id="@+id/layout_clear_search_text"
             android:layout_weight="0.5"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:visibility="gone"
+
             android:orientation="horizontal">
             <Button
                 android:id="@+id/btn_clear_search_text"

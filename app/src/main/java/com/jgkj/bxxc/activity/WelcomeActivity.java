@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,15 +17,12 @@ import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.Advertising;
 import com.jgkj.bxxc.bean.SubjectVersionEntity;
 import com.jgkj.bxxc.bean.entity.Sub4ProjectEntity.Sub4ProjectResult;
-import com.jgkj.bxxc.bean.entity.SubProjectEntity.SubProjectEntity;
 import com.jgkj.bxxc.bean.entity.SubProjectEntity.SubProjectResult;
 import com.jgkj.bxxc.db.DBManager;
 import com.jgkj.bxxc.tools.PictureOptimization;
 import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
-
-import java.util.List;
 
 import cn.jpush.android.api.InstrumentedActivity;
 import okhttp3.Call;
@@ -115,7 +111,6 @@ public class WelcomeActivity extends InstrumentedActivity implements View.OnClic
                         }, 3000); //延迟3秒跳转
 
                     }
-
                     @Override
                     public void onResponse(String s, int i) {
                         skip.setTag(s);
@@ -256,6 +251,7 @@ public class WelcomeActivity extends InstrumentedActivity implements View.OnClic
                 break;
             case R.id.welcome_imageview:
                 if (ad.getResult().getOpenUrl().isEmpty()) {
+
                 } else {
                     intent.setAction("android.intent.action.VIEW");
                     Uri content_url = Uri.parse(ad.getResult().getOpenUrl());
@@ -266,12 +262,5 @@ public class WelcomeActivity extends InstrumentedActivity implements View.OnClic
                 break;
         }
     }
-
-
-
-
-
-
-
 }
 

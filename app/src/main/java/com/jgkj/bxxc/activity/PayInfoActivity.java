@@ -172,7 +172,7 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
             @Override
             public void dismissDialog() {
                 dia.cancel();
-                layout5.setVisibility(View.GONE);
+                layout5.setVisibility(View.VISIBLE);
             }
 
             @Override

@@ -17,10 +17,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -40,11 +38,8 @@ import com.jgkj.bxxc.fragment.CoachFragment;
 import com.jgkj.bxxc.fragment.IndexFragment;
 import com.jgkj.bxxc.fragment.My_Setting_Fragment;
 import com.jgkj.bxxc.fragment.StudyFragment;
-import com.jgkj.bxxc.tools.CallDialog;
 import com.jgkj.bxxc.tools.GetVersion;
-import com.jgkj.bxxc.tools.InvitedCouponDialog;
 import com.jgkj.bxxc.tools.JPushDataUitl;
-import com.jgkj.bxxc.tools.RemainBaseDialog;
 import com.jgkj.bxxc.tools.SelectPopupWindow;
 import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.jgkj.bxxc.tools.UpdateManger;
@@ -115,18 +110,18 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
         registerMessageReceiver();
         //判断
         if(flag_dialog != true){
-            isCouponDialog();
+//            isCouponDialog();
             checkSoftInfo();
         }
     }
 
-    private void isCouponDialog(){
-        SharedPreferences sp1 = getSharedPreferences("ReceivedCoupon", Activity.MODE_PRIVATE);
-        int isFirst = sp1.getInt("InvitedCoupon", 0);
-        if (isFirst != 1){
-            new InvitedCouponDialog(this).call();
-        }
-    }
+//    private void isCouponDialog(){
+//        SharedPreferences sp1 = getSharedPreferences("ReceivedCoupon", Activity.MODE_PRIVATE);
+//        int isFirst = sp1.getInt("InvitedCoupon", 0);
+//        if (isFirst != 1){
+//            new InvitedCouponDialog(this).call();
+//        }
+//    }
 
 
     /**

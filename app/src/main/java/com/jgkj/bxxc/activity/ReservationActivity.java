@@ -90,7 +90,6 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
     private View headView;
     //接受数据
     private String coachId;
-
     /**
      * ListView的加载中footer
      */
@@ -105,7 +104,6 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
     //创建费用说明dialog
     private Dialog dialog;
     private ProgressDialog progressDialog;
-
     private View dialogView;
     private LinearLayout fourPromise;
     //教练信息
@@ -126,7 +124,6 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
     private String comment = "http://www.baixinxueche.com/index.php/Home/Api/comment";
     private String changeUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/subjectTwoCoachConfirm";
     private String commentUrl = "http://www.baixinxueche.com/index.php/Home/Apitoken/commentMore";
-
     //地图
     public MapView mMapView;
     //定位
@@ -160,7 +157,6 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
             return code;
         }
     }
-
     private TextView noSmsData;
     private LinearLayout linear_list_noData;
     private CoachInfo.Result result;
@@ -202,7 +198,6 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // 注意该方法要再setContentView方法之前实现
         //SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.reservation);
@@ -332,12 +327,10 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                 .zoom(16)
                 .build();
         //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
-
         MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
         //改变地图状态
         mBaiduMap.setMapStatus(mMapStatusUpdate);
         mBaiduMap.setOnMarkerClickListener(new ReservationActivity.markerClickListener());
-
         mBaiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -347,7 +340,6 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                 intent.putExtra("longitude",Double.parseDouble(longitude));
                 startActivity(intent);
             }
-
             @Override
             public boolean onMapPoiClick(MapPoi mapPoi) {
                 return false;

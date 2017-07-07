@@ -64,6 +64,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="综合评价"
+                    android:textColor="@color/active"
                     android:textSize="12sp"/>
                 <LinearLayout
                     android:id="@+id/totalPriseText1"
@@ -77,8 +78,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:gravity="center_vertical"
-                        android:hint="5.0分"
-                        android:textColorHint="@color/orange"
+                        android:text="5.0分"
+                        android:textColor="@color/orange"
                         android:textSize="10sp"/>
                 </LinearLayout>
         </LinearLayout>
@@ -96,12 +97,13 @@
                 android:gravity="center_vertical"
                 android:layout_weight="0.05"
                 android:text="VIP班"
+                android:textColor="@color/active"
                 android:textSize="12sp"
-
                 />
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="好评率:"
+                      android:textColor="@color/active"
                       android:textSize="12sp"
             />
             <TextView
@@ -111,7 +113,8 @@
                 android:layout_weight="0.13"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="5dp"
-                android:hint="100%"
+                android:text="100%"
+                android:textColor="@color/active"
                 android:textSize="12sp"/>
 
         </LinearLayout>
@@ -122,21 +125,21 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
             <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/dw"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/dw"
             />
             <TextView
-            android:id="@+id/place"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:gravity="center_vertical"
-            android:text="经开区-蜀山校区"
-            android:textSize="12sp"
-            android:textColor="@color/black"/>
+                android:id="@+id/place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:gravity="center_vertical"
+                android:text="经开区-蜀山校区"
+                android:textColor="@color/active"
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/tv_stunum"
@@ -146,7 +149,7 @@
                 android:gravity="center_vertical"
                 android:text="累计所带学员199人"
                 android:textSize="12sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/active"/>
             />
         </LinearLayout>
 

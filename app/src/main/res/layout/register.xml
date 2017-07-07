@@ -3,38 +3,79 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:layout_gravity="center"
               android:orientation="vertical"
+              android:fitsSystemWindows="true"
+              android:id="@+id/register_id"
+              android:background="@drawable/baixinxueche_login_null"
               tools:context=".activity.WelcomeActivity">
-    <include
-        layout="@layout/title"/>
-    <LinearLayout android:id="@+id/register_id"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:layout_gravity="center"
-                  android:orientation="vertical"
-                  android:background="@drawable/baixinxueche_login_null"
-                  android:gravity="center_vertical">
-    <EditText android:id="@+id/phone_editText"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="60dp"
-              android:layout_marginRight="60dp"
-              android:background="@drawable/rounded_num_text"
-              android:hint="请输入手机号码"
-              android:inputType="number"
-              android:maxLength="11"
-              android:padding="10dp"
-              android:textColorHint="@color/white"
-              android:textColor="@color/white"
-              android:textSize="15sp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+    >
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ellipsize="marquee"
+            android:gravity="center_horizontal|center"
+            android:singleLine="true"
+            android:text="注 册"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp"
+        />
+        <Button
+            android:id="@+id/button_backward"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:drawableLeft="@drawable/back"
+            android:drawablePadding="3dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:visibility="visible"/>
+
+    </RelativeLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="200dp"
+                  android:orientation="horizontal"
+                  android:id="@+id/line"
+                  android:background="@drawable/rounded_num_text"
+                  android:layout_marginLeft="60dp"
+                  android:layout_marginRight="60dp">
+    <EditText
+            android:id="@+id/phone_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:background="@null"
+            android:hint="请输入手机号码"
+            android:inputType="number"
+            android:maxLength="11"
+            android:padding="10dp"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
+        <Button
+            android:id="@+id/btn_clear_phone_text"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginRight="10dp"
+            android:visibility="gone"
+            android:layout_gravity="right|center_vertical"
+            android:background="@drawable/ic_btn_search_clear_text_right_normal"
+        />
+        </LinearLayout>
     <LinearLayout
         android:id="@+id/phone_code_linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="80dp"
         android:background="@drawable/rounded_num_text"
         android:orientation="horizontal"
         android:visibility="gone"
@@ -59,34 +100,66 @@
                   android:gravity="center"
                   android:textColor="@color/white"/>
     </LinearLayout>
-    <EditText android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="60dp"
-              android:layout_marginRight="60dp"
-              android:id="@+id/scan_pwd"
-              android:visibility="gone"
-              android:layout_marginTop="14dp"
-              android:background="@drawable/rounded_num_text"
-              android:hint="请设置6--16密码"
-              android:padding="10dp"
-              android:inputType="textPassword"
-              android:textColorHint="@color/white"
-              android:textColor="@color/white"
-              android:textSize="15sp"/>
-    <EditText android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="60dp"
-              android:visibility="gone"
-              android:layout_marginRight="60dp"
-              android:layout_marginTop="14dp"
-              android:background="@drawable/rounded_num_text"
-              android:hint="请再次输入密码"
-              android:inputType="textPassword"
-              android:id="@+id/scan_pwd_second"
-              android:padding="10dp"
-              android:textColorHint="@color/white"
-              android:textColor="@color/white"
-              android:textSize="15sp"/>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="60dp"
+                  android:layout_marginRight="60dp"
+                  android:layout_marginTop="14dp"
+                  android:orientation="horizontal"
+                  android:background="@drawable/rounded_num_text"
+    >
+        <EditText android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="3"
+                  android:id="@+id/scan_pwd"
+                  android:background="@null"
+                  android:hint="请设置6--16新密码"
+                  android:padding="10dp"
+                  android:visibility="gone"
+                  android:inputType="textPassword"
+                  android:textColorHint="@color/white"
+                  android:textColor="@color/white"
+                  android:textSize="15sp"/>
+        <Button
+            android:id="@+id/btn_clear_pwd_text"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginRight="10dp"
+            android:visibility="gone"
+            android:layout_gravity="right|center_vertical"
+            android:background="@drawable/ic_btn_search_clear_text_right_normal"
+        />
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="60dp"
+                  android:layout_marginRight="60dp"
+                  android:layout_marginTop="14dp"
+                  android:orientation="horizontal"
+                  android:background="@drawable/rounded_num_text"
+    >
+        <EditText android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="3"
+                  android:background="@null"
+                  android:hint="请再次输入密码"
+                  android:inputType="textPassword"
+                  android:id="@+id/scan_pwd_second"
+                  android:padding="10dp"
+                  android:visibility="gone"
+                  android:textColorHint="@color/white"
+                  android:textColor="@color/white"
+                  android:textSize="15sp"/>
+        <Button
+            android:id="@+id/btn_clear_pwd1_text"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginRight="10dp"
+            android:visibility="gone"
+            android:layout_gravity="right|center_vertical"
+            android:background="@drawable/ic_btn_search_clear_text_right_normal"
+        />
+    </LinearLayout>
     <Button android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="60dp"
@@ -98,5 +171,6 @@
             android:text="获取验证码"
             android:textColor="@color/white"
             android:textSize="15sp"/>
-    </LinearLayout>
 </LinearLayout>
+
+

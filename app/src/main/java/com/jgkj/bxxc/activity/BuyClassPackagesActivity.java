@@ -81,7 +81,7 @@ public class BuyClassPackagesActivity extends Activity implements View.OnClickLi
         button_backward.setOnClickListener(this);
         button_forward = (Button) findViewById(R.id.button_forward);
         button_forward.setVisibility(View.VISIBLE);
-        button_forward.setText("套餐说明");
+        button_forward.setText("套餐详情");
         button_forward.setOnClickListener(this);
         tv_pakage = (TextView) findViewById(R.id.tv_pakage);
         tv_time = (TextView) findViewById(R.id.tv_time);
@@ -347,7 +347,7 @@ public class BuyClassPackagesActivity extends Activity implements View.OnClickLi
                 break;
             case R.id.button_forward:
                intent.setClass(BuyClassPackagesActivity.this,WebViewActivity.class);
-               intent.putExtra("url", "http://www.baixinxueche.com/webshow/keer/baixin.html");
+               intent.putExtra("url", "http://www.baixinxueche.com/index.php/Home/info/package?package_id=1");
                intent.putExtra("title", "套餐说明");
                startActivity(intent);
                break;

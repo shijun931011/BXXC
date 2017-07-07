@@ -3,9 +3,10 @@ package com.jgkj.bxxc.activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -18,7 +19,6 @@ import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.Code;
 import com.jgkj.bxxc.tools.PictureOptimization;
-import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.umeng.socialize.UMShareAPI;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -35,8 +35,8 @@ public class RegisterActivity extends Activity implements OnClickListener {
     private TimeCount time;
     private PictureOptimization po;
     private EditText phone_editText, phone_code_editText;
-    private LinearLayout phone_code_linear, ll;
-    private Button getCode_btn;
+    private LinearLayout phone_code_linear, ll,line;
+    private Button getCode_btn,btn_clear_phone_text,btn_clear_pwd_text,btn_clear_pwd1_text;
     private TextView countDown;
     private EditText scan_pwd, scan_pwd_second;
     //加载对话框
@@ -66,19 +66,106 @@ public class RegisterActivity extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
-        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         //注册页面
         getCode_btn = (Button) findViewById(R.id.getCode_btn);
         //倒计时监听
         countDown = (TextView) findViewById(R.id.countDown);
         countDown.setOnClickListener(this);
+        btn_clear_phone_text = (Button) findViewById(R.id.btn_clear_phone_text);
+        btn_clear_phone_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                phone_editText.getText().clear();
+            }
+        });
+        btn_clear_pwd_text = (Button) findViewById(R.id.btn_clear_pwd_text);
+        btn_clear_pwd_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scan_pwd.getText().clear();
+            }
+        });
+        btn_clear_pwd1_text = (Button) findViewById(R.id.btn_clear_pwd1_text);
+        btn_clear_pwd1_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scan_pwd_second.getText().clear();
+
+            }
+        });
+        line = (LinearLayout) findViewById(R.id.line);
+
         phone_code_linear = (LinearLayout) findViewById(R.id.phone_code_linear);
         scan_pwd = (EditText) findViewById(R.id.scan_pwd);
+        scan_pwd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                int textLength = scan_pwd.getText().length();
+                if (textLength > 0){
+                    btn_clear_pwd_text.setVisibility(View.VISIBLE);
+                    btn_clear_pwd1_text.setVisibility(View.GONE);
+                }else{
+                    btn_clear_pwd_text.setVisibility(View.GONE);
+                }
+            }
+        });
         scan_pwd_second = (EditText) findViewById(R.id.scan_pwd_second);
+        scan_pwd_second.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                int textLength = scan_pwd_second.getText().length();
+                if (textLength > 0){
+                    btn_clear_pwd1_text.setVisibility(View.VISIBLE);
+                    btn_clear_pwd_text.setVisibility(View.GONE);
+                }else{
+                    btn_clear_pwd1_text.setVisibility(View.GONE);
+                }
+            }
+        });
         //手机号码输入框
         phone_editText = (EditText) findViewById(R.id.phone_editText);
         phone_code_editText = (EditText) findViewById(R.id.phone_code_editText);
+        phone_editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                int textLength = phone_editText.getText().length();
+                if (textLength > 0){
+                    btn_clear_phone_text.setVisibility(View.VISIBLE);
+                }else{
+                    btn_clear_phone_text.setVisibility(View.GONE);
+                }
+            }
+        });
         ll = (LinearLayout) findViewById(R.id.register_id);
         time = new TimeCount(60000, 1000);//构造CountDownTimer对象
         getCode_btn.setOnClickListener(this);
@@ -91,9 +178,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
         button_backward = (Button) findViewById(R.id.button_backward);
         button_backward.setVisibility(View.VISIBLE);
         button_backward.setOnClickListener(this);
-        //标题
-        title = (TextView) findViewById(R.id.text_title);
-        title.setText("免费注册");
+
     }
 
     class TimeCount extends CountDownTimer {
@@ -135,7 +220,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
                         if (code.getCode() == 200) {
                             Toast.makeText(RegisterActivity.this, "发送成功", Toast.LENGTH_LONG).show();
                             phone_code_linear.setVisibility(View.VISIBLE);
-                            phone_editText.setVisibility(View.GONE);
+                            line.setVisibility(View.GONE);
                             scan_pwd.setVisibility(View.VISIBLE);
                             scan_pwd_second.setVisibility(View.VISIBLE);
                             getCode_btn.setText("完成注册");
