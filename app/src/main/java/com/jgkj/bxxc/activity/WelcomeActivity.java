@@ -221,12 +221,12 @@ public class WelcomeActivity extends InstrumentedActivity implements View.OnClic
                             int versionFour = sp4.getInt("versionFour", 0);
 
                             if(versionOne == 0 || versionOne != subjectVersionEntity.getVersionone()){
-                                Toast.makeText(WelcomeActivity.this, "1", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(WelcomeActivity.this, "1", Toast.LENGTH_SHORT).show();
                                 getSubProject1(subjectVersionEntity.getVersionone());
                             }
 
                             if(versionFour == 0 || versionFour != subjectVersionEntity.getVersionfour()){
-                                Toast.makeText(WelcomeActivity.this, "4", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(WelcomeActivity.this, "4", Toast.LENGTH_SHORT).show();
                                 getSubProject4(subjectVersionEntity.getVersionfour());
                             }
                         }else{
