@@ -233,7 +233,6 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
             }
         }
 
-
         //教学质量
 //        for (int k = 0; k < teachnum; k++) {
 //            ImageView image = new ImageView(ReservationDetailActivity.this);

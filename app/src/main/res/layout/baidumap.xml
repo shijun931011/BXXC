@@ -13,17 +13,57 @@
         android:layout_height="match_parent"
         android:clickable="true"/>
 
-    <Button
-        android:layout_alignParentBottom="true"
-        android:id="@+id/btn_go_there"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@drawable/btn_selector"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginBottom="10dp"
-        android:text="去这里"
-        android:textColor="#ffffff"
-        />
+        android:layout_height="150dp"
+        android:layout_alignParentBottom="true">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="100dp"
+                      android:background="#FFFFFF"
+                      android:layout_alignParentBottom="true"
+                      android:orientation="vertical">
+            <TextView android:id="@+id/route_title"
+                      android:layout_width="207dp"
+                      android:layout_height="wrap_content"
+                      android:paddingLeft="15dp"
+                      android:paddingTop="15dp"
+                      android:text="百信学车 蜀山校区"
+                      android:textColor="@color/black"
+                      android:textSize="20sp"
+            />
+            <TextView android:id="@+id/route_address"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:paddingLeft="15dp"
+                      android:paddingTop="10dp"
+                      android:text="合欢路与科学大道交口向西200米"
+                      android:textColor="@color/gray"
+            />
+        </LinearLayout>
+        <ImageView android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:src="@drawable/qu"
+                   android:id="@+id/btn_go_there"
+                   android:onClick="openLocalMap"
+                   android:layout_marginTop="18dp"
+                   android:layout_alignParentTop="true"
+                   android:layout_alignParentRight="true"
+                   android:layout_alignParentEnd="true"
+                   android:layout_marginRight="20dp"
+                   android:layout_marginEnd="20dp"/>
+    </RelativeLayout>
+
+    <!--<Button-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:id="@+id/btn_go_there"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="45dp"-->
+        <!--android:background="@drawable/btn_selector"-->
+        <!--android:layout_marginLeft="60dp"-->
+        <!--android:layout_marginRight="60dp"-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:text="去这里"-->
+        <!--android:textColor="#ffffff"-->
+        <!--/>-->
 
 </RelativeLayout>

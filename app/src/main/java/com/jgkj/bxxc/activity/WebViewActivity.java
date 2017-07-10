@@ -35,7 +35,6 @@ public class WebViewActivity extends Activity implements View.OnClickListener{
         back = (Button) findViewById(R.id.button_backward);
         back.setVisibility(View.VISIBLE);
         back.setOnClickListener(this);
-
         webView = (WebView) findViewById(R.id.webView);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         Intent intent = getIntent();

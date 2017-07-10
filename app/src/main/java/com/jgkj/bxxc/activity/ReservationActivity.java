@@ -205,7 +205,6 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         progressDialog = ProgressDialog.show(ReservationActivity.this, "加载中...", "请等待...", true, false);
         headView = getLayoutInflater().inflate(R.layout.coach_head, null);
         init();
-        //initMap();
         getData(coachId, coachUrl);
         bitmapA = BitmapDescriptorFactory.fromResource(R.drawable.a2);
     }
@@ -282,45 +281,11 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
         mMapView.showScaleControl(false);
         //设置是否显示缩放控件
         mMapView.showZoomControls(false);
-        // 开启定位图层
-//        mBaiduMap.setMyLocationEnabled(true);
-//        // 定位初始化
-//        mLocClient = new LocationClient(ReservationActivity.this);
-//        mLocClient.registerLocationListener(myListener);
-//        myOrientationListener = new MyOrientationListener(getApplicationContext());
-//        myOrientationListener.setOnOrientationListener(new MyOrientationListener.OnOrientationListener() {
-//            @Override
-//            public void onOrientationChanged(float x) {
-//                mXDirection = (int) x;
-//                // 构造定位数据
-//                MyLocationData locData = new MyLocationData.Builder()
-//                        .accuracy(mCurrentAccracy)
-//                        // 此处设置开发者获取到的方向信息，顺时针0-360
-//                        .direction(mXDirection)
-//                        .latitude(mCurrentLantitude)
-//                        .longitude(mCurrentLongitude).build();
-//                // 设置定位数据
-//                mBaiduMap.setMyLocationData(locData);
-//                // 设置自定义图标
-//                mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(mCurrentMode, true, mCurrentMarker));
-//            }
-//        });
-//        LocationClientOption option = new LocationClientOption();
-//        option.setOpenGps(true);// 打开gps
-//        option.setCoorType("bd09ll"); // 设置坐标类型
-//        option.setScanSpan(1000);
-//        mLocClient.setLocOption(option);
-//        mCurrentMode = MyLocationConfiguration.LocationMode.FOLLOWING;
-//        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(mCurrentMode, true, mCurrentMarker));
-//        mLocClient.start();
-
         //设置指定定位坐标
         point = new LatLng(Double.parseDouble(lantitude), Double.parseDouble(longitude));
         BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.yaogan);
         OverlayOptions options = new MarkerOptions().icon(icon).position(point);
         mBaiduMap.addOverlay(options);
-        //设定中心点坐标
-        //LatLng cenpt = new LatLng(30.663791,104.07281);
         //定义地图状态
         MapStatus mMapStatus = new MapStatus.Builder()
                 .target(point)
@@ -338,6 +303,7 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                 intent.setClass(ReservationActivity.this,BDMAPActivity.class);
                 intent.putExtra("lantitude",Double.parseDouble(latitude));
                 intent.putExtra("longitude",Double.parseDouble(longitude));
+                intent.putExtra("coachInfo", signup_Coach.getTag().toString());
                 startActivity(intent);
             }
             @Override
@@ -390,56 +356,9 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
     private class markerClickListener implements BaiduMap.OnMarkerClickListener {
         @Override
         public boolean onMarkerClick(final Marker marker) {
-//            LatLng latLng = marker.getPosition();
-//            List<SchoolPlaceTotal.Result.Res> listSch = schoolPlaceTotal.getResult().get(0).getResult();
-//            int index = marker.getZIndex();
-//            double latitude = Double.parseDouble(listSch.get(index).getLatitude());
-//            double longitude = Double.parseDouble(listSch.get(index).getLongitude());
-//            if (latLng.latitude == latitude && latLng.longitude == longitude) {
-//                Button button = new Button(ReservationActivity.this
-//                        .getApplicationContext());
-//                button.setBackgroundResource(R.drawable.qipao);
-//                button.setTextColor(getResources().getColor(R.color.black));
-//                button.setTextSize(12);
-//                button.setPadding(20, 20, 20, 40);
-//                button.setText(listSch.get(index).getFaddress());
-//                mInfoWindow = new InfoWindow(BitmapDescriptorFactory
-//                        .fromView(button), marker.getPosition(), -70, null);
-//                mBaiduMap.showInfoWindow(mInfoWindow);
-////            }
-//            Toast.makeText(ReservationActivity.this, "导航初始化中...", Toast.LENGTH_LONG).show();
-//            if (BaiduNaviManager.isNaviInited()) {
-//                routeplanToNavi(BNRoutePlanNode.CoordinateType.BD09LL);
-//            }
             return true;
         }
     }
-
-//    /**
-//     * 定位SDK监听函数
-//     */
-//    public class MyLocationListenner implements BDLocationListener {
-//
-//        @Override
-//        public void onReceiveLocation(final BDLocation location) {
-//            // map view 销毁后不在处理新接收的位置
-//            if (location == null || mMapView == null) {
-//                return;
-//            }
-//            // 构造定位数据
-//            if (isFirstLoc) {
-//                MyLocationData locData = new MyLocationData.Builder()
-//                        .accuracy(location.getRadius())
-//                        // 此处设置开发者获取到的方向信息，顺时针0-360
-//                        .direction(mXDirection).latitude(location.getLatitude())
-//                        .longitude(location.getLongitude()).build();
-//                mCurrentAccracy = location.getRadius();
-//                mBaiduMap.setMyLocationData(locData);
-//            }
-//            mCurrentLantitude = location.getLatitude();
-//            mCurrentLongitude = location.getLongitude();
-//        }
-//    }
 
     /**
      * 根据cid(教练id)获取教练信息
@@ -502,13 +421,6 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                                 image.setLayoutParams(wrapParams);
                                 xinyong.addView(image);
                             }
-//                            for (int k = 0; k < teachnum; k++) {
-//                                ImageView image = new ImageView(ReservationActivity.this);
-//                                image.setBackgroundResource(R.drawable.star1);
-//                                LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
-//                                image.setLayoutParams(wrapParams);
-//                                zhiliang.addView(image);
-//                            }
                             if (teachnum < 1){
                                 ImageView image = new ImageView(ReservationActivity.this);
                                 image.setBackgroundResource(R.drawable.star0);
@@ -666,14 +578,6 @@ public class  ReservationActivity extends Activity implements OnClickListener, S
                                     fuwu.addView(image);
                                 }
                             }
-
-//                            for (int k = 0; k < waitnum; k++) {
-//                                ImageView image = new ImageView(ReservationActivity.this);
-//                                image.setBackgroundResource(R.drawable.star1);
-//                                LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
-//                                image.setLayoutParams(wrapParams);
-//                                fuwu.addView(image);
-//                            }
                             zhiliangfen.setText(result.getTeach() + "分");
                             fuwufen.setText(result.getWait() + "分");
 

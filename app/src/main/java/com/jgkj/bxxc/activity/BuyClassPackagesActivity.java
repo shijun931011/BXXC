@@ -117,7 +117,6 @@ public class BuyClassPackagesActivity extends Activity implements View.OnClickLi
         cid = intent.getStringExtra("cid");
         token = intent.getStringExtra("token");
         tiaozhaun=intent.getStringExtra("tiaozhaun");
-        Log.d("BXXC","白新学车："+tiaozhaun);
         yuyue=intent.getStringExtra("yuyue");
         jingpin=intent.getStringExtra("jingpin");
         packageId = intent.getStringExtra("packageId");
@@ -347,9 +346,28 @@ public class BuyClassPackagesActivity extends Activity implements View.OnClickLi
                 break;
             case R.id.button_forward:
                intent.setClass(BuyClassPackagesActivity.this,WebViewActivity.class);
-               intent.putExtra("url", "http://www.baixinxueche.com/index.php/Home/info/package?package_id=1");
-               intent.putExtra("title", "套餐说明");
-               startActivity(intent);
+                if (packageId.equals("1")){
+                    intent.putExtra("url", "http://www.baixinxueche.com/index.php/Home/info/package?package_id=1");
+                    intent.putExtra("title","体验套餐使用详情");
+
+                }else if(packageId.equals("2")){
+                    intent.putExtra("url", "http://www.baixinxueche.com/index.php/Home/info/package?package_id=2");
+                    intent.putExtra("title","体验套餐使用详情");
+
+                }else if (packageId.equals("3")){
+                    intent.putExtra("url", "http://www.baixinxueche.com/index.php/Home/info/package?package_id=3");
+                    intent.putExtra("title","精简套餐使用详情");
+
+                }else if (packageId.equals("4")){
+                    intent.putExtra("url", "http://www.baixinxueche.com/index.php/Home/info/package?package_id=4");
+                    intent.putExtra("title","标准套餐使用详情");
+
+                }else if (packageId.equals("5")){
+                    intent.putExtra("url", "http://www.baixinxueche.com/index.php/Home/info/package?package_id=5");
+                    intent.putExtra("title","升级套餐使用详情");
+
+                }
+                startActivity(intent);
                break;
 
             case R.id.payment_protocol_txt:

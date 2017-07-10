@@ -2,19 +2,27 @@ package com.jgkj.bxxc.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amap.api.location.CoordinateConverter;
+import com.amap.api.location.DPoint;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -37,17 +45,19 @@ import com.baidu.navisdk.adapter.BNOuterTTSPlayerCallback;
 import com.baidu.navisdk.adapter.BNRoutePlanNode;
 import com.baidu.navisdk.adapter.BNaviSettingManager;
 import com.baidu.navisdk.adapter.BaiduNaviManager;
+import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
+import com.jgkj.bxxc.bean.CoachInfo;
 import com.jgkj.bxxc.tools.MyOrientationListener;
+import com.jgkj.bxxc.tools.OpenLocalMapUtil;
 import com.jgkj.bxxc.tools.SelectPopupWindow;
-import com.jgkj.bxxc.tools.StatusBarCompat;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class BDMAPActivity extends Activity {
+public class BDMAPActivity extends Activity{
     // 定位相关
     public LocationClient mLocClient;
     public MyLocationConfiguration.LocationMode mCurrentMode;
@@ -69,7 +79,7 @@ public class BDMAPActivity extends Activity {
     //标题
     private TextView title;
     private Button button_backward;
-    private Button btn_go_there;
+    private ImageView btn_go_there;
     public static List<Activity> activityList = new LinkedList<Activity>();
     private static final String APP_FOLDER_NAME = "BNSDKSimpleDemo";
     //	private Button mWgsNaviBtn = null;
@@ -96,45 +106,199 @@ public class BDMAPActivity extends Activity {
     private LocationClient mLocationClient;
     private BDLocationListener mBDLocationListener;
 
-
+    private String coach;
+    private CoachInfo.Result result;
+    private TextView route_title;
+    private TextView route_address;
+    private Dialog dialog;
+    private View inflate;
+    private TextView dialog_baidu,dialog_no,dialog_gaode,dialog_cancel;
+    private boolean isOpened;
+    private static String SRC = "thirdapp.navi.beiing.openlocalmapdemo";
+    private String SNAME = "我的位置";
+    private String DNAME = "已选择的位置";
+    private String CITY = "合肥";
+    private static String APP_NAME = "百信学车";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         activityList.add(this);
         setContentView(R.layout.baidumap);
-        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
-
         title = (TextView) findViewById(R.id.text_title);
         title.setText("驾校地址");
         button_backward = (Button) findViewById(R.id.button_backward);
-        btn_go_there = (Button) findViewById(R.id.btn_go_there);
+        btn_go_there = (ImageView) findViewById(R.id.btn_go_there);
+        route_title = (TextView) findViewById(R.id.route_title);
+        route_address = (TextView) findViewById(R.id.route_address);
         button_backward.setVisibility(View.VISIBLE);
-
         button_backward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-
-        btn_go_there.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(BDMAPActivity.this, "导航初始化中...", Toast.LENGTH_LONG).show();
-                if (BaiduNaviManager.isNaviInited()) {
-                    routeplanToNavi(BNRoutePlanNode.CoordinateType.BD09LL);
-                }
-            }
-        });
-
+        getIntentData();
         //初始化控件
         initMap();
-
         BNOuterLogUtil.setLogSwitcher(true);
         if (initDirs()) {
             initNavi();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isOpened = false;
+    }
+
+    /**
+     * 打开百度地图
+     * @param
+     */
+    private void openBaiduMap(double slat, double slon, String sname, double dlat, double dlon, String dname, String city){
+        if(OpenLocalMapUtil.isBaiduMapInstalled()){
+            try{
+                String uri = OpenLocalMapUtil.getBaiduMapUri(String.valueOf(slat), String.valueOf(slon), sname,
+                        String.valueOf(dlat), String.valueOf(dlon), dname, city, SRC);
+                Intent intent = Intent.parseUri(uri, 0);
+                startActivity(intent); //启动调用
+                isOpened = true;
+            } catch (Exception e) {
+                isOpened = false;
+                e.printStackTrace();
+            }
+        }else{
+//            Toast.makeText(BDMAPActivity.this,"抱歉，您暂未安装百度地图客户端，请前去安装！",Toast.LENGTH_SHORT).show();
+            isOpened = false;
+        }
+    }
+
+
+
+    /**
+     *打开高德地图
+     * @param
+     */
+    private void openGaoDeMap(double slat, double slon, String sname, double dlat, double dlon, String dname){
+        if(OpenLocalMapUtil.isGdMapInstalled()){
+            try {
+                CoordinateConverter converter= new CoordinateConverter(this);
+                converter.from(CoordinateConverter.CoordType.BAIDU);
+                DPoint sPoint = null, dPoint = null;
+                try {
+                    converter.coord(new DPoint(slat, slon));
+                    sPoint = converter.convert();
+                    converter.coord(new DPoint(dlat, dlon));
+                    dPoint = converter.convert();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (sPoint != null && dPoint != null) {
+                    String uri = OpenLocalMapUtil.getGdMapUri(APP_NAME, String.valueOf(sPoint.getLatitude()), String.valueOf(sPoint.getLongitude()),
+                            sname, String.valueOf(dPoint.getLatitude()), String.valueOf(dPoint.getLongitude()), dname);
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setPackage("com.autonavi.minimap");
+                    intent.setData(Uri.parse(uri));
+                    startActivity(intent); //启动调用
+                    isOpened = true;
+                }
+            } catch (Exception e) {
+                isOpened = false;
+                e.printStackTrace();
+            }
+        } else{
+//            Toast.makeText(BDMAPActivity.this,"抱歉，您暂未安装高德地图客户端，请前去安装！",Toast.LENGTH_SHORT).show();
+            isOpened = false;
+        }
+    }
+
+
+    public void openLocalMap(View view) {
+        openLocalMap(mCurrentLantitude, mCurrentLongitude, SNAME,  CITY);
+    }
+
+    /**
+     *
+     * @param slat
+     * @param slon
+     * @param address 当前位置
+     * @param city 所在城市
+     */
+    private void openLocalMap(double slat, double slon, String address, String city) {
+        chooseOpenMap(slat, slon, address, city);
+    }
+
+    /**
+     * 如果两个地图都安装，提示选择
+     * @param slat
+     * @param slon
+     * @param address
+     * @param city
+     */
+    private void chooseOpenMap(final double slat, final double slon, final String address, final String city) {
+        dialog = new Dialog(this, R.style.ActionSheetDialogStyle);
+        // 填充对话框的布局
+        inflate = LayoutInflater.from(this).inflate(R.layout.sure_choose_dialog, null);
+        //控件
+        dialog_baidu = (TextView) inflate.findViewById(R.id.dialog_yes);
+        dialog_baidu.setText("百度地图");
+        dialog_gaode = (TextView) inflate.findViewById(R.id.dialog_no);
+        dialog_gaode.setText("高德地图");
+        dialog_cancel = (TextView) inflate.findViewById(R.id.dialog_cancel);
+        dialog_baidu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                openBaiduMap(slat, slon, address, latitudes, longitudes, DNAME, city);
+                if (!OpenLocalMapUtil.isBaiduMapInstalled()){
+                    Toast.makeText(BDMAPActivity.this,"抱歉，您暂未安装百度地图客户端，请前去安装！",Toast.LENGTH_SHORT).show();
+                }else{
+                    openBaiduMap(slat, slon, address,latitudes, longitudes, DNAME, city);
+                    dialog.dismiss();
+                }
+
+            }
+        });
+        dialog_gaode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                openGaoDeMap(slat, slon, address,latitudes, longitudes, DNAME);
+                if(!OpenLocalMapUtil.isGdMapInstalled()){
+                    Toast.makeText(BDMAPActivity.this,"抱歉，您暂未安装高德地图客户端，请前去安装！",Toast.LENGTH_SHORT).show();
+                }else{
+                    openGaoDeMap(slat, slon, address, latitudes, longitudes, DNAME);
+                    dialog.dismiss();
+                }
+
+            }
+        });
+        dialog_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        // 将布局设置给Dialog
+        dialog.setContentView(inflate);
+        // 获取当前Activity所在的窗体
+        Window dialogWindow = dialog.getWindow();
+        // 设置dialog宽度
+        dialogWindow.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+        // 设置Dialog从窗体中间弹出
+        dialogWindow.setGravity(Gravity.BOTTOM);
+        dialog.show();// 显示对话框
+    }
+
+    private void getIntentData(){
+        Intent intent = getIntent();
+        coach = intent.getStringExtra("coachInfo");
+        Gson gson = new Gson();
+        CoachInfo coachInfo = gson.fromJson(coach, CoachInfo.class);
+        List<CoachInfo.Result> list = coachInfo.getResult();
+        result = list.get(0);
+        route_title.setText("百信学车 · " + result.getFaddress());
+        route_address.setText(result.getAddress());
     }
 
     /**
@@ -144,10 +308,8 @@ public class BDMAPActivity extends Activity {
         // 地图初始化
         mMapView = (MapView) findViewById(R.id.placeMap);
         mBaiduMap = mMapView.getMap();
-
 //        // 开启定位图层
 //        mBaiduMap.setMyLocationEnabled(true);
-
         // 定位初始化
         mLocClient = new LocationClient(this);
         mLocClient.registerLocationListener(myListener);
@@ -178,10 +340,8 @@ public class BDMAPActivity extends Activity {
 //        mCurrentMode = MyLocationConfiguration.LocationMode.FOLLOWING;
 //        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(15).build()));
 //        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(mCurrentMode, true, mCurrentMarker));
-
         // 开启定位图层
         mBaiduMap.setMyLocationEnabled(true);
-
         if (!mLocClient.isStarted()) {
             mLocClient.start();
         }
@@ -208,7 +368,6 @@ public class BDMAPActivity extends Activity {
                         .longitude(location.getLongitude()).build();
                 mCurrentAccracy = location.getRadius();
                 mBaiduMap.setMyLocationData(locData);
-
                 mCurrentLantitude = location.getLatitude();
                 mCurrentLongitude = location.getLongitude();
                 allMarker(latitudes,longitudes);
@@ -234,7 +393,6 @@ public class BDMAPActivity extends Activity {
         //定义地图状态
         MapStatus mMapStatus = new MapStatus.Builder().target(point).zoom(15).build();
         //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
-
         MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
         mBaiduMap.setMapStatus(mMapStatusUpdate);
         //改变地图状态
@@ -247,13 +405,6 @@ public class BDMAPActivity extends Activity {
         Intent it = getIntent();
         latitudes = it.getDoubleExtra("lantitude",1.1);
         longitudes = it.getDoubleExtra("longitude",1.1);
-        // 开启图层定位
-        //mBaiduMap.setMyLocationEnabled(true);
-//        if (!mLocClient.isStarted()) {
-//            mLocClient.start();
-//        }
-//        // 开启方向传感器
-//        myOrientationListener.start();
         super.onStart();
     }
 
@@ -265,7 +416,6 @@ public class BDMAPActivity extends Activity {
         mBaiduMap.setMyLocationEnabled(false);
         mMapView.onDestroy();
         mMapView = null;
-
         // 取消监听函数
         if (mLocationClient != null) {
             mLocationClient.unRegisterLocationListener(mBDLocationListener);
@@ -275,11 +425,6 @@ public class BDMAPActivity extends Activity {
 
     @Override
     protected void onStop() {
-//        // 关闭图层定位
-//        mBaiduMap.setMyLocationEnabled(false);
-//        mLocClient.stop();
-//        // 关闭方向传感器
-//        myOrientationListener.stop();
         super.onStop();
     }
 
@@ -381,10 +526,8 @@ public class BDMAPActivity extends Activity {
         if (android.os.Build.VERSION.SDK_INT >= 23) {
 
             if (!hasBasePhoneAuth()) {
-
                 this.requestPermissions(authBaseArr, authBaseRequestCode);
                 return;
-
             }
         }
 

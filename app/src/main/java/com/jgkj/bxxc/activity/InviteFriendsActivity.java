@@ -5,11 +5,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +31,8 @@ import com.umeng.socialize.media.UMWeb;
 public class InviteFriendsActivity extends Activity implements View.OnClickListener {
     private TextView title;
     private Button button_back, button_forward;
-    private TextView sina, weChat, wxCircle, activityRules,inviteCode,tv_qq;//新浪微博， 微信好友， 微信朋友圈， 活动规则，邀请码, qq好友
+    private TextView activityRules,inviteCode;//新浪微博， 微信好友， 微信朋友圈， 活动规则，邀请码, qq好友
+    private ImageView img_qq, img_weCircle, img_weChat, img_sina;
     UMImage image;
     private SharedPreferences sp;
     private UserInfo userInfo;
@@ -56,14 +57,6 @@ public class InviteFriendsActivity extends Activity implements View.OnClickListe
     }
 
     private void initView() {
-        Drawable qq = getResources().getDrawable(R.drawable.share_qq);
-        qq.setBounds(0, 0, 100, 100);
-        Drawable xinlang = getResources().getDrawable(R.drawable.share_sina);
-        xinlang.setBounds(0, 0, 100, 100);
-        Drawable weixin = getResources().getDrawable(R.drawable.share_weixin);
-        weixin.setBounds(0, 0, 100, 100);
-        Drawable pengyouquan = getResources().getDrawable(R.drawable.share_friendcricle);
-        pengyouquan.setBounds(0, 0, 100, 100);
         title = (TextView) findViewById(R.id.text_title);
         title.setText("邀请好友");
         button_back = (Button) findViewById(R.id.button_backward);
@@ -73,18 +66,14 @@ public class InviteFriendsActivity extends Activity implements View.OnClickListe
         button_forward.setText("邀请记录");
         button_forward.setVisibility(View.VISIBLE);
         button_forward.setOnClickListener(this);
-        sina = (TextView) findViewById(R.id.sina);
-        weChat = (TextView) findViewById(R.id.weChat);
-        wxCircle = (TextView) findViewById(R.id.wxCircle);
-        tv_qq = (TextView) findViewById(R.id.tv_qq);
-        tv_qq.setOnClickListener(this);
-        sina.setOnClickListener(this);
-        weChat.setOnClickListener(this);
-        wxCircle.setOnClickListener(this);
-        tv_qq.setCompoundDrawables(null, qq, null, null);
-        sina.setCompoundDrawables(null, xinlang, null, null);
-        weChat.setCompoundDrawables(null, weixin, null, null);
-        wxCircle.setCompoundDrawables(null, pengyouquan, null, null);
+        img_sina = (ImageView) findViewById(R.id.img_sina);
+        img_weChat = (ImageView) findViewById(R.id.img_weChat);
+        img_weCircle = (ImageView) findViewById(R.id.img_wxCircle);
+        img_qq = (ImageView) findViewById(R.id.img_qq);
+        img_qq.setOnClickListener(this);
+        img_sina.setOnClickListener(this);
+        img_weChat.setOnClickListener(this);
+        img_weCircle.setOnClickListener(this);
         activityRules = (TextView) findViewById(R.id.activity_rules);
         activityRules.setOnClickListener(this);
         inviteCode = (TextView) findViewById(R.id.inviteCode);
@@ -155,7 +144,7 @@ public class InviteFriendsActivity extends Activity implements View.OnClickListe
                         });
                 dialog.create().show();
                 break;
-            case R.id.sina:
+            case R.id.img_sina:
                 /**
                  * setDisplayList方法是友盟内部封装好的，我们拿来调用就好了，
                  * 当我们需要多个分享时只需，在括号里面填写即可，不要另外的写dialog
@@ -173,19 +162,19 @@ public class InviteFriendsActivity extends Activity implements View.OnClickListe
                     .setCallback(umShareListener)
                     .share();
                 break;
-            case R.id.weChat:
+            case R.id.img_weChat:
                 new ShareAction(InviteFriendsActivity.this).setPlatform(SHARE_MEDIA.WEIXIN)
                         .withMedia(web)
                         .setCallback(umShareListener)
                         .share();
                 break;
-            case R.id.wxCircle:
+            case R.id.img_wxCircle:
                 new ShareAction(InviteFriendsActivity.this).setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)
                         .withMedia(web)
                         .setCallback(umShareListener)
                         .share();
                 break;
-            case R.id.tv_qq:
+            case R.id.img_qq:
                 new ShareAction(InviteFriendsActivity.this).setPlatform(SHARE_MEDIA.QQ)
                         .withMedia(web)
                         .setCallback(umShareListener)

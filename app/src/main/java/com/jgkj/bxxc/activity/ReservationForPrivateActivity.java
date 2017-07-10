@@ -313,6 +313,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                 intent.setClass(ReservationForPrivateActivity.this,BDMAPActivity.class);
                 intent.putExtra("lantitude",Double.parseDouble(latitude));
                 intent.putExtra("longitude",Double.parseDouble(longitude));
+                intent.putExtra("coachInfo", signup_Coach.getTag().toString());
                 startActivity(intent);
             }
             @Override

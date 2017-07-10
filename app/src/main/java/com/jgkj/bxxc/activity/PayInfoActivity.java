@@ -122,14 +122,12 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
         useResult = userInfo.getResult();
         uid = useResult.getUid();
         token = intent.getStringExtra("token");
-        Log.d("zyzhang", uid + "ffff" + token);
         getData(uid,token);
     }
     private void getData(int uid,String token){
         getCoupon(uid+"", token);
     }
     private void getCoupon(String uid,String token){
-        Log.d("zyzhang", "getCoupon: " + uid + "  " + token);
         OkHttpUtils
                 .post()
                 .url(CouponUrl)
@@ -144,7 +142,6 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                     }
                     @Override
                     public void onResponse(String s, int i) {
-                       Log.d("zyzhang","ddd"+s);
                         //TODO
                         Gson gson = new Gson();
                         Coupon coupon = gson.fromJson(s, Coupon.class);
@@ -236,7 +233,6 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                 }
                 @Override
                 public void onResponse(final String s, int i) {
-                    Log.d("shijun","ddd"+s);
                     Gson gson = new Gson();
                     final MyPayResult myPayResult = gson.fromJson(s,MyPayResult.class);
                     if(myPayResult.getCode()==200){
@@ -336,7 +332,6 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                     }
                     @Override
                     public void onResponse(final String s, int i) {
-                        Log.d("shijun","ddd"+s);
                         Gson gson = new Gson();
                         final MyPayResult myPayResult = gson.fromJson(s,MyPayResult.class);
                         if(myPayResult.getCode()==200){
@@ -435,7 +430,6 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
 
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.d("BXXC","微信支付"+s);
                         Gson gson = new Gson();
                         WXEntity wxEntity = gson.fromJson(s, WXEntity.class);
                         if(wxEntity.getErrorCode() == 0){
@@ -494,7 +488,6 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
 
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.d("BXXC","微信支付"+s);
                         Gson gson = new Gson();
                         WXEntity wxEntity = gson.fromJson(s, WXEntity.class);
                         if(wxEntity.getErrorCode() == 0){
