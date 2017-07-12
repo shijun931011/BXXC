@@ -6,7 +6,7 @@ android {
         app {
             keyAlias 'bxxc'
             keyPassword '65555744'
-            storeFile file('D:/keyStore/baixinxueche.jks')
+            storeFile file('C:/Users/Administrator/Desktop/baixinxueche.jks')
             storePassword '65555744'
         }
     }
@@ -73,5 +73,4 @@ dependencies {
     //数据库
     compile 'org.greenrobot:greendao:3.1.1'
     //compile files('libs/libammsdk.jar')
-    compile files('libs/AMap_Location_V3.0.0_20160922.jar')
 }
