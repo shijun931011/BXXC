@@ -77,9 +77,9 @@
                     android:drawableLeft="@drawable/personal_info"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
-                    android:paddingBottom="14dp"
+                    android:paddingBottom="7dp"
                     android:paddingLeft="35dp"
-                    android:paddingTop="14dp"
+                    android:paddingTop="7dp"
                     android:text="个人信息"
                     android:textSize="20sp"
                 />
@@ -87,8 +87,6 @@
                 <View
                     android:layout_width="0.1dp"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
                     android:background="@color/loginbackground"/>
 
                 <TextView
@@ -100,9 +98,9 @@
                     android:drawableLeft="@drawable/my_wallet_img"
                     android:drawablePadding="12dp"
                     android:gravity="center_vertical"
-                    android:paddingBottom="14dp"
+                    android:paddingBottom="7dp"
                     android:paddingLeft="35dp"
-                    android:paddingTop="14dp"
+                    android:paddingTop="7dp"
                     android:text="我的钱包"
                     android:textSize="20sp"/>
             </LinearLayout>
