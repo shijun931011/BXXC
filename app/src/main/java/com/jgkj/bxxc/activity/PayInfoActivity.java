@@ -569,8 +569,8 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
         messageDeatil.setTextSize(12);
         username.addTextChangedListener(this);
         userId.addTextChangedListener(this);
-        chooseTv = (TextView) findViewById(R.id.choose);
-        chooseTv.setOnClickListener(this);
+        chooseTv = (TextView) findViewById(R.id.choose1);
+//        chooseTv.setOnClickListener(this);
         coach_Price = (TextView) findViewById(R.id.coach_Price);
         yiyouhui_Tv = (TextView) findViewById(R.id.yiyouhui);
         tuijianren = (EditText) findViewById(R.id.tuijianren);

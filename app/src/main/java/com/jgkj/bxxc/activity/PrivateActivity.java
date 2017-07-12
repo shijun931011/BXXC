@@ -129,8 +129,8 @@ public class PrivateActivity extends Activity implements View.OnClickListener, T
         weixin_layout = (LinearLayout) findViewById(R.id.weixin_layout);
         weixin_isCheck = (ImageView) findViewById(R.id.weixin_isCheck);
         weixin_layout.setOnClickListener(this);
-        chooseTv = (TextView) findViewById(R.id.choose);
-        chooseTv.setOnClickListener(this);
+        chooseTv = (TextView) findViewById(R.id.choose1);
+//        chooseTv.setOnClickListener(this);
         messageDeatil = (TextView) findViewById(R.id.messageDetail);
         String source = "报名信息&nbsp &nbsp &nbsp &nbsp<font color='#FF8000'>注：请确保以下填写信息真实有效</font>";
         messageDeatil.setText(Html.fromHtml(source));

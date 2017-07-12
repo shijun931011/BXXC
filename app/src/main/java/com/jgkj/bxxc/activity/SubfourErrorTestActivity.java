@@ -26,13 +26,9 @@ import com.jgkj.bxxc.bean.SubTest;
 import com.jgkj.bxxc.bean.entity.Sub4ProjectEntity.Sub4ProjectEntity;
 import com.jgkj.bxxc.db.DBManager;
 import com.jgkj.bxxc.tools.StatusBarCompat;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.Call;
 
 /**
  * Created by fangzhou on 2016/12/23.
@@ -354,8 +350,7 @@ public class SubfourErrorTestActivity extends Activity implements View.OnClickLi
                     if (next_Question.getText().toString().equals("下一题")) {
                         if ((count + 1) < str.size()) {
                             count++;
-                            Toast.makeText(SubfourErrorTestActivity.this, "count =" + count, Toast.LENGTH_SHORT).show();
-                            Toast.makeText(SubfourErrorTestActivity.this, str.get(count).getSubCount(), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(SubfourErrorTestActivity.this, str.get(count).getSubCount(), Toast.LENGTH_SHORT).show();
                             getSubProject(str.get(count).getSubCount());
                         } else {
                             Toast.makeText(SubfourErrorTestActivity.this, "没有下一题了", Toast.LENGTH_SHORT).show();
