@@ -66,6 +66,8 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
 
     private TextView tv_look;
 
+    private int uid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +80,7 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
         Gson gson = new Gson();
         UserInfo userInfo = gson.fromJson(str, UserInfo.class);
         UserInfo.Result res = userInfo.getResult();
+        uid = res.getUid();
         refreshInfo(res.getUid() + "", refreashUrl);
         getData();
         init();
@@ -352,7 +355,7 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
             case R.id.tv_look:
                 Intent intent = new Intent();
                 intent.setClass(this,WebViewActivity.class);
-                intent.putExtra("url","http://www.baixinxueche.com/webshow/thing/file.html");
+                intent.putExtra("url","http://www.baixinxueche.com/index.php/Home/Index/picwrong?uid=" + uid);
                 intent.putExtra("title","审核失败的原因");
                 startActivity(intent);
                 break;
