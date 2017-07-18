@@ -139,6 +139,5 @@
         android:padding="12dp"
         android:paddingLeft="5dp"
         android:src="@drawable/question_image"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 </RelativeLayout>

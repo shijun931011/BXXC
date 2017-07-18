@@ -409,10 +409,9 @@ public class RegisterDetailActivity2 extends BaseActivity implements View.OnClic
         intent.putExtra("scale", true);
         //裁剪框比例
         intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1.3);
+        intent.putExtra("aspectY", 1.5 );
         //图片输出大小
-        intent.putExtra("outputX", 600);
-        intent.putExtra("outputY", 700);
+
         startActivityForResult(intent, CROP_REQUEST_CODE);
     }
 
