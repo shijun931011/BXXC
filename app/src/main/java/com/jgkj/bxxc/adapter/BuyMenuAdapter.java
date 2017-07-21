@@ -59,7 +59,7 @@ public class BuyMenuAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.tv_mune.setText(list.get(position).getPackname());
-        if(!list.get(position).getSurplus_money().equals("0")){
+        if(!list.get(position).getSurplus_class().equals("0")){
             viewHolder.tv_buy.setText("剩余" + list.get(position).getSurplus_class() + "个课时");
         }else{
             viewHolder.tv_buy.setText("暂未购买");
@@ -77,7 +77,7 @@ public class BuyMenuAdapter extends BaseAdapter {
                     if(viewHolder.checkBox.isChecked()){
                         //flag = true;
                         //package_id = list.get(position).getPackage_id();
-                        if(!list.get(position).getSurplus_money().equals("0")){
+                        if(!list.get(position).getSurplus_class().equals("0")){
                             locationPosition = position;
                             package_id = list.get(locationPosition).getPackage_id();
                             flag = true;
