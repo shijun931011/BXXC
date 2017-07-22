@@ -15,7 +15,7 @@ android {
     useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.jgkj.bxxc"
-        minSdkVersion 15
+        minSdkVersion 14
         //targetSdkVersion 25
         versionCode 22
         versionName '3.1.0'
