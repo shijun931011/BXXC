@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -19,7 +21,7 @@ import com.jgkj.bxxc.adapter.ParentCategoryAdapter;
  *
  * @author fangzhou
  */
-public class SelectPopupWindow extends PopupWindow {
+public class SelectPopupWindow extends PopupWindow implements PopupWindow.OnDismissListener {
     private SelectCategory selectCategory;
     private String[] parentStrings;
     private String[][] childrenStrings;
@@ -27,6 +29,7 @@ public class SelectPopupWindow extends PopupWindow {
     private ListView lvChildrenCategory = null;
     private ParentCategoryAdapter parentCategoryAdapter = null;
     private ChildrenCategoryAdapter childrenCategoryAdapter = null;
+    private Activity activity;
     /**
      * @param parentStrings  字类别数据
      * @param activity
@@ -36,17 +39,19 @@ public class SelectPopupWindow extends PopupWindow {
         this.selectCategory = selectCategory;
         this.parentStrings = parentStrings;
         this.childrenStrings = childrenStrings;
+        this.activity = activity;
         View contentView = LayoutInflater.from(activity).inflate(R.layout.layout_quyu_choose_view, null);
         DisplayMetrics dm = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
         this.setContentView(contentView);
         this.setWidth(dm.widthPixels);
-        this.setHeight(dm.heightPixels * 3 / 10);
+        this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         setBackgroundDrawable(activity.getResources().getDrawable(R.color.white));
 		/* 设置触摸外面时消失 */
         setOutsideTouchable(true);
         setTouchable(true);
         setFocusable(true); /*设置点击menu以外其他地方以及返回键退出 */
+        setOnDismissListener(this);
 
         /**
          * 1.解决再次点击MENU键无反应问题
@@ -121,6 +126,22 @@ public class SelectPopupWindow extends PopupWindow {
          * @param parentSelectposition 父类别选中下标
          */
         public void selectCategory(Integer parentSelectposition, Integer childrenSelectposition);
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        activity.getWindow().setAttributes(lp);
+    }
+
+    @Override
+    public void onDismiss() {
+        backgroundAlpha(1f);
     }
 
 }
