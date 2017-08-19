@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <!-- 教练信息 -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -19,15 +19,32 @@
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
             android:src="@drawable/head"/>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:background="#33000000"
+                      android:layout_marginRight="5dp"
+                      android:layout_marginLeft="5dp"
+                      android:layout_alignBottom="@+id/coach_head"
+        >
+            <TextView
+                android:id="@+id/coach_introduce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="简介：（这个教练暂未设置简介）"
+                android:textColor="@color/white"
+                android:padding="15dp"
 
+            />
+
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
+            android:layout_below="@+id/coach_head"
             android:gravity="center_vertical"
             android:orientation="horizontal">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,13 +58,11 @@
                 android:layout_weight="1"
                 android:text="洪复生"
                 android:textSize="20sp" />
-
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
                 android:background="@color/loginbackground" />
-
             <ImageView
                 android:id="@+id/share"
                 android:layout_width="wrap_content"
@@ -56,7 +71,7 @@
                 android:layout_marginRight="14dp"
                 android:src="@drawable/share_btn" />
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -322,7 +337,6 @@
         android:layout_height="110dp"
         android:gravity="center"
         android:visibility="gone">
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

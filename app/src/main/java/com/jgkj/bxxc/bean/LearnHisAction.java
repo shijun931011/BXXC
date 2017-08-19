@@ -69,6 +69,65 @@ public class LearnHisAction {
 
         private String class_type;
 
+        private String class_style;
+
+        private String flag;
+
+        private String cname;
+
+        private String school;
+
+        private int roles;
+
+
+        public String getClass_style() {
+            return class_style;
+        }
+
+        public void setClass_style(String class_style) {
+            this.class_style = class_style;
+        }
+
+        public String getDay() {
+            return day;
+        }
+
+        public void setDay(String day) {
+            this.day = day;
+        }
+
+        public String getTime_slot() {
+            return time_slot;
+        }
+
+        public void setTime_slot(String time_slot) {
+            this.time_slot = time_slot;
+        }
+
+        public String getTimeid() {
+            return timeid;
+        }
+
+        public void setTimeid(String timeid) {
+            this.timeid = timeid;
+        }
+
+        public String getCid() {
+            return cid;
+        }
+
+        public void setCid(String cid) {
+            this.cid = cid;
+        }
+
+        public int getState() {
+            return state;
+        }
+
+        public void setState(int state) {
+            this.state = state;
+        }
+
         public String getClass_type() {
             return class_type;
         }
@@ -77,29 +136,36 @@ public class LearnHisAction {
             this.class_type = class_type;
         }
 
-        public String getTimeid() {
-            return timeid;
+        public String getFlag() {
+            return flag;
         }
 
-
-        public String getTime_slot() {
-            return time_slot;
+        public void setFlag(String flag) {
+            this.flag = flag;
         }
 
-
-        public String getDay() {
-            return day;
+        public String getCname() {
+            return cname;
         }
 
-
-        public int getState() {
-            return state;
+        public void setCname(String cname) {
+            this.cname = cname;
         }
 
-
-        public String getCid() {
-            return cid;
+        public String getSchool() {
+            return school;
         }
 
+        public void setSchool(String school) {
+            this.school = school;
+        }
+
+        public int getRoles() {
+            return roles;
+        }
+
+        public void setRoles(int roles) {
+            this.roles = roles;
+        }
     }
 }

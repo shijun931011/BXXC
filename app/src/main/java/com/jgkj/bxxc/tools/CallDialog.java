@@ -42,6 +42,7 @@ public class CallDialog implements View.OnClickListener{
         dialog_sure.setOnClickListener(this);
         dialog_cancel.setOnClickListener(this);
         dialog_textView.setText(content);
+        diolog_prompt.setText("客服热线");
         // 将布局设置给Dialog
         dialog.setContentView(inflate);
         // 获取当前Activity所在的窗体

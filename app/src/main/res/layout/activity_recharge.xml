@@ -32,50 +32,42 @@
             android:layout_height="match_parent"
             android:padding="12dp" />
     </LinearLayout>
-
     <View
+        android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
+        android:layout_marginTop="10dp"
         android:background="@color/background"
         android:layout_below="@id/linea"
         />
     <LinearLayout
         android:id="@+id/payMethod1"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@+id/linea"
-        android:layout_marginTop="5dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/view"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:paddingStart="12dp"
-        android:paddingLeft="12dp"
-        android:paddingEnd="0dp"
-        android:paddingRight="0dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         >
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:layout_weight="0"
             android:src="@drawable/pay"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="10dp"
-            >
+            android:layout_gravity="center"
+            android:padding="10dp">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:text="@string/alipay"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:hint="@string/alipay_user"
-                android:maxLines="1"/>
         </RelativeLayout>
         <LinearLayout
             android:id="@+id/aipay_layout"
@@ -91,6 +83,7 @@
         </LinearLayout>
     </LinearLayout>
     <View
+        android:id="@+id/view1"
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
         android:background="@color/background"
@@ -103,15 +96,13 @@
     <LinearLayout
         android:id="@+id/payMethod2"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@+id/payMethod1"
-        android:layout_marginTop="5dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/view1"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:paddingLeft="12dp"
-        android:paddingStart="12dp"
-        android:paddingEnd="0dp"
-        android:paddingRight="0dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         >
         <ImageView
             android:layout_width="wrap_content"
@@ -124,19 +115,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_gravity="center"
             android:padding="10dp"
             >
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
                 android:text="@string/weixin_zhifu"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:hint="@string/weixin_user"
-                android:maxLines="1"/>
         </RelativeLayout>
         <LinearLayout
             android:id="@+id/weixin_layout"
@@ -152,13 +137,59 @@
         </LinearLayout>
     </LinearLayout>
     <View
+        android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
         android:background="@color/background"
         android:layout_below="@id/payMethod2"
+        android:layout_marginLeft="15dp"
+    />
+    <LinearLayout
+        android:id="@+id/payMethod3"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/view2"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:src="@drawable/img_union"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:padding="10dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/union_zhifu"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/union_layout"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/union_isCheck"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/check_background"/>
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/background"
+        android:layout_below="@id/payMethod3"
         />
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -170,9 +201,9 @@
         <TextView
             android:layout_width="220dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="right"
             android:hint="@string/recharge_protocol"
-            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
             android:textSize="12sp"
             />
         <TextView
@@ -182,10 +213,9 @@
             android:text="@string/recharge_protocol_txt"
             android:textSize="12sp"
             android:textColor="@color/btn_orange"
+            android:layout_marginLeft="15dp"
             />
     </LinearLayout>
-
-
     <Button
         android:id="@+id/btn_recharge"
         android:layout_width="match_parent"

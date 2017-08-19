@@ -1,7 +1,9 @@
 package com.jgkj.bxxc.fragment;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,48 +11,38 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
-import com.jgkj.bxxc.bean.CoachDetailAction;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.jgkj.bxxc.activity.SearchCoachActivity;
+import com.jgkj.bxxc.bean.UserInfo;
 
 import java.util.ArrayList;
-
-import okhttp3.Call;
 
 public class CoachFragment extends Fragment implements View.OnClickListener{
     private ViewPager viewPager;
     private ArrayList<Fragment> fragmentList;
     private Button btn_coach;
     private Button btn_private;
+    private Button btn_private_center;
     private ImageView search;
     private Fragment coach;
     private FragmentManager fragmentManager;
     private FragmentTransaction transaction;
-    private EditText mEtSearch = null;// 输入搜索内容
-    private Button mBtnClearSearchText = null;// 清空搜索信息的按钮
-    private LinearLayout mLayoutClearSearchText = null;
+    private SharedPreferences sp,sp1;                    //读取本地信息
+    private UserInfo userInfo;
+    private UserInfo.Result result;
+    private int uid;
+    private String token;
     private Dialog dialog;
     private View view;
-    private String searchUrl = "http://www.baixinxueche.com/index.php/Home/Apitoken/like";
 
-    //判断点击了哪个按钮（私教/金典）
+    //判断点击了哪个按钮（私教/私教中心/私教学校）
     public boolean flag = false;
     public static String strResult;
 
@@ -64,17 +56,18 @@ public class CoachFragment extends Fragment implements View.OnClickListener{
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         btn_private = (Button) view.findViewById(R.id.btn_private);
         btn_coach = (Button) view.findViewById(R.id.btn_coach);
+        btn_private_center = (Button) view.findViewById(R.id.btn_private_center);
         search = (ImageView) view.findViewById(R.id.search);
-        Log.d("shijun","搜索ID:"+search);
         search.setOnClickListener(this);
         btn_private.setOnClickListener(this);
+        btn_private_center.setOnClickListener(this);
         btn_coach.setOnClickListener(this);
         fragmentList = new ArrayList<Fragment>();
         fragmentList.add(new PrivateFragment());
-        fragmentList.add(new CoachFragment2());
+        fragmentList.add(new PrivateCenterFragment());
+        fragmentList.add(new PrivateSchoolFragment());
         viewPager.setOffscreenPageLimit(1);
         viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
-
             public int getCount() {
                 return fragmentList.size();
             }
@@ -88,14 +81,26 @@ public class CoachFragment extends Fragment implements View.OnClickListener{
             public void onPageSelected(int arg0) {
                 if(0 == arg0){
                     btn_private.setTextColor(Color.parseColor("#37363C"));
+                    btn_private_center.setTextColor(Color.WHITE);
                     btn_coach.setTextColor(Color.WHITE);
                     btn_private.setBackgroundResource(R.drawable.baike_btn_pink_left_f_96);
+                    btn_private_center.setBackgroundResource(R.drawable.sijiao_black_center_96);
                     btn_coach.setBackgroundResource(R.drawable.baike_btn_trans_right_f_96);
                 }
-                if(1 == arg0) {
+                if (1 == arg0){
                     btn_private.setTextColor(Color.WHITE);
+                    btn_private_center.setTextColor(Color.parseColor("#37363C"));
+                    btn_coach.setTextColor(Color.WHITE);
+                    btn_private.setBackgroundResource(R.drawable.baike_btn_trans_left_f_96);
+                    btn_private_center.setBackgroundResource(R.drawable.sijiao_white_center_96);
+                    btn_coach.setBackgroundResource(R.drawable.baike_btn_trans_right_f_96);
+                }
+                if(2 == arg0) {
+                    btn_private.setTextColor(Color.WHITE);
+                    btn_private_center.setTextColor(Color.WHITE);
                     btn_coach.setTextColor(Color.parseColor("#37363C"));
                     btn_private.setBackgroundResource(R.drawable.baike_btn_trans_left_f_96);
+                    btn_private_center.setBackgroundResource(R.drawable.sijiao_black_center_96);
                     btn_coach.setBackgroundResource(R.drawable.baike_btn_pink_right_f_96);
 
                 }
@@ -110,125 +115,21 @@ public class CoachFragment extends Fragment implements View.OnClickListener{
             }
         });
 
-    }
-    public void creatDialog() {
-        dialog = new Dialog(getActivity(), R.style.ActionSheetDialogStyle);
-        // 填充对话框的布局
-        View inflate = LayoutInflater.from(getActivity()).inflate(R.layout.search_dialog,null);
-        // 初始化控件
-        mEtSearch = (EditText) inflate.findViewById(R.id.et_search);
-        mBtnClearSearchText = (Button) inflate.findViewById(R.id.btn_clear_search_text);
-        mLayoutClearSearchText = (LinearLayout) inflate.findViewById(R.id.layout_clear_search_text);
-        mEtSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+        //验证是否登录
+        sp = getActivity().getApplication().getSharedPreferences("USER",
+                Activity.MODE_PRIVATE);
+        int isFirstRun = sp.getInt("isfirst", 0);
+        if (isFirstRun != 0){
+            String str = sp.getString("userInfo", null);
+            Gson gson = new Gson();
+            userInfo = gson.fromJson(str, UserInfo.class);
+            result = userInfo.getResult();
+            uid = result.getUid();
+        }
+        sp1 = getActivity().getSharedPreferences("token",
+                Activity.MODE_PRIVATE);
+        token = sp1.getString("token", null);
 
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                int textLength = mEtSearch.getText().length();
-                if (textLength > 0) {
-                    mLayoutClearSearchText.setVisibility(View.VISIBLE);
-                } else {
-                    mLayoutClearSearchText.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        mBtnClearSearchText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mEtSearch.setText("");
-                mLayoutClearSearchText.setVisibility(View.GONE);
-            }
-        });
-        mEtSearch.setOnKeyListener(new View.OnKeyListener() {
-
-            @Override
-            public boolean onKey(View arg0, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                    search(mEtSearch.getText().toString().trim(), "1");
-                }
-                return false;
-            }
-        });
-        // 将布局设置给Dialog
-        dialog.setContentView(inflate);
-        // 获取当前Activity所在的窗体
-        Window dialogWindow = dialog.getWindow();
-        // 设置dialog横向充满
-        dialogWindow.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-        // 设置Dialog从窗体中间弹出
-        dialogWindow.setGravity(Gravity.TOP);
-        dialog.show();/// 显示对话框
-    }
-
-    /**
-     * 教练中心页面模糊查找
-     *
-     * @param str        编辑框输出的文字
-     * @param searchPage 页数
-     */
-    private void search(String str, String searchPage) {
-        Log.i("百姓学车","模糊查询参数"+ "input=" + str + "   page=" + searchPage + "url=" + searchUrl);
-        OkHttpUtils
-                .post()
-                .url(searchUrl)
-                .addParams("input", str)
-                .addParams("page", searchPage)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int i) {
-                        dialog.dismiss();
-                        Toast.makeText(getActivity(), "网络异常，请检查网络！", Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onResponse(String s, int i) {
-                        Log.i("百姓学车","模糊查询"+s);
-                        dialog.dismiss();
-                        Gson gson = new Gson();
-                        CoachDetailAction coachDetailAction = gson.fromJson(s, CoachDetailAction.class);
-                        if (coachDetailAction.getCode() == 200) {
-
-//                            coach = new PrivateFragment();
-//                            fragmentManager= getFragmentManager();
-//                            Bundle bundle = new Bundle();
-//                            bundle.putString("SEARCH", s);
-//                            coach.setArguments(bundle);
-//                            transaction = fragmentManager.beginTransaction();
-//                            transaction.replace(R.id.car_send_map, coach).commit();
-                            strResult = s;
-                            Intent intent = new Intent();
-                            if(flag == false){
-                                intent.setAction("updataAppPrivateFragment");
-                                getActivity().sendBroadcast(intent);
-                            }else{
-                                intent.setAction("updataAppCoachFragment2");
-                                getActivity().sendBroadcast(intent);
-                            }
-//
-//                            coach = new CoachFragment2();
-//                            fragmentManager= getFragmentManager();
-//                            Bundle bundle = new Bundle();
-//                            bundle.putString("SEARCH", s);
-//                            coach.setArguments(bundle);
-//                            transaction = fragmentManager.beginTransaction();
-//                            transaction.replace(R.id.car_send_map, coach).commit();
-//                            viewPager.setCurrentItem(1, true);
-
-                        } else {
-                            Toast.makeText(getActivity(), coachDetailAction.getReason(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
     }
 
     @Override
@@ -238,12 +139,20 @@ public class CoachFragment extends Fragment implements View.OnClickListener{
                 viewPager.setCurrentItem(0, true);
                 flag = false;
                 break;
+            case R.id.btn_private_center:
+                viewPager.setCurrentItem(1,true);
+                flag = true;
+                break;
             case R.id.btn_coach:
-                viewPager.setCurrentItem(1, true);
+                viewPager.setCurrentItem(2, true);
                 flag = true;
                 break;
             case R.id.search:
-                creatDialog();
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), SearchCoachActivity.class);
+                intent.putExtra("uid", uid);
+                intent.putExtra("token", token);
+                startActivity(intent);
                 break;
 
         }

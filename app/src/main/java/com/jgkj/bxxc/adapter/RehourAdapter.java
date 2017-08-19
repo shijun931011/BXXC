@@ -1,36 +1,18 @@
 package com.jgkj.bxxc.adapter;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
-import com.jgkj.bxxc.activity.BuyClassHoursActivity;
-import com.jgkj.bxxc.activity.RehourActivity;
 import com.jgkj.bxxc.bean.Rehour;
-import com.jgkj.bxxc.bean.entity.MenuEntity.MenuEntitys;
-import com.jgkj.bxxc.bean.entity.MenuEntity.MenuResults;
-import com.jgkj.bxxc.tools.Urls;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.List;
-
-import okhttp3.Call;
 
 
 /**
@@ -95,14 +77,6 @@ public class RehourAdapter extends BaseAdapter {
         }
         return view;
     }
-
-
-
-
-
-
-
-
     class ViewHolder{
         private TextView taocan, bug;
         private TextView immediate_bug;     //学时不够？立即购买

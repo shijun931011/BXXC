@@ -6,24 +6,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jgkj.bxxc.activity.AppraiseActivity;
 import com.jgkj.bxxc.R;
-import com.jgkj.bxxc.activity.ReservationActivity;
-import com.jgkj.bxxc.activity.ReservationForDrivingActivity;
-import com.jgkj.bxxc.activity.ReservationForPrivateActivity;
+import com.jgkj.bxxc.activity.AppraiseActivity;
 import com.jgkj.bxxc.bean.LearnHisAction;
 
-import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * Created by fangzhou on 2016/12/29.
+ * Created by shijun on 2016/12/29.
  */
 
-public class LearnHisAdapter extends BaseAdapter implements View.OnClickListener {
+public class LearnHisAdapter extends BaseAdapter{
     private Context context;
     private List<LearnHisAction.Result> list;
     private LearnHisAction.Result result;
@@ -31,23 +28,18 @@ public class LearnHisAdapter extends BaseAdapter implements View.OnClickListener
     private LayoutInflater inflater;
     private String token;
     private int uid;
-    public LearnHisAdapter(Context context, List<LearnHisAction.Result> list, int isCome,
+    public LearnHisAdapter(Context context, List<LearnHisAction.Result> list,
                            String token, int uid){
         this.list = list;
         this.context = context;
         inflater = LayoutInflater.from(context);
-        this.isCome = isCome;
         this.token = token;
         this.uid = uid;
     }
 
     @Override
     public int getCount() {
-        if(list.isEmpty()){
-            return 0;
-        }else{
-            return list.size();
-        }
+        return list.size();
     }
     @Override
     public Object getItem(int i) {
@@ -64,70 +56,53 @@ public class LearnHisAdapter extends BaseAdapter implements View.OnClickListener
         ViewHolder viewHolder = null;
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = inflater.inflate(R.layout.learnhis_item,
-                    parent, false);
-            viewHolder.day = (TextView) convertView
-                    .findViewById(R.id.day);
-            viewHolder.time = (TextView) convertView
-                    .findViewById(R.id.time);
-            viewHolder.appraise = (Button) convertView
-                    .findViewById(R.id.appraise);
+            convertView = inflater.inflate(R.layout.learnhis_item, parent, false);
+            viewHolder.txt_commment_result = (TextView) convertView.findViewById(R.id.commemt_result);
+            viewHolder.txt_study_school = (TextView) convertView.findViewById(R.id.study_school);
+            viewHolder.txt_study_type = (TextView) convertView.findViewById(R.id.study_type);
+            viewHolder.txt_study_coach = (TextView) convertView.findViewById(R.id.study_coach);
+            viewHolder.txt_study_time = (TextView) convertView.findViewById(R.id.study_time);
+            viewHolder.learn_record_line = (LinearLayout) convertView.findViewById(R.id.learn_record_line);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        if(!list.isEmpty()){
-            result = list.get(position);
-            viewHolder.day.setText(result.getDay());
-            viewHolder.time.setText(result.getTime_slot());
-            viewHolder.appraise.setTag(result);
-            viewHolder.appraise.setOnClickListener(this);
 
-            if(isCome==0){
-                viewHolder.appraise.setText("未到场");
-                viewHolder.appraise.setEnabled(false);
-            }else{
-                if(result.getState()!=0){
-                    viewHolder.appraise.setText("查看");
-                }else{
-                    viewHolder.appraise.setText("评价");
-                    viewHolder.appraise.setEnabled(true);
+        result = list.get(position);
+
+        if (result.getState()==1){
+            viewHolder.txt_commment_result.setText("已评论");
+        }else if (result.getState() == 0){
+            viewHolder.txt_commment_result.setText("未评论");
+            viewHolder.txt_commment_result.setTextColor(context.getResources().getColor(R.color.orange));
+            viewHolder.learn_record_line.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, AppraiseActivity.class);
+                    intent.putExtra("timeid",result.getTimeid());
+                    intent.putExtra("token",token);
+                    intent.putExtra("uid",uid);
+                    context.startActivity(intent);
                 }
-            }
+            });
         }
+        if (result.getFlag().equals("1")){
+            viewHolder.txt_study_type.setText(result.getClass_style());
+        }else if (result.getFlag().equals("2")){
+            viewHolder.txt_study_type.setText(result.getClass_style()+"(科目二)");
+        }else if (result.getFlag().equals("3")){
+            viewHolder.txt_study_type.setText(result.getClass_style()+"(科目三)");
+        }
+
+        viewHolder.txt_study_school.setText(result.getSchool());
+        viewHolder.txt_study_coach.setText(result.getCname());
+        viewHolder.txt_study_time.setText(result.getDay() + result.getTime_slot());
         return convertView;
     }
 
-    @Override
-    public void onClick(View view) {
-        Button btn = (Button) view;
-        result = (LearnHisAction.Result)btn.getTag();
-        Intent intent = new Intent();
-
-        if(btn.getText().toString().equals("评价")){
-            intent.setClass(context, AppraiseActivity.class);
-            intent.putExtra("timeid",result.getTimeid());
-            intent.putExtra("token",token);
-            intent.putExtra("uid",uid);
-        }
-        if(btn.getText().toString().equals("查看")){
-            if(result.getClass_type().equals("私教班")){
-                intent.setClass(context, ReservationForPrivateActivity.class);
-                intent.putExtra("coachId",result.getCid());
-                intent.putExtra("uid", uid);
-                intent.putExtra("token", token);
-            }else{
-                intent.setClass(context, ReservationActivity.class);
-                intent.putExtra("coachId",result.getCid());
-                intent.putExtra("uid", uid);
-                intent.putExtra("token", token);
-            }
-        }
-        context.startActivity(intent);
-    }
-
     static class ViewHolder {
-        public TextView day,time;
-        public Button appraise;
+        public TextView txt_study_type, txt_study_school, txt_study_coach, txt_study_time, txt_commment_result;
+        public LinearLayout learn_record_line;
     }
 }

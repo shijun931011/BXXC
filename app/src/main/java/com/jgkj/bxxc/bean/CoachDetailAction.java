@@ -11,6 +11,8 @@ public class CoachDetailAction implements Serializable {
 	private int code;
 	//result
 	private List<Result> result;
+	//resultarr
+	private List<Resultarr> resultarr;
 	//返回信息
 	private String reason;
 
@@ -23,7 +25,76 @@ public class CoachDetailAction implements Serializable {
 	public List<Result> getResult() {
 		return result;
 	}
+	public List<Resultarr> getResultarr(){
+		return this.resultarr;
+	}
+	public class Resultarr
+	{
+		private String pttid;
 
+		private String name;
+
+		private String file;
+
+		private String ptschool;
+
+		private String ptzonghe;
+
+		private String ptpraise;
+
+		private String ptpass;
+
+		private String totalnum;
+
+		public void setPttid(String pttid){
+			this.pttid = pttid;
+		}
+		public String getPttid(){
+			return this.pttid;
+		}
+		public void setName(String name){
+			this.name = name;
+		}
+		public String getName(){
+			return this.name;
+		}
+		public void setFile(String file){
+			this.file = file;
+		}
+		public String getFile(){
+			return this.file;
+		}
+		public void setPtschool(String ptschool){
+			this.ptschool = ptschool;
+		}
+		public String getPtschool(){
+			return this.ptschool;
+		}
+		public void setPtzonghe(String ptzonghe){
+			this.ptzonghe = ptzonghe;
+		}
+		public String getPtzonghe(){
+			return this.ptzonghe;
+		}
+		public void setPtpraise(String ptpraise){
+			this.ptpraise = ptpraise;
+		}
+		public String getPtpraise(){
+			return this.ptpraise;
+		}
+		public void setPtpass(String ptpass){
+			this.ptpass = ptpass;
+		}
+		public String getPtpass(){
+			return this.ptpass;
+		}
+		public void setTotalnum(String totalnum){
+			this.totalnum = totalnum;
+		}
+		public String getTotalnum(){
+			return this.totalnum;
+		}
+	}
 	public class Result{
 		//教练id
 		private String cid;
@@ -53,26 +124,39 @@ public class CoachDetailAction implements Serializable {
 
 		private String  clastatus;
 
+		//教练中心的ID
+		private String tid;
+		//教练中心团队名称
+		private String name;
+		private String school;
+		private String totalnum;
+		public String getTid() {
+			return tid;
+		}
+		public String getName() {
+			return name;
+		}
+		public String getSchool() {
+			return school;
+		}
+		public String getTotalnum() {
+			return totalnum;
+		}
 		public String getClastatus() {
 			return clastatus;
 		}
-
 		public void setClastatus(String clastatus) {
 			this.clastatus = clastatus;
 		}
-
 		public String getClass_class() {
 			return class_class;
 		}
-
 		public String getChexing() {
 			return chexing;
 		}
-
 		public String getCid() {
 			return cid;
 		}
-
 		public String getFaddress() {
 			return faddress;
 		}

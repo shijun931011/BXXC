@@ -108,17 +108,5 @@ public class RechargeAdapter extends RecyclerView.Adapter<RechargeAdapter.BaseVi
         }
     }
 
-//    private class TWoViewHolder extends BaseViewHolder {
-//        private EditText et;
-//
-//        public TWoViewHolder(View view) {
-//            super(view);
-//            et = (EditText) view.findViewById(R.id.et);
-//        }
-//
-//        @Override
-//        void setData(Object data) {
-//            super.setData(data);
-//        }
-//    }
+
 }

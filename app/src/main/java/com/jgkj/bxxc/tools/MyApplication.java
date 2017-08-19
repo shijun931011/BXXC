@@ -1,7 +1,9 @@
 package com.jgkj.bxxc.tools;
+
 import android.app.Application;
 import android.content.Context;
 import android.os.Build;
+import android.os.Handler;
 import android.os.StrictMode;
 
 import com.android.volley.RequestQueue;
@@ -10,10 +12,8 @@ import com.baidu.mapapi.SDKInitializer;
 import com.jgkj.bxxc.db.DBManager;
 import com.jgkj.bxxc.db.DaoMaster;
 import com.jgkj.bxxc.db.DaoSession;
-import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
-import com.umeng.socialize.utils.Log;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -28,7 +28,6 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         UMShareAPI.get(this);
         // 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
         SDKInitializer.initialize(this);
@@ -44,9 +43,11 @@ public class MyApplication extends Application {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());
         }
-
         app = this;
         DBManager.getInstance(app);
+
+        //初始化handler
+        mHandler = new Handler();
     }
     {
         //QQ
@@ -86,6 +87,21 @@ public class MyApplication extends Application {
             daoMaster = new DaoMaster(helper.getWritableDatabase());
         }
         return daoMaster;
+    }
+
+    /**
+     * 在主线程中刷新UI的方法
+     *
+     * @param r
+     */
+    public static void runOnUIThread(Runnable r) {
+        MyApplication.getMainHandler().post(r);
+    }
+    //qcl用来在主线程中刷新ui
+    private static Handler mHandler;
+
+    public static Handler getMainHandler() {
+        return mHandler;
     }
 
 }

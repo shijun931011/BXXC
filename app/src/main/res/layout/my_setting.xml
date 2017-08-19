@@ -9,7 +9,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/background"
+            android:background="@color/white"
             android:isScrollContainer="false"
             android:orientation="vertical">
             <RelativeLayout
@@ -104,10 +104,7 @@
                     android:text="我的钱包"
                     android:textSize="20sp"/>
             </LinearLayout>
-            <View android:layout_width="match_parent"
-                  android:layout_height="0.1dp"
-                  android:layout_marginTop="5dp"
-                  android:background="@color/background"/>
+
             <!-- 学车进程 -->
             <LinearLayout
                 android:id="@+id/learnPro"
@@ -137,7 +134,6 @@
                     android:drawableRight="@drawable/right_arrow"
                     android:drawablePadding="10dp"
                     android:paddingRight="15dp"
-
                     />
                 </LinearLayout>
             <View
@@ -161,30 +157,27 @@
                 android:paddingTop="10dp"
                 android:text="学车记录"/>
 
-            <View
-            android:layout_width="match_parent"
-            android:layout_height="0.1dp"
-            android:layout_marginLeft="50dp"
-            android:background="@color/background"/>
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0.1dp"-->
+            <!--android:layout_marginLeft="50dp"-->
+            <!--android:background="@color/background"/>-->
 
-            <TextView
-                android:id="@+id/tv_driving"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:drawableLeft="@drawable/driving"
-                android:drawablePadding="10dp"
-                android:drawableRight="@drawable/right_arrow"
-                android:gravity="center_vertical"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="15dp"
-                android:paddingTop="10dp"
-                android:text="陪练记录"/>
-            <View android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/background"/>
+            <!--<TextView-->
+                <!--android:id="@+id/tv_driving"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="#FFFFFF"-->
+                <!--android:drawableLeft="@drawable/driving"-->
+                <!--android:drawablePadding="10dp"-->
+                <!--android:drawableRight="@drawable/right_arrow"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:paddingBottom="10dp"-->
+                <!--android:paddingLeft="10dp"-->
+                <!--android:paddingRight="15dp"-->
+                <!--android:paddingTop="10dp"-->
+                <!--android:text="陪练记录"/>-->
+
 
             <!-- 我的教练 -->
             <TextView
@@ -201,13 +194,31 @@
                 android:paddingRight="15dp"
                 android:paddingTop="10dp"
                 android:text="我的教练"/>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="50dp"
+                android:background="@color/background"/>
+            <!--我的预约-->
+            <TextView
+                android:id="@+id/my_reservation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:drawableLeft="@drawable/yuyue"
+                android:drawableRight="@drawable/right_arrow"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:paddingTop="15dp"
+                android:text="我的预约"/>
             <View android:layout_width="match_parent"
                   android:layout_height="0.1dp"
                   android:layout_marginTop="5dp"
                   android:background="@color/background"/>
             <!-- 客服 -->
-
             <TextView
                 android:id="@+id/customer"
                 android:layout_width="match_parent"

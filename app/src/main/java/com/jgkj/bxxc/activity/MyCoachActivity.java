@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -23,11 +24,11 @@ import com.jgkj.bxxc.adapter.StuSubNewAdapter;
 import com.jgkj.bxxc.bean.CreateDay_Time;
 import com.jgkj.bxxc.bean.MyCoachAction;
 import com.jgkj.bxxc.bean.UserInfo;
+import com.jgkj.bxxc.bean.entity.MyCoachForPrivateEntity.MyCoachPrivaetEntity;
 import com.jgkj.bxxc.bean.entity.MyCoachForPrivateEntity.MyCoachPrivateResult;
 import com.jgkj.bxxc.tools.CreateDialog;
 import com.jgkj.bxxc.tools.RefreshLayout;
 import com.jgkj.bxxc.tools.StatusBarCompat;
-import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -36,12 +37,14 @@ import java.util.List;
 
 import okhttp3.Call;
 
+import static com.jgkj.bxxc.tools.Urls.myCoachUrl;
+
 
 /**
  * Created by fangzhou on 2016/11/5.
  * 展示我的教练页面
  */
-public class MyCoachActivity extends Activity implements View.OnClickListener , SwipeRefreshLayout.OnRefreshListener{
+public class MyCoachActivity extends Activity implements View.OnClickListener,AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener{
     private Button back_forward;
     private TextView text_title;
     private ListView subListView;//没有用到
@@ -57,7 +60,7 @@ public class MyCoachActivity extends Activity implements View.OnClickListener , 
     private MyCoachAction.Result res;
     private String state;
     private String token;
-    private String myCoachUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/myCoach";
+//    private String myCoachUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/myCoach";
     private ListView listView;
     private TextView noSmsData;
     private RefreshLayout swipeLayout;
@@ -68,6 +71,8 @@ public class MyCoachActivity extends Activity implements View.OnClickListener , 
     private TextView textView;
     private UserInfo userInfo;
     private String classType;
+
+    private List<MyCoachPrivaetEntity> tempList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,12 +120,12 @@ public class MyCoachActivity extends Activity implements View.OnClickListener , 
         text_title = (TextView) findViewById(R.id.text_title);
         text_title.setText("我的教练");
         back_forward.setOnClickListener(this);
-
         listView = (ListView)findViewById(R.id.listView);
         noSmsData = (TextView)findViewById(R.id.noSmsData);
+        listView.setOnItemClickListener(this);
         listView.setEmptyView(noSmsData);
         Intent intent = getIntent();
-        uid = intent.getIntExtra("uid", -1);
+        uid = intent.getIntExtra("uid",uid);
         cid = intent.getStringExtra("cid");
         state = intent.getStringExtra("state");
         token = intent.getStringExtra("token");
@@ -153,7 +158,7 @@ public class MyCoachActivity extends Activity implements View.OnClickListener , 
         myContext = (TextView) findViewById(R.id.myContext);
         coachHead = (ImageView) findViewById(R.id.coachHead);
         Intent intent = getIntent();
-        uid = intent.getIntExtra("uid", -1);
+        uid = intent.getIntExtra("uid", uid);
         cid = intent.getStringExtra("cid");
         state = intent.getStringExtra("state");
         token = intent.getStringExtra("token");
@@ -174,6 +179,7 @@ public class MyCoachActivity extends Activity implements View.OnClickListener , 
         }
 
         listView = (ListView) findViewById(R.id.listView);
+
         textView = (TextView) findViewById(R.id.textView);
 
         //下拉刷新
@@ -305,10 +311,10 @@ public class MyCoachActivity extends Activity implements View.OnClickListener , 
      *            token 用户的token值
      */
     private void getMyCoach(String uid) {
-        Log.i("百信学车","我的教练参数  uid=" + uid + "   cid=" + cid + "   state=" + state + "   token=" + token + "   url=" + myCoachUrl);
+        Log.i("百信学车","我的教练参数  uid=" + uid + "   cid=" + cid + "   state=" + state + "   token=" + token);
         OkHttpUtils
                 .post()
-                .url(Urls.myCoachUrl)
+                .url(myCoachUrl)
                 .addParams("uid", uid)
                 .addParams("token", token)
                 .build()
@@ -321,7 +327,6 @@ public class MyCoachActivity extends Activity implements View.OnClickListener , 
                     @Override
                     public void onResponse(String s, int i) {
                         Log.i("百信学车","我的教练结果" + s);
-                        Log.d("shijun","ssss"+s);
                         text_title.setTag(s);
                         if (text_title.getTag() != null) {
                             setListView();
@@ -337,10 +342,10 @@ public class MyCoachActivity extends Activity implements View.OnClickListener , 
      * @param token_
      */
     private void getMyCoachPrivate(String uid_,String token_) {
-        Log.i("百信学车","我的教练私教班参数  uid=" + uid  + "   token=" + token + "   url=" + myCoachUrl);
+        Log.d("百信学车","我的教练私教班参数  uid=" + uid  + "   token=" + token + "   url=" + myCoachUrl);
         OkHttpUtils
                 .post()
-                .url(Urls.myCoachUrl)
+                .url(myCoachUrl)
                 .addParams("uid", uid_)
                 .addParams("token", token_)
                 .build()
@@ -355,27 +360,44 @@ public class MyCoachActivity extends Activity implements View.OnClickListener , 
                         Log.i("百信学车","我的教练私教班结果" + s);
                         Gson gson = new Gson();
                         MyCoachPrivateResult myCoachPrivateResult = gson.fromJson(s, MyCoachPrivateResult.class);
-                        MyCoachPrivateAdapter adapter = new MyCoachPrivateAdapter(MyCoachActivity.this,myCoachPrivateResult.getResult(),uid,token);
+                        List<MyCoachPrivaetEntity> list = myCoachPrivateResult.getResult();
+                        for (int k=0; k<list.size(); k++){
+                            if (!"0".equals(list.get(k).getRoles()) && !("2".equals(list.get(k).getRoles()) && list.get(k).getCid()!=null)){
+//                                list.remove(k);
+                                tempList.add(list.get(k));
+                            }
+                        }
+                        MyCoachPrivateAdapter adapter = new MyCoachPrivateAdapter(MyCoachActivity.this,tempList,uid,token);
                         listView.setAdapter(adapter);
                     }
                 });
     }
 
     @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        TextView coachId = (TextView) view.findViewById(R.id.coachId);
+        TextView tid = (TextView) view.findViewById(R.id.coachId);
+        TextView pri_center_name = (TextView) view.findViewById(R.id.coachName);
+        Intent intent = new Intent();
+        if (tempList.get(i).getRoles().equals("1")){
+            intent.setClass(this, ReservationForPrivateActivity.class);
+            intent.putExtra("coachId", tempList.get(i).getCid());
+            intent.putExtra("uid", uid);
+            intent.putExtra("token", token);
+        }else if (tempList.get(i).getRoles().equals("2")){
+            intent.setClass(this, PrivateCenterDetailsActivity.class);
+            intent.putExtra("tid", tempList.get(i).getTid());
+            intent.putExtra("uid", uid);
+            intent.putExtra("token", token);
+            intent.putExtra("name",pri_center_name.getText().toString().trim());
+        }
+        startActivity(intent);
+    }
+
+    @Override
     protected void onRestart() {
         Log.i("shijun","onRestart() ");
         super.onRestart();
-//        SharedPreferences sp = getSharedPreferences("getSubjectSet", Activity.MODE_PRIVATE);
-//        boolean ischange = sp.getBoolean("isChange",false);
-//        if(uid!=-1&&!res.getCid().equals("")&&res.getCid()!=null&&ischange){
-//            Intent intent = new Intent();
-//            intent.setClass(MyCoachActivity.this,AppTimeNewActivity.class);
-//            intent.putExtra("uid",uid);
-//            intent.putExtra("cid",res.getCid());//token
-//            intent.putExtra("token",token);
-//            startActivity(intent);
-//        }
-
         //经典班
         if("1".equals(classType)){
             init();

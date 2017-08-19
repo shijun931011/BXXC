@@ -6,11 +6,11 @@ package com.jgkj.bxxc.bean;
  */
 
 public class MyPayResult {
-    private int code;
+    private String code;
     private String reason;
     private String result;
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 

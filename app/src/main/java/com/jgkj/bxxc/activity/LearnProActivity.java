@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,11 +27,11 @@ import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import okhttp3.Call;
+
+
 
 /**
  * Created by fangzhou on 2016/11/5.
@@ -63,9 +64,7 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
     private String sub2Url = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/applySubjectStudy";
     private String applyUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/applySubjectTestAgain";
     private String sub4Url = "http://www.baixinxueche.com/index.php/Home/Apialltoken/applyFour";
-
     private TextView tv_look;
-
     private int uid;
 
     @Override
@@ -385,13 +384,13 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
                 } else if (str.equals("申请科目三")) {
                     refreshInfo(result.getUid() + "", sub2Url);
                 } else if (str.equals("科目二正在进行中")) {
-                    applykaoshi(result.getUid() + "", applyUrl, state);
+                    applykaoshi(result.getUid() + "",token, applyUrl, state);
                 } else if (str.equals("科目三正在进行中")) {
-                    applykaoshi(result.getUid() + "", applyUrl, state);
+                    applykaoshi(result.getUid() + "",token, applyUrl, state);
                 } else if (str.equals("科目四正在进行中")) {
-                    applykaoshi(result.getUid() + "", applyUrl, state);
+                    applykaoshi(result.getUid() + "", token,applyUrl, state);
                 } else if (str.equals("申请科目四")) {
-                    applykaoshi(result.getUid() + "", sub4Url, state);
+                    applykaoshi(result.getUid() + "",token,sub4Url, state);
                 }
                 //当每次完成后刷新当前页面
                 refresh();
@@ -472,8 +471,8 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
         refreshInfo(result.getUid() + "", refreashUrl);
         super.onRestart();
     }
-
-    private void applykaoshi(String uid, String refreashUrl, String state) {
+    private void applykaoshi(String uid,String token,String refreashUrl, String state) {
+        Log.d("百信学车","申请考试参数值："+uid+"token:"+token+"refreashUrl:"+refreashUrl+"state:"+state);
         OkHttpUtils
                 .post()
                 .url(refreashUrl)
@@ -493,16 +492,16 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
                         UserInfo userInfo = gson.fromJson(s, UserInfo.class);
                         if (userInfo.getCode() == 200) {
                             gotoComplete.setText("准备考试中");
-                        }else{
+                        }else if (userInfo.getCode() == 400){
                             Toast.makeText(LearnProActivity.this, userInfo.getReason(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
 
-    private void refreshInfo(String uid, String refreashUrl) {
-        OkHttpUtils
-                .post()
+    private void refreshInfo(String uid,String refreashUrl) {
+        Log.d("百信学车","学习进程参数值："+uid+"token:"+token);
+        OkHttpUtils.post()
                 .url(refreashUrl)
                 .addParams("uid", uid)
                 .addParams("token", token)
@@ -512,13 +511,14 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
                     public void onError(Call call, Exception e, int i) {
                         Toast.makeText(LearnProActivity.this, "请检查网络", Toast.LENGTH_SHORT).show();
                     }
-
                     @Override
                     public void onResponse(String s, int i) {
+                        Log.d("百信学车","学习进程"+s);
                         Gson gson = new Gson();
                         UserInfo userInfo = gson.fromJson(s, UserInfo.class);
                         if (userInfo.getCode() == 200) {
-                        }else{
+
+                        }else if (userInfo.getCode()== 400){
                             Toast.makeText(LearnProActivity.this, userInfo.getReason(), Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -526,8 +526,7 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
     }
 
     private void refresh() {
-        OkHttpUtils
-                .post()
+        OkHttpUtils.post()
                 .url(refreashUrl)
                 .addParams("uid", result.getUid() + "")
                 .build()
@@ -536,7 +535,6 @@ public class LearnProActivity extends Activity implements View.OnClickListener {
                     public void onError(Call call, Exception e, int i) {
                         Toast.makeText(LearnProActivity.this, "请检查网络", Toast.LENGTH_SHORT).show();
                     }
-
                     @Override
                     public void onResponse(String s, int i) {
                         Gson gson = new Gson();

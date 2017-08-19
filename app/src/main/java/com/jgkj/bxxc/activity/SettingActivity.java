@@ -15,20 +15,11 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.UserInfo;
-import com.jgkj.bxxc.bean.Version;
-import com.jgkj.bxxc.tools.GetVersion;
 import com.jgkj.bxxc.tools.GlideCacheUtil;
 import com.jgkj.bxxc.tools.StatusBarCompat;
-import com.jgkj.bxxc.tools.UpdateManger;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
-
-import okhttp3.Call;
 
 public class SettingActivity extends Activity implements View.OnClickListener {
     private Button back;
@@ -49,10 +40,8 @@ public class SettingActivity extends Activity implements View.OnClickListener {
     private Context context;
 
     //账户安全
-    private LinearLayout linearLayout_account_security;
+    private LinearLayout linearLayout_account_security,linearlayout_about_me;
 
-    //版本更新接口
-    private String versionUrl = "http://www.baixinxueche.com/index.php/Home/Apitoken/versionandroid";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +58,10 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         back.setOnClickListener(this);
         title = (TextView) findViewById(R.id.text_title);
         title.setText("设置");
-
         linearLayout_account_security = (LinearLayout)findViewById(R.id.linearLayout_account_security);
-        //版本更新
-        softInfo = (TextView) findViewById(R.id.softInfo);
-        softInfo.setText(GetVersion.getVersion(this));
-        softInfo.setOnClickListener(this);
+        //关于我们
+        linearlayout_about_me = (LinearLayout) findViewById(R.id.linearlayout_about_me);
+        linearlayout_about_me.setOnClickListener(this);
         linearLayout_account_security.setOnClickListener(this);
         //缓存大小
         cleanUp = (TextView) findViewById(R.id.cleanUp);
@@ -171,34 +158,6 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         sureDialog.show();
     }
 
-    /**
-     * 检查更新
-     */
-    private void checkSoftInfo() {
-        OkHttpUtils
-                .get()
-                .url(versionUrl)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int i) {
-                        Toast.makeText(SettingActivity.this, "请检查网络", Toast.LENGTH_LONG).show();
-                    }
-                    @Override
-                    public void onResponse(String s, int i) {
-                        Gson gson = new Gson();
-                        Version version = gson.fromJson(s, Version.class);
-                        if (version.getCode() == 200) {
-                            if (version.getResult().get(0).getVersionCode() > GetVersion.getVersionCode(context)) {
-                                UpdateManger updateManger = new UpdateManger(context, version.getResult().get(0).getPath(),version.getResult().get(0).getVersionName());
-                                updateManger.checkUpdateInfo();
-                            } else {
-                                Toast.makeText(SettingActivity.this, "已是最新版本", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                });
-    }
 
     @Override
     public void onClick(View v) {
@@ -220,8 +179,9 @@ public class SettingActivity extends Activity implements View.OnClickListener {
             case R.id.button_backward:
                 finish();
                 break;
-            case R.id.softInfo:
-                checkSoftInfo();
+            case R.id.linearlayout_about_me:
+                intent.setClass(SettingActivity.this, AboutMeActivity.class);
+                startActivity(intent);
                 break;
             case R.id.cleanUp:
                 createSureDialog();

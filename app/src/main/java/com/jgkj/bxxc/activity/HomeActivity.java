@@ -16,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -88,12 +89,12 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
     private UserInfo.Result result;
     private String token;
     private int uid;
-    private String versionUrl = "http://www.baixinxueche.com/index.php/Home/Apitoken/versionandroid";
+//    private String versionUrl = "http://www.baixinxueche.com/index.php/Home/Apitoken/versionandroid";
+    private String versionUrl="http://www.baixinxueche.com/index.php/Home/Apitoken/styleVersionAndroid";
     private Drawable rbImg1;
     private Drawable rbImg2;
     private Drawable rbImg3;
     private Drawable rbImg4;
-
     private Context context;
     private boolean flag_dialog = false;
 
@@ -148,24 +149,30 @@ public class HomeActivity extends FragmentActivity implements OnClickListener {
      * 检查版本更新
      */
     private void checkSoftInfo() {
-        OkHttpUtils.get().url(versionUrl).build().execute(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int i) {
-                Toast.makeText(HomeActivity.this, "请检查网络", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onResponse(String s, int i) {
-                Gson gson = new Gson();
-                Version version = gson.fromJson(s, Version.class);
-                if (version.getCode() == 200) {
-                    if (version.getResult().get(0).getVersionCode() > GetVersion.getVersionCode(context)) {
-                        UpdateManger updateManger = new UpdateManger(context, version.getResult().get(0).getPath(), version.getResult().get(0).getVersionName());
-                        updateManger.checkUpdateInfo();
+        OkHttpUtils
+                .get()
+                .url(versionUrl)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int i) {
+                        Toast.makeText(HomeActivity.this, "请检查网络", Toast.LENGTH_LONG).show();
                     }
-                }
-            }
-        });
+                    @Override
+                    public void onResponse(String s, int i) {
+                        Log.d("百信学车","版本更新:"+s);
+                        Gson gson = new Gson();
+                        Version version = gson.fromJson(s, Version.class);
+                        if (version.getCode() == 200) {
+                            if (version.getResult().get(0).getVersionCode() > GetVersion.getVersionCode(context)) {
+                                UpdateManger updateManger = new UpdateManger(context, version
+                                        .getResult().get(0).getPath(), version.getResult().get(0)
+                                        .getVersionName(),version.getResult().get(0).getStyle());
+                                updateManger.checkUpdateInfo();
+                            }
+                        }
+                    }
+                });
     }
 
     // 初始化控件及部分方法

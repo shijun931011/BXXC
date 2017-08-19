@@ -57,7 +57,6 @@ public class Sub2 extends Fragment implements View.OnClickListener {
 
         learnSkills = (LinearLayout) view.findViewById(R.id.learnSkills);
         learnSkills.setOnClickListener(this);
-
         videoview1 = (ImageView) view.findViewById(R.id.videoview1);
         videoview1.setOnClickListener(this);
         textView1 = (TextView) view.findViewById(R.id.textView1);

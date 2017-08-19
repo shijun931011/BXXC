@@ -6,18 +6,12 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,7 +19,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -51,9 +44,7 @@ import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.bean.entity.CommentEntity.CommentEntity;
 import com.jgkj.bxxc.bean.entity.CommentEntity.CommentResult;
 import com.jgkj.bxxc.tools.CallDialog;
-import com.jgkj.bxxc.tools.MyOrientationListener;
 import com.jgkj.bxxc.tools.RefreshLayout;
-import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
@@ -89,9 +80,9 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
     //上拉刷新
     private RefreshLayout swipeLayout;
     private View headView;
+    private TextView coach_introduce;  //教练简介
     //接受数据
     private String coachId;
-
     /**
      * ListView的加载中footer
      */
@@ -122,32 +113,22 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
     private List<CommentEntity> listStu;
     private TextView connectCus,haopinglv;
     //url
-    private String coachUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/CoachinfoAgain";
+//    private String coachUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/CoachinfoAgain";
+    private String coachUrl = "http://www.baixinxueche.com/index.php/Home/Hotsearch/CoachinfoPersonal";
     private String comment = "http://www.baixinxueche.com/index.php/Home/Api/comment";
     private String changeUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/subjectTwoCoachConfirm";
     private String commentUrl = "http://www.baixinxueche.com/index.php/Home/Apitoken/commentMore";
-
     //地图
     public MapView mMapView;
-
     //定位
     public LocationClient mLocClient;
     public MyLocationConfiguration.LocationMode mCurrentMode;
     public BitmapDescriptor mCurrentMarker;
-    //方向传感器
-    private MyOrientationListener myOrientationListener;
-    private int mXDirection;
-    private double mCurrentLantitude, mCurrentLongitude;
-    private float mCurrentAccracy;
-
-    private String address= "";
     private BaiduMap mBaiduMap;
     private BitmapDescriptor bitmap;
     private SchoolPlaceTotal schoolPlaceTotal;
     //Marker地图标签
     private LatLng point;
-//    private final  MyLocationListenner myListener = new MyLocationListenner();
-    boolean isFirstLoc = true; // 是否首次定位
     private InfoWindow mInfoWindow;
     private BitmapDescriptor  bitmapA;
     private String[] city = new String[0];
@@ -162,58 +143,25 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
             return code;
         }
     }
-
     private LinearLayout linear_list_noData;
     private CoachInfo.Result result;
     private boolean falg = false;
-
     public static List<Activity> activityList = new LinkedList<Activity>();
-
-    private static final String APP_FOLDER_NAME = "BNSDKSimpleDemo";
-
-    //	private Button mWgsNaviBtn = null;
-//	private Button mGcjNaviBtn = null;
-//	private Button mBdmcNaviBtn = null;
-    private Button mDb06ll = null;
-    private String mSDCardPath = null;
-
-    public static final String ROUTE_PLAN_NODE = "routePlanNode";
-    public static final String SHOW_CUSTOM_ITEM = "showCustomItem";
-    public static final String RESET_END_NODE = "resetEndNode";
-    public static final String VOID_MODE = "voidMode";
-
     private static final String[] authBaseArr = { Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_FINE_LOCATION };
     private static final String[] authComArr = { Manifest.permission.READ_PHONE_STATE };
-    private static final int authBaseRequestCode = 1;
-    private static final int authComRequestCode = 2;
-
-    private boolean hasInitSuccess = false;
-    private boolean hasRequestComAuth = false;
-
     private String latitude;
     private String longitude;
-
-    private double latitudes;
-    private double longitudes;
-
-    private LocationClient mLocationClient;
-    private BDLocationListener mBDLocationListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         activityList.add(this);
-        // 注意该方法要再setContentView方法之前实现
-        //SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.reservation);
-        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         //显示ProgressDialog
         progressDialog = ProgressDialog.show(ReservationForPrivateActivity.this, "加载中...", "请等待...", true, false);
         headView = getLayoutInflater().inflate(R.layout.coach_head_private, null);
         init();
-        //initMap();
         getData(coachId, coachUrl);
         bitmapA = BitmapDescriptorFactory.fromResource(R.drawable.a2);
     }
@@ -229,66 +177,6 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
         mMapView.showScaleControl(false);
         //设置是否显示缩放控件
         mMapView.showZoomControls(false);
-        // 开启定位图层
-//        mBaiduMap.setMyLocationEnabled(true);
-        //设置缩放级别
-//        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(14).build()));
-//        // 定位初始化
-//        mLocClient = new LocationClient(ReservationForPrivateActivity.this);
-//        mLocClient.registerLocationListener(myListener);
-//        myOrientationListener = new MyOrientationListener(getApplicationContext());
-//
-//        v.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if(event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE){
-//                    listView.requestDisallowInterceptTouchEvent(false);
-//                }else{
-//                    listView.requestDisallowInterceptTouchEvent(true);
-//                }
-//                return false;
-//            }
-//        });
-//
-//        myOrientationListener.setOnOrientationListener(new MyOrientationListener.OnOrientationListener() {
-//            @Override
-//            public void onOrientationChanged(float x) {
-//                mXDirection = (int) x;
-//                // 构造定位数据
-//                MyLocationData locData = new MyLocationData.Builder()
-//                        .accuracy(mCurrentAccracy)
-//                        // 此处设置开发者获取到的方向信息，顺时针0-360
-//                        .direction(mXDirection)
-//                        .latitude(Double.parseDouble(lantitude))
-//                        .longitude(Double.parseDouble(longitude)).build();
-//                // 设置定位数据
-//                mBaiduMap.setMyLocationData(locData);
-//                // 设置自定义图标
-//                mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
-//                        mCurrentMode, true, mCurrentMarker));
-//            }
-//        });
-//
-//        point = new LatLng(Double.parseDouble(lantitude), Double.parseDouble(longitude));
-//        OverlayOptions option = null;
-//        option = new MarkerOptions().position(point).zIndex(0).icon(bitmapA);
-//        mMarker = (Marker) mBaiduMap.addOverlay(option);
-//        MapStatus.Builder builder = new MapStatus.Builder();
-//        builder.target(point).zoom(17.0f);
-//        mBaiduMap.animateMapStatus(MapStatusUpdateFactory
-//                .newMapStatus(builder.build()));
-//        mBaiduMap.setOnMarkerClickListener(new markerClickListener());
-//
-////        LocationClientOption option = new LocationClientOption();
-////        option.setOpenGps(true);// 打开gps
-////        option.setCoorType("bd09ll"); // 设置坐标类型
-////        option.setScanSpan(1000);
-////        mLocClient.setLocOption(option);
-//        mCurrentMode = MyLocationConfiguration.LocationMode.FOLLOWING;
-//        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
-//                mCurrentMode, true, mCurrentMarker));
-//        mLocClient.start();
-
         //设置指定定位坐标
         point = new LatLng(Double.parseDouble(lantitude), Double.parseDouble(longitude));
         BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.yaogan);
@@ -313,7 +201,9 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                 intent.setClass(ReservationForPrivateActivity.this,BDMAPActivity.class);
                 intent.putExtra("lantitude",Double.parseDouble(latitude));
                 intent.putExtra("longitude",Double.parseDouble(longitude));
-                intent.putExtra("coachInfo", signup_Coach.getTag().toString());
+                intent.putExtra("faddress", result.getFaddress());
+                intent.putExtra("address",result.getAddress());
+                intent.putExtra("value","1");
                 startActivity(intent);
             }
             @Override
@@ -349,77 +239,18 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
     }
 
     /**
-     * 设置popWindow
-     * @param results
-     */
-    private void setPup(List<SchoolPlaceTotal.Result> results) {
-        city = new String[results.size()];
-        for (int i = 0; i < results.size(); i++) {
-            city[i] = results.get(i).getSchool_aera();
-        }
-        allMarker();
-    }
-
-    /**
      * marker点击事件处理
      */
     private class markerClickListener implements BaiduMap.OnMarkerClickListener {
         @Override
         public boolean onMarkerClick(final Marker marker) {
             LatLng latLng = marker.getPosition();
-//            List<SchoolPlaceTotal.Result.Res> listSch = schoolPlaceTotal.getResult().get(0).getResult();
-//            int index = marker.getZIndex();
-//            double latitude = Double.parseDouble(listSch.get(index).getLatitude());
-//            double longitude = Double.parseDouble(listSch.get(index).getLongitude());
-//            if (latLng.latitude == latitude && latLng.longitude == longitude) {
-//                Button button = new Button(ReservationForPrivateActivity.this
-//                        .getApplicationContext());
-//                button.setBackgroundResource(R.drawable.qipao);
-//                button.setTextColor(getResources().getColor(R.color.black));
-//                button.setTextSize(12);
-//                button.setPadding(20, 20, 20, 40);
-//                button.setText(listSch.get(index).getFaddress());
-//                mInfoWindow = new InfoWindow(BitmapDescriptorFactory
-//                        .fromView(button), marker.getPosition(), -70, null);
-//                mBaiduMap.showInfoWindow(mInfoWindow);
-//            }
-//            Toast.makeText(ReservationForPrivateActivity.this, "导航初始化中...", Toast.LENGTH_LONG).show();
-//            if (BaiduNaviManager.isNaviInited()) {
-//                routeplanToNavi(BNRoutePlanNode.CoordinateType.BD09LL);
-//            }
             return true;
         }
     }
 
-//    /**
-//     * 定位SDK监听函数
-//     */
-//    public class MyLocationListenner implements BDLocationListener {
-//
-//        @Override
-//        public void onReceiveLocation(final BDLocation location) {
-//            // map view 销毁后不在处理新接收的位置
-//            if (location == null || mMapView == null) {
-//                return;
-//            }
-//            // 构造定位数据
-//            if (isFirstLoc) {
-//                MyLocationData locData = new MyLocationData.Builder()
-//                        .accuracy(location.getRadius())
-//                        // 此处设置开发者获取到的方向信息，顺时针0-360
-//                        .direction(mXDirection).latitude(location.getLatitude())
-//                        .longitude(location.getLongitude()).build();
-//                mCurrentAccracy = location.getRadius();
-//                mBaiduMap.setMyLocationData(locData);
-//            }
-//            mCurrentLantitude = location.getLatitude();
-//            mCurrentLongitude = location.getLongitude();
-//        }
-//    }
-
     /**
      * 根据cid(教练id)获取教练信息
-     *
      * @param coachId 教练信息
      * @param url     请求地址
      */
@@ -437,7 +268,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                     }
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.i("百信学车","预约教练信息" + s);
+                        Log.i("百信学车","私教教练信息" + s);
                         signup_Coach.setTag(s);
                         Gson gson = new Gson();
                         CoachInfo coachInfo = gson.fromJson(s, CoachInfo.class);
@@ -461,8 +292,11 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                             coach_address.setText(result.getAddress());
                             coach_head.setTag(result.getFile());
                             share.setTag(result.getCid());
-//                            int credit = result.getCredit();
-//                            int zhonghenum = result.getZonghe();
+                            if (result.getIntroduction().equals("")){
+                                coach_introduce.setVisibility(View.VISIBLE);
+                            }else{
+                                coach_introduce.setText(result.getIntroduction());
+                            }
                             Double zhonghenum=Double.parseDouble(result.getZonghe());
                             Double teachnum = Double.parseDouble(result.getTeach());
                             Double waitnum = Double.parseDouble(result.getWait());
@@ -714,7 +548,6 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                             longitude = result.getLongitude();
                             initMap(result.getLatitude(),result.getLongitude());
                             getCommentFirst(commentUrl);
-
                         } else {
                             Toast.makeText(ReservationForPrivateActivity.this, "没有更多的！", Toast.LENGTH_SHORT).show();
                         }
@@ -737,17 +570,14 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
         zhonghefen = (TextView) headView.findViewById(R.id.zhonghefen);
         zhiliangfen = (TextView) headView.findViewById(R.id.zhiliangfen);
         fuwufen = (TextView) headView.findViewById(R.id.fuwufen);
+        coach_introduce = (TextView) headView.findViewById(R.id.coach_introduce);
         Intent intent = getIntent();
         uid = intent.getIntExtra("uid",uid);
         educationType = intent.getIntExtra("educationType",educationType);
         coachId = intent.getStringExtra("coachId");
         token = intent.getStringExtra("token");
-        int isChange = intent.getIntExtra("isChange", -1);
-        if (isChange == 0) {
-            signup_Coach.setText("更改教练");
-        } else {
-            signup_Coach.setText("立即预约");
-        }
+        Log.d("百信学车","我的私教教练详情："+uid+"coachId="+coachId+"token="+token);
+        signup_Coach.setText("立即预约");
         coach_head = (ImageView) headView.findViewById(R.id.coach_head);
         place = (TextView) headView.findViewById(R.id.place);
         coach_name = (TextView) headView.findViewById(R.id.coach_name);
@@ -777,40 +607,6 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
         swipeLayout.setOnLoadListener(this);
     }
 
-    /**
-     * 更改教练
-     * @param uid 用户id
-     */
-    private void changeCoach(String uid) {
-        OkHttpUtils
-                .post()
-                .url(changeUrl)
-                .addParams("cid", coachId)
-                .addParams("uid", uid)
-                .addParams("token", token)
-                .build()
-                .execute(new StringCallback() {
-                             @Override
-                             public void onError(Call call, Exception e, int i) {
-                                 progressDialog.dismiss();
-                                 Toast.makeText(ReservationForPrivateActivity.this, "网络状态不佳，请稍后再试。", Toast.LENGTH_LONG).show();
-                             }
-
-                             @Override
-                             public void onResponse(String s, int i) {
-                                 progressDialog.dismiss();
-                                 Gson gson = new Gson();
-                                 Result result = gson.fromJson(s, Result.class);
-                                 Toast.makeText(ReservationForPrivateActivity.this, result.getReason(), Toast.LENGTH_LONG).show();
-                                 if (result.getCode() == 200) {
-                                     Toast.makeText(ReservationForPrivateActivity.this, result.getReason(), Toast.LENGTH_SHORT).show();
-                                     finish();
-                                 }
-                             }
-                         }
-                );
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -818,7 +614,7 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                 finish();
                 break;
             case R.id.connectCus:
-                new CallDialog(this,"055165555744").call();
+                new CallDialog(this,"17756086205").call();
                 break;
             case R.id.signup_Coach:
                 if (signup_Coach.getText().toString().equals("立即预约")) {
@@ -826,10 +622,8 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                     String str = sp.getString("userInfo", null);
                     Gson gson = new Gson();
                     userInfo = gson.fromJson(str, UserInfo.class);
-
                     SharedPreferences sp1 = getSharedPreferences("token", Activity.MODE_PRIVATE);
                     token = sp1.getString("token", null);
-
                     if (userInfo == null) {
                         Intent intent2 = new Intent();
                         intent2.setClass(ReservationForPrivateActivity.this, LoginActivity.class);
@@ -841,22 +635,10 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                         intent2.putExtra("uid",userInfo.getResult().getUid());
                         intent2.putExtra("token",token);
                         intent2.putExtra("coachInfo", signup_Coach.getTag().toString());
+                        intent2.putExtra("cid",coachId);
+                        intent2.putExtra("privateclass",3);
+                        intent2.putExtra("tid","0");
                         startActivity(intent2);
-                    }
-                } else if (signup_Coach.getText().toString().equals("更改教练")) {
-                    SharedPreferences sp = getSharedPreferences("USER", Activity.MODE_PRIVATE);
-                    String str = sp.getString("userInfo", null);
-                    Gson gson = new Gson();
-                    userInfo = gson.fromJson(str, UserInfo.class);
-                    if (userInfo == null) {
-                        Intent intent2 = new Intent();
-                        intent2.setClass(ReservationForPrivateActivity.this, LoginActivity.class);
-                        intent2.putExtra("message","modifyCoach");
-                        startActivity(intent2);
-                        finish();
-                    } else {
-                        progressDialog = ProgressDialog.show(ReservationForPrivateActivity.this, null, "修改中...");
-                        changeCoach(userInfo.getResult().getUid() + "");
                     }
                 }
                 break;
@@ -880,7 +662,6 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                 web.setTitle("百信学车向您分享");//标题
                 web.setThumb(image);  //缩略图
                 web.setDescription("科技改变生活，百信引领学车！百信学车在这里向您分享我们这里最优秀的教练" + coach_name.getText().toString());//描述
-
                 new ShareAction(this).setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
                         .withMedia(web)
                         .setCallback(umShareListener)
@@ -888,45 +669,6 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                 break;
         }
     }
-
-    /**
-     * 创建展示弹框
-     *
-     * @param i 表示是展示4个承诺还是服务费用
-     */
-    private void createDialog(int i) {
-        dialog = new Dialog(ReservationForPrivateActivity.this, R.style.ActionSheetDialogStyle);
-        if (i == 0) {
-            dialogView = LayoutInflater.from(ReservationForPrivateActivity.this).inflate(R.layout.coststhat, null);
-        } else if (i == 1) {
-            dialogView = LayoutInflater.from(ReservationForPrivateActivity.this).inflate(R.layout.fourpromise, null);
-        }
-        Button btn = (Button) dialogView.findViewById(R.id.dialog_sure);
-        btn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        // 将布局设置给Dialog
-        dialog.setContentView(dialogView);
-        // 获取当前Activity所在的窗体
-        Window dialogWindow = dialog.getWindow();
-        // 设置dialog横向充满
-        dialogWindow.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialogWindow.setGravity(Gravity.BOTTOM);
-        /**
-         * 将对话框的大小按屏幕大小的百分比设置
-         */
-        WindowManager m = getWindowManager();
-        Display d = m.getDefaultDisplay();
-        WindowManager.LayoutParams p = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        p.height = (int) (d.getHeight() * 0.5); // 高度设置为屏幕的0.6
-        dialogWindow.setAttributes(p);
-        dialog.show();// 显示对话框
-    }
-
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
         public void onStart(SHARE_MEDIA platform) {
@@ -976,9 +718,9 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
                     public void onError(Call call, Exception e, int i) {
                         Toast.makeText(ReservationForPrivateActivity.this, "加载失败", Toast.LENGTH_LONG).show();
                     }
-
                     @Override
                     public void onResponse(String s, int i) {
+                        Log.d("百信学车","私教更多评论"+s);
                         listView.setTag(s);
                         if (listView.getTag() != null) {
                             setCom();
@@ -1003,8 +745,8 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
 
                     @Override
                     public void onResponse(String s, int i) {
+                        Log.d("百信学车","评价私教教练："+s);
                         progressDialog.dismiss();
-                        //String str = listView.getTag().toString();
                         Gson gson = new Gson();
                         CommentResult coachInfos = gson.fromJson(s, CommentResult.class);
                         if(coachInfos.getCode() == 200){
@@ -1032,7 +774,6 @@ public class ReservationForPrivateActivity extends Activity implements OnClickLi
             if(listStu.size() == 0){
                 linear_list_noData.setVisibility(View.VISIBLE);
             }
-            //listView.setFocusable(true);
             // 实例化listView显示学员的评价
             adapter.notifyDataSetChanged();
 //            CoachFullDetailAdapter adapter = new CoachFullDetailAdapter(ReservationForPrivateActivity.this, listStu);

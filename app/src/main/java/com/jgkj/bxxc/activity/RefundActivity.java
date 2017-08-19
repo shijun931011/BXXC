@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -70,12 +69,9 @@ public class RefundActivity extends Activity implements View.OnClickListener{
         txt_null = (TextView) findViewById(R.id.txt_null);
         back.setVisibility(View.VISIBLE);
         back.setOnClickListener(this);
-
         Intent intent = getIntent();
         uid = intent.getIntExtra("uid", -1);
         token = intent.getStringExtra("token");
-        Log.d("shijun", uid + "::::" + token);
-
     }
 
     private void getRefund(String uid, String token, int pack){
@@ -93,7 +89,6 @@ public class RefundActivity extends Activity implements View.OnClickListener{
                     }
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.d("shijun", "hhhh"+s);
                         Gson gson = new Gson();
                         Refund refund =  gson.fromJson(s, Refund.class);
                         List<Refund.Result> list = new ArrayList<Refund.Result>();
@@ -103,12 +98,10 @@ public class RefundActivity extends Activity implements View.OnClickListener{
                         }
                         RefundAdapter adapter = new RefundAdapter(RefundActivity.this,list);
                         list_refund.setAdapter(adapter);
-
                         if (refund.getCode() == 400){
                             txt_null.setVisibility(View.VISIBLE);
                         }
                     }
-
                 });
     }
 

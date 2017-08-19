@@ -15,7 +15,6 @@
             android:layout_weight="1"
             android:background="@color/white"
             android:text="全城"/>
-
         <Button
             android:id="@+id/coach_sort_btn2"
             android:layout_width="match_parent"
@@ -52,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="暂无数据！"
+        android:text="抱歉，暂时没有符合要求的数据！"
         android:textSize="17sp"
         android:visibility="gone"/>
 

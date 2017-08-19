@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,7 +23,6 @@ public class PayResultActivity extends Activity implements View.OnClickListener{
     private Intent intent;
     private TextView price;
     private String token,tiaozhaun,yuyue,jingpin;
-    private String cid;
     private LinearLayout shibai,chenggong;
 
     @Override
@@ -42,8 +40,6 @@ public class PayResultActivity extends Activity implements View.OnClickListener{
         tiaozhaun = intent.getStringExtra("tiaozhaun");
         yuyue = intent.getStringExtra("yuyue");
         jingpin=intent.getStringExtra("jingpin");
-        cid = intent.getStringExtra("cid");
-        Log.d("BXXC","百信学车CID:"+cid);
         if(payResult == -1){
             failure.setVisibility(View.VISIBLE);
             success.setVisibility(View.GONE);
@@ -52,7 +48,7 @@ public class PayResultActivity extends Activity implements View.OnClickListener{
             button_forward.setTag(0);
         }else{
             if(payResult==1){
-                int count = intent.getIntExtra("price",3080);
+                String count = intent.getStringExtra("price");
                 price.setText(count+"");
                 success.setVisibility(View.VISIBLE);
                 failure.setVisibility(View.GONE);
@@ -78,7 +74,6 @@ public class PayResultActivity extends Activity implements View.OnClickListener{
             }
         }
     }
-
     private void init() {
         button_forward = (Button) findViewById(R.id.button_forward);
         button_forward.setText("完成");
@@ -90,20 +85,14 @@ public class PayResultActivity extends Activity implements View.OnClickListener{
         chenggong = (LinearLayout) findViewById(R.id.chenggong);
         shibai = (LinearLayout) findViewById(R.id.shibai);
     }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.button_forward:
                 int tag = Integer.parseInt(button_forward.getTag().toString());
                 int uid = intent.getIntExtra("uid",-1);
-
                 switch (tag){
                     case 0:
-//                        Intent login = new Intent();
-//                        login.setClass(PayResultActivity.this, HomeActivity.class);
-//                        login.putExtra("FromActivity", "MySetting");
-//                        startActivity(login);
                         finish();
                         break;
                     case 1:
@@ -122,7 +111,6 @@ public class PayResultActivity extends Activity implements View.OnClickListener{
                         }else if ("3333".equals(jingpin)){
                             finish();
                         }
-
                         break;
                 }
                 break;

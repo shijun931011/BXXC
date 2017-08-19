@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -91,7 +90,6 @@ public class PaydetailActivity extends Activity implements View.OnClickListener{
                     }
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.d("shijun", "hhhh"+s);
                         Gson gson = new Gson();
                         PayDetail payDetail = gson.fromJson(s, PayDetail.class);
                         List<PayDetail.Result> list = new ArrayList<PayDetail.Result>();

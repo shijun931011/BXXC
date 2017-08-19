@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
-import com.jgkj.bxxc.activity.HomeActivity;
 import com.jgkj.bxxc.activity.SubErrorTestActivity;
 import com.jgkj.bxxc.activity.SubExamTestActivity;
 import com.jgkj.bxxc.activity.SubRandTestActivity;
@@ -48,14 +47,11 @@ public class Sub1 extends Fragment implements View.OnClickListener {
     private MyAdapter adapter;
     private ViewPager viewpager;
     private List<SubPicture.Result> list;
+    private List<String> list1;
     private Fragment mCurrentFragment,coach;
     //学习界面的轮播图，和做题的四个图片：
-    private String Sub1Url = "http://www.baixinxueche.com/index.php/Home/Apitoken/bannerbaokao";
-    private String picshunxuUrl = "http://www.baixinxueche.com/Public/App/img/picshunxu.png";
-    private String picsuijiUrl = "http://www.baixinxueche.com/Public/App/img/picsuiji.png";
-    private String picmoniUrl="http://www.baixinxueche.com/Public/App/img/picmoni.png";
-    private String piccuotiUrl="http://www.baixinxueche.com/Public/App/img/piccuoti.png";
-
+//    private String Sub1Url = "http://www.baixinxueche.com/index.php/Home/Apitoken/bannerbaokao";
+    private String Sub1Url = "http://www.baixinxueche.com/index.php/Home/Apitoken/bannerbaokaoupdate";
     private ProgressDialog dialog;
 
     @Override
@@ -71,7 +67,6 @@ public class Sub1 extends Fragment implements View.OnClickListener {
      */
     private void init() {
         dialog = ProgressDialog.show(getActivity(), null, "数据加载中...");
-
         linearLayout1 = (LinearLayout) view.findViewById(R.id.linearlayout1);
         linearLayout1.setOnClickListener(this);
         linearLayout2 = (LinearLayout) view.findViewById(R.id.linearlayout2);
@@ -84,14 +79,10 @@ public class Sub1 extends Fragment implements View.OnClickListener {
         suijiTest = (ImageView) view.findViewById(R.id.suijiTest);
         moniTest = (ImageView) view.findViewById(R.id.monitest);
         cuotiTest = (ImageView) view.findViewById(R.id.cuotiTest);
-        Glide.with(getActivity()).load(picshunxuUrl).into(orderTest);
-        Glide.with(getActivity()).load(picsuijiUrl).into(suijiTest);
-        Glide.with(getActivity()).load(picmoniUrl).into(moniTest);
-        Glide.with(getActivity()).load(piccuotiUrl).into(cuotiTest);
 
-        Drawable textimg3 = getResources().getDrawable(R.drawable.textimg3);
+        Drawable textimg3 = getResources().getDrawable(R.drawable.textimg2);
         textimg3.setBounds(0, 0, 50, 50);
-        Drawable textimg2 = getResources().getDrawable(R.drawable.textimg2);
+        Drawable textimg2 = getResources().getDrawable(R.drawable.textimg3);
         textimg2.setBounds(0, 0, 50, 50);
         Drawable textimg5 = getResources().getDrawable(R.drawable.textimg5);
         textimg5.setBounds(0, 0, 50, 50);
@@ -137,10 +128,6 @@ public class Sub1 extends Fragment implements View.OnClickListener {
                             int itemPosition = viewpager.getCurrentItem();
                             Log.d("BXXXC", "科目"+list.get(itemPosition).getKey());
                             if (list.get(itemPosition).getKey()==2){
-//                                intent.setClass(getActivity(), HomeActivity.class);
-//                                intent.putExtra("FromActivity", "IndexFragment");
-//                                startActivity(intent);
-//                                mCurrentFragment = coach;
                                 //发送广播
                                 intent.setAction("tiaozhuang");
                                 getActivity().sendBroadcast(intent);
@@ -170,14 +157,15 @@ public class Sub1 extends Fragment implements View.OnClickListener {
                         Toast.makeText(getActivity(), "网络状态不佳,请稍后再试！", Toast.LENGTH_LONG).show();
                         dialog.dismiss();
                     }
-
                     @Override
                     public void onResponse(String s, int i) {
+                        Log.d("百信学车","照片"+s);
                         dialog.dismiss();
                         Gson gson = new Gson();
                         SubPicture pic = gson.fromJson(s, SubPicture.class);
                         if (pic.getCode() == 200) {
                             list = pic.getResult();
+                            list1 = pic.getMorepic();
                             if ( list != null) {
                                 // 实例化listView
                                 List<View> listView = new ArrayList<View>();
@@ -191,6 +179,11 @@ public class Sub1 extends Fragment implements View.OnClickListener {
                                 adapter = new MyAdapter(getActivity(), listView);
                                 viewpager.setAdapter(adapter);
                             }
+                            Glide.with(getActivity()).load(list1.get(0)).into(orderTest);
+                            Glide.with(getActivity()).load(list1.get(1)).into(suijiTest);
+                            Glide.with(getActivity()).load(list1.get(2)).into(moniTest);
+                            Glide.with(getActivity()).load(list1.get(3)).into(cuotiTest);
+
                         }
                     }
                 });

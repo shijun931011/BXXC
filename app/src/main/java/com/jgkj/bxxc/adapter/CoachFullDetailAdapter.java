@@ -46,13 +46,13 @@ public class CoachFullDetailAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = inflater.inflate(R.layout.student_evaluate_listview_item, parent, false);
             viewHolder.textView2 = (TextView) convertView.findViewById(R.id.evaluate_time);
             viewHolder.textView3 = (TextView) convertView.findViewById(R.id.student_decribe);
             viewHolder.imageView = (ImageView) convertView.findViewById(R.id.student_head);
+            viewHolder.txt_niming = (TextView) convertView.findViewById(R.id.txt_niming);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -61,12 +61,13 @@ public class CoachFullDetailAdapter extends BaseAdapter {
         Glide.with(context).load(student.getDefault_file()).into(viewHolder.imageView);
         viewHolder.textView2.setHint(student.getComment_time());
         viewHolder.textView3.setText(student.getComment());
+//        viewHolder.txt_niming.setText(student.getName());
         return convertView;
     }
 
     static class ViewHolder {
         public ImageView imageView;
-        public TextView textView2, textView3;
+        public TextView textView2, textView3,txt_niming;
     }
 
 }

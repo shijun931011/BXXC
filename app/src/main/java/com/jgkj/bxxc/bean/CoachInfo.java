@@ -132,6 +132,12 @@ public class CoachInfo implements Serializable {
 		//市场价
 		private double market_price;
 		private int count_stu;
+		//简介
+		private String introduction;
+
+		public String getIntroduction() {
+			return introduction;
+		}
 
 		public String getAddress() {
 			return address;

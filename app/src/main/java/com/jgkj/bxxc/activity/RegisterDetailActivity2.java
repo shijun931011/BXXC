@@ -18,7 +18,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,11 +68,9 @@ public class RegisterDetailActivity2 extends BaseActivity implements View.OnClic
     private Button takePhoto;
     private Button she_cancel;
     private boolean flag = false;
-
     private UserInfo.Result result;
     private Uri corpUri;
     private Context context;
-
     // 拍照
     private static int CAMERA_REQUEST_CODE = 1001;
     // 相册选图
@@ -89,7 +86,6 @@ public class RegisterDetailActivity2 extends BaseActivity implements View.OnClic
     private File file1, file2, file3, file4;
     //上传照片
     private Button submit;
-
     private ProgressDialog proDialog;
     private String imageName = null;
     private Uri nowUri;
@@ -102,11 +98,9 @@ public class RegisterDetailActivity2 extends BaseActivity implements View.OnClic
     private class Result {
         private String code;
         private String reason;
-
         public String getCode() {
             return code;
         }
-
         public String getReason() {
             return reason;
         }

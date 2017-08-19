@@ -93,7 +93,6 @@ public class HeadlinesActivity extends Activity implements View.OnClickListener,
         back.setVisibility(View.VISIBLE);
         back.setOnClickListener(this);
         title.setText("百信头条");
-
         refreshLayout = (RefreshLayout) findViewById(R.id.refresh);
         refreshLayout.setColorSchemeResources(R.color.color_bule2, R.color.color_bule, R.color.color_bule2, R.color.color_bule3);
         refreshLayout.setOnLoadListener(this);
@@ -106,7 +105,6 @@ public class HeadlinesActivity extends Activity implements View.OnClickListener,
      * 网络请求百信头条
      */
     private void getheadlines() {
-
         OkHttpUtils
                 .post()
                 .url(url)

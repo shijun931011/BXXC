@@ -12,7 +12,7 @@
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:paddingLeft="8.0dp"
+            android:paddingLeft="8dp"
             android:layout_centerVertical="true"
             android:layout_centerInParent="true">
             <Button android:layout_height="30dip"
@@ -21,16 +21,27 @@
                     android:id="@+id/btn_private"
                     android:textSize="14sp"
                     android:textColor="@color/themeColor"
-                    android:text="私教班"
+                    android:text="私教"
                     android:gravity="center"/>
+            <Button
+                android:id="@+id/btn_private_center"
+                android:layout_width="70dp"
+                android:layout_height="30dp"
+                android:background="@drawable/sijiao_black_center_96"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:text="私教中心"
+                android:gravity="center"
+            />
             <Button android:layout_height="30dip"
                     android:layout_width="70dip"
                     android:background="@drawable/baike_btn_trans_right_f_96"
                     android:id="@+id/btn_coach"
                     android:textSize="14sp"
                     android:textColor="#ffffff"
-                    android:text="经典班"
+                    android:text="私教学校"
                     android:gravity="center"/>
+
         </LinearLayout>
         <ImageView
             android:id="@+id/search"

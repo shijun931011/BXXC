@@ -37,4 +37,20 @@
     <color name="btn_orange">#FF8000</color>
     <color name="btn_gray">#777777</color>
     <color name="yellow">#FFE6E334</color>
+    <color name="huise">#c2979797</color>
+    <color name="heise">#353232</color><!--黑色 -->
+    <color name="top_search_bg_nt">#ff145f8f</color>
+    <color name="content_text_readed">#ff828282</color>
+    <color name="mlcheihui">#374046</color><!--黑灰 -->
+    <color name="bg_huise_a">#f2f2f2</color><!--灰色 -->
+    <color name="bg_huise_b">#cacaca</color><!--灰色边框 -->
+    <color name="bg_lvse_a">#f2f6e9</color><!-- 绿色 -->
+    <color name="bg_lvse_b">#b8ce8e</color><!--绿色边框 -->
+    <color name="bg_lanse_a">#e8f6f6</color><!--蓝色 -->
+    <color name="bg_lanse_b">#92dbde</color><!--蓝色边框 -->
+    <color name="bg_fense_a">#f9eaeb</color><!--粉色 -->
+    <color name="bg_fense_b">#fba1a8</color><!--粉色边框 -->
+    <color name="bg_chengse_a">#f8f2ec</color><!--橙色 -->
+    <color name="bg_chengse_b">#f9c189</color><!--橙色边框 -->
+
 </resources>

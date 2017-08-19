@@ -6,8 +6,6 @@
     <include
         android:id="@+id/res_title"
         layout="@layout/title"/>
-    <!-- 学员评价 -->
-
     <com.jgkj.bxxc.tools.RefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipe_container"

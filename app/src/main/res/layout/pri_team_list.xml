@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/pri_team_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/txt_team_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:text="余教团队" />
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/identity"
+                  android:text="(队长)"
+                  android:textColor="@color/red"
+                  android:visibility="gone"
+        />
+        <TextView
+            android:id="@+id/txt_team_sijiao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/right_arrow"
+            android:gravity="right"
+            android:paddingRight="15dp"
+            android:text="私教"
+            android:textColor="@color/gray"/>
+    </LinearLayout>
+
+</LinearLayout>

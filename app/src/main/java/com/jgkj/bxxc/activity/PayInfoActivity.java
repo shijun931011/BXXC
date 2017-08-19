@@ -235,7 +235,7 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                 public void onResponse(final String s, int i) {
                     Gson gson = new Gson();
                     final MyPayResult myPayResult = gson.fromJson(s,MyPayResult.class);
-                    if(myPayResult.getCode()==200){
+                    if(myPayResult.getCode().equals("200")){
                         final int SDK_PAY_FLAG = 1;
                         final Handler mHandler = new Handler() {
                             @SuppressWarnings("unused")
@@ -296,7 +296,7 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                         // 必须异步调用
                         Thread payThread = new Thread(payRunnable);
                         payThread.start();
-                    }else if(myPayResult.getCode() ==400){
+                    }else if(myPayResult.getCode().equals("400")){
                         Toast.makeText(PayInfoActivity.this, myPayResult.getReason(), Toast.LENGTH_LONG).show();
                     }
                 }
@@ -334,7 +334,7 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                     public void onResponse(final String s, int i) {
                         Gson gson = new Gson();
                         final MyPayResult myPayResult = gson.fromJson(s,MyPayResult.class);
-                        if(myPayResult.getCode()==200){
+                        if(myPayResult.getCode().equals("400")){
                             final int SDK_PAY_FLAG = 1;
                             final Handler mHandler = new Handler() {
                                 @SuppressWarnings("unused")
@@ -395,7 +395,7 @@ public class PayInfoActivity extends Activity implements View.OnClickListener, T
                             // 必须异步调用
                             Thread payThread = new Thread(payRunnable);
                             payThread.start();
-                        }else if(myPayResult.getCode() ==400){
+                        }else if(myPayResult.getCode().equals("400")){
                             Toast.makeText(PayInfoActivity.this, myPayResult.getReason(), Toast.LENGTH_LONG).show();
                         }
                     }

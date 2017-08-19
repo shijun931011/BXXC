@@ -154,7 +154,6 @@
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
             android:orientation="horizontal">
-
             <TextView
                 android:id="@+id/visual1"
                 android:layout_width="match_parent"
@@ -164,10 +163,10 @@
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
                 android:paddingBottom="10dp"
-                android:paddingLeft="30dp"
+                android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:paddingTop="10dp"
-                android:text="视觉测试图" />
+                android:text="视觉测试" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -204,10 +203,10 @@
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
                 android:paddingBottom="10dp"
-                android:paddingLeft="30dp"
+                android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:paddingTop="10dp"
-                android:text="交通标志图" />
+                android:text="交通标志" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -234,7 +233,6 @@
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
             android:orientation="horizontal">
-
             <TextView
                 android:id="@+id/gestures1"
                 android:layout_width="match_parent"
@@ -244,10 +242,10 @@
                 android:drawablePadding="10dp"
                 android:gravity="center_vertical"
                 android:paddingBottom="10dp"
-                android:paddingLeft="30dp"
+                android:paddingLeft="20dp"
                 android:paddingRight="15dp"
                 android:paddingTop="10dp"
-                android:text="交警手势图" />
+                android:text="交警手势" />
 
             <TextView
                 android:layout_width="match_parent"

@@ -9,23 +9,16 @@
         android:layout_height="45dp"
         android:orientation="horizontal">
         <Button
-            android:id="@+id/coach_sort_btn4"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:layout_marginLeft="0.5dp"
-            android:text="班型"/>
-        <Button
             android:id="@+id/coach_sort_btn1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginLeft="0.5dp"
             android:background="@color/white"
-            android:text="科目"/>
+            android:layout_marginLeft="0.5dp"
+            android:text="私教"/>
+
         <Button
-            android:id="@+id/coach_sort_btn3"
+            android:id="@+id/coach_sort_btn2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="0.5dp"

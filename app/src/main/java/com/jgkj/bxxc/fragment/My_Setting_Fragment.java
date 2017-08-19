@@ -1,7 +1,6 @@
 package com.jgkj.bxxc.fragment;
 
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -34,19 +33,17 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
-import com.jgkj.bxxc.activity.DrivingHisActivity;
-import com.jgkj.bxxc.activity.HomeActivity;
 import com.jgkj.bxxc.activity.LearnHisActivity;
 import com.jgkj.bxxc.activity.LearnProActivity;
 import com.jgkj.bxxc.activity.LoginActivity;
 import com.jgkj.bxxc.activity.MyActivity;
 import com.jgkj.bxxc.activity.MyCoachActivity;
+import com.jgkj.bxxc.activity.MyReservationActivity;
 import com.jgkj.bxxc.activity.PersonalInfoActivity;
 import com.jgkj.bxxc.activity.SettingActivity;
 import com.jgkj.bxxc.activity.Setting_AccountActivity;
 import com.jgkj.bxxc.bean.UserInfo;
 import com.jgkj.bxxc.tools.CallDialog;
-import com.jgkj.bxxc.tools.OnBooleanListener;
 import com.jgkj.bxxc.tools.RefreshLayout;
 import com.lidroid.xutils.http.client.multipart.MultipartEntity;
 import com.lidroid.xutils.http.client.multipart.content.FileBody;
@@ -79,8 +76,10 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
     private Dialog dialog, sureDialog;
     private View inflate, sureView;
     private TextView dialog_textView, dialog_sure, dialog_cancel;
-    //退出登录
+    //我的教练
     private TextView myCoach;
+    //我的预约
+    private TextView myreservation;
     private LinearLayout learnPro;
     private TextView learnPro1;
     private TextView Setting;
@@ -114,7 +113,7 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
     private String refreashOldUrl = "http://www.baixinxueche.com/index.php/Home/Api/refresh";
     private String uploadImageUrl = "http://www.baixinxueche.com/index.php/Home/Apiinfotoken/get_file";
     private long random,random1=0;
-    private TextView learnRecord,tv_driving;
+    private TextView learnRecord;
     private TextView myactivity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -132,8 +131,6 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
     private void init() {
         learnRecord = (TextView) view.findViewById(R.id.learn_record);
         learnRecord.setOnClickListener(this);
-        tv_driving = (TextView) view.findViewById(R.id.tv_driving);
-        tv_driving.setOnClickListener(this);
         choose_headImage = (ImageView) view.findViewById(R.id.choose_headImage);
         userNick = (TextView) view.findViewById(R.id.userNick);
         myactivity = (TextView) view.findViewById(R.id.myactivity);
@@ -185,6 +182,9 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
         //我的教练
         myCoach = (TextView) view.findViewById(R.id.myCoach);
         myCoach.setOnClickListener(this);
+        //我的预约
+        myreservation = (TextView) view.findViewById(R.id.my_reservation);
+        myreservation.setOnClickListener(this);
     }
     /**
      * 获取数据并填充
@@ -360,10 +360,10 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
                 }
                 break;
             case R.id.customer:
-                new CallDialog(getActivity(), "0551-65555744").call();
+                new CallDialog(getActivity(), "17756086205").call();
                 break;
             case R.id.dialog_sure:
-                Intent call_intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "0551-65555744"));
+                Intent call_intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "17756086205"));
                 startActivity(call_intent);
                 dialog.hide();
                 break;
@@ -377,12 +377,22 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
                 } else {
                     intent.setClass(getActivity(), MyCoachActivity.class);
                     intent.putExtra("uid", result.getUid());
-                    if(result.getState().equals("")||result.getState()==null||
-                            result.getState().equals("未报名")){
+                    if(result.getState().equals("")||result.getState()==null|| result.getState().equals("未报名")){
                         intent.putExtra("state", "未报名");
                     }else{
                         intent.putExtra("state", result.getState());
                     }
+                    intent.putExtra("token", token);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.my_reservation:
+                if (!isLogined){
+                    intent.setClass(getActivity(),LoginActivity.class);
+                    startActivity(intent);
+                }else{
+                    intent.setClass(getActivity(), MyReservationActivity.class);
+                    intent.putExtra("uid", result.getUid());
                     intent.putExtra("token", token);
                     startActivity(intent);
                 }
@@ -393,17 +403,6 @@ public class My_Setting_Fragment extends Fragment implements OnClickListener,
                     startActivity(intent);
                 } else {
                     intent.setClass(getActivity(), LearnProActivity.class);
-                    intent.putExtra("token", token);
-                    startActivity(intent);
-                }
-                break;
-            case R.id.tv_driving:           //陪练
-                if (!isLogined) {
-                    intent.setClass(getActivity(),LoginActivity.class);
-                    startActivity(intent);
-                } else {
-                    intent.setClass(getActivity(), DrivingHisActivity.class);
-                    intent.putExtra("uid", result.getUid());
                     intent.putExtra("token", token);
                     startActivity(intent);
                 }

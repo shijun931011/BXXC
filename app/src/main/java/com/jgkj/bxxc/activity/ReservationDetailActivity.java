@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +25,6 @@ import com.jgkj.bxxc.bean.entity.ReservationDetailEntity.ReservationDetailEntity
 import com.jgkj.bxxc.bean.entity.ReservationDetailEntity.Stusubject;
 import com.jgkj.bxxc.bean.entity.ReservationDetailEntity.Subject;
 import com.jgkj.bxxc.tools.RemainBaseDialog;
-import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.jgkj.bxxc.tools.Urls;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -41,7 +39,6 @@ import java.util.List;
 import okhttp3.Call;
 
 
-
 /**
  * Created by tongshoujun on 2017/5/10.
  */
@@ -50,9 +47,16 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
     private int uid;
     private String token;
     private String cid;
-    private String coachInfo = null;
+    private String center_name;
+    private String Cname;
+    private String tid;
+    private int class_style;
+    private int privateclass;
+    private String coachInfo;
     private String flag;
     private String flag_class;
+    private String pri_team;
+    private TextView pri_center_time;
     //标题
     private TextView title;
     private Button button_backward;
@@ -99,13 +103,14 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
     private LinearLayout linearLayout6;
     private LinearLayout linearLayout7;
     private LinearLayout.LayoutParams wrapParams;
+    private LinearLayout line;
+    private LinearLayout line2;
     //学生信息
     private List<Stusubject> stusubjectList;
     //教练信息
     private List<Subject> subjectList;
     //保存教练信息
     private List<Subject> subjectListResult;
-
     //价格
     private String price;
     //地址
@@ -114,16 +119,20 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
     //广播接收更新数据
     protected BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
-            upData(cid,uid,token, Urls.ptcourse);
+            upData(cid,uid,token,class_style, Urls.priteamptcourse);
         }
     };
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation_detail);
-        StatusBarCompat.compat(this, Color.parseColor("#37363C"));
         //显示ProgressDialog
         progressDialog = ProgressDialog.show(ReservationDetailActivity.this, "加载中...", "请等待...", true, false);
+        initView();
+        getBundle();
+    }
+
+    private void initView(){
         //标题
         title = (TextView) findViewById(R.id.text_title);
         title.setText(getDate());
@@ -140,115 +149,10 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
         zhiliang = (LinearLayout)findViewById(R.id.zhiliang);
         listView = (ListView)findViewById(R.id.listView);
         noSmsData = (TextView)findViewById(R.id.noSmsData);
+        pri_center_time = (TextView) findViewById(R.id.pri_center_time);
+        line = (LinearLayout) findViewById(R.id.line);
+        line2 = (LinearLayout) findViewById(R.id.line2);
         listView.setEmptyView(noSmsData);
-        Intent intent = getIntent();
-        uid = intent.getIntExtra("uid",uid);
-        flag = intent.getStringExtra("flag");
-        coachInfo = intent.getStringExtra("coachInfo");
-        token = intent.getStringExtra("token");
-
-        Gson gson = new Gson();
-        CoachInfo coachInfoResult = gson.fromJson(coachInfo, CoachInfo.class);
-        List<CoachInfo.Result> list = coachInfoResult.getResult();
-        CoachInfo.Result result = list.get(0);
-        tv_coachName.setText(result.getCoachname());
-        tv_total_stu.setText(result.getCount_stu() + "");
-        Double teachnum = Double.parseDouble(result.getTeach());
-        if (teachnum < 1){
-            ImageView image = new ImageView(ReservationDetailActivity.this);
-            image.setBackgroundResource(R.drawable.star0);
-            wrapParams = new LinearLayout.LayoutParams(150,30);
-            image.setLayoutParams(wrapParams);
-            zhiliang.addView(image);
-        }
-        if (teachnum == 1){
-            ImageView image = new ImageView(ReservationDetailActivity.this);
-            image.setBackgroundResource(R.drawable.star1);
-            wrapParams = new LinearLayout.LayoutParams(30,30);
-            image.setLayoutParams(wrapParams);
-            zhiliang.addView(image);
-        }
-        if (teachnum > 1  && teachnum < 2){
-            ImageView image = new ImageView(ReservationDetailActivity.this);
-            image.setBackgroundResource(R.drawable.star2);
-            wrapParams = new LinearLayout.LayoutParams(150,30);
-            image.setLayoutParams(wrapParams);
-            zhiliang.addView(image);
-        }
-        if (teachnum == 2){
-            for (double k = 0; k < 2; k++) {
-                ImageView image = new ImageView(ReservationDetailActivity.this);
-                image.setBackgroundResource(R.drawable.star1);
-                wrapParams = new LinearLayout.LayoutParams(30, 30);
-                image.setLayoutParams(wrapParams);
-                zhiliang.addView(image);
-            }
-        }
-        if (teachnum > 2  && teachnum < 3){
-            ImageView image = new ImageView(ReservationDetailActivity.this);
-            image.setBackgroundResource(R.drawable.star3);
-            wrapParams = new LinearLayout.LayoutParams(150,30);
-            image.setLayoutParams(wrapParams);
-            zhiliang.addView(image);
-        }
-        if (teachnum == 3){
-            for (double k = 0; k < 3; k++) {
-                ImageView image = new ImageView(ReservationDetailActivity.this);
-                image.setBackgroundResource(R.drawable.star1);
-                wrapParams = new LinearLayout.LayoutParams(30, 30);
-                image.setLayoutParams(wrapParams);
-                zhiliang.addView(image);
-            }
-        }
-        if (teachnum > 3  && teachnum < 4){
-            ImageView image = new ImageView(ReservationDetailActivity.this);
-            image.setBackgroundResource(R.drawable.star4);
-            wrapParams = new LinearLayout.LayoutParams(150,30);
-            image.setLayoutParams(wrapParams);
-            zhiliang.addView(image);
-        }
-        if (teachnum == 4){
-            for (double k = 0; k < 4; k++) {
-                ImageView image = new ImageView(ReservationDetailActivity.this);
-                image.setBackgroundResource(R.drawable.star1);
-                wrapParams = new LinearLayout.LayoutParams(30, 30);
-                image.setLayoutParams(wrapParams);
-                zhiliang.addView(image);
-            }
-        }
-        if (teachnum > 4  && teachnum < 5){
-            ImageView image = new ImageView(ReservationDetailActivity.this);
-            image.setBackgroundResource(R.drawable.star5);
-            wrapParams = new LinearLayout.LayoutParams(150,30);
-            image.setLayoutParams(wrapParams);
-            zhiliang.addView(image);
-        }
-        if (teachnum == 5){
-            for (double k = 0; k < 5; k++) {
-                ImageView image = new ImageView(ReservationDetailActivity.this);
-                image.setBackgroundResource(R.drawable.star1);
-                wrapParams = new LinearLayout.LayoutParams(30, 30);
-                image.setLayoutParams(wrapParams);
-                zhiliang.addView(image);
-            }
-        }
-
-        //教学质量
-//        for (int k = 0; k < teachnum; k++) {
-//            ImageView image = new ImageView(ReservationDetailActivity.this);
-//            image.setBackgroundResource(R.drawable.star1);
-//            LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(30, 30);
-//            image.setLayoutParams(wrapParams);
-//            zhiliang.addView(image);
-//        }
-
-        //头像
-        Glide.with(this).load(result.getFile()).placeholder(R.drawable.head1).error(R.drawable.head1).into(im_coachPic);
-
-        //请求信息
-        cid = Integer.toString(result.getCid());
-        getData(cid,uid,token, Urls.ptcourse);
-
         tv1_week = (TextView)findViewById(R.id.tv1_week);
         tv2_week = (TextView)findViewById(R.id.tv2_week);
         tv3_week = (TextView)findViewById(R.id.tv3_week);
@@ -256,7 +160,6 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
         tv5_week = (TextView)findViewById(R.id.tv5_week);
         tv6_week = (TextView)findViewById(R.id.tv6_week);
         tv7_week = (TextView)findViewById(R.id.tv7_week);
-
         tv1_number = (TextView)findViewById(R.id.tv1_number);
         tv2_number = (TextView)findViewById(R.id.tv2_number);
         tv3_number = (TextView)findViewById(R.id.tv3_number);
@@ -316,7 +219,123 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
         tv_bg_07.setBackgroundResource(R.color.white);
 
     }
-
+    private void getBundle() {
+        Intent intent = getIntent();
+        uid = intent.getIntExtra("uid", uid);
+        flag = intent.getStringExtra("flag");
+        privateclass = intent.getIntExtra("privateclass",privateclass);
+        coachInfo = intent.getStringExtra("coachInfo");
+        cid = intent.getStringExtra("cid");
+        token = intent.getStringExtra("token");
+        center_name = intent.getStringExtra("center_name");
+        Cname = intent.getStringExtra("Cname");
+        tid = intent.getStringExtra("tid");
+        Log.d("BXXC","教练中心ID:"+tid);
+        class_style = intent.getIntExtra("class_style", class_style);
+        pri_team = intent.getStringExtra("pri_team");
+        if (privateclass == 3) {
+            line.setVisibility(View.VISIBLE);
+            line2.setVisibility(View.GONE);
+            Gson gson = new Gson();
+            CoachInfo coachInfoResult = gson.fromJson(coachInfo, CoachInfo.class);
+            List<CoachInfo.Result> list = coachInfoResult.getResult();
+            CoachInfo.Result result = list.get(0);
+            tv_coachName.setText(result.getCoachname());
+            tv_total_stu.setText(result.getCount_stu() + "");
+            Double teachnum = Double.parseDouble(result.getTeach());
+            if (teachnum < 1) {
+                ImageView image = new ImageView(ReservationDetailActivity.this);
+                image.setBackgroundResource(R.drawable.star0);
+                wrapParams = new LinearLayout.LayoutParams(150, 30);
+                image.setLayoutParams(wrapParams);
+                zhiliang.addView(image);
+            }
+            if (teachnum == 1) {
+                ImageView image = new ImageView(ReservationDetailActivity.this);
+                image.setBackgroundResource(R.drawable.star1);
+                wrapParams = new LinearLayout.LayoutParams(30, 30);
+                image.setLayoutParams(wrapParams);
+                zhiliang.addView(image);
+            }
+            if (teachnum > 1 && teachnum < 2) {
+                ImageView image = new ImageView(ReservationDetailActivity.this);
+                image.setBackgroundResource(R.drawable.star2);
+                wrapParams = new LinearLayout.LayoutParams(150, 30);
+                image.setLayoutParams(wrapParams);
+                zhiliang.addView(image);
+            }
+            if (teachnum == 2) {
+                for (double k = 0; k < 2; k++) {
+                    ImageView image = new ImageView(ReservationDetailActivity.this);
+                    image.setBackgroundResource(R.drawable.star1);
+                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                    image.setLayoutParams(wrapParams);
+                    zhiliang.addView(image);
+                }
+            }
+            if (teachnum > 2 && teachnum < 3) {
+                ImageView image = new ImageView(ReservationDetailActivity.this);
+                image.setBackgroundResource(R.drawable.star3);
+                wrapParams = new LinearLayout.LayoutParams(150, 30);
+                image.setLayoutParams(wrapParams);
+                zhiliang.addView(image);
+            }
+            if (teachnum == 3) {
+                for (double k = 0; k < 3; k++) {
+                    ImageView image = new ImageView(ReservationDetailActivity.this);
+                    image.setBackgroundResource(R.drawable.star1);
+                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                    image.setLayoutParams(wrapParams);
+                    zhiliang.addView(image);
+                }
+            }
+            if (teachnum > 3 && teachnum < 4) {
+                ImageView image = new ImageView(ReservationDetailActivity.this);
+                image.setBackgroundResource(R.drawable.star4);
+                wrapParams = new LinearLayout.LayoutParams(150, 30);
+                image.setLayoutParams(wrapParams);
+                zhiliang.addView(image);
+            }
+            if (teachnum == 4) {
+                for (double k = 0; k < 4; k++) {
+                    ImageView image = new ImageView(ReservationDetailActivity.this);
+                    image.setBackgroundResource(R.drawable.star1);
+                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                    image.setLayoutParams(wrapParams);
+                    zhiliang.addView(image);
+                }
+            }
+            if (teachnum > 4 && teachnum < 5) {
+                ImageView image = new ImageView(ReservationDetailActivity.this);
+                image.setBackgroundResource(R.drawable.star5);
+                wrapParams = new LinearLayout.LayoutParams(150, 30);
+                image.setLayoutParams(wrapParams);
+                zhiliang.addView(image);
+            }
+            if (teachnum == 5) {
+                for (double k = 0; k < 5; k++) {
+                    ImageView image = new ImageView(ReservationDetailActivity.this);
+                    image.setBackgroundResource(R.drawable.star1);
+                    wrapParams = new LinearLayout.LayoutParams(30, 30);
+                    image.setLayoutParams(wrapParams);
+                    zhiliang.addView(image);
+                }
+            }
+            //头像
+            Glide.with(this).load(result.getFile()).placeholder(R.drawable.head1).error(R.drawable.head1).into(im_coachPic);
+            getData(cid, uid, token, class_style, Urls.priteamptcourse);
+        }else if (class_style == 1) {
+            line.setVisibility(View.GONE);
+            line2.setVisibility(View.VISIBLE);
+            pri_center_time.setText("您正在预约" + center_name.toString().trim() + "-" + Cname.toString().trim() + "的陪练时间");
+            getData(cid, uid, token, class_style, Urls.priteamptcourse);
+        }else if (class_style == 0) {
+            line.setVisibility(View.GONE);
+            line2.setVisibility(View.VISIBLE);
+            pri_center_time.setText("您正在预约" + center_name.toString().trim() + "-" + Cname.toString().trim() + "的私教时间");
+            getData(cid, uid, token, class_style, Urls.priteamptcourse);
+        }
+    }
     public void onClick(View arg0) {
         switch (arg0.getId()) {
             case R.id.linearLayout1:
@@ -329,7 +348,7 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                 tv_bg_07.setBackgroundResource(R.color.white);
 
                 subjectListResult = subjectList(tv1_number.getText().toString());
-                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv1_number.getText().toString(),uid,token,cid,flag_class);
+                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv1_number.getText().toString(),uid,token,cid,flag_class,class_style,tid);
                 listView.setAdapter(adapter);
                 break;
             case R.id.linearLayout2:
@@ -340,9 +359,8 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                 tv_bg_05.setBackgroundResource(R.color.white);
                 tv_bg_06.setBackgroundResource(R.color.white);
                 tv_bg_07.setBackgroundResource(R.color.white);
-
                 subjectListResult = subjectList(tv2_number.getText().toString());
-                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv2_number.getText().toString(),uid,token,cid,flag_class);
+                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv2_number.getText().toString(),uid,token,cid,flag_class,class_style,tid);
                 listView.setAdapter(adapter);
                 break;
             case R.id.linearLayout3:
@@ -355,7 +373,7 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                 tv_bg_07.setBackgroundResource(R.color.white);
 
                 subjectListResult = subjectList(tv3_number.getText().toString());
-                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv3_number.getText().toString(),uid,token,cid,flag_class);
+                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv3_number.getText().toString(),uid,token,cid,flag_class,class_style,tid);
                 listView.setAdapter(adapter);
                 break;
             case R.id.linearLayout4:
@@ -367,7 +385,7 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                 tv_bg_06.setBackgroundResource(R.color.white);
                 tv_bg_07.setBackgroundResource(R.color.white);
                 subjectListResult = subjectList(tv4_number.getText().toString());
-                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv4_number.getText().toString(),uid,token,cid,flag_class);
+                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv4_number.getText().toString(),uid,token,cid,flag_class,class_style,tid);
                 listView.setAdapter(adapter);
                 break;
             case R.id.linearLayout5:
@@ -380,7 +398,7 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                 tv_bg_07.setBackgroundResource(R.color.white);
 
                 subjectListResult = subjectList(tv5_number.getText().toString());
-                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv5_number.getText().toString(),uid,token,cid,flag_class);
+                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv5_number.getText().toString(),uid,token,cid,flag_class, class_style,tid);
                 listView.setAdapter(adapter);
                 break;
             case R.id.linearLayout6:
@@ -393,7 +411,7 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                 tv_bg_07.setBackgroundResource(R.color.white);
 
                 subjectListResult = subjectList(tv6_number.getText().toString());
-                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv6_number.getText().toString(),uid,token,cid,flag_class);
+                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv6_number.getText().toString(),uid,token,cid,flag_class, class_style,tid);
                 listView.setAdapter(adapter);
                 break;
             case R.id.linearLayout7:
@@ -406,16 +424,17 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                 tv_bg_07.setBackgroundResource(R.color.list_text_select_color);
 
                 subjectListResult = subjectList(tv7_number.getText().toString());
-                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv7_number.getText().toString(),uid,token,cid,flag_class);
+                adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv7_number.getText().toString(),uid,token,cid,flag_class,class_style,tid);
                 listView.setAdapter(adapter);
                 break;
             case R.id.button_forward:
                 if(flag == null){
-                    new RemainBaseDialog(ReservationDetailActivity.this,"每次预约以3个学时起(1学时40分钟)，您可以根据实际需求，选购学时套餐，预约您的心仪的教练，" +
-                            "体验高品质的驾培服务。您需要注意：如果约车已经下单，但有突发事件不能如时赴约，请在约定时间两小时前申请取消，否则将视为您的约车行为已经实施，不退还所消耗的学时").call();
+                    new RemainBaseDialog(ReservationDetailActivity.this,"1、每次私教预约学车时间为2小时，即3个学时(1学时40分钟)，应提前2小时进行预约，选购学时套餐，预约您的心仪的教练，" +
+                            "2、体验高品质的驾培服务。您需要注意：如果约车已经下单，但有突发事件不能如时赴约，请在约定时间2小时前申请取消，否则将视为您的约车行为已经实施，不退还所消耗的学时," +
+                            "3、私教班车接送时间为09:00-21:00，非此时间段，平台不提供车接车送" ).call();
                 }else{
                     new RemainBaseDialog(ReservationDetailActivity.this,"预约陪练服务，必须出示本人的驾驶证件！没有驾驶证请勿预约，否则概不退换所消耗的学时套餐！" +
-                            "每次预约以3个学时起(1学时40分钟)，您可以根据实际需求，选购学时套餐，预约您的心仪的教练，体验高品质的陪练服务。您需要注意：如果约车已经下单，但有突发事件不能如时赴约，请在约定时间两小时前申请取消，否则将视为您的约车行为已经实施，不退还所消耗的学时。").call();
+                            "每次预约以3个学时起(1学时40分钟)，您可以根据实际需求提前2小时预约，选购学时套餐，预约您的心仪的教练，体验高品质的陪练服务。您需要注意：如果约车已经下单，但有突发事件不能如时赴约，请在约定时间两小时前申请取消，否则将视为您的约车行为已经实施，不退还所消耗的学时。").call();
                 }
                 break;
             case R.id.button_backward:
@@ -477,14 +496,15 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
      * @param coachId 教练信息
      * @param url     请求地址
      */
-    private void getData(String coachId, int uid_, String token_, String url) {
-        Log.i("百信学车","预约教练详细信息参数" + "cid=" + coachId + "   uid=" + uid_ + "   token=" + token_ + "   url=" + url);
+    private void getData(String coachId, int uid_, String token_, final int class_style, String url) {
+        Log.d("百信学车","预约教练详细信息参数" + "cid=" + coachId + "   uid=" + uid_ + "   token=" + token_ + "   class_style=" + class_style);
         OkHttpUtils
                 .post()
                 .url(url)
                 .addParams("cid", coachId)
                 .addParams("uid", Integer.toString(uid_))
                 .addParams("token", token_)
+                .addParams("class_style",Integer.toString(class_style))
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -507,7 +527,8 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                             stusubjectList = reservationDetailEntity.getResult().getStusubject();
                             subjectList = reservationDetailEntity.getResult().getSubject();
                             subjectListResult = subjectList(tv1_number.getText().toString());
-                            adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv1_number.getText().toString(),uid,token,cid,flag_class);
+                            adapter = new ReservationDetailAdapter(ReservationDetailActivity.this,subjectListResult,stusubjectList,price,address,tv1_number.getText().toString(),uid,token,cid,flag_class,class_style,tid);
+                            Log.d("BXXC","教练中心IDID:"+tid);
                             listView.setAdapter(adapter);
                         }
                     }
@@ -519,7 +540,7 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
      * @param coachId 教练信息
      * @param url     请求地址
      */
-    private void upData(String coachId, int uid_, String token_, String url) {
+    private void upData(String coachId, int uid_, String token_,int class_style, String url) {
         Log.i("百信学车","预约教练详细信息参数" + "cid=" + coachId + "   uid=" + uid_ + "   token=" + token_ + "   url=" + url);
         OkHttpUtils
                 .post()
@@ -527,6 +548,7 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
                 .addParams("cid", coachId)
                 .addParams("uid", Integer.toString(uid_))
                 .addParams("token", token_)
+                .addParams("class_style",Integer.toString(class_style))
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -589,6 +611,4 @@ public class ReservationDetailActivity extends Activity implements View.OnClickL
             return "陪练（一对一）";
         }
     }
-
-
 }

@@ -45,7 +45,6 @@ import com.baidu.navisdk.adapter.BNOuterTTSPlayerCallback;
 import com.baidu.navisdk.adapter.BNRoutePlanNode;
 import com.baidu.navisdk.adapter.BNaviSettingManager;
 import com.baidu.navisdk.adapter.BaiduNaviManager;
-import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.bean.CoachInfo;
 import com.jgkj.bxxc.tools.MyOrientationListener;
@@ -96,17 +95,13 @@ public class BDMAPActivity extends Activity{
     private static final String[] authComArr = { Manifest.permission.READ_PHONE_STATE };
     private static final int authBaseRequestCode = 1;
     private static final int authComRequestCode = 2;
-
     private boolean hasInitSuccess = false;
     private boolean hasRequestComAuth = false;
-
     private double latitudes;
     private double longitudes;
-
     private LocationClient mLocationClient;
     private BDLocationListener mBDLocationListener;
-
-    private String coach;
+    private String faddress,school,address,res;
     private CoachInfo.Result result;
     private TextView route_title;
     private TextView route_address;
@@ -292,13 +287,25 @@ public class BDMAPActivity extends Activity{
 
     private void getIntentData(){
         Intent intent = getIntent();
-        coach = intent.getStringExtra("coachInfo");
-        Gson gson = new Gson();
-        CoachInfo coachInfo = gson.fromJson(coach, CoachInfo.class);
-        List<CoachInfo.Result> list = coachInfo.getResult();
-        result = list.get(0);
-        route_title.setText("百信学车 · " + result.getFaddress());
-        route_address.setText(result.getAddress());
+//        coach = intent.getStringExtra("coachInfo");
+//        Gson gson = new Gson();
+//        CoachInfo coachInfo = gson.fromJson(coach, CoachInfo.class);
+//        List<CoachInfo.Result> list = coachInfo.getResult();
+//        result = list.get(0);
+//        route_title.setText("百信学车 · " + result.getFaddress());
+//        route_address.setText(result.getAddress());
+        faddress = intent.getStringExtra("faddress");
+        school = intent.getStringExtra("school");
+        address = intent.getStringExtra("address");
+        route_address.setText(address);
+        res = intent.getStringExtra("value");
+        if (res.equals("1")){
+            route_title.setText("百信学车 · " + faddress);
+        }else if (res.equals("2")){
+            route_title.setText("百信学车 · " +  school);
+        }
+
+
     }
 
     /**

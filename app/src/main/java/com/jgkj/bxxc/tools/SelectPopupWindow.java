@@ -57,7 +57,6 @@ public class SelectPopupWindow extends PopupWindow implements PopupWindow.OnDism
          * 1.解决再次点击MENU键无反应问题
          */
         contentView.setFocusableInTouchMode(true);
-
         //父类别适配器
         lvParentCategory = (ListView) contentView.findViewById(R.id.lv_parent_category);
         parentCategoryAdapter = new ParentCategoryAdapter(activity, parentStrings);

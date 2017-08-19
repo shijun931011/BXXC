@@ -8,6 +8,8 @@ public class MyCoachPrivaetEntity {
 
     private String cid;
 
+    private String tid;
+
     private String faddress;
 
     private String coachname;
@@ -16,6 +18,12 @@ public class MyCoachPrivaetEntity {
 
     private String class_type;
 
+    private String flag;
+
+    private String totalnum;
+
+    private String roles;
+
     private int nowstudent;
 
     private String address;
@@ -23,6 +31,48 @@ public class MyCoachPrivaetEntity {
     private String praise;
 
     private String zonghe;
+
+    private String sname;
+
+    public String getSname() {
+        return sname;
+    }
+
+    public void setSname(String sname) {
+        this.sname = sname;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
+
+    public String getTid() {
+        return tid;
+    }
+
+    public void setTid(String tid) {
+        this.tid = tid;
+    }
+
+    public String getTotalnum() {
+        return totalnum;
+    }
+
+    public void setTotalnum(String totalnum) {
+        this.totalnum = totalnum;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
 
     public String getCid() {
         return cid;

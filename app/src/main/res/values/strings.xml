@@ -20,7 +20,7 @@
     </string>
     <string name="version_unknown">请求异常</string>
     <string name="line">
-        <hr />
+        <hr/>
     </string>
     <string name="gotonext">前往完成下一步</string>
     <string name="gotobaoming">前去报名</string>
@@ -44,6 +44,7 @@
     <string name="extra_hours_package">多余的学时套餐怎么办</string>
     <string name="balance_recharge">余额充值:</string>
     <string name="weixin_zhifu">微信支付</string>
+    <string name="union_zhifu">银行卡支付</string>
     <string name="alipay">支付宝支付</string>
     <string name="alipay_user">仅支持有支付宝账号的用户</string>
     <string name="weixin_user">请在微信6.0.2及以上版本使用</string>
@@ -63,7 +64,12 @@
     <string name="private_regisition">私教班报名</string>
     <string name="classic_instructions">经典班使用说明</string>
     <string name="private_instructions">私教班使用说明</string>
-
+    <string name="baixinbanquan">Copyright@2017九鬼科技.All rights reserved</string>
+    <string name="baixin_sijiao">《百信学车私教服务条款》</string>
+    <string name="baixin_recharge_protocol_txt">《百信学车充值协议》</string>
+    <string name="team_pri_txt">
+        百信学车是中国领先的一对一私教学车私教陪练平台,以优质的服务让学员乐享学车,学员可以通过平台自选场地、自选教练、预约练车、预约考试等,风里雨里,我们在百信...
+    </string>
     <string name="pay">
         <u>前去付款</u>
     </string>
@@ -73,7 +79,9 @@
     <string name="nothing">
         <u>该时间段暂无排课，请选择其他时间段。</u>
     </string>
-
+    <string name="search_all">大家都在搜</string>
+    <string name="search_lately">最近搜索</string>
+    <string name="search_clear">清除历史</string>
 
     <string-array name="planets_array">
         <item>修改资料</item>

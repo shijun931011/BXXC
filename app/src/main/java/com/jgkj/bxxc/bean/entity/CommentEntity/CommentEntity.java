@@ -9,6 +9,11 @@ public class CommentEntity {
     private String comment;
     private String comment_time;
     private String default_file;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
 
     public String getComment() {
         return comment;

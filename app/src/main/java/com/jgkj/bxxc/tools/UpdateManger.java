@@ -32,9 +32,8 @@ public class UpdateManger {
     private Context mContext;
     // 提示消息
     private String updateMsg = "有最新的软件包，请下载！";
-    // 下载安装包的网络路径
-//    private String apkUrl = "http://softfile.3g.qq.com:8080/msoft/179/24659/43549/qq_hd_mini_1.4.apk";
     private String apkUrl;
+    private String style;   //是否强制更新
     private Dialog noticeDialog;// 提示有软件更新的对话框
     private Dialog downloadDialog;// 下载对话框
     private static final String savePath = "/sdcard/BX/";// 保存apk的文件夹
@@ -63,10 +62,11 @@ public class UpdateManger {
             super.handleMessage(msg);
         }
     };
-    public UpdateManger(Context context, String apkUrl, String mCurrentVersionName) {
+    public UpdateManger(Context context, String apkUrl, String mCurrentVersionName,String style) {
         this.apkUrl = apkUrl;
         this.mContext = context;
         this.mCurrentVersionName = mCurrentVersionName;
+        this.style = style;
     }
     // 显示更新程序对话框，供主程序调用
     public void checkUpdateInfo() {
@@ -75,41 +75,64 @@ public class UpdateManger {
     private void showNoticeDialog() {
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(mContext);// Builder，可以通过此builder设置改变AleartDialog的默认的主题样式及属性相关信息
         builder.setCancelable(false);
-        builder.setTitle("检查到有版本"+mCurrentVersionName);
+        builder.setTitle("检查到新版本"+mCurrentVersionName);
         builder.setMessage(updateMsg);
-        builder.setPositiveButton("下载", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();// 当取消对话框后进行操作一定的代码？取消对话框
-                showDownloadDialog();
-            }
-        });
-        builder.setNegativeButton("以后再说", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        if (style.equals("1")){
+            builder.setPositiveButton("强制更新", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();// 当取消对话框后进行操作一定的代码？取消对话框
+                    showDownloadDialog();
+                }
+            });
+        }else if (style.equals("0")){
+            builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();// 当取消对话框后进行操作一定的代码？取消对话框
+                    showDownloadDialog();
+                }
+            });
+            builder.setNegativeButton("以后再说", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }
         noticeDialog = builder.create();
         noticeDialog.show();
     }
     protected void showDownloadDialog() {
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(mContext);
-        builder.setTitle("正在下载"+mCurrentVersionName);
-        final LayoutInflater inflater = LayoutInflater.from(mContext);
-        View v = inflater.inflate(R.layout.softdownload, null);
-        mProgress = (ProgressBar) v.findViewById(R.id.softUpdate);
-        builder.setView(v);// 设置对话框的内容为一个View
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                interceptFlag = true;
-            }
-        });
-        downloadDialog = builder.create();
-        downloadDialog.show();
-        downloadApk();
+        if(style.equals("1")){
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(mContext);
+            builder.setTitle("正在下载"+mCurrentVersionName);
+            final LayoutInflater inflater = LayoutInflater.from(mContext);
+            View v = inflater.inflate(R.layout.softdownload, null);
+            mProgress = (ProgressBar) v.findViewById(R.id.softUpdate);
+            builder.setView(v);// 设置对话框的内容为一个View
+            downloadDialog = builder.create();
+            downloadDialog.show();
+            downloadApk();
+        }else if (style.equals("0")){
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(mContext);
+            builder.setTitle("正在下载"+mCurrentVersionName);
+            final LayoutInflater inflater = LayoutInflater.from(mContext);
+            View v = inflater.inflate(R.layout.softdownload, null);
+            mProgress = (ProgressBar) v.findViewById(R.id.softUpdate);
+            builder.setView(v);// 设置对话框的内容为一个View
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    interceptFlag = true;
+                }
+            });
+            downloadDialog = builder.create();
+            downloadDialog.show();
+            downloadApk();
+        }
+
     }
     private void downloadApk() {
         downLoadThread = new Thread(mdownApkRunnable);

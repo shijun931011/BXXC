@@ -2,22 +2,119 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
+    android:orientation="vertical"
     android:background="@color/white">
-    <TextView 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15dp"
-        android:id="@+id/myReservation_listView_text1"/>
-    <TextView 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15dp"
-        android:id="@+id/myReservation_listView_text2"/>
-    <TextView 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15dp"
-        android:id="@+id/myReservation_listView_text3"/>
 
+    <TextView
+        android:id="@+id/myreservation_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:text="2017年3月9日"
+        android:textColor="@color/orange"/>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/linearlayout"
+                  android:layout_marginLeft="10dp"
+                  android:layout_marginRight="10dp"
+                  android:layout_marginTop="5dp"
+                  android:background="@drawable/linearlayout_shape_background"
+                  android:orientation="horizontal">
+        <ImageView android:id="@+id/img_reservation_type"
+                   android:layout_width="0dp"
+                   android:layout_height="50dp"
+                   android:layout_weight="1"
+                   android:layout_gravity="left"
+                   android:src="@drawable/img_sijiao"
+                    />
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+            <RelativeLayout
+                android:id="@+id/res_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                         >
+                <ImageView android:layout_width="20dp"
+                           android:layout_height="20dp"
+                           android:src="@drawable/img_reservation_time"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_gravity="center"
+                          android:paddingLeft="28dp"
+                          android:paddingTop="2dp"
+                          android:text="时间:"
+                          android:textColor="@color/gray"/>
+                <TextView android:id="@+id/txt_reservation_time"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentRight="true"
+                          android:layout_gravity="center"
+                          android:gravity="right"
+                          android:text="13:30-15:30"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/res_coach"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/res_time"
+                android:layout_marginRight="8dp"
+                android:paddingTop="10dp">
+                <ImageView android:layout_width="20dp"
+                           android:layout_height="20dp"
+                           android:src="@drawable/img_reservation_coach"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_gravity="center"
+                          android:paddingLeft="28dp"
+                          android:paddingTop="2dp"
+                          android:text="教练员:"
+                          android:textColor="@color/gray"/>
+                <TextView android:id="@+id/txt_reservation_coach"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentRight="true"
+                          android:gravity="right"
+                          android:text="私教中心"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/res_school"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/res_coach"
+                android:layout_marginRight="8dp"
+                android:paddingTop="10dp">
+                <ImageView android:layout_width="20dp"
+                           android:layout_height="20dp"
+                           android:src="@drawable/img_reservation_school"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_gravity="center"
+                          android:paddingLeft="28dp"
+                          android:paddingTop="2dp"
+                          android:text="校区:"
+                          android:textColor="@color/gray"/>
+                <TextView android:id="@+id/txt_reservation_school"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentRight="true"
+                          android:layout_gravity="center"
+                          android:gravity="right"
+                          android:text="经开校区"/>
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+</LinearLayout>
 </LinearLayout>

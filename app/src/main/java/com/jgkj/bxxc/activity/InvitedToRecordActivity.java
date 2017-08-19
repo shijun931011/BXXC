@@ -94,7 +94,6 @@ public class InvitedToRecordActivity extends Activity  {
         invite_number = (TextView) findViewById(R.id.invite_number);
         SharedPreferences sp = getSharedPreferences("USER", Activity.MODE_PRIVATE);
         String str = sp.getString("userInfo", null);
-        Log.d("zyzhang", "invited:" + str);
         Gson gson = new Gson();
         userInfo = gson.fromJson(str, UserInfo.class);
         result = userInfo.getResult();
@@ -124,7 +123,6 @@ public class InvitedToRecordActivity extends Activity  {
                         Invite invite = gson.fromJson(s, Invite.class);
                         if (invite.getCode() == 200) {
                             List<Invite.Result> inviteResult = invite.getResult();
-                            Log.d("1111", "onResponse: "+ inviteResult.size());
                             list.addAll(inviteResult);
                             //设置邀请人数
                             invite_number.setText(inviteResult.size() + "");

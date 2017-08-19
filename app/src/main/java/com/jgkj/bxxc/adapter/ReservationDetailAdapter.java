@@ -41,7 +41,6 @@ import okhttp3.Call;
 
 import static com.jgkj.bxxc.R.id.btn_reservation;
 
-
 /**
  * Created by shijun on 2017/4/23.
  */
@@ -57,6 +56,8 @@ public class ReservationDetailAdapter extends BaseAdapter {
     private int uid;
     private String token;
     private String cid;
+    private String tid;
+    private int class_style;
     private String flag_class;
     private ListView listView;
 
@@ -71,7 +72,8 @@ public class ReservationDetailAdapter extends BaseAdapter {
     //记住取消预约点击的位置
     private List<String> positionCancelList = new ArrayList<>();
 
-    public ReservationDetailAdapter(Context context, List<Subject> list,List<Stusubject> stuList,String price,String address,String day,int uid,String token,String cid,String flag_class){
+    public ReservationDetailAdapter(Context context, List<Subject> list,List<Stusubject> stuList,String price,String address,String day,int uid,String token,String cid,String flag_class,int class_style, String tid){
+        Log.d("百信学车","百信学车TID:"+tid);
         this.context = context;
         this.list = list;
         this.stuList = stuList;
@@ -82,6 +84,8 @@ public class ReservationDetailAdapter extends BaseAdapter {
         this.cid = cid;
         this.token = token;
         this.flag_class = flag_class;
+        this.class_style = class_style;
+        this.tid = tid;
         inflater = LayoutInflater.from(context);
     }
 
@@ -123,7 +127,6 @@ public class ReservationDetailAdapter extends BaseAdapter {
 
         viewHolder.tv_timeslot.setText(list.get(position).getTimeslot());
         viewHolder.tv_time_number.setText(list.get(position).getClasshour() + "学时");
-
         DecimalFormat df = new DecimalFormat("#.00");
         viewHolder.tv_price.setText("￥ " + df.format(Float.parseFloat(price)*list.get(position).getClasshour()));
         viewHolder.tv_address.setText(address);
@@ -242,7 +245,8 @@ public class ReservationDetailAdapter extends BaseAdapter {
                 if(viewHolder.btn_reservation.getText().toString().equals("取消预约")){
                     positionCancelList.add(position + "");
                     //提示是否取消
-                    new RemindDialog(context,"确定要取消预约？",uid,token,cid,list.get(position).getTimeone(),list.get(position).getTimeslot(),Urls.quxiaoApply,viewHolder.btn_reservation).call();
+//                    new RemindDialog(context,"确定要取消预约？",uid,token,cid,list.get(position).getTimeone(),list.get(position).getTimeslot(),Urls.quxiaoApply,viewHolder.btn_reservation).call();
+                    new RemindDialog(context,"您已预约此事件段，是否确定要取消？（距学车时间两小时内不能取消）",uid,token,cid,list.get(position).getTimeone(),list.get(position).getTimeslot(),tid,Urls.priteamCancelcourse,viewHolder.btn_reservation).call();
                 }
             }
         });
@@ -298,7 +302,8 @@ public class ReservationDetailAdapter extends BaseAdapter {
         btn_buy_menu.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(BuyMenuAdapter.flag){
-                    getDataForReservation(uid,cid,token,time_slot,timeone,BuyMenuAdapter.package_id,Urls.stuAppointmentpackage,btn,position);
+//                    getDataForReservation(uid,cid,token,time_slot,timeone,BuyMenuAdapter.package_id,Urls.stuAppointmentpackage,btn,position);
+                    getDataForReservation(uid,cid,token,time_slot,timeone,BuyMenuAdapter.package_id,Urls.priteamSurecourse,Integer.toString(class_style),tid,btn,position);
                     BuyMenuAdapter.package_id = null;
                     BuyMenuAdapter.flag = false;
                     dlg.cancel();
@@ -369,8 +374,8 @@ public class ReservationDetailAdapter extends BaseAdapter {
                 });
     }
 
-    private void getDataForReservation(int uid, String cid,String token, String time_slot,String day,String package_id,String url,final Button btn,final int position) {
-        Log.i("百信学车","确认预约教练参数" + "uid=" + uid + "   token=" + token + "   cid=" + cid + "   timme_slot=" + time_slot + "   day=" + day + "   package_id=" + package_id + "   url=" + url);
+    private void getDataForReservation(int uid, String cid,String token, String time_slot,String day,String package_id,String url,String class_style,String tid,final Button btn,final int position) {
+        Log.i("百信学车","确认预约教练参数" + "uid=" + uid + "   token=" + token + "   cid=" + cid + "   timme_slot=" + time_slot + "   day=" + day + "   package_id=" + package_id + "   url=" + url+"class_type="+ class_style +" tid="+tid);
         OkHttpUtils
                 .post()
                 .url(url)
@@ -380,6 +385,8 @@ public class ReservationDetailAdapter extends BaseAdapter {
                 .addParams("time_slot", time_slot)
                 .addParams("day", day)
                 .addParams("package_id", package_id)
+                .addParams("tid",tid)
+                .addParams("class_style",class_style)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -416,12 +423,6 @@ public class ReservationDetailAdapter extends BaseAdapter {
 
     //获取时间
     public String getTempDay(){
-//        SimpleDateFormat sf = new SimpleDateFormat("yyyy年MM月dd日");
-//        Calendar c = Calendar.getInstance();
-//        c.add(Calendar.DAY_OF_MONTH, 0);
-//        String dd = sf.format(c.getTime()).toString();
-//        return dd;
-
         Date date=new Date();
         DateFormat format=new SimpleDateFormat("yyyy年MM月dd日");
         return format.format(date).toString();

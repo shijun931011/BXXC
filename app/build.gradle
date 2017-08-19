@@ -6,7 +6,7 @@ android {
         app {
             keyAlias 'bxxc'
             keyPassword '65555744'
-            storeFile file('C:/Users/Administrator/Desktop/baixinxueche.jks')
+            storeFile file('D:/keyStore/baixinxueche.jks')
             storePassword '65555744'
         }
     }
@@ -17,8 +17,8 @@ android {
         applicationId "com.jgkj.bxxc"
         minSdkVersion 14
         //targetSdkVersion 25
-        versionCode 22
-        versionName '3.1.0'
+        versionCode 25
+        versionName '3.1.2'
         testInstrumentationRunner "android.support.reservation_item.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -49,7 +49,7 @@ android {
         }
     }
 
-    greendao{
+    greendao {
         schemaVersion 1
         targetGenDir 'src/main/java'
         daoPackage 'com.jgkj.bxxc.db'
@@ -63,14 +63,16 @@ dependencies {
     })
     compile files('libs/GifView.jar')
     compile project(':mypwdinputlibrary')
+    //数据库
+    //compile files('libs/libammsdk.jar')
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support:design:25.0.0'
     compile 'com.android.support:support-v4:25.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
     compile 'com.facebook.fresco:fresco:0.9.0'
-    testCompile 'junit:junit:4.12'
     compile 'com.bigkoo:convenientbanner:2.0.5'
-    //数据库
     compile 'org.greenrobot:greendao:3.1.1'
-    //compile files('libs/libammsdk.jar')
+    testCompile 'junit:junit:4.12'
+    compile files('libs/UPPayAssistEx.jar')
+    compile files('libs/UPPayPluginExPro.jar')
 }

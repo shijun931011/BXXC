@@ -27,6 +27,7 @@ public class Version {
         private int versionCode;
         private String versionName;
         private String path;
+        private String style;
 
         public int getVersionCode() {
             return versionCode;
@@ -38,6 +39,10 @@ public class Version {
 
         public String getPath() {
             return path;
+        }
+
+        public String getStyle(){
+            return this.style;
         }
 
     }

@@ -35,17 +35,19 @@ public class RemindDialog implements View.OnClickListener{
     private int uid;
     private String token;
     private String cid;
+    private String tid;
     private String day;
     private String time_slot;
     private String url;
     private Button btn;
 
-    public RemindDialog(Context context, String content,int uid, String token, String cid ,String day,String time_slot,String url,Button btn){
+    public RemindDialog(Context context, String content,int uid, String token, String cid ,String day,String time_slot,String tid,String url,Button btn){
         this.content = content;
         this.context = context;
         this.uid = uid;
         this.token = token;
         this.cid = cid;
+        this.tid = tid;
         this.day = day;
         this.time_slot = time_slot;
         this.url = url;
@@ -55,8 +57,7 @@ public class RemindDialog implements View.OnClickListener{
     public void call(){
         dialog = new Dialog(context, R.style.ActionSheetDialogStyle);
         // 填充对话框的布局
-        inflate = LayoutInflater.from(context).inflate(
-                R.layout.sure_cancel_dialog, null);
+        inflate = LayoutInflater.from(context).inflate(R.layout.sure_cancel_dialog, null);
         // 初始化控件
         dialog_textView = (TextView) inflate.findViewById(R.id.dialog_textView);
         dialog_sure = (TextView) inflate.findViewById(R.id.dialog_sure);
@@ -80,7 +81,7 @@ public class RemindDialog implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.dialog_sure:
-                getDataForReservation(uid, token, cid , day, time_slot, url);
+                getDataForReservation(uid, token, cid , day, time_slot, tid, url);
                 dialog.dismiss();
                 break;
             case R.id.dialog_cancel:
@@ -93,8 +94,8 @@ public class RemindDialog implements View.OnClickListener{
     /**
      * @param url    请求地址
      */
-    private void getDataForReservation(int uid, String token, String cid ,String day,String time_slot,String url) {
-        Log.i("百信学车","取消预约" + "uid=" + uid + "   token=" + token + "   cid=" + cid + "   day=" + day + "   time_slot=" + time_slot + "   url=" + url);
+    private void getDataForReservation(int uid, String token, String cid ,String day,String time_slot,String tid,String url) {
+        Log.i("百信学车","取消预约" + "uid=" + uid + "   token=" + token + "   cid=" + cid + "   day=" + day + "   time_slot=" + time_slot + "   url=" + url+"tid="+tid);
         OkHttpUtils
                 .post()
                 .url(url)
@@ -103,6 +104,7 @@ public class RemindDialog implements View.OnClickListener{
                 .addParams("cid", cid)
                 .addParams("day", day)
                 .addParams("time_slot", time_slot)
+                .addParams("tid",tid)
                 .build()
                 .execute(new StringCallback() {
                     @Override

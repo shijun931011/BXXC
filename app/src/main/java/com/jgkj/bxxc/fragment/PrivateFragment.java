@@ -1,10 +1,7 @@
 package com.jgkj.bxxc.fragment;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -72,33 +69,14 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
     private int schId;
     private List<CoachDetailAction.Result> listTemp = new ArrayList<>();
 
-    //广播接收更新数据
-    protected BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        public void onReceive(Context context, Intent intent) {
-            String string = CoachFragment.strResult;
-            Gson gson = new Gson();
-            CoachDetailAction coachDetailAction = gson.fromJson(string, CoachDetailAction.class);
-            listTemp.clear();
-            for(int i=0;i<coachDetailAction.getResult().size();i++){
-                if(coachDetailAction.getResult().get(i).getClass_class().equals("私教班")){
-                    listTemp.add(coachDetailAction.getResult().get(i));
-                }
-            }
-            adapter = new PrivateCoachAdapter(getActivity(), listTemp);
-            listView.setAdapter(adapter);
-        }
-    };
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_private, container, false);
-        initView();
         initView();
         getPlace();
         getBundle();
         return view;
     }
-
     private void initView(){
         sort_btn1 = (Button) view.findViewById(R.id.coach_sort_btn1);
         sort_btn2 = (Button) view.findViewById(R.id.coach_sort_btn2);
@@ -119,19 +97,16 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
         //验证是否登录
         sp = getActivity().getApplication().getSharedPreferences("USER",
                 Activity.MODE_PRIVATE);
-        int isFirstRun = sp.getInt("isfirst", 0);
-        if (isFirstRun != 0){
+        int isFirstRun = sp.getInt("isfirst", 1);
+        if (isFirstRun == 1){
             String str = sp.getString("userInfo", null);
             Gson gson = new Gson();
             userInfo = gson.fromJson(str, UserInfo.class);
-            result = userInfo.getResult();
-            uid = result.getUid();
         }
         sp1 = getActivity().getSharedPreferences("token",
                 Activity.MODE_PRIVATE);
         token = sp1.getString("token", null);
     }
-
     private void getPlace(){
         OkHttpUtils
                 .get()
@@ -144,7 +119,6 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
                     }
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.i("百信学车","地方" +s);
                         listView.setTag(s);
                         if (listView.getTag() != null) {
                             addAdapter();
@@ -174,7 +148,6 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
     private void addAdapter() {
         Gson gson = new Gson();
         String str = listView.getTag().toString();
-        Log.i("百姓学车","校区地址" + str);
         schoolPlaceTotal = gson.fromJson(str, SchoolPlaceTotal.class);
         setPup(schoolPlaceTotal.getResult());
     }
@@ -215,7 +188,6 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
                     }
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.i("百姓学车","全城参数"+s);
                         listView.setTag(s);
                         if (listView.getTag() != null) {
                             setAdapter();
@@ -313,7 +285,7 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
         Intent intent = new Intent();
         intent.setClass(getActivity(), ReservationForPrivateActivity.class);
         intent.putExtra("coachId", coachId.getText().toString().trim());
-        intent.putExtra("uid", uid);
+//        intent.putExtra("uid", uid);
         intent.putExtra("token", token);
         startActivity(intent);
     }
@@ -410,14 +382,9 @@ public class PrivateFragment extends Fragment implements View.OnClickListener, A
     @Override
     public void onResume() {
         super.onResume();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("updataAppPrivateFragment");
-        getActivity().registerReceiver(this.broadcastReceiver, filter);
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getActivity().unregisterReceiver(this.broadcastReceiver);
     }
 }

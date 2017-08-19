@@ -52,14 +52,12 @@
             android:layout_gravity="bottom"
             android:gravity="center"
             android:orientation="horizontal" >
-
             <Button
                 android:id="@+id/positiveButton"
                 android:layout_width="60dp"
                 android:layout_height="35dp"
-                android:gravity="center"
                 android:text="确定"
-                android:background="@color/lightWhite"
+                android:background="#FFFFFF"
                 android:textSize="15dp"
                 android:textColor="@color/color_bule"
                 />

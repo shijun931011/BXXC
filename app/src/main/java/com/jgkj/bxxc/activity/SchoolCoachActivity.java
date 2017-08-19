@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -14,7 +15,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
-import com.jgkj.bxxc.adapter.MyCoachAdapter;
+import com.jgkj.bxxc.adapter.PrivateCenterAdapter;
+import com.jgkj.bxxc.adapter.PrivateCoachAdapter;
 import com.jgkj.bxxc.bean.CoachDetailAction;
 import com.jgkj.bxxc.tools.RefreshLayout;
 import com.jgkj.bxxc.tools.SelectPopupWindow;
@@ -39,28 +41,32 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
     private int page = 1;
     private String schId;
     private String schName;
+    private String roles;
     private String tag;
     private SelectPopupWindow mPopupWindowSub = null;
     private SelectPopupWindow mPopupWindowCampus = null;
     private SelectPopupWindow mPopupWindowSort = null;
     private SelectPopupWindow mPopupWindowClassType = null;
-    private String[] sub = {"科目","科目二", "科目三"};
-    private String[] sortStr = {"综合排序","通过率", "好评率"};
-    private String[] classType = {"班型","经理班", "VIP班"};
-    private String class_type = "";
+//    private String[] sub = {"科目","科目二", "科目三"};
+    private String[] sortStr = {"综合排序", "好评率", "累计所带学员数"};
+    private String[] classType = {"私教","私教中心","私教学校"};
+    private String class_type = "私教";
     private String sortString = "";
     private String class_class = "";
     //新版本排序
-    private String sortPath = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/chooseinfo";
+//    private String sortPath = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/chooseinfo";
+    private String sortPath="http://www.baixinxueche.com/index.php/Home/Screen/screen";
     private List<CoachDetailAction.Result> tagList;
     private List<CoachDetailAction.Result> coachList = new ArrayList<>();
     private CoachDetailAction coachDetailAction;
-    private MyCoachAdapter adapter;
+    private PrivateCoachAdapter privateCoachAdapter;
+    private PrivateCenterAdapter privateCenterAdapter;
     private TextView title;
-    private Button sort_btn1, sort_btn3, sort_btn4;
+    private Button sort_btn1, sort_btn2;
     private Button back_forward;
     private TextView textView;
-    private String schoolPath = "http://www.baixinxueche.com/index.php/Home/Apitoken/Coaches";
+    private int uid;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,43 +77,39 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
         coachList.clear();
         swipeLayout.setTag("REFRESH");
         page = 1;
-        sort_btn1.setText("科目");
-        sort_btn3.setText("综合排序");
-        sort_btn4.setText("班型");
+        sort_btn1.setText("私教");
+        sort_btn2.setText("综合排序");
         check();
-        sort(class_type, sortString, page+"", class_class);
+        sort(schId,class_type,sortString,page+"" );
+        Log.d("百信学车","私教类型参数值1："+schId+"class_type="+class_type+"sortString="+sortString+"page="+page);
     }
 
     /**
-     * 根据页数和校区id查找教练
-     * @param schId
-     * @param page
+     * 设置 adapter
      */
-    private void sendRequest(String page, String schId) {
-        OkHttpUtils
-                .post()
-                .url(sortPath)
-                .addParams("page", page)
-                .addParams("school_id", schId)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int i) {
-                        Toast.makeText(SchoolCoachActivity.this, "网络状态不佳,请检查网络", Toast.LENGTH_LONG).show();
-                    }
-                    @Override
-                    public void onResponse(String s, int i) {
-                        listView.setTag(s);
-                        if(listView.getTag()!=null){
-                            swipeLayout.setTag("REFRESH");
-                            setAdapter();
-                        }else{
-                            Toast.makeText(SchoolCoachActivity.this, "网络状态不佳,请检查网络", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+    private void setMyAdapter(){
+        String tag = listView.getTag().toString();
+        Gson gson = new Gson();
+        CoachDetailAction coachDetailAction = gson.fromJson(tag, CoachDetailAction.class);
+        if (coachDetailAction.getCode() == 200) {
+            if (sort_btn1.getText().toString().trim().equals("私教")){
+                coachList.addAll(coachDetailAction.getResult());
+                privateCoachAdapter = new PrivateCoachAdapter(this, coachList);
+                listView.setAdapter(privateCoachAdapter);
+            } else if (sort_btn1.getText().toString().trim().equals("私教中心")){
+                coachList.addAll(coachDetailAction.getResult());
+                privateCenterAdapter = new PrivateCenterAdapter(this, coachList);
+                listView.setAdapter(privateCenterAdapter);
+            }else if (sort_btn1.getText().toString().trim().equals("私教学校")){
+                swipeLayout.setVisibility(View.GONE);
+                textView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            swipeLayout.setVisibility(View.GONE);
+            textView.setVisibility(View.VISIBLE);
+            Toast.makeText(this, coachDetailAction.getReason(), Toast.LENGTH_SHORT).show();
+        }
     }
-
     /**
      * 设置adapter
      */
@@ -139,42 +141,25 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
                 }
                 if (coachDetailAction.getCode() == 200) {
                     coachList.addAll(coachDetailAction.getResult());
-                    adapter.notifyDataSetChanged();
+                    if (sort_btn1.getText().toString().trim().equals("私教")){
+                        privateCoachAdapter.notifyDataSetChanged();
+                    }else if (sort_btn1.getText().toString().trim().equals("私教中心")){
+                        privateCenterAdapter.notifyDataSetChanged();
+                    }
                 } else {
                     Toast.makeText(SchoolCoachActivity.this, coachDetailAction.getReason(), Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
     }
-    /**
-     * 设置 adapter
-     */
-    private void setMyAdapter(){
-        String tag = listView.getTag().toString();
-        Gson gson = new Gson();
-        CoachDetailAction coachDetailAction = gson.fromJson(tag, CoachDetailAction.class);
-        if (coachDetailAction.getCode() == 200) {
-            coachList.addAll(coachDetailAction.getResult());
-            adapter = new MyCoachAdapter(this, coachList);
-            listView.setAdapter(adapter);
-        } else {
-            swipeLayout.setVisibility(View.GONE);
-            textView.setVisibility(View.VISIBLE);
-            Toast.makeText(this, coachDetailAction.getReason(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
     private void initView() {
         //排序按钮实例化并添加点击监听事件
         sort_btn1 = (Button) findViewById(R.id.coach_sort_btn1);
-        sort_btn3 = (Button) findViewById(R.id.coach_sort_btn3);
-        sort_btn4 = (Button) findViewById(R.id.coach_sort_btn4);
+        sort_btn2 = (Button) findViewById(R.id.coach_sort_btn2);
         sort_btn1.setOnClickListener(this);
-        sort_btn3.setOnClickListener(this);
-        sort_btn4.setOnClickListener(this);
-
+        sort_btn1.setOnClickListener(this);
+        sort_btn2.setOnClickListener(this);
         textView = (TextView) findViewById(R.id.textView);
-
         title = (TextView) findViewById(R.id.text_title);
         title.setText("中心校区");
         back_forward = (Button) findViewById(R.id.button_backward);
@@ -196,6 +181,8 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
         Intent intent = getIntent();
         schId = intent.getStringExtra("schId");
         schName = intent.getStringExtra("schName");
+        uid = intent.getIntExtra("uid",uid);
+        token = intent.getStringExtra("token");
         title.setText(schName);
     }
 
@@ -210,18 +197,15 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
                 coachList.clear();
                 swipeLayout.setTag("REFRESH");
                 page = 1;
-                sort_btn1.setText("科目");
-                sort_btn3.setText("综合排序");
-                sort_btn4.setText("班型");
+//                sort_btn1.setText("私教");
+//                sort_btn2.setText("综合排序");
                 check();
-                sort(class_type, sortString, page+"", class_class);
-                //sendRequest(page+"",schId);
+                sort(schId,class_type,sortString,page+"");
+                Log.d("百信学车","私教类型参数值2："+schId+"class_type="+class_type+"sortString="+sortString+"page="+page);
                 swipeLayout.setRefreshing(false);
-                //adapter.notifyDataSetChanged();
             }
         }, 2000);
     }
-
     @Override
     public void onLoad() {
         swipeLayout.postDelayed(new Runnable() {
@@ -232,9 +216,8 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
                 page++;
                 swipeLayout.setTag("ONLOAD");
                 check();
-                sort(class_type, sortString, page+"", class_class);
+                sort(schId,class_type,sortString,page+"");
                 swipeLayout.setLoading(false);
-                //adapter.notifyDataSetChanged();
             }
         }, 2000);
     }
@@ -242,9 +225,21 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         TextView coachId = (TextView) view.findViewById(R.id.coachId);
+        TextView tid = (TextView) view.findViewById(R.id.coachId);
+        TextView pri_center_name = (TextView) view.findViewById(R.id.coachName);
         Intent intent = new Intent();
-        intent.setClass(SchoolCoachActivity.this, ReservationActivity.class);
-        intent.putExtra("coachId", coachId.getText().toString().trim());
+        if (sort_btn1.getText().toString().trim().equals("私教")){
+            intent.setClass(this, ReservationForPrivateActivity.class);
+            intent.putExtra("coachId", coachId.getText().toString().trim());
+            intent.putExtra("uid", uid);
+            intent.putExtra("token", token);
+        }else if(sort_btn1.getText().toString().trim().equals("私教中心")){
+            intent.setClass(this, PrivateCenterDetailsActivity.class);
+            intent.putExtra("tid", tid.getText().toString().trim());
+            intent.putExtra("uid", uid);
+            intent.putExtra("token", token);
+            intent.putExtra("name",pri_center_name.getText().toString().trim());
+        }
         startActivity(intent);
     }
 
@@ -254,53 +249,41 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
             case R.id.coach_sort_btn1:
                 tag = "sort_btn1";
                 coachList.clear();
-                if (mPopupWindowSub == null) {
-                    mPopupWindowSub = new SelectPopupWindow(sub, null, SchoolCoachActivity.this,
-                            selectCategory);
+                if (mPopupWindowClassType == null) {
+                    mPopupWindowClassType = new SelectPopupWindow(classType, null, SchoolCoachActivity.this, selectCategory);
                 }
-                mPopupWindowSub.showAsDropDown(sort_btn1, -5, 1);
+                mPopupWindowClassType.showAsDropDown(sort_btn1, -5, 1);
                 break;
-            case R.id.coach_sort_btn3:
+            case R.id.coach_sort_btn2:
                 coachList.clear();
-                tag = "sort_btn3";
+                tag = "sort_btn2";
                 if (mPopupWindowSort == null) {
                     mPopupWindowSort = new SelectPopupWindow(sortStr, null, SchoolCoachActivity.this,
                             selectCategory);
                 }
-                mPopupWindowSort.showAsDropDown(sort_btn3, -5, 1);
+                mPopupWindowSort.showAsDropDown(sort_btn2, -5, 1);
                 break;
-            case R.id.coach_sort_btn4:
-                tag = "sort_btn4";
-                coachList.clear();
-                if (mPopupWindowClassType == null) {
-                    mPopupWindowClassType = new SelectPopupWindow(classType, null, SchoolCoachActivity.this,
-                            selectCategory);
-                }
-                mPopupWindowClassType.showAsDropDown(sort_btn4, -5, 1);
-                break;
+
         }
     }
     private void check() {
-        if (sort_btn4.getText().toString().trim().equals("班型")) {
-            class_class = "";
-        } else {
-            class_class = sort_btn4.getText().toString().trim();
+        if (sort_btn1.getText().toString().trim().equals("私教")) {
+            class_type = "1";
+        } else if (sort_btn1.getText().toString().trim().equals("私教中心")){
+            class_type = "2";
+        } else if (sort_btn1.getText().toString().trim().equals("私教学校")){
+            class_type = "3";
         }
-        if (sort_btn1.getText().toString().trim().equals("科目")) {
-            class_type = "";
-        }else{
-            class_type = sort_btn1.getText().toString().trim() + "教练";
-        }
-        if (sort_btn3.getText().toString().trim().equals("综合排序")) {
+        if (sort_btn2.getText().toString().trim().equals("综合排序")) {
             sortString = "zonghe";
         } else {
-            String string = sort_btn3.getText().toString().trim();
+            String string = sort_btn2.getText().toString().trim();
             if (string.equals("综合排序")) {
                 sortString = "zonghe";
             } else if (string.equals("好评率")) {
                 sortString = "praise";
-            } else if (string.equals("通过率")) {
-                sortString = "pass";
+            } else if (string.equals("累计所带学员数")) {
+                sortString = "leiji";
             }
         }
     }
@@ -310,38 +293,36 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
     private SelectPopupWindow.SelectCategory selectCategory = new SelectPopupWindow.SelectCategory() {
         @Override
         public void selectCategory(Integer parentSelectposition, Integer childrenSelectposition) {
-            if (tag.equals("sort_btn1")) {
-                sort_btn1.setText(sub[parentSelectposition]);
-            } else if (tag.equals("sort_btn3")) {
+             if (tag.equals("sort_btn2")) {
                 sortString = sortStr[parentSelectposition];
-                sort_btn3.setText(sortStr[parentSelectposition]);
-            } else if (tag.equals("sort_btn4")) {
+                sort_btn2.setText(sortStr[parentSelectposition]);
+            } else if (tag.equals("sort_btn1")) {
                 class_class = classType[parentSelectposition];
-                sort_btn4.setText(classType[parentSelectposition]);
+                sort_btn1.setText(classType[parentSelectposition]);
             }
             check();
             page = 1;
             swipeLayout.setTag("REFRESH");
-            sort(class_type,sortString, page+"", class_class);
+            sort(schId,class_type,sortString,page+"");
+            Log.d("百信学车","私教类型参数值4："+schId+"class_type="+class_type+"sortString="+sortString+"page="+page);
         }
     };
 
     /**
-     * 条件查询
-     * @param class_type 班级类型
-     * @param sort  排序方法
-     * @param page  页数
-     * @param class_class 科目几
+     *
+     * @param schId
+     * @param class_type
+     * @param sort
+     * @param page
      */
-    private void sort(String class_type, String sort, String page, String class_class) {
+    private void sort(String schId,String class_type,String sort,String page) {
         OkHttpUtils
                 .post()
                 .url(sortPath)
                 .addParams("school_id", schId)
-                .addParams("class_type", class_type)
+                .addParams("roles", class_type)
                 .addParams("sort", sort)
                 .addParams("page", page)
-                .addParams("class_class", class_class)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -350,6 +331,7 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
                     }
                     @Override
                     public void onResponse(String s, int i) {
+                        Log.d("百信学车：","场地教练查询"+s);
                         listView.setTag(s);
                         if(listView.getTag()!=null){
                             setAdapter();
@@ -357,5 +339,4 @@ public class SchoolCoachActivity extends Activity implements SwipeRefreshLayout.
                     }
                 });
     }
-
 }

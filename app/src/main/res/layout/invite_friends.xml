@@ -55,15 +55,6 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/activity_rules"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:hint="活动规则 >"
-            android:textSize="15sp" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/share"

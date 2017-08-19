@@ -26,8 +26,6 @@ import com.google.gson.Gson;
 import com.jgkj.bxxc.R;
 import com.jgkj.bxxc.activity.BXCenterActivity;
 import com.jgkj.bxxc.activity.CarPickUpActivity;
-import com.jgkj.bxxc.activity.ClassTypeActivity;
-import com.jgkj.bxxc.activity.ClassicActivity;
 import com.jgkj.bxxc.activity.DrivingCompanionActivity;
 import com.jgkj.bxxc.activity.HeadlinesActivity;
 import com.jgkj.bxxc.activity.InviteFriendsActivity;
@@ -84,8 +82,8 @@ public class IndexFragment extends Fragment implements OnClickListener {
     private SecondToDate std;
     private TextView lookMore;
     private ImageView imageView, KefuPhone;
-    private RelativeLayout select_coach, select_place,select_class;//教练、 场地、 班型
-    private LinearLayout yQfirend,classic_coach,private_coach,linear_driving_companion;
+    private RelativeLayout select_coach,linear_driving_companion;//教练、陪练
+    private LinearLayout yQfirend,private_coach,select_place;
     private AutoTextView headlines;
 
     private List<String> imagePath = new ArrayList<>();
@@ -101,6 +99,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
     private HeadlinesAction action;
     private TextView quesAns,bxCenter,customerPhone;
     private SharedPreferences sp;
+    private SharedPreferences sp1;
     private UserInfo userInfo;
     private UserInfo.Result result;
     private TextView use_guide;
@@ -109,10 +108,8 @@ public class IndexFragment extends Fragment implements OnClickListener {
     private String token;
     private int uid;
     private List<BannerEntity> bannerEntitylist;
-
     private ConvenientBanner cb_convenientBanner;
     private List<BannerPage> page = new ArrayList<>();  //数据集合
-
     private TextView text_title, place;
     private ImageView kefu,im_title;
 
@@ -132,7 +129,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
 
     //初始化布局
     private void init() {
-
         text_title = (TextView) view.findViewById(R.id.text_title);
         //地区
         place = (TextView) view.findViewById(R.id.txt_place);
@@ -141,15 +137,12 @@ public class IndexFragment extends Fragment implements OnClickListener {
         im_title = (ImageView) view.findViewById(R.id.im_title);
         place.setOnClickListener(this);
         kefu.setOnClickListener(this);
-
         text_title.setVisibility(View.GONE);
         im_title.setVisibility(View.VISIBLE);
         place.setVisibility(View.VISIBLE);
         kefu.setVisibility(View.VISIBLE);
         place.setText("合肥");
         kefu.setImageResource(R.drawable.kefu_phone);
-
-
         Drawable carpick = getResources().getDrawable(R.drawable.chejiechesong_image);
         carpick.setBounds(0, 0, 100, 100);
         Drawable bxcenter = getResources().getDrawable(R.drawable.baixincenter_image);
@@ -165,8 +158,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
         use_guide = (TextView) view.findViewById(R.id.use_guide);
         car_pickup = (TextView) view.findViewById(R.id.car_pickup);
         select_coach = (RelativeLayout) view.findViewById(R.id.select_coach);
-        select_place = (RelativeLayout) view.findViewById(R.id.select_place);
-        select_class = (RelativeLayout) view.findViewById(R.id.select_class);
+        select_place = (LinearLayout) view.findViewById(R.id.select_place);
         headlines.setText("科技改变生活，百信引领学车!");
         // 实例化控件
         coach = new CoachFragment();
@@ -175,20 +167,17 @@ public class IndexFragment extends Fragment implements OnClickListener {
         quesAns = (TextView) view.findViewById(R.id.quesAns);
         bxCenter = (TextView) view.findViewById(R.id.bxCenter);
         yQfirend = (LinearLayout) view.findViewById(R.id.yQfirend);
-        classic_coach = (LinearLayout) view.findViewById(R.id.classic_coach);
         private_coach = (LinearLayout) view.findViewById(R.id.private_coach);
-        linear_driving_companion = (LinearLayout) view.findViewById(R.id.linear_driving_companion);
+        linear_driving_companion = (RelativeLayout) view.findViewById(R.id.linear_driving_companion);
         headlines.setOnClickListener(this);
         bxhead.setOnClickListener(this);
         select_place.setOnClickListener(this);
         select_coach.setOnClickListener(this);
-        select_class.setOnClickListener(this);
         yQfirend.setOnClickListener(this);
         car_pickup.setOnClickListener(this);
         bxCenter.setOnClickListener(this);
         quesAns.setOnClickListener(this);
         use_guide.setOnClickListener(this);
-        classic_coach.setOnClickListener(this);
         private_coach.setOnClickListener(this);
         linear_driving_companion.setOnClickListener(this);
         car_pickup.setCompoundDrawables(null, carpick, null, null);
@@ -204,9 +193,12 @@ public class IndexFragment extends Fragment implements OnClickListener {
             Gson gson = new Gson();
             userInfo = gson.fromJson(str, UserInfo.class);
             result = userInfo.getResult();
+            uid = result.getUid();
         }
+        sp1 = getActivity().getSharedPreferences("token",
+                Activity.MODE_PRIVATE);
+        token = sp1.getString("token", null);
     }
-
     /**
      * 百信头条轮播文字
      */
@@ -230,7 +222,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
                     }
                 });
     }
-
     private void setHeadlines() {
         String headlinesTag = headlines.getTag().toString();
         Gson gson = new Gson();
@@ -253,7 +244,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
             handler.postDelayed(runnable, 2000);
         }
     }
-
     /**
      * 图片请求，几张图片创建相对应的viewPager+ImageView
      * 来显示图片
@@ -268,7 +258,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
                     public void onError(Call call, Exception e, int i) {
                         Toast.makeText(getActivity(), "网络状态不佳,请稍后再试！", Toast.LENGTH_LONG).show();
                     }
-
                     @Override
                     public void onResponse(String s, int i) {
                         Log.i("BXXC","轮播图"+s);
@@ -286,7 +275,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
                     }
                 });
     }
-
     @Override
     public void onClick(View v) {
         fragmentManager = getFragmentManager();
@@ -310,10 +298,8 @@ public class IndexFragment extends Fragment implements OnClickListener {
                 break;
             case R.id.select_place:          //场地
                 intent.setClass(getActivity(), PlaceChooseActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.select_class:    //班型
-                intent.setClass(getActivity(), ClassTypeActivity.class);
+                intent.putExtra("uid",uid);
+                intent.putExtra("token",token);
                 startActivity(intent);
                 break;
             case R.id.headlines:
@@ -353,10 +339,6 @@ public class IndexFragment extends Fragment implements OnClickListener {
                 intent.setClass(getActivity(),DrivingCompanionActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.classic_coach:       //经典班报名
-                intent.setClass(getActivity(), ClassicActivity.class);
-                startActivity(intent);
-                break;
             case R.id.private_coach:
                 if (userInfo == null){
                     intent.setClass(getActivity(), LoginActivity.class);
@@ -368,7 +350,7 @@ public class IndexFragment extends Fragment implements OnClickListener {
                 }
                 break;
             case R.id.remind:
-                new CallDialog(getActivity(), "0551-65555744").call();
+                new CallDialog(getActivity(), "17756086205").call();
                 break;
             case R.id.txt_place:
                 new RemainBaseDialog(getActivity(), "目前仅支持合肥地区").call();

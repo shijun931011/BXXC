@@ -44,10 +44,8 @@ import com.jgkj.bxxc.tools.SelectPopupWindow;
 import com.jgkj.bxxc.tools.StatusBarCompat;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import okhttp3.Call;
 
 public class PlaceChooseActivity extends Activity implements OnClickListener, AdapterView.OnItemClickListener {
@@ -67,7 +65,6 @@ public class PlaceChooseActivity extends Activity implements OnClickListener, Ad
     private SelectPopupWindow mPopupWindow = null;
     // UI相关
     boolean isFirstLoc = true; // 是否首次定位
-
     private Button btn_forward;
     private TextView title;
     //listView
@@ -78,13 +75,14 @@ public class PlaceChooseActivity extends Activity implements OnClickListener, Ad
     //请求url
     private String url = "http://www.baixinxueche.com/index.php/Home/Api/Coach";
     private int page = 1;
+    private int uid;
+    private String token;
     //上拉刷新
     //Marker地图标签
     private LatLng point;
     private Marker mMarker;
     private String str;
     private InfoWindow mInfoWindow;
-
     private SchoolPlaceAdapter schAdapter;
     private List<SchoolShow> showList = new ArrayList<>();
     private SchoolShow schoolShow;
@@ -101,10 +99,9 @@ public class PlaceChooseActivity extends Activity implements OnClickListener, Ad
         init();
         //初始化百度地图
         initMap();
-        //获取场地信息，然后吧场地信息和百度地图上的marker对应起来进行排序
-        //getPlace();
-    }
 
+
+    }
     private void getPlace() {
         OkHttpUtils
                 .get()
@@ -115,7 +112,6 @@ public class PlaceChooseActivity extends Activity implements OnClickListener, Ad
                     public void onError(Call call, Exception e, int i) {
                         Toast.makeText(PlaceChooseActivity.this, "请检查网络", Toast.LENGTH_LONG).show();
                     }
-
                     @Override
                     public void onResponse(String s, int i) {
                         Log.d("shijun","bxxc"+s);
@@ -140,18 +136,16 @@ public class PlaceChooseActivity extends Activity implements OnClickListener, Ad
             Toast.makeText(PlaceChooseActivity.this, schoolPlaceTotal.getReason(), Toast.LENGTH_SHORT).show();
         }
     }
-
     private void setMyAdapter(String sid) {
         showList.clear();
         mBaiduMap.clear();
         List<SchoolPlaceTotal.Result> list1 = schoolPlaceTotal.getResult();
-        List<SchoolPlaceTotal.Result.Res> listRes = list1.get(0).getResult();
+        List<SchoolPlaceTotal.Result.Res> listRes = sort(list1.get(0).getResult());
         if (sid.equals("0")) {
             for (int i = 0; i < listRes.size(); i++) {
                 allMarker();
                 addShowList(i,listRes);
             }
-            sort();
         } else {
             for (int i = 1; i < list1.size(); i++) {
                 if (sid.equals(list1.get(i).getSid())) {
@@ -277,6 +271,29 @@ public class PlaceChooseActivity extends Activity implements OnClickListener, Ad
         }
 
     }
+    /**
+     * 冒泡排序 根据距离远近进行排序
+     */
+    private List<SchoolPlaceTotal.Result.Res> sort(List<SchoolPlaceTotal.Result.Res> list){
+        for(int i=0;i<list.size();i++){
+            for(int j=list.size()-1;j>i;j--){
+                LatLng p1LL = new LatLng(mCurrentLantitude, mCurrentLongitude);
+                LatLng p2LL = new LatLng(Double.parseDouble(list.get(j).getLatitude()),Double.parseDouble(list.get(j).getLongitude()));
+                double distance1 = DistanceUtil.getDistance(p1LL, p2LL)/ 1000;
+                LatLng p3LL = new LatLng(mCurrentLantitude, mCurrentLongitude);
+                LatLng p4LL = new LatLng(Double.parseDouble(list.get(j-1).getLatitude()),Double.parseDouble(list.get(j-1).getLongitude()));
+                double distance2 = DistanceUtil.getDistance(p3LL, p4LL)/ 1000;
+                SchoolPlaceTotal.Result.Res sch = null;
+                if(distance1< distance2){
+                    sch = list.get(j);
+                    list.set(j,list.get(j-1));
+                    list.set(j-1,sch);
+                }
+            }
+        }
+        return list;
+    }
+
 
     /**
      * 计算距离
@@ -327,21 +344,6 @@ public class PlaceChooseActivity extends Activity implements OnClickListener, Ad
                 break;
         }
         showList.add(schoolShow);
-    }
-    /**
-     * 冒泡排序 根据距离远近进行排序
-     */
-    private void sort(){
-        for(int i=0;i<showList.size();i++){
-            for(int j=showList.size()-1;j>i;j--){
-                SchoolShow sch = null;
-                if(Double.parseDouble(showList.get(j).getDistance().replace("km",""))< Double.parseDouble(showList.get(j-1).getDistance().replace("km",""))){
-                    sch = showList.get(j);
-                    showList.set(j,showList.get(j-1));
-                    showList.set(j-1,sch);
-                }
-            }
-        }
     }
 
     /**
@@ -429,15 +431,13 @@ public class PlaceChooseActivity extends Activity implements OnClickListener, Ad
             double latitude = Double.parseDouble(listSch.get(index).getLatitude());
             double longitude = Double.parseDouble(listSch.get(index).getLongitude());
             if (latLng.latitude == latitude && latLng.longitude == longitude) {
-                Button button = new Button(PlaceChooseActivity.this
-                        .getApplicationContext());
+                Button button = new Button(PlaceChooseActivity.this.getApplicationContext());
                 button.setBackgroundResource(R.drawable.qipao);
                 button.setTextColor(getResources().getColor(R.color.black));
                 button.setTextSize(12);
                 button.setPadding(20, 20, 20, 40);
                 button.setText(listSch.get(index).getFaddress());
-                mInfoWindow = new InfoWindow(BitmapDescriptorFactory
-                        .fromView(button), marker.getPosition(), -70, null);
+                mInfoWindow = new InfoWindow(BitmapDescriptorFactory.fromView(button), marker.getPosition(), -70, null);
                 mBaiduMap.showInfoWindow(mInfoWindow);
             }
             return true;
@@ -514,6 +514,10 @@ public class PlaceChooseActivity extends Activity implements OnClickListener, Ad
         bitmapG = BitmapDescriptorFactory.fromResource(R.drawable.g1);
         bitmapH = BitmapDescriptorFactory.fromResource(R.drawable.h1);
         bitmapI = BitmapDescriptorFactory.fromResource(R.drawable.i1);
+
+        Intent intent = getIntent();
+        uid = intent.getIntExtra("uid",uid);
+        token = intent.getStringExtra("token");
     }
 
     @Override
@@ -557,6 +561,8 @@ public class PlaceChooseActivity extends Activity implements OnClickListener, Ad
         intent.setClass(PlaceChooseActivity.this, SchoolCoachActivity.class);
         intent.putExtra("schId", schId.getText().toString().trim());
         intent.putExtra("schName", CityName.getText().toString().trim());
+        intent.putExtra("uid",uid);
+        intent.putExtra("token",token);
         startActivity(intent);
     }
 

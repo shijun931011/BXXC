@@ -61,8 +61,8 @@ public class Urls {
     public static String addBankAndroid = "http://www.baixinxueche.com/index.php/Home/Apitokenupdata/addBankAndroid";
 
     //我的教练
-    public static String myCoachUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/myCoach";
-
+//    public static String myCoachUrl = "http://www.baixinxueche.com/index.php/Home/Apitokenpt/myCoach";
+    public static String myCoachUrl="http://www.baixinxueche.com/index.php/Home/Hotsearch/myCoach";
     //微信支付
     public static String wxapppay = "http://www.baixinxueche.com/index.php/Home/wxapppay/pay";
 
@@ -90,6 +90,9 @@ public class Urls {
     //微信直接购买学时
     public static String wxbuyclass = "http://www.baixinxueche.com/index.php/Home/wxapppay/wxbuyclass";
 
+    //银联购买学时
+    public static String unionbuyclass = "http://www.baixinxueche.com/index.php/Home/Unionpay/unionBuyClass";
+
     //科目一题目
     public static String sub = "http://www.baixinxueche.com/index.php/Home/Apitokenptchoose/sub";
 
@@ -102,5 +105,36 @@ public class Urls {
     //测试
 //    public static String alibuyclass="http://www.baixinxueche.com/index.php/Home/wxapppay/alibuyclassExam";
 //    public static String wxbuyclass="http://www.baixinxueche.com/index.php/Home/wxapppay/wxbuyclassExam";
+
+
+    //私教中心请求约课数据
+    public static String priteamptcourse = "http://www.baixinxueche.com/index.php/Home/Hotsearch/ptcourse ";
+
+    //私教中心确定约课
+    /**
+     * * uid
+     * token
+     * time_slot 时间段
+     * day 时间
+     * cid 教练的id
+     * tid 私教中心的id
+     * class_style 私教 or 陪练
+     * package_id  套餐的类型；  私教班是 1 2 3 4 四种套餐类型    经典班 是 5
+     */
+    public static String priteamSurecourse = "http://www.baixinxueche.com/index.php/Home/Hotsearch/appoint";
+    /**
+     * 私教中心取消约课
+     *  * uid
+     * token
+     * time_slot 时间段
+     * day 时间
+     * cid 教练的id
+     * tid 私教中心的id
+     */
+    public static String priteamCancelcourse="http://www.baixinxueche.com/index.php/Home/Hotsearch/cancelAppoint";
+
+    //银联支付充值
+    public  static String unionRecharge="http://www.baixinxueche.com/index.php/Home/Unionpay/unionChongZhi";
+
 
 }

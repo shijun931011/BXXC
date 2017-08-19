@@ -43,6 +43,8 @@ import java.util.List;
 
 import okhttp3.Call;
 
+import static com.zhy.http.okhttp.OkHttpUtils.post;
+
 /**
  * 剩余学时
  */
@@ -140,6 +142,7 @@ public class RehourActivity extends Activity implements View.OnClickListener{
     }
 
     private void getRehour(String uid,String token){
+        Log.d("百信学车","剩余学时套餐参数："+uid+"token:"+token);
         OkHttpUtils
                 .post()
                 .url(RehourUrl)
@@ -252,8 +255,7 @@ public class RehourActivity extends Activity implements View.OnClickListener{
     }
 
     private void getRefundDatas(String uid, String token,String package_id, String account) {
-        OkHttpUtils
-                .post()
+        post()
                 .url(RefundUrl)
                 .addParams("uid", uid)
                 .addParams("token", token)
@@ -267,7 +269,6 @@ public class RehourActivity extends Activity implements View.OnClickListener{
                     }
                     @Override
                     public void onResponse(String s, int i) {
-                        Log.d("shijun", "HHHH" + s);
                         Gson gson = new Gson();
                         Result result = gson.fromJson(s, Result.class);
                         if (result.getCode() == 200){
@@ -289,8 +290,7 @@ public class RehourActivity extends Activity implements View.OnClickListener{
     }
 
     private void getHoursDatas(String uid, String token) {
-        OkHttpUtils
-                .post()
+        post()
                 .url(RehourUrl)
                 .addParams("uid", uid)
                 .addParams("token", token)
